@@ -1,0 +1,27 @@
+.container{
+    background: #454545;
+}
+.qr-box{
+    min-height: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items:stretch;
+    justify-content:space-between;
+}
+.qrcode{
+    width:250px;
+    height: 250px;
+    padding: 0;
+    margin:80rpx auto;
+}
+.img-box{
+    width:128rpx;
+    height: 128rpx;
+    background-color:#ccc;
+    border-radius: 10rpx;
+    overflow: hidden;
+}
+.img-box image{
+    width:100%;
+    height: 100%;
+}

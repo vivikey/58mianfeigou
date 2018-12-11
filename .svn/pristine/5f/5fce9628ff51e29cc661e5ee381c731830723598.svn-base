@@ -1,0 +1,6 @@
+swiper image{
+    width:100%;
+    height: 100%;
+}
+@import "/template/tuijian/tuijianitem.wxss";
+@import "/template/mainnavbox/mainnavbox.wxss";

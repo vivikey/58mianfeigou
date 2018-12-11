@@ -1,0 +1,27 @@
+<template name='sharebox'>
+    <view class='share_box {{!showShareWnd?"hide":""}} full-width cgray font-xs'>
+        <view class='share_bg {{!showShareWnd?"hide":""}}' catchtap='hideShareBox' catchtouchmove='true'></view>
+        <view class='input_box {{!showShareWnd?"hide":""}}' catchtouchmove='true'>
+            <view class='bglightgray cgray flex-row pd20'>
+                <view>分享到</view>
+                <view class='img-sm' catchtap='hideShareBox'>
+                    <image src='/resource/icon/close.svg' class='img-sm'></image>
+                </view>
+            </view>
+            <view class='bgw cgray flex flex-left flex-around pd30 opt black'>
+                <button class='flex-col-auto col-6 flex-center' type='default' plain='{{true}}' open-type='share'>
+                    <view>
+                        <image src='/resource/icon/wx.svg'></image>
+                    </view>
+                    <view>微信好友</view>
+                </button>
+                <view class='flex-col-auto col-6 flex-center leftline' bindtap='shareToPYQ'>
+                    <view>
+                        <image src='/resource/icon/pyq.svg'></image>
+                    </view>
+                    <view>海报图片</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</template>

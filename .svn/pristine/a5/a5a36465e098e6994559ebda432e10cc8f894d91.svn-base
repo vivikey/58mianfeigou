@@ -1,0 +1,24 @@
+.tab-btn{
+    position: fixed;
+    top:0;
+    left:0;
+    background: #fff;
+}
+.tab-btn view{
+    padding: 20rpx;
+    transition: all .3s linear;
+    border-bottom:2rpx solid #fff;
+    font-weight: bolder;
+}
+.tab-btn view.active{
+    color: #50d1fe;
+    border-bottom:1rpx solid #50d1fe;
+}
+.container{
+        padding-top: 84rpx;
+}
+.list{
+    width:100%;
+}
+
+@import "/template/posteritem/posteritem.wxss";

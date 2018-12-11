@@ -1,0 +1,41 @@
+<view class='container gray'>
+    <view class='top'></view>
+    <view class='msglist flex-col flex-center pdr30'>
+        <import src="/template/msgitem/msgitem.wxml" />
+        <view class='notice radius-s'>
+            <view class='flex-row bottomline'>
+                <navigator url='notice?type=2' class='flex-row flex-left notice-item'>
+                    <view class='img-md message'>
+                        <image src='/resource/icon/logo.png' mode='aspectFit' class='img-md radius-s'></image>
+                        <view class='point small flex flex-center' wx:if='{{pNotice.count>0}}'>{{pNotice.count}}</view>
+                    </view>
+                    <view class='title pdr30'>
+                        <view class='black bolder font-lg'>
+                            平台公告
+                        </view>
+                        <view class='txtpt font-xs cgray'>{{pNotice.first_notice.content}}</view>
+                    </view>
+                    <view class='full-width flex flex-right font-xs cgray'>{{pNotice.first_notice.addtime}}</view>
+                </navigator>
+            </view>
+            <view class='flex-row'>
+                <navigator url='notice?type=1' class='flex-row flex-left notice-item'>
+                        <view class='img-md message'>
+                            <image src='/resource/icon/enter.png' mode='aspectFit' class='img-md radius-s'></image>
+                            <view class='point small flex flex-center' wx:if='{{sNotice.count>0}}'>{{sNotice.count}}</view>
+                        </view>
+                        <view class='title pdr30'>
+                            <view class='black bolder font-lg'>商家公告</view>
+                            <view class='txtpt font-xs cgray'>{{sNotice.first_notice.content}}</view>
+                        </view>
+                        <view class='full-width flex flex-right font-xs cgray'>{{sNotice.first_notice.addtime}}</view>
+                </navigator>
+            </view>
+        </view>
+        <import src="/template/emptyshow/emptyshow.wxml" />
+         <template is="empty" data='{{image:"/resource/icon/emp1.png",firstmsg:"没有收到任何消息",secmsg:"",times:[1,2,3]}}' wx:if='{{messageList.length<=0}}'></template>
+        <template is="msgitem" wx:for='{{messageList}}' wx:key='' data='{{...item}}'></template>
+        <view class='sq'></view>
+        <view class='sq'></view>
+    </view>
+</view>

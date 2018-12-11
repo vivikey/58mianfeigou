@@ -1,0 +1,32 @@
+<view class='container gray'>
+    <text class='pd30 font-lg'>用户说明</text>
+    <view class='bgw pd30 font-sm black flex-col'>
+        <text class='font-md bolder black'>本小程序的用户可以有三个角色：</text>
+        <text class='font-sm bolder cprimary'>（一）、消费者</text>
+        <text>这个一个最基本的角色，每个用户均是消费者。</text>
+        <text>消费者在本平台可以：</text>
+        <text class='pdr30'>1.1通过积分兑换免费赠品或者抵用券、优惠券。</text>
+        <text class='pdr30'>1.2通过代币购买团购产品或者服务。</text>
+        <text class='pdr30'>1.3推荐好友进入本平台获得代币和积分奖励。</text>
+        <text class='pdr30'>1.4通过玩掷骰子游戏来获得积分。</text>
+        <text class='pdr30'>1.5与商家互动，对商家的产品和服务进行咨询或者评论。</text>
+        <text class='font-sm bolder cprimary'>（二）、商家</text>
+        <text>在当地有产品或者服务、并且有营业执照的人可以是本平台的商家。</text>
+        <text>商家在本平台可以：</text>
+        <text class='pdr30'>2.1建立自己线上推广商铺，发布赠品、抵用券、优惠券等。</text>
+        <text class='pdr30'>2.2将线下的活动海报线上化，吸引更多的用户参与。</text>
+        <text class='pdr30'>2.3拿出几款有特色的产品以比较低的价格进行团购。</text>
+        <text class='pdr30'>2.4通过公告、消息等方式与关注店铺的人和消费者进行消息传送。</text>
+        <text class='pdr30'>2.5接受消费者的咨询、评价并及时反馈。</text>
+        <text class='font-sm bolder cprimary'>（三）、代理</text>
+        <text>有共同愿景有推广能力的用户和商家可以申请成为平台的代理商。</text>
+        <text>有两个级别的代理商可以申请：客户经理（加盟费1000元）、合伙人（加盟费6000元）。</text>
+        <text>代理商的基本权益包括：</text>
+        <text class='pdr30'>3.1推荐商家并协调商家与平台关系，获得“商家推荐奖”和“商家管理奖”。</text>
+        <text class='pdr30'>3.2推荐新的代理，获得“代理推荐奖”和“代理管理奖”。</text>
+        <text class='pdr30'>3.3随着业务成绩的增加而获得晋级成为“高级合伙人”的机会。</text>
+        <text class='bolder'>在项目的启动阶段，单独设有“天使合伙人”级别的代理商可以获得更多的权益和机会。具体见“代理入口”的有关说明。</text>
+    </view>
+</view>
+<import src="/template/smallmenu/smallmenu.wxml" />
+<template is="smallmenu" data="{{showsmallmenu:flase,smallmenuclosed:smallmenuclosed}}"></template>

@@ -1,0 +1,19 @@
+<view class='container'>
+    <view class='inputbox pd30 flex bgw bottomline full-width'>
+        <input type='text' class='bglightgray' placeholder='请输入标签名称' bindinput='endinput' value='{{inputValue}}'></input>
+        <view class='bgpk wtcolor' bindtap='addLabel'>增加标签</view>
+    </view>
+    <view class='sq'></view>
+    <view class='pd30 bgw bottomline full-width flex-row' wx:for='{{label_list}}' wx:key='id'>
+        <view wx:if='{{!item.editing}}'>{{item.name}}</view>
+        <input type='text' class='bglightgray' data-idx='{{index}}' placeholder='请输入标签名称' bindinput='endEditinput' value='{{item.nametemp}}'  wx:if='{{item.editing}}'></input>
+        <view wx:if='{{!item.editing}}'>
+            <text class='cprimary pdr30'  data-idx='{{index}}' bindtap='toEdit'>编辑</text>
+            <text class='skr pdr30 leftline' data-idx='{{index}}' bindtap='removeLabel'>删除</text>
+        </view>
+        <view  wx:if='{{item.editing}}'>
+            <text class='cprimary pdr30' data-idx='{{index}}' bindtap='saveEdit'>保存</text>
+            <text class='skr pdr30 leftline' data-idx='{{index}}' bindtap='cancleEdit'>取消</text>
+        </view>
+    </view>
+</view>

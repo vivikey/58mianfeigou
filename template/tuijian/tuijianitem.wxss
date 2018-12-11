@@ -1,0 +1,46 @@
+.pitem{
+    padding: 10rpx 0;
+}
+.pitem .imgBox{
+    width:320rpx;
+    height: 320rpx;
+    background: #f2f2f2;
+    color:#ccc;
+}
+.pitem .singleInfo{
+    margin-left:10rpx;
+    width:380rpx;
+    height: 320rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    border-bottom:1rpx solid #e8e8e8;
+}
+.pitem .item-title{
+    margin: 5rpx;
+    color:#454545;
+}
+.pitem .jiang-i{
+    padding: 0;
+    border-radius: 18px;
+    background: linear-gradient(to right, #f62004, #fff);
+}
+.pitem .item-title.half{
+    width:50%;
+}
+.pitem .item-title.oho{
+    margin: 10rpx;
+    background: #f2f2f2;
+    color:#666;
+}
+.pitem .item-title.three{
+    width:35%;
+}
+.pitem .jiang{
+    padding: 2px;
+    background: #f00;
+    color:#fff;
+    border-radius: 100%;
+    width:18px;
+    height: 18px;
+}

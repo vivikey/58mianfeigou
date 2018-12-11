@@ -1,0 +1,126 @@
+<view class='container'>
+    <view class='info-item-row'>
+        <text class='mustbe'>赠品名称</text>
+        <input type='text' placeholder='请输入赠品名称' value='{{present.title}}' id='title' bindblur='inputBlur'></input>
+    </view>
+    <view class='info-item-row'>
+        <text class='mustbe'>选择类型</text>
+        <picker range='{{gifttype}}' range-key='name' value='{{currGift.gifttype}}' bindchange="bindTypeChange">
+            <view class="picker arrow-down">
+                {{gifttype[currGift.gifttype].name}}
+            </view>
+        </picker>
+    </view>
+    <view class='info-item-row' wx:if='{{present.type_id!=154}}'>
+        <text class='mustbe'>赠品价值</text>
+        <input type='digit' placeholder='请输入赠品价格' value='{{present.price}}' id='price' bindblur='inputBlur'></input>
+    </view>
+    <!-- 兑换积分 -->
+    <view class='info-item-row'>
+        <text class='mustbe'>兑换积分</text>
+        <input type='number' placeholder='请输入兑换积分,100起' value='{{present.integral}}' id='integral' bindblur='inputBlur'></input>
+    </view>
+    <!-- 库存 -->
+    <view class='info-item-row'>
+        <text class='mustbe'>库存</text>
+        <input type='number' placeholder='请输入发放总量' value='{{present.num}}' id='num' bindblur='inputBlur'></input>
+    </view>
+    <!-- 限购 -->
+    <view class='info-item-row'>
+        <text class='mustbe'>限购</text>
+        <input type='number' placeholder='请输入每人次限购' value='{{present.max_times}}' id='max_times' bindblur='inputBlur'></input>
+    </view>
+    <!-- 赠品规格 -->
+    <view class='info-item-row'>
+        <text>赠品规格</text>
+        <input type='text' placeholder='请输入赠品规格' value='{{present.specs}}' id='specs' bindblur='inputBlur'></input>
+    </view>
+    <!-- 使用有效期 -->
+    <view class='info-item-row'>
+        <text class='mustbe'>兑现有效期</text>
+    </view>
+    <view class='small-panel topline'>
+        <radio-group class='lightgray flex flex-around pdc20' id='valid_time_type' bindchange='onRadioChanged'>
+            <radio class='hardgray bolder flex flex-left' value='1' color="#50d1fe" checked='{{present.valid_time_type==1}}'>固定区间模式</radio>
+            <radio class='hardgray bolder flex flex-left' value='2' color="#50d1fe" checked='{{present.valid_time_type==2}}'>发放之日计算</radio>
+        </radio-group>
+    </view>
+    <view class='info-item-row' wx:if='{{present.valid_time_type==1}}'>
+        <picker mode="date" value="{{currGift.startdate}}" start="2018-01-01" end="2999-01-01" bindchange="bindStartDateChange">
+            <view class="picker arrow-down">
+                从：{{currGift.startdate}}
+            </view>
+        </picker>
+        <picker mode="date" value="{{currGift.date}}" start="2018-01-01" end="2999-01-01" bindchange="bindDateChange">
+            <view class="picker arrow-down">
+                到：{{currGift.date}}
+            </view>
+        </picker>
+    </view>
+    <view class='info-item-row' wx:if='{{present.valid_time_type==2}}'>
+        <text class='mustbe'>有效兑换天数</text>
+        <input type='number' placeholder='请输入赠品自发送起的有效兑换天数' value='{{present.valid_time_days}}' id='valid_time_days' bindblur='inputBlur'></input>
+    </view>
+    <!-- 使用规则 -->
+    <view class='info-item-row'>
+        <text>使用规则</text>
+        <textarea placeholder='请输入使用规则' wx:if='{{is_template==1}}' value='{{present.use_rule }}' id='use_rule' bindinput='inputBlur'></textarea>
+        <textarea placeholder='请输入赠品描述' wx:else disabled='disabled' value='{{present.use_rule }}' id='use_rule'></textarea>
+    </view>
+    <!-- 赠品描述 -->
+    <view class='info-item-row'>
+        <text>赠品描述</text>
+        <textarea placeholder='请输入赠品描述' wx:if='{{is_template==1}}' value='{{present.description }}' id='description' bindinput='inputBlur'></textarea>
+        <textarea placeholder='请输入赠品描述' wx:else disabled='disabled' value='{{present.description }}' id='description'></textarea>
+    </view>
+    <!-- 缩略图 -->
+    <view class='info-item-row'>
+        <text class='mustbe'>赠品缩略图</text>
+        <view class='imgchose topline bottomline' wx:if='{{is_template==1}}'>
+            <image src='{{present.image}}' class='choseimg' bindtap='choseImg'  mode='aspectFit'></image>
+            <view class='btn-color-info'>﹛点击图片进行更换﹜</view>
+        </view>
+        <view class='imgchose topline bottomline' wx:else>
+            <image src='{{present.image}}' class='choseimg'  mode='aspectFit'></image>
+        </view>
+    </view>
+    <!-- 轮播展示图 -->
+    <view class='row flex-row flex-wrap flex-left'>
+        <text class='info-item-row'>赠品轮播展示图(1-5张,建议750x750)</text>
+        <view class='choseimg col-4 bgw' wx:for='{{present.gallery}}' wx:key=''>
+            <image src='{{item}}'  mode='aspectFit'></image>
+            <text data-idx='{{index}}' class='removeimg flex-row flex-center' bindtap='removeGalleryImg' wx:if='{{is_template==1}}'> ✖</text>
+        </view>
+        <view class='choseimg col-4 bgw' bindtap='choseGalleryImg' wx:if='{{present.gallery.length<5&&is_template==1}}'>
+            <view>✛</view>
+        </view>
+    </view>
+    <!-- 图片详情 -->
+    <view class='row flex-row flex-wrap flex-left'>
+        <text class='info-item-row'>赠品图片详情(1-6张,建议宽度720px)</text>
+        <view class='choseimg col-4 bgw' wx:for='{{present.content_imgs}}' wx:key=''>
+            <image src='{{item}}'  mode='aspectFit'></image>
+            <text data-idx='{{index}}' class='removeimg flex-row flex-center' bindtap='removeDetailsImg' wx:if='{{is_template==1}}'> ✖</text>
+        </view>
+        <view class='choseimg col-4 bgw' bindtap='choseDetailsImg' wx:if='{{present.content_imgs.length<6&&is_template==1}}'>
+            <view>✛</view>
+        </view>
+    </view>
+    <!-- 赠品视频 -->
+    <view class='row flex-row flex-wrap flex-left'>
+        <text class='info-item-row'>上传赠品视频(30S以内，mp4格式)</text>
+        <view class='choseimg video-box col-6 bgw' wx:for='{{present.videos}}' wx:key=''>
+            <video src='{{item}}'></video>
+            <text data-idx='{{index}}' class='removeimg rvideo flex-row flex-center' wx:if='{{is_template==1}}' bindtap='removevideo'> ✖</text>
+        </view>
+        <view class='choseimg col-6 bgw' bindtap='chosevideo' wx:if='{{present.videos.length<1&&is_template==1}}'>
+            <view>✛</view>
+        </view>
+    </view>
+    <view class='info-item-row flex-row bgw pd30' wx:if='{{is_template==1}}'>
+        <view class='btn flex flex-center' bindtap='Save' data-check='0'>
+            <image src='/resource/icon/ok1.svg' class='addbtnimg'></image> 保存不提交审核</view>
+        <view class='btn flex flex-center' bindtap='Save' data-check='1'>
+            <image src='/resource/icon/ok2.svg' class='addbtnimg'></image> 保存并提交审核</view>
+    </view>
+</view>

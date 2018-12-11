@@ -1,0 +1,31 @@
+.top{
+    width:750rpx;
+    padding:6rpx;
+}
+.location{
+    height: 68rpx;
+    line-height: 68rpx; 
+    width:630rpx;
+    background: #fff;
+}
+.locationImg{
+    width:54rpx;
+    height: 54rpx;
+}
+.search{
+    height: 68rpx;
+    line-height: 68rpx;
+}
+.searchbox{
+  background: #fff;
+  color:#50d1fe;
+  border:1rpx solid #50d1fe;
+  padding:0rpx 6rpx;
+  height: 68rpx;
+  line-height: 68rpx;
+}
+.searchimg{
+    width:108rpx;
+    height: 68rpx;
+    z-index: 999;
+}

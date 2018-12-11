@@ -1,0 +1,71 @@
+<view class='font-xs cgray gray full-width'>
+    <view class='bgw full-width pd flex flex-left pd20'>
+        <view class='col-9 bottomline pdc'>
+            <view class='pdr black font-sm bolder'>{{title}}</view>
+        </view>
+        <view class='col-3 flex flex-right'>
+            <view class='{{status==1?"ing":"over"}} pd pdr20'>{{status==1?"进行中":"已结束"}}</view>
+        </view>
+    </view>
+    <view class='bgw full-width pd flex flex-left pd20'>
+        <view class='col-9 pdc'>
+            <view class='skr pd20'>完成推荐{{total_recommend_num}}人数
+                <text wx:if='{{total_award_money && total_award_money>0}}'>共获奖励￥{{!total_award_money?0.00:total_award_money}}</text>
+            </view>
+        </view>
+        <view class='col-3 flex flex-right'>
+            <view class='bdlinearskr wtcolor pd pdr20 radius-l' data-sid='{{shop.id}}' bindtap='toTuiJian'>去推荐</view>
+        </view>
+    </view>
+    <view class='sq'></view>
+    <view class='cgray bolder pd pdr20 font-sm'>活动方案描述：</view>
+    <view class='bgw full-width pd pd30 font-xs cgray topline'>
+        <view>◆ 推荐返奖有效期：
+            <text class='skr'>{{recommend_action.start_time}} ~ {{recommend_action.end_time}}</text>
+        </view>
+        <view>◆ 需要推荐的人数：
+            <text class='skr'>{{recommend_action.propositus_num}}人</text>
+        </view>
+        <view>◆ 推荐成功的条件：
+            <text class='skr'>被推荐人购买一份本产品</text>
+        </view>
+        <view wx:if='{{recommend_action.award_type==2&&recommend_action.award_ratio>0}}'>◆ 活动达标的奖励：
+            <text class='skr font-underline'>{{shop.price}} x {{recommend_action.award_ratio}}%</text>
+        </view>
+        <view class='flex flex-left rel'>
+            <view class='' style='height:100%;'>◆ 活动达标的赠品：</view>
+            <view class='bglightgray'>
+                <text class='skr' wx:if='{{!recommend_action.bd_shop_gifts || recommend_action.bd_shop_gifts.length<=0}}'>无赠品</text>
+                <navigator url='/pages/shop/details?id={{item.gift_id}}&type=2' class='skr font-underline pdc' wx:for='{{recommend_action.bd_shop_gifts[0].gifts}}' wx:key=''>{{item.title}} x {{item.gift_num}}</navigator>
+            </view>
+        </view>
+    </view>
+    <view class='sq'></view>
+    <view class='cgray bolder pd pdr20 font-sm'>被推荐成功列表：</view>
+    <view class='full-width topline'>
+        <view class='full-width' wx:for='{{recommend_list}}' wx:key='id'>
+            <view class='bottomline bgw full-width pd flex flex-left pdr20'>
+                <view class='flex flex-center pd'>
+                    <image class='img-lg bdfull flex flex-center radius-circle bglightgray' src='{{item.user_pic}}' />
+                </view>
+                <view class=''>
+                    <view class='pdr black font-sm bolder'>{{item.username}}</view>
+                    <view class='pdr'>{{item.addtime}} 被推荐成功</view>
+                </view>
+            </view>
+            <view class='flex flex-right cprimary font-xs pdr' style='padding-bottom:50rpx;' wx:if='{{item.is_award==1||index%recommend_action.propositus_num==(recommend_action.propositus_num-1)}}'>
+                活动达标一次，
+                <text class='skr bolder' wx:if='{{recommend_action.award_money>0}}'>获得奖励：￥{{recommend_action.award_money}}</text>
+                <text class='skr' wx:if='{{!recommend_action.bd_shop_gifts || recommend_action.bd_shop_gifts.length<=0}}'>无赠品</text>
+                <text wx:else>赠品已发放</text>
+            </view>
+        </view>
+        <view wx:if='{{recommend_list.length<=0}}' class='flex-col flex-center pdc30 bgw'>
+            <image src='/resource/icon/emp2.png' style='width:220rpx;height:220rpx;'></image>
+            <text class='cgray font-lg pdc30'>您的推荐还没有动静，快快努力哦</text>
+        </view>
+    </view>
+</view>
+
+<import src="/template/smallmenu/smallmenu.wxml" />
+<template is="smallmenu" data="{{showsmallmenu:flase,smallmenuclosed:smallmenuclosed}}"></template>

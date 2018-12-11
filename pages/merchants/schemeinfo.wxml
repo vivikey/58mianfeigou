@@ -1,0 +1,243 @@
+<view class='full-width gray font-xs'>
+    <!-- 方案类型 -->
+    <view class='bgw shadow'>
+        <view class='small-title'>方案类型</view>
+        <view class='small-panel'>
+            <radio-group class='lightgray flex flex-around' id='action_type' bindchange='onRadioChanged'>
+                <radio class='hardgray bolder flex flex-left' value='1' color="#f00" checked='{{schemeObj.action_type==1}}' disabled='{{scheme_id>0}}'>产品模式</radio>
+                <radio class='hardgray bolder flex flex-left' value='2' color="#f00" checked='{{schemeObj.action_type==2}}' disabled='{{scheme_id>0}}'>方案模式</radio>
+            </radio-group>
+        </view>
+    </view>
+    <!-- 方案名称 -->
+    <view class='bgw shadow'>
+        <view class='small-title'>方案名称</view>
+        <view class='small-panel'>
+            <input type='text' class='full-width hardgray' placeholder='输入方案名称' value='{{schemeObj.action_name}}' id='action_name' bindinput='inputChange'></input>
+        </view>
+    </view>
+    <!-- 方案有效期 -->
+    <view class='bgw shadow'>
+        <view class='small-title'>方案有效期</view>
+        <view class='small-panel'>
+            <picker mode="date" value="{{schemeObj.start_time}}" id='start_time' start="2018-01-01" end="2999-01-01" bindchange="inputChange">
+                <view class="pdc20 arrow-down hardgray">
+                    从：{{schemeObj.start_time}}
+                </view>
+            </picker>
+            <picker mode="date" value="{{schemeObj.end_time}}" id='end_time' start="2018-01-01" end="2999-01-01" bindchange="inputChange">
+                <view class="pdc20 arrow-down topline hardgray">
+                    到：{{schemeObj.end_time}}
+                </view>
+            </picker>
+        </view>
+    </view>
+    <!-- 参加资格 -->
+    <view class='bgw shadow'>
+        <view class='small-title'>参加资格</view>
+        <view class='skr font-xs pd'>**一经设置，不能更改**</view>
+        <view class='small-panel'>
+            <radio-group class='lightgray' id='suit_type' bindchange='onRadioChanged'>
+                <!-- 产品模式选项 -->
+                <radio wx:if='{{schemeObj.action_type==1}}' class='hardgray bolder flex flex-left' value='0' color="#50d1fe" checked='{{schemeObj.suit_type==0}}' disabled='{{scheme_id>0}}'>没有门槛</radio>
+                <view class='mg-b10' wx:if='{{schemeObj.action_type==1}}'>所有进入该方案的人都可以推荐。</view>
+                <radio wx:if='{{schemeObj.action_type==1}}' class='hardgray bolder flex flex-left' value='2' color="#50d1fe" checked='{{schemeObj.suit_type==2}}' disabled='{{scheme_id>0}}'>购买产品</radio>
+                <view class='mg-b10' wx:if='{{schemeObj.action_type==1}}'>只要购买过本方案中任意产品即获得推荐本方案所有产品的资格。</view>
+                <!-- 方案模式选项 -->
+                <radio wx:if='{{schemeObj.action_type==2}}' class='hardgray bolder flex flex-left' value='5' color="#50d1fe" checked='{{schemeObj.suit_type==5}}' disabled='{{scheme_id>0}}'>一次性消费</radio>
+                <view class='mg-b10' wx:if='{{schemeObj.action_type==2}}'>一次性消费本方案中任意产品达到
+                    <text class='skr bolder'>[S]</text>额度才获得推荐本方案所有产品的资格。</view>
+                <radio wx:if='{{schemeObj.action_type==2}}' class='hardgray bolder flex flex-left' value='6' color="#50d1fe" checked='{{schemeObj.suit_type==6}}' disabled='{{scheme_id>0}}'>累积消费</radio>
+                <view class='mg-b10' wx:if='{{schemeObj.action_type==2}}'>只要累积消费本方案中任意产品达到
+                    <text class='skr bolder'>[S]</text>额度即获得推荐本方案所有产品的资格。</view>
+
+                <!-- 方案模式入口金额设定 -->
+                <view class='flex flex-left' wx:if='{{schemeObj.suit_type>2}}'>
+                    <text class='black'>设置[S]=</text>
+                    <input type='digit' placeholder='输入消费的额度[S]' class='bdfull skr bglightgray pd20 font-sm bolder' style='height:80rpx;' value='{{schemeObj.start_money}}' id='start_money' bindinput='inputChange'></input>
+                </view>
+            </radio-group>
+        </view>
+    </view>
+    <!-- 推荐成功需要的人数 -->
+    <view class='bgw shadow'>
+        <view class='small-title'>要求推荐成功人数</view>
+        <view class='skr font-xs pd'>**一经设置，不能更改**</view>
+        <view class='small-panel'>
+            <slider bindchange="inputChange" id='propositus_num' show-value min="1" max="10" value="{{schemeObj.propositus_num}}" activeColor="#50d1fe" block-color="#50d1fe" disabled='{{scheme_id>0}}' />
+        </view>
+        <view class='skr font-xs pd'>要求必须推荐成功多少人才能获得一次返奖</view>
+    </view>
+    <!-- 方案模式下设置返奖金额额度 -->
+    <view class='bgw shadow' wx:if='{{schemeObj.action_type==2 && schemeObj.action_awardtype!=0 && schemeObj.action_awardtype!=2 }}'>
+        <view class='small-title'>返奖金额模式</view>
+        <view class='skr font-xs pd'>**只在【方案模式】有效**</view>
+        <view class='small-panel'>
+            <radio-group class='lightgray' id='award_moneytype' bindchange='onRadioChanged'>
+                <radio class='hardgray bolder flex flex-left' value='1' color="#50d1fe" checked='{{schemeObj.award_moneytype==1}}'>固定金额模式</radio>
+                <view class='mg-b10'>设置返奖明细的计算方式按固定金额计算</view>
+                <radio class='hardgray bolder flex flex-left' value='2' color="#50d1fe" checked='{{schemeObj.award_moneytype==2}}'>百分比例模式</radio>
+                <view class='mg-b10'>设置返奖明细的计算方式按被推荐人消费基数的百分比计算</view>
+            </radio-group>
+        </view>
+    </view>
+    <!-- 方案模式下设置返奖明细 -->
+    <view class='bgw shadow' wx:if='{{schemeObj.action_type==2 && schemeObj.action_awardtype!=0 && schemeObj.action_awardtype!=2}}'>
+        <view class='small-title'>返奖明细</view>
+        <view class='skr font-xs pd'>**只在【方案模式】有效**</view>
+        <view class='small-panel font-xs'>
+            <!-- 明细列表 -->
+            <view>
+                <view class='bottomline pdc flex black bolder'>
+                    <view class='amc_item'>被推荐者消费</view>
+                    <view class='amc_item'>给推荐者返奖</view>
+                    <view class='amc_item'>操作</view>
+                </view>
+                <view wx:for='{{schemeObj.award_money_content}}' wx:key='' class='bottomline pdc'>
+                    <view class='full-width flex'>
+                        <view class='amc_item cprimary'>{{item.award_con}}</view>
+                        <view class='amc_item cprimary'>{{item.award_mon_rat}}{{schemeObj.award_moneytype==2?"%":""}}</view>
+                        <view class='amc_item'>
+                            <view class='bgprimary pd wtcolor' data-idx='{{index}}' bindtap='setGift'>✚ 赠品</view>
+                            <view class='bgdanger pd wtcolor' data-idx='{{index}}' bindtap='removeAwardMmoneyItem'>━ 移除</view>
+                        </view>
+                    </view>
+                    <view wx:for='{{item.award_presents}}' wx:key='' wx:for-index='idx' wx:for-item='gift' class='flex-row pdc'>
+                        <text class='cgray col-8 txtpt pd'>({{idx+1}}).{{gift.title}}</text>
+                        <text class='skr col-2 txtcenter font-underline pd' data-index='{{idx}}' data-idx='{{index}}' bindtap='removeAwardGift'>移除</text>
+                    </view>
+                </view>
+                <view class='pdc flex black bolder'>
+                    <view class='amc_item'>
+                        <input type='digit' value='{{newAwardMoney.award_con}}' id='award_con' bindinput='changeAwardConInput'></input>
+                    </view>
+                    <view class='amc_item'>
+                        <input type='digit' value='{{newAwardMoney.award_mon_rat}}' id='award_mon_rat' bindinput='changeAwardConInput'></input>
+                    </view>
+                    <view class='amc_item'>
+                        <button type='primary' bindtap='addAwardMoneyItem'>✚额度档</button>
+                    </view>
+                </view>
+            </view>
+
+        </view>
+    </view>
+    <!-- 产品模式设置返奖金额百分比 -->
+    <view class='bgw shadow' wx:if='{{schemeObj.action_type==1}}'>
+        <view class='small-title'>返奖金额百分数</view>
+        <view class='small-panel'>
+            <slider bindchange="inputChange" id='award_ratio' show-value min="0" max="100" value="{{schemeObj.award_ratio}}" activeColor="#50d1fe" block-color="#50d1fe" />
+        </view>
+        <view class='skr font-xs pd'>以推荐的产品的价格为基数进行百分比换算</view>
+    </view>
+    <!-- 设置本方案产品 -->
+    <view class='bgw shadow'>
+        <view class='small-title'>设置本方案产品</view>
+        <view class='small-panel'>
+            <view wx:for='{{bd_shopids}}' wx:key='id' class='bottomline bgw'>
+                <view class='flex-row pdc'>
+                    <view class='col-8 hardgray font-sm bolder txtpt'>{{index+1}}.{{item.title}}</view>
+                    <view class='col-4 font-xs flex flex-center'>
+                        <view class='bgprimary pd wtcolor' wx:if='{{schemeObj.action_type==1}}' data-idx='{{index}}' bindtap='setGift'>✚ 赠品</view>
+                        <view class='bgdanger pd wtcolor' data-idx='{{index}}' bindtap='removeProduct'>━ 移除</view>
+                    </view>
+                </view>
+                <view class='full-width pdc cgray topline' wx:if='{{item.gifts.length>0}}'>
+                    <text class='cprimary bolder'>赠品列表：</text>
+                    <view wx:for='{{item.gifts}}' wx:key='' wx:for-index='idx' wx:for-item='gift' class='flex-row pdc'>
+                        <text class='cgray col-8 txtpt pd'>({{idx+1}}).{{gift.title}}</text>
+                        <text class='bglightgray black pd col-2 txtcenter'>{{gift.num}}份</text>
+                        <text class='skr col-2 txtcenter font-underline pd' data-index='{{idx}}' data-idx='{{index}}' bindtap='removeGift'>移除</text>
+                    </view>
+                </view>
+            </view>
+            <view class='full-width bgw pd20 cgray' bindtap='show'>
+                <view class='pd arrow'>✚ 选择增加产品</view>
+            </view>
+        </view>
+        <view class='skr font-xs pd'>产品配置的赠品在成功完成一次方案结算时，以赠品券的形式发放给用户</view>
+    </view>
+    <!-- 方案产品限购 -->
+    <view class='bgw shadow'>
+        <view class='small-title'>方案产品限购</view>
+        <view class='small-panel'>
+            <input class='full-width hardgray' placeholder='输入对本方案中所有产品限购的数量' type='number' value='{{schemeObj.xg_type}}' id='xg_type' bindinput='inputChange'></input>
+        </view>
+        <view class='skr font-xs pd'>0表示不限购，1~n表示限购1~n次，对方案限制，不针对具体产品。</view>
+    </view>
+    <!-- 方案产品转发文案 -->
+    <view class='bgw shadow'>
+        <view class='small-title'>方案产品转发文案</view>
+        <view class='small-panel textinput'>
+            <text class='font-xs cprimary bolder'>说明：内容1~3由商家自定义填写，建议文字不要太多，最终组合的文字在26个以内最好。</text>
+            <radio-group class='lightgray' id='suit_type' bindchange='onShareModelChanged'>
+                <radio class='hardgray bolder flex flex-left' value='A' color="#50d1fe" checked='{{text0=="A"}}'>A模板</radio>
+                <view class='mg-b10'>[内容1]{产品价格}[内容2]{产品名称}[内容3]</view>
+                <view class='skr font-xs pd'>示例：试一试！{￥4.0}你能获得几份{红烧肉}？荐三送一</view>
+                <radio class='hardgray bolder flex flex-left' value='B' color="#50d1fe" checked='{{text0=="B"}}'>B模板</radio>
+                <view class='mg-b10'>[内容1]{产品名称}[内容3]{产品价格}[内容2]</view>
+                <view class='skr font-xs pd'>示例：看一看！{红烧肉}荐三送一{￥4.0}你能获得几份？</view>
+            </radio-group>
+            <view class='flex flex-left bottomline pdc'>
+                <view class='col-2 font-xs'>内容1：</view>
+                <input type='text' class=' col-10' value='{{text1}}' bindinput='handleInputChange1'></input>
+            </view>
+            <view class='flex flex-left bottomline pdc'>
+                <view class='col-2 font-xs'>内容2：</view>
+                <input type='text' class=' col-10' value='{{text2}}' bindinput='handleInputChange2'></input>
+            </view>
+            <view class='flex flex-left bottomline pdc'>
+                <view class='col-2 font-xs'>内容3：</view>
+                <input type='text' class='col-10' value='{{text3}}' bindinput='handleInputChange3'></input>
+            </view>
+            <view class='full-width font-xs skr bolder pdc'>
+                预览：
+                <view class='black'>{{text1}}{{text0=="A"?"(￥价格)":"(名称)"}}{{text0=="A"?text2:text3}}{{text0=="A"?"(名称)":"(￥价格)"}}{{text0=="A"?text3:text2}}</view>
+            </view>
+        </view>
+    </view>
+
+    <view class='full-width flex flex-around pdc20'>
+        <view class='bgpk wtcolor pd20 bolder full-width flex flex-center' bindtap='setScheme'>
+            <image src='/resource/icon/ok1.svg' class='addbtnimg'></image>确定</view>
+    </view>
+</view>
+
+<!-- 产品选择窗口 -->
+<view class='shop_box flex flex-right {{hide}}' catchtouchmove='true'>
+    <checkbox-group class='shop_list' catchtouchmove='true' bindchange='onProductChosed'>
+        <checkbox wx:for='{{can_chose_shop}}' wx:key='id' class='bottomline pd20 full-width font-sm' value='{{item.id}}' checked='{{item.ischecked}}'>
+            {{item.title}}
+        </checkbox>
+        <view wx:if='{{can_chose_shop.length<=0}}' class='cprimary flex flex-center full-width pd20'>没有可供选择的产品了！</view>
+        <button type='primary' plain='{{true}}' class='comfire full-width flex flex-center font-md' bindtap='hide'>
+            <image src='/resource/icon/exit.svg' class='addbtnimg'></image>
+        </button>
+    </checkbox-group>
+</view>
+
+<!-- 配置赠品窗口 -->
+<view class='chose_gift_box flex-col flex-col-rev {{gift_hide}}' catchtouchmove='true'>
+    <view class='bgw full-width'>
+        <view class='black font-sm bolder pd20 bglightgray'>为推荐产品配置赠品</view>
+        <view class='cgray full-width pdc30'>
+            <picker value="{{zsindex}}" range='{{giftList}}' range-key='title' bindchange='onAwardProductChanged'>
+                <view class="pd20 arrow-down cprimary font-sm bottomline">
+                    已选：{{giftList[zsindex].title}}
+                </view>
+            </picker>
+        </view>
+        <view class='pdc30'>
+            <view class='pdr20 font-sm flex flex-left flex-around cprimary full-width'>数量:
+                <slider bindchange="zsnumberChange" show-value min="1" max="10" value="{{zsnumber}}" activeColor="#50d1fe" block-color="#50d1fe" class='col-9' />
+            </view>
+        </view>
+        <view class='full-width flex flex-around pdc20'>
+            <view class='bggray wtcolor bolder pd20 full-width flex flex-center' bindtap='closeGiftbox'>
+                <image src='/resource/icon/exit.svg' class='addbtnimg rev'></image>关闭</view>
+            <view class='bgpk wtcolor pd20 bolder full-width flex flex-center' bindtap='addGiftToShop'>
+                <image src='/resource/icon/ok1.svg' class='addbtnimg'></image>确定</view>
+
+        </view>
+    </view>
+</view>

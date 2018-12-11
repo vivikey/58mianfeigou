@@ -1,0 +1,30 @@
+<template name='commentitem'>
+    <view class='comment pd20'>
+        <view class='userinfo flex flex-left'>
+            <view class='headimg'>
+                <image src='{{user_image || member_pic}}' class='img-md'></image>
+            </view>
+            <view class='flex-col userinfo pd mg-l10'>
+                <text class='font-sm hardgray'>{{username || member_name}}</text>
+                <text class='font-xs lightgray'>{{addtime}}</text>
+            </view>
+        </view>
+        <view class='content font-sm black'>
+            <view class='{{evaluate?"evaluate":"publish"}} pd' wx:if='{{content.length>0}}'>
+                <text decode='{{true}}' space='nbsp' selectable='{{true}}'>{{content}}</text>
+            </view>
+            <view class='imglist flex flex-wrap' wx:if='{{image.length>0}}'>
+                <view wx:for='{{image}}' wx:key='' wx:for-index='idx' wx:for-item='img' class='imageitem col-4'>
+                    <image src='{{img}}' mode='aspectFill' data-index='{{index}}' data-idx='{{idx}}' bindtap='showCommBigImg'></image>
+                </view>
+            </view>
+            <view class='publish-source pd30' wx:if='{{reply && reply.length>0}}' wx:for='{{reply}}' wx:key='id'>
+                <view class='cgray bolder font-xs leftline'>商家回复：</view>
+                <view class='cprimary font-sm'>{{item.reply_content}}</view>
+            </view>
+        </view>
+        <view class='opt_box pd full-width'>
+            <view class='btline'></view>
+        </view>
+    </view>
+</template>

@@ -1,0 +1,10 @@
+
+.container button{
+  margin-bottom: 100rpx;
+}
+.authbtn{
+    width:66.67%;
+    margin: 50rpx 0;
+    font-size:16px;
+}
+

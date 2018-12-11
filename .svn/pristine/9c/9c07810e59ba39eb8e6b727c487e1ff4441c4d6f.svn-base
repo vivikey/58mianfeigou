@@ -1,0 +1,23 @@
+<view class='container bgw'>
+    <view class='full-width pd20 bglightgray bolder font-sm'>方案：<text class='skr'>{{scheme_name}}</text></view>
+    <view wx:for='{{customs}}' wx:key='' class='full-width flex flex-left pd20 bottomline'>
+        <view class='flex flex-center pdr20 rightline'>
+            <image src='{{item.user_pic}}' class='img-lg radius-circle bdfull'></image>
+        </view>
+        <view class='full-width' style='padding-left:20rpx;'>
+            <view class='black bolder font-sm'>{{item.username}}</view>
+            <view class='cgray font-xs'>手机号码：<text class='bolder'>{{item.phone}}</text></view>
+            <view class='lightgray font-xs'>生效时间：<text class='bolder'>{{item.first_order_time}}</text></view>
+            <view class='lightgray font-xs'>生效产品：<text class='bolder'>{{item.goods_name}}</text></view>
+            <view class='flex-row pdc20 font-xs bolder'>
+                <text class='skr' wx:if='{{item.recommend_id}}'>由【{{item.recommend_username}}】 推荐</text>
+                <text class='skr' wx:if='{{!item.recommend_id}}'>无推荐人</text>
+                <navigator class='cprimary arrow' url='recommenddetail?store_id={{store_id}}&scheme_id={{scheme_id}}&scheme_name={{scheme_name}}&user_id={{item.id}}&user_name={{item.username}}'>下线列表</navigator>
+            </view>
+        </view>
+    </view>
+    <import src="/template/emptyshow/emptyshow.wxml" />
+    <template is="empty" data='{{image:"/resource/icon/emp3.png",firstmsg:"没有任何客户",secmsg:""}}' wx:if='{{customs.length<=0}}'></template>
+    <import src="/template/smallmenu/smallmenu.wxml" />
+    <template is="smallmenu" data="{{showsmallmenu:flase,smallmenuclosed:smallmenuclosed}}"></template>
+</view>

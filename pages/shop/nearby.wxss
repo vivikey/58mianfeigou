@@ -1,0 +1,7 @@
+@import "/template/storeitem/storeitem.wxss";
+.item-title{
+    background: #fff;
+    padding: 10rpx;
+    width: 100%;
+    
+}

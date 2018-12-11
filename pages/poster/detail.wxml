@@ -1,0 +1,91 @@
+<import src="/template/totop/totop.wxml" />
+<template is="totop" data="{{showToTop}}"></template>
+<view class='container gray full-width'>
+    <view class='sq'></view>
+    <view class='bgw full-width pdr20'>
+        <!-- 标题 -->
+        <view class='bolder hardgray font-lg pd20'>{{poster.title}}</view>
+        <!-- 商铺信息 -->
+        <view class='flex-row pdc20'>
+            <view class='flex flex-left pd'>
+                <view class='img-lg flex flex-center'>
+                    <image src='{{poster.store_logo}}' class='img-lg radius-m'></image>
+                </view>
+                <view class='pd-l10'>
+                    <view class='black bolder font-md'>{{poster.store_name}}</view>
+                    <view class='font-xs lightgray'>{{poster.addtime}}</view>
+                </view>
+            </view>
+            <view class='pd pkcolor'>
+                <navigator url='/pages/store/detail?id={{poster.store_id}}'>查看</navigator>
+            </view>
+        </view>
+        <!-- 海报内容 -->
+        <view class='pd20 cgray'>
+            <text>{{poster.content}}</text>
+        </view>
+        <!-- 图片内容 -->
+        <view class='pd20'>
+            <view class='full-width' wx:for='{{poster.posters}}' wx:key='{{index}}'>
+                <image src='{{item}}' mode='widthFix' class='full-width'></image>
+            </view>
+        </view>
+        <!-- 评论内容 -->
+        <view class='sq'></view>
+        <view class='bgw full-width'>
+            <view class='pd20 flex-row bottomline'>
+                <view class='black bolder font-xs'>评论 {{!poster.comment_count?0:poster.comment_count}}</view>
+                <view class='hardgray font-xs'>点赞 {{!poster.like_count?0:poster.like_count}}</view>
+            </view>
+            <view class='full-width'>
+                <import src="/template/commentitem/commentitem.wxml" />
+                <template is="commentitem" wx:for='{{commentList}}' wx:key='id' data="{{...item,index:index,evaluate:true}}"></template>
+            </view>
+        </view>
+    </view>
+    <view class='sq'></view>
+    <import src="/template/smallmenu/smallmenu.wxml" />
+    <template is="smallmenu" data="{{showsmallmenu:false,smallmenuclosed:smallmenuclosed}}"></template>
+</view>
+<!-- 评论窗口 -->
+<view class='flex flex-left flex-around topline fix-b navmenu'>
+    <button type='default' plain='{{true}}' class='leftline rightline' bindtap='toIndexPage'>
+        <view class='flex flex-center'>
+            <image src='/resource/icon/comm.svg' class='img-xs'></image>
+        </view>
+        <view class='flex flex-center mg-l10'>首页</view>
+    </button>
+    <button  bindtap='openShareWnd' type='default' plain='{{true}}'>
+        <view class='flex flex-center'>
+            <image src='/resource/icon/share.svg' class='img-xs'></image>
+        </view>
+        <view class='flex flex-center mg-l10'>分享</view>
+    </button>
+    <button type='default' plain='{{true}}' class='leftline rightline' bindtap='callPhone'>
+        <view class='flex flex-center'>
+            <image src='/resource/icon/tel-r.svg' class='img-xs'></image>
+        </view>
+        <view class='flex flex-center mg-l10'>咨询</view>
+    </button>
+    <button type='default' plain='{{true}}' class='leftline rightline' bindtap='openCommbox'>
+        <view class='flex flex-center'>
+            <image src='/resource/icon/comm.svg' class='img-xs'></image>
+        </view>
+        <view class='flex flex-center mg-l10'>评论</view>
+    </button>
+    <button type='default' plain='{{true}}' wx:if='{{poster.is_like!=1}}' bindtap='doLike'>
+        <view class='flex flex-center'>
+            <image src='/resource/icon/like.svg' class='img-xs'></image>
+        </view>
+        <view class='flex flex-center mg-l10'>点赞</view>
+    </button>
+    <button type='default' plain='{{true}}' wx:if='{{poster.is_like==1}}' bindtap='donotLike'>
+        <view class='flex flex-center'>
+            <image src='/resource/icon/yz.svg' class='img-xs'></image>
+        </view>
+        <view class='flex flex-center mg-l10'>已赞</view>
+    </button>
+</view>
+<!-- 分享窗口 -->
+<import src="/template/sharebox/sharebox.wxml" />
+<template is="sharebox" data="{{showShareWnd:showShareWnd}}"></template>

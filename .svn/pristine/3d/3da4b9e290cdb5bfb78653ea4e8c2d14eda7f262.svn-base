@@ -1,0 +1,33 @@
+<template name='groupbuy'>
+        <navigator class='item-77 col-12 flex pdc30 bottomline'  url='/pages/groupbuy/detail?id={{item.id}}'>
+            <view class='img-box flex flex-center cgray'>
+                <image src='{{item.shop_sku[0].sku_img}}'></image>
+            </view>
+            <view class='info font-xs pd pdr20 flex-col flex-space'>
+                <view>
+                    <view class='item-title txtclamp txtclamp-2'>
+                        {{item.title}}
+                    </view>
+                    <view class='item-label flex flex-wrap'>
+                        <text wx:for='{{item.label}}' wx:key='' wx:for-item='lb' class='bglightgray radius-s '>{{lb}}</text>
+                    </view>
+                </view>
+                <view class='flex-row'>
+                    <view>
+                        <view class='title flex-row font-xs skr'>
+                            <text class='bolder pkcolor'>{{item.tuan_num}}人团</text>
+                            <text class='bolder font-md pd'>￥{{item.shop_sku[0].sku_price_tuan}}</text>
+                        </view>
+                        <view class='title flex font-xs cgray flex'>
+                            <view class='black'>已拼{{item.sale_num}}件</view>
+                            <view class='pdr20'>{{item.distance}}km</view>
+                        </view>
+                    </view>
+                    <view>
+                        <text class='btn-open'>去拼团</text>
+                    </view>
+                </view>
+
+            </view>
+        </navigator>
+</template>

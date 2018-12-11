@@ -1,0 +1,105 @@
+<view class='container gray' style='padding:90rpx 0;'>
+    <view class='full-width fix-t bglinearyellow shadow flex-row pd20'>
+        <view class='font-sm black bolder'>我的商铺</view>
+    </view>
+    <view class='sq'></view>
+    <view class='merchants-item flex-col bgw pd20 bottomline shadow' wx:for='{{storeList}}' wx:key='store_id' wx:for-index="idx" wx:for-item="s">
+        <view class='flex-row bottomline'>
+            <view class='flex' style='width:650rpx;'>
+                <view class='radius-m rel'>
+                    <image src='{{s.store_logo}}' class='img-lgp' mode='aspectFill'></image>
+                    <view class='jiaose flex flex-center {{s.uid===user.id?"bgprimary":"bggreen"}}'>{{s.uid===user.id?"创建者":"管理者"}}</view>
+                </view>
+                <view class='pdr20'>
+                    <view class='font-md bolder black pdc flex-row'>
+                        {{s.store_name}}
+                    </view>
+                    <view class='font-xs cgray pdc'>{{s.store_addr}}</view>
+                </view>
+            </view>
+            <view class='flex flex-center' style='width:68rpx;' bindtap='delStore' id='{{s.id}}'>
+                <image src='/resource/icon/delete.svg' class='img-sm'></image>
+            </view>
+        </view>
+        <view class='full-width flex-row flex-around font-sm pd20'>
+            <navigator class='flex-col-auto flex-center pd' url='storeqrcode?id={{s.id}}&title={{s.store_name}}&image={{s.store_logo}}&address={{s.store_addr}}'>
+                <image src='/resource/icon/qr.svg' class='img-md'></image>
+                <text class='font-xs'>二维码</text>
+            </navigator>
+            <navigator class='flex-col-auto flex-center pd' url='/pages/store/detail?id={{s.id}}'>
+                <image src='/resource/icon/store.svg' class='img-md'></image>
+                <text class='font-xs'>展示页</text>
+            </navigator>
+            <view class='flex-col-auto flex-center pd'>
+                <text class='img-md black bolder font-sm flex flex-center'>{{!s.total_expense_people_num?0:s.total_orders_num}}</text>
+                <text class='font-xs cgray mg-t10'>成交量</text>
+            </view>
+            <view class='flex-col-auto flex-center pd'>
+                <text class='img-md black bolder font-sm flex flex-center'>{{!s.rec_expense_people_num?0:s.rec_expense_people_num}}</text>
+                <text class='font-xs cgray mg-t10'>引流量</text>
+            </view>
+            <navigator class='flex-col-auto flex-center  pd radius-s ' url='customs?id={{s.id}}'>
+                <text class='img-md skr bolder font-sm flex flex-center'>{{!s.total_expense_people_num?0:s.total_expense_people_num}}</text>
+                <text class='font-xs mg-t10 cprimary'>客户数</text>
+            </navigator>
+            <!-- <navigator class='flex-col-auto flex-center  pd radius-s ' url='storemoney?id={{s.id}}&name={{s.title}}&img={{s.logo}}'>
+                <text class='img-md skr bolder font-xs  flex flex-center'>{{!s.can_use_money?0:s.can_use_money}}</text>
+                <text class='font-xs mg-t10 cprimary'>可提现</text>
+            </navigator> -->
+        </view>
+        <view class='item-opt-list flex flex-center flex-wrap' wx:if='{{s.store_check != 1}}'>
+            <text class='skr bolder' wx:if='{{s.store_check==0}}'>已提交，请等待审核结果</text>
+            <!-- <button plain='{{true}}' type='primary' class='pd20 cprimary bglightgray' wx:if='{{s.is_check==0}}'>撤销提交</button> -->
+            <text class='skr bolder' wx:if='{{s.store_check==2}}'>审核未通过：{{s.check_reason}}</text>
+            <navigator url="/pages/merchants/info?id={{s.id}}" class='pd20 cprimary' wx:if='{{s.store_check==2}}'>重新提交</navigator>
+            <!-- <text class='skr bolder' wx:if='{{s.store_check==1 && s.is_fee==0 }}'>审核已通过，请缴纳管理费 ￥{{s.fee}}</text> -->
+            <!-- <navigator url="/pages/my/recharge?type=2&money={{s.fee}}" class='pd20 bdlinearskr wtcolor' wx:if='{{s.is_check==1}}'>马上缴纳</navigator> -->
+        </view>
+        <view class='item-opt-list flex-col font-sm' wx:else>
+            <view class='row'>
+                <navigator url="/pages/merchants/giftlist?storeId={{s.id}}&storeName={{s.store_name}}" class='pd20  imp'>积分赠品</navigator>
+                <navigator url="/pages/merchants/posterlist?storeId={{s.id}}&storeName={{s.store_name}}" class='pd20 cprimary bglightgray'>活动海报</navigator>
+                <navigator url="/pages/merchants/membermgr?storeId={{s.id}}&storeName={{s.store_name}}" class='cprimary pdc20 pd bglightgray {{s.fans_num>0?"point":""}}'>粉丝和消息</navigator>
+                <navigator url="/pages/merchants/groupbuymgr?storeId={{s.id}}&storeName={{s.store_name}}" class='pd20 imp'>拼团商品</navigator>
+                <navigator url="/pages/merchants/info?id={{s.id}}" class='pd20 cprimary bglightgray'>商铺信息</navigator>
+                <navigator url="/pages/merchants/commentlist?storeId={{s.id}}&storeName={{s.store_name}}" class='cprimary pd20 bglightgray {{s.message_num>0?"point":""}}'>反馈留言</navigator>
+                <navigator class='pd20 imp' url="/pages/merchants/recommend?storeId={{s.id}}&storeName={{s.store_name}}">推荐有奖</navigator>
+                <navigator url="/pages/merchants/managermgr?id={{s.id}}&title={{s.store_name}}" class='pdc20 wtcolor bggreen'>商铺管理</navigator>
+                <navigator url="/pages/merchants/scanconsume?id={{s.id}}&title={{s.store_name}}" class='pd20 wtcolor bgdanger'>扫码兑现</navigator>
+
+            </view>
+        </view>
+    </view>
+    <view class='sq'></view>
+    <view class='pd20 black bolder font-lg'>商家说明</view>
+    <view class='skr font-sm pd pdr20'>试用版申请商铺需要缴纳“商铺管理费”9.9元。</view>
+    <view class='bgw flex-col black pdr30 font-sm'>
+        <navigator class='flex full-width pdc30 bottomline arrow' url='/pages/proxy/info?tp=8'>
+            <view class='flex flex-center'>
+                <text class='pd'>“58免费购”的价值</text>
+            </view>
+        </navigator>
+    </view>
+    <view class='bgw flex-col black pdr30 font-sm'>
+        <navigator class='flex full-width pdc30 bottomline arrow' url='/pages/proxy/info?tp=9'>
+            <view class='flex flex-center'>
+                <text class='pd'>商铺的申请与设置(试用版不收保证金)</text>
+            </view>
+        </navigator>
+    </view>
+    <!-- <view class='bgw flex-col black pdr30 font-sm'>
+        <navigator class='flex full-width pdc30 bottomline arrow' url='/pages/proxy/info?tp=10'>
+            <view class='flex flex-center'>
+                <text class='pd'>商铺业务费用</text>
+            </view>
+        </navigator>
+    </view> -->
+    <import src="/template/version/version.wxml" />
+    <template is="version" data="{{version}}"></template>
+</view>
+<view class='fix-b flex flex-center pd20' wx:if='{{showadd}}'>
+    <navigator url="/pages/merchants/info" class='btn-fix-b font-md'>
+        <image src='/resource/icon/add.svg' class='addbtnimg radius-circle'></image>
+        注册新商铺
+    </navigator>
+</view>

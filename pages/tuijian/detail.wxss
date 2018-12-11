@@ -1,0 +1,120 @@
+.img-box{
+    width:750rpx;
+    height: 750rpx;
+}
+.img-box image{
+    width:100%;
+    height: 100%;
+}
+.pk-info{
+    width:750rpx;
+    background: linear-gradient(to right, #50d1fe,  #fff);
+    min-height:100rpx; 
+}
+.shareimg{
+    width:48rpx;
+    height: 48rpx;
+}
+button[plain]{
+    margin: 0;
+    width:100%;
+    height: 100%;
+}
+
+.lestime-t{
+    padding: 5rpx;
+}
+.lestime .pdc{
+    background: #50d1fe;
+    color:#fff;
+    padding: 0rpx 10rpx;
+    border-radius: 5rpx;
+}
+.topshow{
+    background: #F0FFFF;
+    color:#50d1fe;
+}
+
+.u-img{
+    width:64rpx;
+    height: 64rpx;
+    background: #ccc;
+    border-radius: 50%;
+}
+.u-img image{
+    width:100%;
+    height: 100%;
+}
+.btn-open {
+    background: linear-gradient(to right, #f62004, #FF9999);
+    border-radius: 10rpx;
+    font-size:12px;
+    color:#fff;
+    padding: 10rpx 20rpx;
+}
+.img-list{
+    padding: 0 15rpx;
+}
+.img-item{
+    width:100%;
+    padding: 0;
+    margin: 0;
+}
+.label{
+    padding: 2rpx 5rpx;
+    border-radius: 5rpx;
+    margin: 0 5rpx;
+}
+button{
+    height: auto;
+    padding: 0;
+}
+button[type=default][plain].cannotbuy{
+    background: #666;
+    color:#eee;
+}
+.groupmenu{
+    font-size:10px;
+    background: #fff;
+    overflow: hidden;
+    height: 100rpx;
+    padding: 0;
+}
+.groupmenu view,.groupmenu navigator{
+    height: 100rpx;
+}
+.buy{
+    background: #f00;
+    border: 1rpx solid #f00;
+}
+.stn{
+    padding:20rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border:1rpx solid #ccc;
+    border-radius: 10rpx;
+    width:300rpx;
+}
+.item-title{
+    margin: 5rpx;
+    color:#454545;
+    line-height: 18px;
+}
+.jiang{
+    padding: 1px;
+    background: #f00;
+    color:#fff;
+    border-radius: 100%;
+    width:18px;
+    height: 18px;
+}
+.jiang-i{
+    padding: 0;
+    border-radius: 18px;
+    background: linear-gradient(to right, #f62004, #fff);
+}
+@import "/template/chosegoodsmode/chosemode.wxss";
+@import "/template/commentitem/commentitem.wxss";
+@import "/template/sharebox/sharebox.wxss";
+@import "/template/tuijian/tuijianitem.wxss"

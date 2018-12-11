@@ -1,0 +1,63 @@
+.user{
+  padding: 20rpx 0rpx;
+  color:#454545;
+}
+.mybase{
+    background: linear-gradient(to bottom,#50d1fe,#f2f2f2);
+}
+.myinfo{
+    overflow: hidden;
+    border-radius: 20rpx;
+}
+.userinfo{
+  width:580rpx;
+  overflow: hidden;
+}
+.position-img{
+  width:36rpx;
+  height: 36rpx;
+}
+
+.userImg.lg{
+    width:128rpx;
+    height: 128rpx;
+}
+.flex-col.nav-item{
+  margin: 0;
+  padding: 0;
+}
+.nav-item > view{
+    height: 48rpx;
+}
+.nav-item image{
+  width:48rpx;
+  height: 48rpx;
+}
+.bg-lightgray{
+  background: lightgray;
+}
+.signin{
+  background: #fff;
+  padding-top:10rpx;
+}
+.tosingin{
+  padding: 20rpx 30rpx;
+}
+.signin image{
+  width:690rpx;
+  padding: 0 30rpx;
+}
+.nav-box{
+  padding: 40rpx 0;
+}
+.btn-bind-phone{
+    color:#50d1fe;
+    background: #fff;
+    border-radius: 0;
+    height: 48rpx;
+    line-height: 48rpx;
+    display: flex;
+    margin: 0;
+    border:none;
+}
+

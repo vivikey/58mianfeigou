@@ -1,0 +1,34 @@
+.mycontacts{
+    position: relative;
+}
+.sec-contact{
+    padding-left:60rpx;
+    position: relative;
+}
+.sec-contact::before{
+    position: absolute;
+    content:"";
+    border-left:1rpx solid #ccc;
+    width:0rpx;
+    top:-20rpx;
+    left:41rpx;
+    bottom:63rpx;
+}
+.sec-contact > view{
+    position: relative;
+}
+.sec-contact > view::before{
+    position: absolute;
+    content:"";
+    border-top:1rpx solid #ccc;
+    width:33rpx;
+    top:50rpx;
+    left:-18rpx;
+}
+.tag{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:30rpx;
+    height: 30rpx;
+}

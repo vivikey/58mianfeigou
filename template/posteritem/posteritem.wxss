@@ -1,0 +1,46 @@
+.posteritem{
+    padding: 30rpx;
+}
+.posteritem .head .img-lg image{
+    width:81rpx;
+    height: 81rpx;
+    border:1rpx solid #eee;
+    border-radius: 10rpx;
+    margin: 0;
+}
+.posteritem .head .title{
+    width:500rpx;
+}
+.posteritem .gzhu{
+    width:100rpx;
+    color:#fff;
+    background: #d9534f;
+    padding: 8rpx;
+    font-size:12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.posteritem .gzhu.attention{
+        color:#545454;
+        background: #eee;
+}
+.posteritem .imglist image{
+    padding: 5rpx;
+    box-sizing: border-box;
+    border-radius: 10rpx;
+}
+.posteritem .imglist image.col-4{
+    width:200rpx;
+    height: 200rpx;
+}
+.posteritem .footer{
+    width:100%;
+}
+.posteritem .footer > view{
+    width:33.33%;
+}
+.posteritem .footer image{
+    width:36rpx;
+    height: 36rpx;
+}

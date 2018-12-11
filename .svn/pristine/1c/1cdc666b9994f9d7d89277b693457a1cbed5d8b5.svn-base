@@ -1,0 +1,162 @@
+<view class='container'>
+    <view class='info-item-row'>
+        <text class='mustbe'>商品名称</text>
+        <input type='text' placeholder='请输入商品名称' value='{{goods.title}}' id='title' bindblur='inputBlur'></input>
+    </view>
+    <!-- <view class='info-item-row'>
+        <text class=''>商品一级分类</text>
+        <picker range='{{gifttype}}' range-key='name' value='{{currGift.gifttype}}' bindchange="bindTypeChange">
+            <view class="picker arrow-down">
+                {{gifttype[currGift.gifttype].name}}
+            </view>
+        </picker>
+    </view>
+    <view class='info-item-row'>
+        <text class=''>商品二级分类</text>
+        <picker range='{{gifttype}}' range-key='name' value='{{currGift.gifttype}}' bindchange="bindTypeChange">
+            <view class="picker arrow-down">
+                {{gifttype[currGift.gifttype].name}}
+            </view>
+        </picker>
+    </view> -->
+    <!-- 属于团购产品 -->
+    <view class='full-width' wx:if='{{notuan==0}}'>
+        <view class='info-item-row'>
+            <text class='mustbe'>成团人数</text>
+            <input type='number' placeholder='请输入成团人数，最少为2' value='{{goods.tuan_num}}' id='tuan_num' bindblur='inputBlur'></input>
+        </view>
+        <view class='info-item-row'>
+            <text class='mustbe'>成团有效时间</text>
+            <picker range='{{validTime}}' range-key='v' value='{{validTimeIdx}}' bindchange="bindValidTimeChange">
+                <view class="picker arrow-down">
+                    {{validTime[validTimeIdx].v}}
+                </view>
+            </picker>
+        </view>
+        <view class='info-item-row'>
+            <text class='mustbe'>团购限购(单次拼团商品数量上限)</text>
+            <input type='number' placeholder='请输入团购限制购买数量0为不限制' value='{{goods.tuan_buynum}}' id='tuan_buynum' bindblur='inputBlur'></input>
+        </view>
+    </view>
+
+    <view class='info-item-row'>
+        <text class=''>商品标签</text>
+        <input type='text' placeholder='请输入标签，多个用空格隔开，推荐设置3个' value='{{goods.label}}' id='label' bindblur='inputBlur'></input>
+    </view>
+    <view class='info-item-row'>
+        <text class='mustbe flex-row bottomline'>商品规格<text class='font-xs skr'>至少一种规格（首页展示的信息为第一个规格）</text></text>
+        <view class='specs font-xs'>
+            <view class='flex flex-center flex-around bgw bottomline pdr20' wx:for='{{goods.shop_sku}}' wx:key=''>
+                <view class='flex flex-center'>
+                    <view class='img flex flex-center'>
+                        <image src='{{item.sku_img}}' mode='aspectFill'></image>
+                    </view>
+                    <view class='info pdr20'>
+                        <view class='cgray bolder font-xs'>{{item.sku_spec}}</view>
+                        <view class='black'>
+                            <text>库存：{{item.sku_stock}}</text>
+                            <text>价格：{{item.sku_price}}</text>
+                            <text wx:if='{{notuan==0}}'>团购价：{{item.sku_price_tuan}}</text>
+                        </view>
+                    </view>
+                </view>
+                <view class='opt pd wtcolor flex flex-center' data-idx='{{index}}' bindtap='removeSpecsItem'>删除</view>
+            </view>
+        </view>
+        <view class='specs-input font-xs leftline' wx:if='{{!(notuan!=0 && goods.shop_sku.length>0)}}'>
+            <view>
+                规格描述：
+                <input type='text' placeholder='请输入规格描述' value='{{specsItem.sku_spec}}' id='sku_spec' bindinput='specsItemInput'></input>
+            </view>
+            <view>
+                规格余量：
+                <input type='number' placeholder='请输入规格余量' value='{{specsItem.sku_stock}}' id='sku_stock' bindinput='specsItemInput'></input>
+            </view>
+            <view>
+                规格标价：
+                <input type='digit' placeholder='请输入规格价值' value='{{specsItem.sku_price}}' id='sku_price' bindinput='specsItemInput'></input>
+            </view>
+            <view wx:if='{{notuan==0}}'>
+                团购价格：
+                <input type='digit' placeholder='请输入团购价格' value='{{specsItem.sku_price_tuan}}' id='sku_price_tuan' bindinput='specsItemInput'></input>
+            </view>
+            缩略图(建议750x750)：
+            <view class='row flex-row flex-wrap flex-left'>
+                <view class='choseimg col-6 bgw' wx:if='{{specsItem.sku_img}}'>
+                    <image src='{{specsItem.sku_img}}' mode='aspectFit'></image>
+                    <view class='removeimg flex flex-center' bindtap='removeSpecsItemImg'>✖</view>
+                </view>
+                <view class='choseimg col-6 bgw' bindtap='choseSpecsItemImg' wx:if='{{!specsItem.sku_img}}'>
+                    <view>✛</view>
+                </view>
+            </view>
+            <view class='flex flex-right full-width pd'>
+                <button type='primary' plain='{{true}}' bindtap='addSpecsItem' wx:if='{{notuan==0}}'>确认✚规格</button>
+                <button type='primary' plain='{{true}}' bindtap='addSpecsItem' wx:if='{{notuan!=0 && goods.shop_sku.length<=0}}'>确认✚规格</button>
+                <view class='bgw bdfull skr bolder full-width pd20' wx:if='{{notuan!=0 && goods.shop_sku.length>0}}'>一个规格对应一个商品</view>
+            </view>
+        </view>
+    </view>
+    <!-- 属于团购产品 -->
+    <view class='info-item-row' wx:if='{{notuan==0}}'>
+        <text class='mustbe'>团购有效期</text>
+        <picker mode="date" value="{{goods.tuanz_starttime}}" start="2018-01-01" end="2999-01-01" bindchange="bindStartDateChange">
+            <view class="picker arrow-down">
+                从：{{goods.tuanz_starttime}}
+            </view>
+        </picker>
+        <picker mode="date" value="{{goods.tuanz_endtime}}" start="2018-01-01" end="2999-01-01" bindchange="bindDateChange">
+            <view class="picker arrow-down">
+                到：{{goods.tuanz_endtime}}
+            </view>
+        </picker>
+    </view>
+    <!-- 兑现有效期 -->
+    <view class='full-width'  wx:if='{{notuan==1}}'>
+        <view class='info-item-row'>
+            <text class='mustbe'>兑现有效期</text>
+        </view>
+        <view class='small-panel topline bottomline'>
+            <picker mode="date" value="{{goods.start_time}}" start="2018-01-01" end="2999-01-01" bindchange="bindStartDateChangeNoTuan">
+                <view class="pdc20 arrow-down cprimary">
+                    从：{{goods.start_time}}
+                </view>
+            </picker>
+            <picker mode="date" value="{{goods.end_time}}" start="2018-01-01" end="2999-01-01" bindchange="bindDateChangeNoTuan">
+                <view class="pdc20 arrow-down cprimary topline">
+                    到：{{goods.end_time}}
+                </view>
+            </picker>
+        </view>
+    </view>
+    <view class='info-item-row'>
+        <text class='mustbe'>商品描述</text>
+        <textarea  placeholder='请输入商品描述' maxlength='256' value='{{goods.description}}' id='description' bindblur='inputBlur'></textarea>
+    </view>
+    <view class='row flex-row flex-wrap flex-left'>
+        <text class='info-item-row mustbe'>商品轮播展示图片(1-5张,建议750x750)</text>
+        <view class='choseimg col-4 bgw' wx:for='{{goods.gallery}}' wx:key=''>
+            <image src='{{item}}' mode='aspectFit'></image>
+            <text data-idx='{{index}}' class='removeimg flex-row flex-center' bindtap='removeGalleryImg'> ✖</text>
+        </view>
+        <view class='choseimg col-4 bgw' bindtap='choseGalleryImg' wx:if='{{goods.gallery.length<5}}'>
+            <view>✛</view>
+        </view>
+    </view>
+    <view class='row flex-row flex-wrap flex-left'>
+        <text class='info-item-row mustbe'>商品图片描述(1-6张,建议宽度720px)</text>
+        <view class='choseimg col-4 bgw' wx:for='{{goods.details}}' wx:key=''>
+            <image src='{{item}}' mode='aspectFit'></image>
+            <text data-idx='{{index}}' class='removeimg flex-row flex-center' bindtap='removeDetailsImg'> ✖</text>
+        </view>
+        <view class='choseimg col-4 bgw' bindtap='choseDetailsImg' wx:if='{{goods.details.length<6}}'>
+            <view>✛</view>
+        </view>
+    </view>
+    <view class='info-item-row flex-row bgw pd30'>
+        <view class='btn flex flex-center' bindtap='Save'>
+            <image src='/resource/icon/ok1.svg' class='addbtnimg'></image>提交</view>
+        <view class='btn remove flex flex-center' bindtap='Remove' wx:if='{{goods.shop_id>0}}'>
+            <image src='/resource/icon/delete.svg' class='addbtnimg'></image> 删除</view>
+    </view>
+</view>

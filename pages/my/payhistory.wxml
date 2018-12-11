@@ -1,0 +1,13 @@
+<view class="container font-sm">
+    <view class='bgw full-width bottomline flex-row pd30' wx:for='{{daibiList}}' wx:key='id' wx:for-item='d'>
+        <view class='flex-col'>
+            <view class='pkcolor font-md bolder'>{{d.remark}}</view>
+            <view class='cgray font-xs'>{{d.addtime}}</view>
+        </view>
+        <view class='black bolder font-lg'>{{d.num}}</view>
+    </view>
+    <import src="/template/emptyshow/emptyshow.wxml" />
+    <template is="empty" data='{{image:"/resource/icon/emp3.png",firstmsg:"哦~还没有任何明细记录",secmsg:"",times:[1,2,3]}}' wx:if='{{daibiList.length<=0}}'></template>
+</view>
+<import src="/template/smallmenu/smallmenu.wxml" />
+<template is="smallmenu" data="{{showsmallmenu:flase,smallmenuclosed:smallmenuclosed}}"></template>

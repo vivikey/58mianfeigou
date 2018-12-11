@@ -1,0 +1,31 @@
+<view class='container bgw'>
+    <view class='sq'></view>
+    <view class='full-width pdr20 pd bglightgray bolder font-sm'>方 案:
+        <text class='skr'>{{scheme_name}}</text>
+    </view>
+    <view class='full-width pdr20 pd bglightgray bolder font-sm'>推荐人：
+        <text class='cprimary'>{{user_name}}</text>
+    </view>
+    <view class='sq'></view>
+    <view wx:for='{{customs}}' wx:key='' class='full-width flex flex-left pd20 bottomline'>
+        <view class='flex flex-center pdr20 rightline'>
+            <image src='{{item.user_pic}}' class='img-lg radius-circle bdfull'></image>
+        </view>
+        <view class='full-width' style='padding-left:20rpx;'>
+            <view class='black bolder font-sm'>{{item.username}}</view>
+            <view class='cgray font-xs'>手机号码：
+                <text class='bolder'>{{item.phone}}</text>
+            </view>
+            <view class='lightgray font-xs'>生效时间：
+                <text class='bolder'>{{item.first_order_time}}</text>
+            </view>
+            <view class='lightgray font-xs'>生效产品：
+                <text class='bolder'>{{item.goods_name}}</text>
+            </view>
+        </view>
+    </view>
+    <import src="/template/emptyshow/emptyshow.wxml" />
+    <template is="empty" data='{{image:"/resource/icon/emp3.png",firstmsg:"没有任何推荐客户",secmsg:""}}' wx:if='{{customs.length<=0}}'></template>
+    <import src="/template/smallmenu/smallmenu.wxml" />
+    <template is="smallmenu" data="{{showsmallmenu:flase,smallmenuclosed:smallmenuclosed}}"></template>
+</view>

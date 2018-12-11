@@ -1,0 +1,15 @@
+.qrcode{
+    width:200px;
+    height: 200px;
+    padding: 0;
+    margin:40rpx auto;
+}
+.qrview{
+    position: relative;
+}
+.yxf{
+    width:200rpx;
+    height: 200rpx;
+    position: absolute;
+    z-index: 9998;
+}

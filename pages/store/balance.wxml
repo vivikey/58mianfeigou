@@ -1,0 +1,30 @@
+<view class='container gray'>
+    <view class='full-width pd20 cgray'>
+        我在
+        <text class='black bolder font-sm'>{{store_name}}</text> 的余额：
+        <text class='cprimary bolder font-md'>￥{{myBalance}}</text>
+    </view>
+    <view class='full-width bgw pdr20'>
+        <view class='font-xs bottomline pdc20 flex-row'>
+            <text class='black bolder'>明细列表</text>
+            <navigator class='cgreen pd pdr20 radius-m' url='/pages/my/recharge?type=5&money=0&store_id={{store_id}}&store_name={{store_name}}'>✚充值</navigator>
+        </view>
+        <view class='full-width font-xs'>
+            <import src="/template/emptyshow/emptyshow.wxml" />
+            <template is="empty" data='{{image:"/resource/icon/emp3.png",firstmsg:"没有相关明细",secmsg:"",times:[1,2,3]}}' wx:if='{{moneyDetails.length<=0}}'></template>
+            <view class='pdc20 bottomline flex-row' wx:for='{{moneyDetails}}' wx:key='id'>
+                <view class='col-6 flex-col-auto flex-center'>
+                    <view class='black bolder font-lg ' wx:if='{{item.type==0}}'>-{{item.money}}</view>
+                    <view class='skr bolder font-lg ' wx:if='{{item.type==1}}'>+{{item.money}}</view>
+                    <view class='lightgray'>{{item.addtime}}</view>
+                </view>
+                <view class='col-6 flex-col-auto flex-center font-sm'>
+                    <view class='{{item.type==0?"black":"skr"}}'>{{item.other}}</view>
+                    <view class='lightgray font-xs'>{{item.order_no==0?"":item.order_no}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<import src="/template/smallmenu/smallmenu.wxml" />
+<template is="smallmenu" data="{{showsmallmenu:flase,smallmenuclosed:smallmenuclosed}}"></template>

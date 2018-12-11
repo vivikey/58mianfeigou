@@ -1,0 +1,56 @@
+.comment {
+    background: #fff;
+    width: 100%;
+}
+
+.comment .headimg {
+    width:74rpx;
+    height: 64rpx;
+    background: #ccc;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.comment .content {
+    padding-left: 74rpx;
+}
+
+.comment .publish {
+    background: #eee;
+    border-radius: 10rpx;
+    display: -webkit-box;    
+    -webkit-box-orient: vertical;    
+    -webkit-line-clamp: 4;    
+    overflow: hidden;
+    font-size:14px;
+    line-height:42rpx; 
+}
+.comment .evaluate{
+    border-radius: 10rpx;
+    font-size:14px;
+    line-height:42rpx;    
+}
+.comment .publish-source{
+    padding-left: 60rpx;
+}
+.comment .imageitem{
+    height: 170rpx;
+    border:1rpx solid #e8e8e8;
+    padding: 1px;
+    border-radius: 3px;
+}
+.comment .imageitem image{
+    width:100%;
+    height: 100%;
+}
+.comment .opt_box{
+    display: flex;
+    flex-flow: row-reverse;
+}
+.comment .opt_box .btline{
+    width:90%;
+    border-top:1rpx solid #ddd;
+}

@@ -1,0 +1,33 @@
+<template name='tuijianitem'>
+    <navigator class='pitem flex flex-left' url='/pages/tuijian/detail?id={{id}}'>
+        <view class='imgBox flex flex-center'>
+            <image src='{{shop_sku[0].sku_img}}' class='imgBox' mode='aspectFill'></image>
+        </view>
+        <view class='singleInfo cgray'>
+            <view class='full-width'>
+                <view class='item-title full-width font-md bolder txtclamp txtclamp-2'>{{title}}<text class='skr font-sm' decode='{{true}}'>{{shop_sku[0].sku_spec}} </text></view>
+                <view class='full-width flex flex-left flex-wran'>                    
+                    <view class='bgpk wtcolor font-xs bolder pdr radius-l'>{{recommend_action.action_name}}</view>
+                </view>
+            </view>
+            <view class='full-width pdc'>
+                <view class='full-width'>
+                    <view class='item-title half'>
+                        <text class='skr font-sm'>￥</text>
+                        <text class='font-lgp skr bolder'>{{shop_sku[0].sku_price}}</text>
+                    </view>
+                </view>
+                <view class=' flex-row'>
+                    <view class='item-title jiang-i flex flex-left' wx:if='{{recommend_action}}'>
+                        <text class='pkcolor jiang flex flex-center'>奖</text>
+                        <text class='font-sm bolder black pdr' wx:if='{{recommend_action.award_type==1}}'>￥{{recommend_action.award_money}}</text>
+                        <text class='font-sm bolder black pdr' wx:if='{{recommend_action.award_ratio>0&&recommend_action.award_type==2}}'>{{recommend_action.award_ratio}}%</text>
+                    </view>
+                    <view class='item-title flex flex-right'>
+                        <text class='bglightgray black bolder pdr' wx:if='{{distance}}'>{{distance}}km</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </navigator>
+</template>

@@ -1,0 +1,92 @@
+<view class='container gray'>
+    <view class='full-width flex flex-left bggray bottomline'>
+        <view class='menu col-6 flex flex-center {{activet==1?"active":""}}' data-tp='1' bindtap='changemenu'>设置管理员</view>
+        <view class='menu col-6 flex flex-center {{activet==2?"active":""}}' data-tp='2' bindtap='changemenu'>金额提现</view>
+    </view>
+    <view class='sq'></view>
+    <!-- 设置管理员 -->
+    <view class='full-width' wx:if='{{activet==1}}'>
+        <view class='flex-col flex-center pd pd20 bgw'>
+            <view class='flex-col-auto flex-center' bindtap='scanQR'>
+                <image src='/resource/icon/scanqr2.png' class='enterimg'></image>
+                <text>扫一扫授权</text>
+            </view>
+        </view>
+        <view class='cgray bolder font-sm pd20'>管理员列表</view>
+        <view class='bgw full-width'>
+            <view class='mgr-item bottomline pd20 flex flex-around' wx:for='{{mgrList}}' wx:key=''>
+                <view class='flex full-width'>
+                    <view class='scanimg'>
+                        <image src='{{item.user_pic}}'></image>
+                    </view>
+                    <view class='flex-col-auto flex-around pdr20'>
+                        <view class='black font-lg bolder'>{{item.username}}</view>
+                        <view class='cgray font-xs'>{{item.phone}}</view>
+                    </view>
+                </view>
+                <view>
+                    <view class='scanimg bgdanger wtcolor pd flex flex-center' data-uid='{{item.uid}}' bindtap='removeOneMgr'>移除</view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <!-- 金额提现 -->
+    <view class='full-width' wx:if='{{activet==2}}'>
+        <view class='bgw full-width'>
+            <view class='pd30 full-width'>
+                <view class='pd30 black bolder font-md flex flex-center'>可提现金额</view>
+                <view class='pd30 skr font-lgpp bolder flex flex-center'>￥{{can_use_money}}</view>
+
+                <view class='flex-row flex-center'>
+                    <view class='bolder tixianbtn bggreen' bindtap='onTixianClick'>
+                        提现
+                    </view>
+                </view>
+                <view class='pd20 flex flex-center'></view>
+                <view class='full-width flex-col skr font-xs flex-left'>
+                </view>
+            </view>
+        </view>
+        <view class='cgray bolder font-sm pd20'>提现历史记录</view>
+        <view class='bgw full-width'>
+            <view class='font-xs bottomline pd20 flex-row' wx:for='{{moneyList}}' wx:key='id'>
+                <view class=''>
+                    {{item.addtime}}
+                </view>
+                <view class='skr font-md bolder'>
+                    ￥{{item.money}}
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+
+<!-- 提现窗口 -->
+<view class='tixian-box flex flex-center {{hide}}' catchtouchmove='true'>
+    <view class='ipt-box font-sm'>
+        <view class='pd flex-col bdlinearskr'>
+            <view class='flex-row font-xs wtcolor pd'>
+               <view class='pdc'>{{sendmsg}}</view>
+               <view class='pkcolor bgw radius-lp font-sm pd pdr20' wx:if='{{lesssec<=0}}' bindtap='sendPhoneCode'>重新发送</view>
+               <view class='cgray bglightgray bgw radius-lp font-sm pd pdr20' wx:if='{{lesssec>0}}'>{{lesssec}}秒</view>
+            </view>
+        </view>
+        <view class='pd20 bglightgray mg-t20 bottomline'>
+            <input type='text' placeholder='请输入验证码' class='cprimary' id='input_name' bindinput='inputChange'></input>
+        </view>
+        <view class='pd20 bglightgray bottomline mg-t20'>
+            <input type='digit' placeholder='请输入要提现的金额[1~10000]' class='cprimary' id='input_money' bindinput='inputChange'></input>
+        </view>
+
+        <view class='pd20 flex flex-around mg-t20'>
+            <view class='bolder tixianbtn bgw-opacity' catchtap='hideTiXianBox'>
+                <text class='black'>取消</text>
+            </view>
+            <view class='bolder tixianbtn bggreen' bindtap='comfirTiXian'>
+                提现
+            </view>
+        </view>
+    </view>
+</view>
+<import src="/template/smallmenu/smallmenu.wxml" />
+<template is="smallmenu" data="{{showsmallmenu:flase,smallmenuclosed:smallmenuclosed}}"></template>

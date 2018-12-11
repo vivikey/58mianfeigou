@@ -1,0 +1,9 @@
+.menu{
+    padding:20rpx 0;
+    color:#fff;
+}
+.menu.active{
+    background: #fff;
+    font-weight: bolder;
+    color:#50d1fe;
+}

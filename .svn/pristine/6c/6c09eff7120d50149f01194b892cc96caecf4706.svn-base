@@ -1,0 +1,30 @@
+<template name='gift'>
+    <navigator url='/pages/shop/details?id={{id}}' class='flex bgw'>
+        <view style='width:320rpx;height:300rpx;margin-top:5rpx;' class='flex flex-center'>
+            <image src='{{image}}' style='width:300rpx;height:300rpx;' class='rel'>
+                <view class='abs abs-b half-bgblack wtcolor pd txtcenter' wx:if='{{num<100&&num>0}}'>剩余{{num}}件</view>
+                <view class='abs abs-b half-bgblack pkcolor pd txtcenter' wx:if='{{num==0}}'>已售罄</view>
+            </image>
+
+        </view>
+        <view style='width:410rpx;height:310rpx;' class='flex-col flex-around pd bottomline'>
+            <view class='black font-md txtclamp txtclamp-2'>{{title}}</view>
+            <view class='flex flex-left'>
+                <view class='bglightgray cgray font-xs mg-r10' style='padding:2rpx 10rpx;'>{{type_name}}</view>
+                <view wx:if='{{distance}}' class='bglightgray cgray font-xs mg-l10' style='padding:2rpx 10rpx;'>{{distance}}km</view>
+            </view>
+            <view></view>
+            <view></view>
+            <view class='full-width'>
+                <view class='skr flex flex-baseline'>
+                    <view class='txtmidline font-sm cgray' wx:if='{{type_id!=154}}'>¥{{price}}</view>
+                    <view class='font-xs pd'><text class='bolder font-lgp'>{{integral}}</text> 积分</view>                    
+                </view>
+                <view class='flex-row font-xs'>
+                    <view class='hassel flex flex-left'><view class='hassel-n bolder flex flex-center'>{{sale_num}}</view>
+                    <view class='hassel-t'>已售</view></view>
+                </view>
+            </view>
+        </view>
+    </navigator>
+</template>

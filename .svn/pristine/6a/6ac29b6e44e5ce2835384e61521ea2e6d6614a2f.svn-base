@@ -1,0 +1,22 @@
+<template name='msgitem'>
+        <view class='sq'></view>
+        <view class='msg flex-col'>
+            <view class='flex-row bottomline pdr30'>
+                <navigator class='flex-row flex-left col-9' url='/pages/store/detail?id={{store_id}}'>
+                    <image src='{{store_logo}}' mode='aspectFit' class='img-md radius-s'></image>
+                    <view class='title font-md black txtpt pdr30'>{{store_title}}</view>
+                </navigator>
+                <view class='font-xs cgray col-3 txtright'>{{addtime}}</view>
+            </view>
+            <view> <text class='font-xs bolder cprimary pdr30 mg-t10 font-underline'>{{title}}</text></view>
+            <text class='font-sm black pdr30 mg-t10'>{{content}}</text>
+            <view class='flex-row pdr30' wx:if='{{image && image.length>0 && image!="null"}}'>
+                <view class='big-p col-12'>
+                    <navigator class='midd-p flex-col flex-center'>
+                        <image src='{{image}}' mode='aspectFill'></image>
+                    </navigator>
+                </view>
+            </view>
+
+        </view>
+</template>

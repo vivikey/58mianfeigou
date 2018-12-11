@@ -1,0 +1,10 @@
+<view class='container gray'>
+    <view class='small-title'>请选择一个产品</view>
+    <view class='small-panel'>
+        <radio-group>
+            <radio wx:for='{{groupbuyList}}' wx:key='' class='flex flex-left pdc bottomline' value='{{index}}'>
+                <view>{{item.title}} {{item.shop_sku[0].sku_spec}}</view>
+            </radio>
+        </radio-group>
+    </view>
+</view>

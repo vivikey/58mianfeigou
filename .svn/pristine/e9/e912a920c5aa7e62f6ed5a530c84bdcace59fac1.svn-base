@@ -1,0 +1,24 @@
+<import src="/template/emptyshow/emptyshow.wxml" />
+<view class='container gray pd30'>
+    <view class='notice flex-col' wx:for='{{noticeList}}' wx:key=''>
+        <view class='cgray font-xs flex-col flex-center pd20'>{{item.addtime}}</view>
+        <view class='bgw radius-m flex-col pd20'>
+            <view class='publish flex-row flex-left bottomline pd'>
+                <view class='img-md'>
+                    <image src='{{item.store_logo?item.store_logo:"/resource/icon/logo.png"}}' class='img-md radius-s pd'></image>
+                </view>
+                <view class='hight-md black pd font-xs'>
+                    <view class='cprimary bolder'>{{item.title}}</view>
+                    <view class='lightgray '>{{item.store_title?item.store_title:"58免费购"}}</view>
+                </view>
+            </view>
+            <view class='pd20'>                
+                <text class='black font-md'>{{item.content}}</text>
+            </view>
+        </view>
+
+    </view>
+    <template is="empty" data='{{image:"/resource/icon/emp3.png",firstmsg:"没有收到任何公告",secmsg:""}}' wx:if='{{noticeList.length<=0}}'></template>
+    <view class='sq'></view>
+
+</view>

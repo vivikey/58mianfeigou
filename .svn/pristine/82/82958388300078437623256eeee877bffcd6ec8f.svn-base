@@ -1,0 +1,147 @@
+<import src="/template/smallmenu/smallmenu.wxml" />
+<import src="/template/commentitem/commentitem.wxml" />
+<import src="/template/giftitem/giftitem.wxml" />
+<view class='container font-xs btn-color-gray'>
+    <view class='topbar bottomline pdr30 full-width'>
+        <image src='{{store.logo}}' class='col-3' mode='aspectFill'></image>
+        <view class='flex-col pdr20 btn-color-normal col-9'>
+            <text class='black font-md bolder pd title'>{{store.title}}</text>
+            <view class='flex flex-around topline font-xs cgray full-width'>
+                <view class='flex-col flex-center mg-t10'>
+                    <text class='bolder black font-md'>{{store_ex.present_num}}</text>
+                    <text class=''>赠品</text>
+                </view>
+                <view class='flex-col flex-center mg-t10'>
+                    <text class='bolder black font-md'>{{store_ex.poster_num}}</text>
+                    <text class=''>活动</text>
+
+                </view>
+                <view class='flex-col flex-center mg-t10'>
+                    <text class='bolder black font-md'>{{store_ex.attention_num}}</text>
+                    <text class=''>关注</text>
+
+                </view>
+                <view class='flex-col flex-center mg-t10' bindtap='toStoreBalance'>
+                    <text class='skr font-md'>￥{{myBalance}}</text>
+                    <text class=''>我的余额</text>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class='bottomline pd20 pdr30 flex-row full-width'>
+        <view class='flex-row pd flex-left'>
+            <text class='mg-l10'>营业时间：</text>
+            <text class='black font-sm'>{{store.business_start_time}}-{{store.business_end_time}}</text>
+        </view>
+        <view class='flex flex-center'>
+            <button class='leftline flex flex-center' open-type='share' plain='{{true}}' hover-class='none'>
+                <image src='/resource/icon/share.svg' class='img-sm'></image>
+            </button>
+            <view class='leftline pdr30 flex flex-center' wx:if='{{store.is_attention===0}}' bindtap='addAOC'>
+                <image src='/resource/icon/gz-1.svg' class='img-sm'></image>
+            </view>
+            <view class='leftline pdr30 flex flex-center' wx:else bindtap='removeAOC'>
+                <image src='/resource/icon/gz-2.svg' class='img-sm'></image>
+            </view>
+
+        </view>
+    </view>
+    <view class='bottomline pd20 pdr30 flex-row  full-width'>
+        <view class='flex-row pd flex-left address'>
+            <text class='mg-l10 col-11 black'>{{store.rel_address}}</text>
+            <text></text>
+        </view>
+        <view class='flex flex-center'>
+            <button class='leftline pdr30 flex flex-center' plain='{{true}}' bindtap='openMap'>
+                <image src='/resource/icon/map.svg' class='img-sm'></image>
+            </button>
+            <view class='leftline pdr30 flex flex-center' data-tel='{{store.rel_phone}}' bindtap='callPhone'>
+                <image src='/resource/icon/tel.svg' class='img-sm'></image>
+            </view>
+        </view>
+    </view>
+    <!-- <view class='sq'></view> -->
+    <view class='notice flex-row skr'>
+        <view class='pd'>
+            <image src='/resource/icon/notice.png'></image>
+        </view>
+        <swiper autoplay="{{true}}" circular="{{true}}" interval="{{3000}}" vertical='{{true}}' duration="{{500}}">
+            <swiper-item class='flex flex-center' wx:for='{{notice_list}}' wx:key=''>
+                <text class='font-xs bolder flex flex-center'>{{item.content}}</text>
+            </swiper-item>
+        </swiper>
+    </view>
+    <view class='pd pdr30 full-width topline'>
+        <view class='item-list-title bottomline flex-row pd'><text>商铺介绍</text><view class='bglightgray pkcolor pd pdr20 radius-s flex flex-left font-xs' bindtap='goHomePage'><image src='/resource/icon/tuijian2.png' class='img-sm'></image>推荐首页</view></view>
+        <view class='pd30'>{{store.pt_jieshao}}</view>
+    </view>
+    <view class='sq'></view>
+    <view class='full-width bgw'>
+        <view class='col-12 flex-row font-sm short bggray mg-b10'>
+            <view class='col-3 txtcenter bkl {{showtype==2?"active":""}}' data-type='2' bindtap='changeType'>免费赠品</view>
+            <view class='col-3 txtcenter bkl {{showtype==1?"active":""}}' data-type='1' bindtap='changeType'>活动海报</view>
+            <view class='col-3 txtcenter bkl {{showtype==4?"active":""}}' data-type='4' bindtap='changeType'>同城拼团</view>
+            <!-- <view class='col-3 txtcenter {{showtype==3?"active":""}}' data-type='3' bindtap='changeType'>访客反馈</view> -->
+            <view class='col-3 txtcenter {{showtype==5?"active":""}}' data-type='5' bindtap='changeType'>推荐有奖</view>
+        </view>
+        <!-- 活动海报list -->
+        <view class='posterlist' wx:if="{{showtype==1}}">
+            <import src="/template/posteritem/posteritem.wxml" />
+            <template wx:for='{{posterList}}' wx:key='' is="posteritem" data="{{...item,idx:index,selfPage:true}}"></template>
+            <view wx:if='{{posterList.length<=0}}' class='flex-col flex-center pdc30 '>
+                <image src='/resource/icon/emp0.png' style='width:220rpx;height:220rpx;'></image>
+                <text class='cgray font-lg pdc30'>敬请期待</text>
+            </view>
+        </view>
+        <!-- 商品信息list -->
+        <view class='giftlist products flex flex-wrap' wx:if="{{showtype==2}}">
+            <template wx:for='{{shop_list}}' wx:key='id' data="{{...item}}" is="gift"></template>
+            <view wx:if='{{shop_list.length<=0}}' class='flex-col flex-center pdc30 '>
+                <image src='/resource/icon/emp2.png' style='width:220rpx;height:220rpx;'></image>
+                <text class='cgray font-lg pdc30'>敬请期待</text>
+            </view>
+        </view>
+        <!-- 团购产品list -->
+        <view class='giftlist products flex flex-wrap' wx:if="{{showtype==4}}">
+            <import src="/template/groupbuyitem/groupbuy.wxml" />
+            <template is='groupbuy' wx:for='{{groupbuyList}}' wx:key='' data='{{item}}'></template>
+            <view wx:if='{{groupbuyList.length<=0}}' class='flex-col flex-center pdc30 '>
+                <image src='/resource/icon/emp3.png' style='width:220rpx;height:220rpx;'></image>
+                <text class='cgray font-lg pdc30'>敬请期待</text>
+            </view>
+        </view>
+        <!-- 推荐有奖list -->
+         <view class='giftlist products flex flex-wrap' wx:if="{{showtype==5}}">
+            <import src='/template/tuijian/tuijianitem.wxml' />
+            <template is='tuijianitem' wx:for='{{groupbuyList}}' wx:key='id' data="{{...item}}"></template>
+            <view wx:if='{{groupbuyList.length<=0}}' class='flex-col flex-center pdc30 '>
+                <image src='/resource/icon/emp1.png' style='width:220rpx;height:220rpx;'></image>
+                <text class='cgray font-lg pdc30'>敬请期待</text>
+            </view>
+        </view>       
+        <!-- 会员发言list -->
+        <view class='fayanlist' wx:if="{{showtype==3}}">
+            <view wx:if='{{commentList.length<=0}}' class='flex-col flex-center pdc30 '>
+                <image src='/resource/icon/emp1.png' style='width:220rpx;height:220rpx;'></image>
+                <text class='cgray font-lg pdc30'>您的反馈 如此珍贵</text>
+            </view>
+            <view class='list'>
+                <view class='comment pd flex' wx:if='{{!owner}}'>
+                    <view class='headimg mg-r10'>
+                        <image src='{{userInfo.avatarUrl}}' class='img-md'></image>
+                    </view>
+                    <view class='flex-col inputB pd mg-l10'>
+                        <textarea type='text' placeholder='快来写下您的反馈吧' confirm-type="send" bindinput="sendComment" value='{{comment}}'></textarea>
+                    </view>
+                </view>
+                <view class='flex flex-right bottomline pd' wx:if='{{!owner}}'>
+                    <button type='primary' plain='{{true}}' bindtap='onSendComment' style='width:200rpx;'>提交</button>
+                </view>
+                <template is="commentitem" wx:for='{{commentList}}' wx:key='id' data="{{...item}}"></template>
+            </view>
+        </view>
+    </view>
+</view>
+<template is="smallmenu" data="{{showsmallmenu:false,smallmenuclosed:smallmenuclosed}}"></template>
+<import src="/template/totop/totop.wxml" />
+<template is="totop" data="{{showToTop}}"></template>

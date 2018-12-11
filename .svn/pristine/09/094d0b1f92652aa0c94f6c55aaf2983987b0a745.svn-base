@@ -1,0 +1,61 @@
+<view class='container gray flex-left'>
+    <view class='version flex-col flex-center pd30'>
+        <image src='/resource/icon/logo.png'></image>
+        <view class='sq'></view>
+        <view class='pd font-sm bolder'>{{appname}}</view>
+        <view class='pd cgray font-xs'>{{version}}</view>
+    </view>
+    <view class='pdr20 font-xs bolder flex flex-left black full-width'>
+        积分不够怎么办？
+    </view>
+    <view class='full-width bgw cgray font-xs pd20'>
+        <view class='pdc20'>
+            （1）“转发”赠品详情页，每推荐一个新会员可以获得3个代币和300积分。
+        </view>
+        <view class='pdc20'>
+            （2）“每日签到”，40积分起，每天增加20积分，最高达200积分。
+        </view>
+        <view class='pdc20'>
+            （3）在还有100积分的情况下通过玩游戏赚积分。低于100积分游戏都玩不了啦！
+        </view>
+        <view class='pdc20'>
+            （4）“分享”、“转发”小程序的任意页面有10-30积分之间的随意积分赠送。
+        </view>
+    </view>
+    <view class='full-width pd30 font-xs black bolder'>问题与说明</view>
+    <view class='bgw flex-col pdr30  font-sm'>
+        <navigator class='flex full-width pdc30 bottomline arrow' url='/pages/proxy/info?tp=0'>
+            <view class=''>
+                <text class='pd'>小程序使用说明</text>
+            </view>
+        </navigator>
+        <navigator class='flex full-width pdc30 bottomline arrow' url='/pages/proxy/info?tp=0'>
+            <view class=''>
+                <text class='pd'>积分相关说明</text>
+            </view>
+        </navigator>
+        <navigator class='flex full-width pdc30 bottomline arrow' url='/pages/proxy/info?tp=0'>
+            <view class=''>
+                <text class='pd'>代币相关说明</text>
+            </view>
+        </navigator>
+    </view>
+    <view class='full-width pd30 font-xs'>意见、问题与投诉</view>
+    <view class='bgw flex-col pdr30  font-md'>
+        <view class='pd full-width'>
+            <textarea placeholder='请输入内容' class='font-sm bdfull cgray full-width pd' bindinput='bindinput'></textarea>
+        </view>
+        <view class='pd20 font-sm'>
+            <radio-group bindchange='bindchange'>
+                <radio color='#50d1fe' value='1' checked='{{true}}'>留言</radio>
+                <radio color='#50d1fe' value='3'>建议</radio>
+                <radio color='#50d1fe' value='2'>提问</radio>
+                <radio color='#50d1fe' value='4'>投诉</radio>
+            </radio-group>
+        </view>
+        <view class='flex-col flex-center pd20'>
+            <button type='primary' plain='{{true}}' bindtap='sendMsg'>提交</button>
+        </view>
+    </view>
+    <view class='sq'></view>
+</view>

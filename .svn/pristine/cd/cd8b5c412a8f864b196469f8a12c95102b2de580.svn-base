@@ -1,0 +1,62 @@
+<view class="container gray fullscreen pd30 font-sm">
+    <view class='content'>
+        <view>
+            <text class='skr bolder font-lgp'>58免费购充值缴费中心</text>
+        </view>
+        <!-- type 1.交年费 -->
+        <view wx:if='{{type==1}}'>
+            <text>请使用微信支付</text>
+            <text class='cgray font-sm'>消费者年费</text>
+            <text class='pd'></text>
+            <text class='skr bolder font-lg font-underline'>￥{{money}}</text>
+            <text class='pd'></text>
+        </view>
+        <!-- type 2.交管理费 -->
+        <view wx:if='{{type==2}}'>
+            <text>请使用微信支付</text>
+            <text class='cgray font-sm'>商铺管理费</text>
+            <text class='pd'></text>
+            <text class='skr bolder font-lg font-underline'>￥{{money}}</text>
+            <text class='pd'></text>
+        </view>
+        <!-- type 3.交加盟费 -->
+        <view wx:if='{{type==3}}'>
+            <text>请使用微信支付</text>
+            <text class='cgray font-sm'>代理加盟费</text>
+            <text class='pd'></text>
+            <text class='skr bolder font-lg font-underline'>￥{{money}}</text>
+            <text class='pd'></text>
+        </view>
+        <!-- type 4.代币充值 -->
+        <view wx:if='{{type==4}}'>
+            <text>请使用微信支付</text>
+            <text class='cgray font-sm'>代币充值</text>
+            <text class='pd font-xs skr'>1元=1代币</text>
+            <input type='digit' placeholder='请输入金额，最小0.01' class='bdfull skr txtcenter pd20 bglightgray' bindinput='endinput'></input>
+            <text class='pd'></text>
+        </view>
+        <!-- type 5.充余额 -->
+        <view wx:if='{{type==5}}'>
+            <text>请使用微信支付</text>
+            <text class='cgray font-sm'>【商铺余额充值】</text>
+            <text class='pd font-xs skr'>{{store_name}}</text>
+            <input type='digit' placeholder='请输入金额，最小0.01' class='bdfull skr txtcenter pd bglightgray' bindinput='endinput'></input>
+            <text class='pd'></text>
+        </view>
+        <!-- type 6.代币换积分 -->
+        <view wx:if='{{type==6}}'>
+            <text>使用代币兑换积分</text>
+            <text class='font-sm'>您的代币：<text class='cprimary'>{{member.token}}</text></text>
+            <text class='pd font-xs skr'>1代币=100积分</text>
+            <input type='digit' placeholder='请输入兑换的代币' class='bdfull skr txtcenter pd20 bglightgray' bindinput='endinput'></input>
+            <text class='pd font-sm'>可兑换 <text class='skr font-md'>{{jifeng}}</text> 积分</text>
+        </view>
+        <view class='full-width flex flex-center'>
+            <text class='paybtn' bindtap='wexinpay' wx:if='{{type<6}}'>微信支付</text>
+        </view>
+        <!-- <button type='warn' plain='{{true}}' bindtap='converToJF' wx:if='{{type==5}}'>立即兑换</button> -->
+
+    </view>
+    <import src="/template/smallmenu/smallmenu.wxml" />
+    <template is="smallmenu" data="{{showsmallmenu:flase,smallmenuclosed:smallmenuclosed}}"></template>
+</view>

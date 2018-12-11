@@ -1,0 +1,11 @@
+<view class='container gray'>
+    <view class='bgw flex-col flex-center pd20'>
+        <image src='https://m.58daiyan.com/static/game/explain-{{tp}}.jpg?{{Math.random() / 9999}}' class='tpimg' mode='widthFix' bindtap='preImg' wx:if='{{tp!=8}}'></image>
+        <view wx:for='{{itemList}}' wx:key='index' class='flex-col-auto pdc20' wx:if='{{tp==8}}'>
+            <text decode='{{true}}' class='font-md black bolder'>{{index+1}}、{{item.title}}</text>
+            <text decode='{{true}}' class='font-sm cgray' style='line-height:48rpx;'>{{item.content}}</text>
+        </view>
+    </view>
+    <import src="/template/smallmenu/smallmenu.wxml" />
+    <template is="smallmenu" data="{{showsmallmenu:flase,smallmenuclosed:smallmenuclosed}}"></template>
+</view>

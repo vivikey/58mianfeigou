@@ -1,0 +1,32 @@
+.container > view{
+    width:100%;
+    padding: 20rpx 30rpx;
+}
+.havied{
+    min-height: 84rpx;
+}
+.label-item{
+    padding: 5rpx 20rpx ;
+    border:1rpx solid #ccc;
+    border-radius: 25rpx;
+    font-size:16px;
+    color:#666;
+    margin: 5rpx 10rpx;
+}
+.label-item.sel{
+    margin: 20rpx;
+}
+.label-item.chosed{
+    background: #50d1fe;
+    border-color:#fff;
+    color:#fff;
+    font-weight: bolder;
+}
+.new {
+    height: 80rpx; 
+    width: 500rpx; 
+}
+.addbtn{
+    border:1rpx solid #ccc;
+    height: 80rpx; 
+}

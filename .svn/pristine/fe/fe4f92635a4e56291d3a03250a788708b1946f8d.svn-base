@@ -1,0 +1,19 @@
+<view class='container fullscreen pd30'>
+    <view></view>
+    <view class='qr-box bgw radius-s bdfull pd20 full-width'>
+        <view class='pd20 flex bottomline'>
+            <view class='img-box'>
+                <image src='{{store_logo}}'></image>
+            </view>
+            <view class='pd flex-col-auto flex-around'>
+                <view class='black font-lg bolder'>{{store_title}}</view>
+                <view class='cgray font-xs'>{{address}}</view>
+            </view>
+        </view>
+        <canvas canvas-id='qrCanvas' class='qrcode'></canvas>
+        <view class='flex flex-center'>
+            <text class='cgray font-xs'>微信扫一扫 直接进入商铺详情页</text>
+        </view>
+    </view>
+    <view></view>
+</view>

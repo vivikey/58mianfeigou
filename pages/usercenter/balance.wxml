@@ -1,0 +1,31 @@
+<view class='container gray'>
+    <view class='full-width bgw'>
+
+    </view>
+    <view class='full-width bgw pdr20'>
+        <view class='font-xs bottomline pdc20 flex-row'>
+            <text class='black bolder'>余额分布</text>
+            <text class='cgray'>我的总余额：<text class='skr pdr'>￥{{myBalance}}</text></text>
+        </view>
+        <view class='full-width font-xs'>
+            <import src="/template/emptyshow/emptyshow.wxml" />
+            <template is="empty" data='{{image:"/resource/icon/emp3.png",firstmsg:"没有相关商铺信息",secmsg:"",times:[1,2,3]}}' wx:if='{{balanceList.length<=0}}'></template>
+            <view class='pdc20 bottomline flex-row' wx:for='{{balanceList}}' wx:key='id'>
+                <view>
+                    <view class='cgray'>{{item.store_name}}</view>
+                    <view class='black bolder font-sm'>￥{{item.money}}</view>
+                </view>
+                <view class='col-5 flex flex-around font-sm'>
+                    <view class='flex flex-center pd'>
+                        <navigator class='cprimary pd pdr20 radius-m' url='/pages/store/balance?store_id={{item.store_id}}&store_name={{item.store_name}}&myBalance={{item.money}}'>明细</navigator>
+                    </view>
+                    <view class='flex flex-center pd'>
+                        <navigator class='cgreen pd pdr20 radius-m' url='/pages/my/recharge?type=5&money=0&store_id={{item.store_id}}&store_name={{item.store_name}}'>✚充值</navigator>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<import src="/template/smallmenu/smallmenu.wxml" />
+<template is="smallmenu" data="{{showsmallmenu:flase,smallmenuclosed:smallmenuclosed}}"></template>

@@ -1,0 +1,43 @@
+.tab-item{
+    color:#777;
+    height: 100%;
+    width:25%;
+    overflow: hidden;
+}
+.tab-item.active{
+    color:#50d1fe;
+        position: relative;
+}
+.tab-item.active::before{
+    position: absolute;
+    content: "";
+    width:20rpx;
+    height: 20rpx;
+    background: #50d1fe;
+    top:-10rpx;
+    left:50%;
+    transform: rotateZ(45deg)
+}
+.tab-body{
+    overflow-y: scroll;
+    padding-bottom: 100rpx;
+}
+.footbar{
+    position: fixed;
+    height: 90rpx;
+    left:0;
+    width:100%;
+    bottom:0;
+    background: #fff;
+    z-index: 999;
+    color:#777;
+    border-top:1rpx solid #50d1fe;
+}
+.addbtn{
+    color:#fff;
+}
+
+.icon{
+    height: 72rpx;
+    width:72rpx;
+}

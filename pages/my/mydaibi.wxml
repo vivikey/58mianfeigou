@@ -1,0 +1,15 @@
+<view class="container gray pd30 font-sm">
+    <view class='content'>
+        <view class='pd30'>
+            <image src='/resource/icon/daibi.png' class='img-lgp'></image>
+            <text class='pd30'>我的代币</text>
+            <text class='pd30 skr font-lgpp bolder'>{{member.token}}</text>
+            <text class='pd'></text>
+            <navigator url='/pages/my/recharge?type=4&money=0' class='bgpk wtcolor'>充值</navigator>
+            <text class='pd20'></text>
+            <navigator class='font-sm cprimary bdfull' url='payhistory'>明细</navigator>
+        </view>
+    </view>
+</view>
+<import src="/template/smallmenu/smallmenu.wxml" />
+<template is="smallmenu" data="{{showsmallmenu:flase,smallmenuclosed:smallmenuclosed}}"></template>

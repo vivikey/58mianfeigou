@@ -1,0 +1,42 @@
+<view class='container gray'>
+    <view class='pd20 bgw full-width flex-row shadow'>
+        <view class='flex flex-left'>
+            <view class='radius-circle'>
+                <image src='{{user.user_img}}' class='img-lg radius-circle'></image>
+            </view>
+            <view class='pdr'>
+                <text class='black bolder font-sm'>{{user.nick_name}}</text>
+            </view>
+        </view>
+    </view>
+    <view class='sq'></view>
+    <view class='pd20 bgw full-width bottomline'>
+        <navigator class='full-width flex-row' url='/pages/index/bindphone'>
+            <view class='flex flex-left flex-center'>
+                <view class='flex flex-center'>
+                    <image src='/resource/icon/mobile.svg' class='img-sm'></image>
+                </view>
+                <view class='pdr20 flex flex-center'>
+                    <text class='black font-sm'>绑定手机</text>
+                </view>
+            </view>
+            <view class='flex flex-center arrow cprimary font-xs'>{{!user.user_phone?"未绑定":user.user_phone}}</view>
+        </navigator>
+    </view>
+    <view class='sq'></view>
+    <view class='pd20 bgw full-width bottomline'>
+    <navigator class='full-width flex-row' url='/pages/usercenter/addressmgr'>
+        <view class='flex flex-left flex-center'>
+            <view class='flex flex-center'>
+                <image src='/resource/icon/addr.svg' class='img-sm'></image>
+            </view>
+            <view class='pdr20 flex flex-center'>
+                <text class='black font-sm'>收货地址</text>
+            </view>
+        </view>
+        <view class='flex flex-center arrow cprimary font-xs'>{{addresscount}}个地址</view>
+    </navigator>
+    </view>
+</view>
+<import src="/template/version/version.wxml" />
+<template is="version" data="{{version}}"></template>

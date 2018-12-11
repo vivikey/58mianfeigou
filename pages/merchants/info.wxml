@@ -1,0 +1,93 @@
+<view class='container'>
+    <view class='info-item-row'>
+        <text class='mustbe'>商铺名称</text>
+        <input type='text' placeholder='请输入商铺名称' value='{{store.store_name}}' id='store_name' bindinput='inputBlur'></input>
+    </view>
+    <view class='info-item-row'>
+        <text class='mustbe'>客服电话</text>
+        <input type='number' placeholder='请输入客服电话' value='{{store.store_phone}}' id='store_phone' bindinput='inputBlur'></input>
+    </view>
+    <view class='info-item-row'>
+        <view><text class='mustbe'>商铺类型</text><text class='font-x lightgray'>示例：[餐饮|湘菜]</text></view>
+        <input type='text' placeholder='请输入商铺性质类型' value='{{store.store_type}}' id='store_type' bindinput='inputBlur'></input>
+    </view>
+    <view class='info-item-row'>
+        <view><text class='mustbe'>详细地址</text><text class='font-x lightgray'>示例：[江苏省苏州市虎丘区竹园路209号]</text></view>
+        <input type='text' placeholder='请输入商铺完整地址' value='{{store.store_addr}}' id='store_addr' bindinput='inputBlur'></input>
+    </view>
+    <view class='info-item-row '>
+        <text class=' '>营业时间</text>
+        <picker mode="time" value="{{store.start_time}}" start="00:00" end="23:59" id='start_time' bindchange="bindTimeChange">
+            <view class="picker arrow-down">
+                从：{{store.start_time}}
+            </view>
+        </picker>
+        <picker mode="time" value="{{store.end_time}}" start="00:00" end="23:59" id='end_time' bindchange="bindTimeChange">
+            <view class="picker arrow-down">
+                到：{{store.end_time}}
+            </view>
+        </picker>
+    </view>
+        <view class='info-item-row'>
+        <view><text class='mustbe'>线上店铺</text></view>
+        <view class='bgw pd20 flex-row'>
+        <view class='cprimary'>{{store.on_line==1?"线上店铺":"线下店铺"}}</view>
+        <switch checked='{{store.on_line==1}}' bindchange="switch1Change"/>
+        </view>
+        
+    </view>
+    <view class='info-item-row'>
+        <text>商铺介绍</text>
+        <textarea placeholder='请输入商铺介绍' id='store_intro' value='{{store.store_intro}}' bindinput='inputBlur'></textarea>
+    </view>
+    <view class='info-item-row'>
+        <text class='mustbe'>上传商铺Logo</text>
+        <view class='imgchose topline bottomline'>
+            <image src='{{store.store_logo}}' class='choseimg' bindtap='choseImg'></image>
+            <view class='btn-color-info'>﹛点击图片进行更换﹜</view>
+        </view>
+    </view>
+    <view class='info-item-row'>
+        <text class='mustbe'>身份证号码</text>
+        <input type='text' placeholder='请输入身份证号码' value='{{store.indentity_card}}' id='indentity_card' bindinput='inputBlur'></input>
+    </view>
+    <view class='row flex-col'>
+        <text class='mustbe'>上传身份证正反两面照</text>
+        <view class='flex-row flex-wrap flex-left full-width bgw topline bottomline'>
+            <view class='choseimg col-6' wx:for='{{store.indentity_card_img}}' wx:key=' ' wx:if='{{store.indentity_card_img.length>0}}'>
+                <image src='{{item}}'></image>
+                <text data-idx='{{index}}' id='indentity_card_img' class='removeimg flex-row flex-center' bindtap='removeImg'> ✖</text>
+            </view>
+            <view class='choseimg col-6' bindtap='choseIdNumberImg' wx:if='{{store.indentity_card_img.length<2}}'>
+                <view>✛</view>
+            </view>
+        </view>
+    </view>
+    <view class='row flex-col'>
+        <text class='mustbe'>上传营业热照等商铺相关照片(最多6张)</text>
+        <view class='flex-row flex-wrap flex-left full-width bgw  topline bottomline'>
+            <view class='choseimg col-6' wx:for='{{store.business_license}}' wx:key=' ' wx:if='{{store.business_license.length>0}}'>
+                <image src='{{item}}'></image>
+                <text data-idx='{{index}}' id='business_license' class='removeimg flex-row flex-center' bindtap='removeImg'> ✖</text>
+            </view>
+            <view class='choseimg col-6' bindtap='choseBusinessImg' wx:if='{{!store.business_license.length<6}}'>
+                <view>✛</view>
+            </view>
+        </view>
+    </view>
+        <view class='row flex-col'>
+        <text class='mustbe'>上传商铺形象照片(最多6张)</text>
+        <view class='flex-row flex-wrap flex-left full-width bgw  topline bottomline'>
+            <view class='choseimg col-6' wx:for='{{store.store_img}}' wx:key=' ' wx:if='{{store.store_img.length>0}}'>
+                <image src='{{item}}'></image>
+                <text data-idx='{{index}}' id='store_img'  class='removeimg flex-row flex-center' bindtap='removeImg'> ✖</text>
+            </view>
+            <view class='choseimg col-6'   bindtap='choseStoreImg' wx:if='{{!store.store_img.length<6}}'>
+                <view>✛</view>
+            </view>
+        </view>
+    </view>
+    <view class='info-item-row'>
+        <view class='btn' bindtap='Save'>✔ 提交审核</view>
+    </view>
+</view>

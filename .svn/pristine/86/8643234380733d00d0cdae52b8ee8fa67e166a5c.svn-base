@@ -1,0 +1,88 @@
+<view class='container'>
+    <view class='full-width bgw pd20 or bolder bottomline' bindtap='importGiftInfo'>
+        <view class='pd arrow'>✚ 导入赠品信息</view>
+    </view>
+    <view class='info-item-row'>
+        <text class='mustbe'>赠品名称</text>
+        <input type='text' placeholder='请输入推荐赠品名称' value='{{present.title}}' id='title' bindblur='inputBlur'></input>
+    </view>
+    <view class='info-item-row' wx:if='{{present.type_id!=154}}'>
+        <text class='mustbe'>赠品价值</text>
+        <input type='digit' placeholder='请输入推荐赠品价值' value='{{present.price}}' id='price' bindblur='inputBlur'></input>
+    </view>
+    <!-- 兑现有效期 -->
+    <view class='info-item-row'>
+        <text class='mustbe'>兑现有效期</text>
+    </view>
+    <view class='small-panel topline'>
+        <radio-group class='lightgray flex flex-around pdc20' id='valid_time_type' bindchange='onRadioChanged'>
+            <radio class='hardgray bolder flex flex-left' value='2' color="#50d1fe" checked='{{present.valid_time_type==2}}'>发放之日计算</radio>
+            <radio class='hardgray bolder flex flex-left' value='1' color="#50d1fe" checked='{{present.valid_time_type==1}}'>固定区间模式</radio>
+        </radio-group>
+    </view>
+    <view class='small-panel topline bottomline' wx:if='{{present.valid_time_type==1}}'>
+        <picker mode="date" value="{{currGift.startdate}}" start="2018-01-01" end="2999-01-01" bindchange="bindStartDateChange">
+            <view class="pdc20 arrow-down cprimary">
+                从：{{currGift.startdate}}
+            </view>
+        </picker>
+        <picker mode="date" value="{{currGift.date}}" start="2018-01-01" end="2999-01-01" bindchange="bindDateChange">
+            <view class="pdc20 arrow-down cprimary topline">
+                到：{{currGift.date}}
+            </view>
+        </picker>
+    </view>
+    <view class='info-item-row' wx:if='{{present.valid_time_type==2}}'>
+        <text class='mustbe'>有效兑换天数</text>
+        <input type='number' placeholder='请输入赠品自发送起的有效兑换天数' value='{{present.valid_time_days}}' id='valid_time_days' bindblur='inputBlur'></input>
+    </view>
+    <!-- 赠品规格 -->
+    <view class='info-item-row'>
+        <text>型号规格</text>
+        <input type='text' placeholder='请输入推荐赠品型号规格' value='{{present.specs}}' id='specs' bindblur='inputBlur'></input>
+    </view>
+    <!-- 赠品描述 -->
+    <view class='info-item-row'>
+        <text>赠品描述</text>
+        <textarea placeholder='请输入推荐赠品描述' value='{{present.description }}' id='description' bindinput='inputBlur'></textarea>
+    </view>
+    <!-- 轮播展示图 -->
+    <view class='row flex-row flex-wrap flex-left'>
+        <text class='info-item-row'>赠品轮播展示图(1-5张,建议750x750)</text>
+        <view class='choseimg col-4 bgw' wx:for='{{present.gallery}}' wx:key=''>
+            <image src='{{item}}' mode='aspectFit'></image>
+            <text data-idx='{{index}}' class='removeimg flex-row flex-center' bindtap='removeGalleryImg' wx:if='{{is_template==0}}'> ✖</text>
+        </view>
+        <view class='choseimg col-4 bgw' bindtap='choseGalleryImg' wx:if='{{present.gallery.length<5&&is_template==0}}'>
+            <view>✛</view>
+        </view>
+    </view>
+    <!-- 图片详情 -->
+    <view class='row flex-row flex-wrap flex-left'>
+        <text class='info-item-row'>赠品图片详情(1-6张,建议宽度720px)</text>
+        <view class='choseimg col-4 bgw' wx:for='{{present.content_imgs}}' wx:key=''>
+            <image src='{{item}}' mode='aspectFit'></image>
+            <text data-idx='{{index}}' class='removeimg flex-row flex-center' bindtap='removeDetailsImg' wx:if='{{is_template==0}}'> ✖</text>
+        </view>
+        <view class='choseimg col-4 bgw' bindtap='choseDetailsImg' wx:if='{{present.content_imgs.length<6&&is_template==0}}'>
+            <view>✛</view>
+        </view>
+    </view>
+    <view class='info-item-row flex-row bgw pd30'>
+        <view class='btn flex flex-center bolder' bindtap='Save' data-check='1'>
+            <image src='/resource/icon/ok1.svg' class='addbtnimg'></image> 提交</view>
+    </view>
+</view>
+
+<!-- 产品选择窗口 -->
+<view class='shop_box flex flex-right {{hide}}' catchtouchmove='true'>
+    <radio-group class='shop_list' catchtouchmove='true' bindchange='onProductChosed'>
+        <radio wx:for='{{shop_list}}' wx:key='id' class='bottomline pd20 full-width font-sm' value='{{index}}'>
+            {{item.title}}
+        </radio>
+        <view wx:if='{{shop_list.length<=0}}' class='cprimary flex flex-center full-width pd20'>没有可供选择的产品！</view>
+        <button type='primary' plain='{{true}}' class='comfire full-width flex flex-center font-md' bindtap='hide'>
+            <image src='/resource/icon/exit.svg' class='addbtnimg'></image>
+        </button>
+    </radio-group>
+</view>

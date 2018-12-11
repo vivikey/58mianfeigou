@@ -1,0 +1,19 @@
+<view class='container fullscreen pd30'>
+    <view></view>
+    <view class='qr-box bgw radius-s bdfull pd20 full-width'>
+        <view class='pd20 flex bottomline'>
+            <view class='img-box'>
+                <image src='{{user.user_pic}}'></image>
+            </view>
+            <view class='pd flex-col-auto flex-around'>
+                <view class='black font-lg bolder'>{{user.username}}</view>
+                <view class='cgray font-xs'>{{user.phone}}</view>
+            </view>
+        </view>
+        <canvas canvas-id='qrCanvas' class='qrcode'></canvas>
+        <view class='flex flex-center'>
+            <text class='cgray font-xs'>本二维码仅限58免费购小程序中使用</text>
+        </view>
+    </view>
+    <view></view>
+</view>

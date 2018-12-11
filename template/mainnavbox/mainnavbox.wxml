@@ -1,0 +1,37 @@
+<template name="mainvav">
+    <view class='box flex-row flex-around bottomline'>
+        <navigator url='/pages/poster/index' class='item-list-title'>
+            <view class='flex-col flex-center nav-item nav-1'>
+                <view class='radius-circle flex flex-center'>
+                    <image src='/resource/icon/m-nav-1.svg'></image>
+                </view>
+                <text>活动海报</text>
+            </view>
+        </navigator>
+        <navigator url='/pages/game/index' class='item-list-title'>
+            <view class='flex-col flex-center nav-item nav-2'>
+                <view class='radius-circle flex flex-center'>
+                    <image src='/resource/icon/m-nav-2.svg'></image>
+                </view>
+                <text>赚积分</text>
+            </view>
+        </navigator>
+        <view class='item-list-title' bindtap='toProxy'>
+            <view class='flex-col flex-center nav-item nav-3'>
+                <view class='radius-circle flex flex-center'>
+                    <image src='/resource/icon/m-nav-3.svg'></image>
+                </view>
+                <text>代理入口</text>
+            </view>
+        </view>
+        <navigator url='/pages/msg/index' class='item-list-title'>
+            <view class='flex-col flex-center nav-item nav-5'>
+                <view class='radius-circle flex flex-center'>
+                    <image src='/resource/icon/m-nav-5.svg'></image>
+                    <view class='point flex flex-center' wx:if='{{msgC>0}}'>{{msgC}}</view>
+                </view>
+                <text>消息</text>
+            </view>
+        </navigator>
+    </view>
+</template>

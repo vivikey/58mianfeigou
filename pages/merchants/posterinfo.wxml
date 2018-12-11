@@ -1,0 +1,39 @@
+<view class='container'>    
+    <view class='info-item-row'>
+        <text class='mustbe'>{{titleStr}}</text>
+        <input type='text' placeholder='请输入{{titleStr}}' class='pd' value='{{store.title}}' id='title' bindinput='inputBlur'></input>
+    </view>
+    <view class='info-item-row'>
+        <text class='mustbe'>{{contentT}}</text>
+        <textarea placeholder='请输入{{contentStr}}' id='content' value='{{store.content}}' class='pd' bindinput='inputBlur'></textarea>
+    </view>
+
+    <view class='row flex-row flex-wrap flex-left' wx:if='{{type==0}}'>
+        <text class='info-item-row mustbe' wx:if='{{type==0}}'>活动海报图片(1-6张)</text>
+        <text class='info-item-row mustbe' wx:if='{{type==1}}'>选择消息配图</text>
+        <view class='choseimg col-4' wx:for='{{poster.posters}}' wx:key=''>
+            <image src='{{item}}'></image>
+            <text data-idx='{{index}}' class='removeimg flex-row flex-center' bindtap='removeImg'> ✖</text>
+        </view>
+        <view class='choseimg col-4' bindtap='choseImg' wx:if='{{poster.posters.length<6}}'>
+            <view>✛</view>
+        </view>
+    </view>
+    <view class='flex-row flex-wrap flex-left' wx:if='{{type==1}}'>
+        <view class='choseimg col-4' wx:if='{{messageobj.image!=null}}'>
+            <image src='{{messageobj.image}}'></image>
+            <text class='removeimg flex-row flex-center' bindtap='removeObjImg'> ✖</text>
+        </view>
+        <view class='choseimg col-4' bindtap='choseObjImg' wx:if='{{messageobj.image==null}}'>
+            <view>✛</view>
+        </view>
+    </view>
+    <text class='info-item-row mustbe pd30 black bolder' wx:if='{{type==1}}'>选择接收标签组(不选默认为所有粉丝)</text>
+    <view class='flex-row flex-left flex-wrap pd' wx:if='{{type==1}}'>
+        <view class='label-item {{item.chosed?"chosed":""}}' wx:for='{{label_list}}' wx:key='id' data-idx='{{index}}' bindtap='onLabelChosed'>{{item.name}}</view>
+    </view>
+    
+    <view class='info-item-row flex-row bgw pd30'>
+        <view class='btn' bindtap='Save'>✔ 发布</view>
+    </view>
+</view>

@@ -1,0 +1,7 @@
+.version image{
+    width:100rpx;
+    height: 100rpx;
+}
+button{
+    width:50%;
+}

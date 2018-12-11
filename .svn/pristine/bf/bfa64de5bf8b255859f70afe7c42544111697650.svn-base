@@ -1,0 +1,29 @@
+.top{
+    background: #50d1fe;
+    height: 250rpx;
+    width:100%;
+}
+.msglist{
+    width:100%;
+    position: relative;
+    padding-top:100rpx;
+}
+.notice{
+    position:absolute;
+    top:-200rpx;
+    right:30rpx;
+    left:30rpx;
+    height: 300rpx;
+    background: #fff;
+    border:1rpx solid #eee;
+    padding: 30rpx;
+    overflow: hidden;
+}
+.notice > view{
+    height: 120rpx;
+    position: relative;
+}
+.notice .title{
+    width:480rpx;
+}
+@import "/template/msgitem/msgitem.wxss";

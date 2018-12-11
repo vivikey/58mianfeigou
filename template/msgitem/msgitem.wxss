@@ -1,0 +1,27 @@
+.msg{
+    border-radius: 5rpx;
+    background: #fff;
+    padding: 20rpx 5rpx;
+    box-sizing: border-box;
+}
+.msg .big-p{
+    overflow: hidden;
+    padding: 10rpx;
+}
+.msg .small-p{
+    width:100%;
+    height: 170rpx;
+    padding: 10rpx;
+}
+.msg .small-p image{
+    width:100%;
+    height: 170rpx;
+}
+.msg .midd-p{
+    height: 340rpx;
+    width:100%;
+}
+.msg .midd-p image{
+      height: 320rpx;
+    width:100%;  
+}

@@ -1,0 +1,76 @@
+<view class='container gray'>
+    <view class='full-width'>
+        <text class='cgray pd20'>请如实填写以下信息，通过审核后，需缴纳加盟费才能成为天使合伙人</text>
+        <view class='bgw flex-col flex-left'>
+            <view class='info-item-row'>
+                <text class='mustbe'>姓名</text>
+                <input type='text' placeholder='请输入申请人姓名' value='{{proxier.name}}' id='name' bindinput='inputBlur'></input>
+            </view>
+            <view class='info-item-row'>
+                <text class='mustbe'>手机号码</text>
+                <view class='flex-row'>
+                    <input type='text' placeholder='请输入电话号码' type='number' maxlength='11' value='{{proxier.phone}}' id='phone' bindinput='inputPhoneBlur'></input>
+                    <button class='cprimary bolder' wx:if='{{validate==true}}' disabled='{{!canGetcode}}' bindtap='validatePhone'>{{getTitle}}</button>
+                </view>
+            </view>
+            <view class='info-item-row' wx:if='{{validate==true}}'>
+                <text class='mustbe'>验证码</text>
+                <view class='flex-row'>
+                    <input type='number' placeholder='请输入验证码' bindinput='codeinput'></input>
+                    <button type='default' bindtap='bindingPhone'>验证</button>
+                </view>
+            </view>
+            <view class='info-item-row'>
+                <text class='mustbe'>性别</text>
+                <radio-group class='flex flex-left full-width bgw pd20' bindchange="changeGender">
+                    <radio class='mg-r10' color='#50d1fe' value='1' checked='{{proxier.sex==1}}'>男</radio>
+                    <radio class='mg-l10' color='#50d1fe' value='0' checked='{{proxier.sex==0}}'>女</radio>
+                </radio-group>
+            </view>
+            <view class='info-item-row'>
+                <text class='mustbe'>申请级别</text>
+                <radio-group class='flex flex-left full-width bgw pd20' bindchange="proxyLevelChange">
+                    <radio wx:for='{{proxyLevel}}' wx:key='id' class='mg-r10' color='#50d1fe' value='{{item.id}}' checked='{{item.id==proxier.grade_id}}'>{{item.gradeName}}</radio>
+                </radio-group>
+            </view>
+            <view class='info-item-row'>
+                <text class='mustbe'>代理区域</text>
+                <picker range='{{provecode}}' value='{{pcidx}}' range-key='v' bindchange="bindCodeChange">
+                    <view class="picker flex-row bolder arrow-down pdr30">
+                        {{provecode[pcidx].v}}
+                    </view>
+                </picker>
+            </view>
+            <view class='info-item-row'>
+                <text class='mustbe'>推荐码</text>
+                <input type='text' placeholder='请输入推荐人的编码' value='{{proxier.rec_cardNo}}' id='rec_cardNo' bindinput='inputBlur'></input>
+            </view>
+            <view class='info-item-row'>
+                <text class='mustbe'>自我介绍</text>
+                <textarea type='text' placeholder='请说明参加过哪些学习，有过什么业绩。' value='{{proxier.introduce}}' id='introduce' bindinput='inputBlur'></textarea>
+            </view>
+            <view class='info-item-row'>
+                <text class='mustbe'>身份证号</text>
+                <input type='text' placeholder='请输入申请人身份证号码' maxlength='18' value='{{proxier.identity}}' id='identity' bindinput='inputBlur'></input>
+            </view>
+            <view class='row flex-col'>
+                <text class='mustbe'>身份证正反两面照</text>
+                <view class='flex-row flex-wrap flex-left'>
+                    <view class='choseimg col-6' wx:for='{{proxier.idnumber_image}}' wx:key=' ' wx:if='{{proxier.idnumber_image.length>0}}'>
+                        <image src='{{item}}'></image>
+                        <text data-idx='{{index}}' class='removeimg flex-row flex-center' bindtap='removeImg'> ✖</text>
+                    </view>
+                    <view class='choseimg col-6' bindtap='choseIdNumberImg' wx:if='{{proxier.idnumber_image.length<2}}'>
+                        <view>✛</view>
+                    </view>
+                </view>
+            </view>
+            <view class='info-item-row flex-col flex-center'>
+                <text class='skr bolder'>注：重新提交将重新审核</text>
+                <view class='btn' bindtap='Save'>✔ 提交审核</view>
+            </view>
+        </view>
+    </view>
+</view>
+<import src="/template/smallmenu/smallmenu.wxml" />
+<template is="smallmenu" data="{{showsmallmenu:flase,smallmenuclosed:smallmenuclosed}}"></template>

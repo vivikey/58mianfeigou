@@ -1,0 +1,95 @@
+<view class='container gray'>
+    <view class='flex-row bgw bottomline'>
+        <!-- <view class='cgray font-lg bolder pd20'>我的总收益:</view> -->
+        <!-- <view class='flex flex-center pd20'>
+            <image src='/resource/icon/daibi.png' class='img-xs'></image>
+            <text class='pkcolor height-sm font-lg bolder'>999</text>
+        </view>
+        <view class='flex flex-center pd20'>
+            <image src='/resource/icon/jifeng-buy.png' class='img-xs'></image>
+            <text class='pkcolor height-sm font-lg bolder'>99999</text>
+        </view>
+        <view class='arrow pd20 cgray'>明细</view> -->
+    </view>
+    <view class='sq'></view>
+    <view class='contacts full-width'>
+
+        <view wx:if='{{contactList.length<=0}}'>
+            <view class='pd30'></view>
+            <view class='pd30'></view>
+            <view class='pd30'></view>
+            <view class='flex-col flex-center'>
+                <image src='/resource/icon/emp1.png' style='width:256rpx;height:256rpx;'></image>
+                <text class='font-lg cgray bolder'>赶快去发展您的人脉吧</text>
+            </view>
+            <view class='pd30'></view>
+            <view class='pd30'></view>
+            <view class='pd30'></view>
+        </view>
+
+        <view class='contact bgw pd20' wx:for='{{contactList}}' wx:key='id'>
+            <!-- 一级人脉信息 -->
+            <view class='flex-row mycontacts'>
+                <view class='flex flex-center'>
+                    <view class='pd '>
+                        <image src='{{item.user_pic}}' class='img-md radius-circle'></image>
+                    </view>
+                    <view class='infomation pd bottomline'>
+                        <view class='flex flex-left'>
+                            <text class='font-md'>{{item.username}}</text>
+                            <text class='font-xs bgdanger wtcolor tag mg-l10 radius-circle'>钢</text>
+                        </view>
+                        <view class='cgray font-sm flex'>
+                            <view class='mg-r10 flex'>
+                                <view>收益:</view>
+                                <view class='flex flex-center pd-l20'>
+                                    <text>代币</text>
+                                    <text class='cgray height-xs bolder'>{{item.daibi}}</text>
+                                </view>
+                                <view class='flex flex-center pd-l20'>
+                                    <text>积分</text>
+                                    <text class='cgray height-xs bolder'>{{item.jifeng}}</text>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view bindtap='showOrHideSec' data-idx='{{index}}'>
+                    <image src='/resource/icon/menu.png' class='img-sm'></image>
+                </view>
+
+            </view>
+            <!-- 二级人脉信息 -->
+            <view class='flex-col flex-left sec-contact' wx:if='{{item.contact}}'>
+                <view class='flex-row bottomline pd flex-left' wx:for='{{item.contact}}' wx:key='' wx:for-item='sec'>
+                    <view class='headimg pd'>
+                        <image src='{{sec.user_pic}}' class='img-md radius-circle'></image>
+                    </view>
+                    <view class='infomation pd'>
+                        <view  class='flex flex-left'>
+                            <text class='font-md'>{{sec.username}}</text>
+                            <text class='font-xs bgpk wtcolor mg-l10 tag radius-circle'>铁</text>
+                        </view>
+                        <view class='cgray font-sm flex'>
+                            <view class='mg-r10 flex font-xs pdr30'>
+                                <view>收益:</view>
+                                <view class='flex flex-center'>
+                                    <text>代币</text>
+                                    <text class='cgray height-xs bolder'>{{sec.daibi}}</text>
+                                </view>
+                                <view class='flex flex-center pdr30'>
+                                    <text>积分</text>
+                                    <text class='cgray height-xs bolder'>{{sec.jifeng}}</text>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+
+    </view>
+</view>
+
+<import src="/template/smallmenu/smallmenu.wxml" />
+<template is="smallmenu" data="{{showsmallmenu:flase,smallmenuclosed:smallmenuclosed}}"></template>

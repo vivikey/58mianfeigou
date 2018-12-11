@@ -1,0 +1,5 @@
+.list{
+    width:100%;
+}
+
+@import "/template/posteritem/posteritem.wxss";

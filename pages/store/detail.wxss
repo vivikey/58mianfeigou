@@ -1,0 +1,90 @@
+.container{
+    flex-direction: column;
+    justify-content:flex-start;
+    align-items:flex-start;
+    padding-top:20rpx;
+}
+.topbar{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content:left;
+    padding-bottom: 10rpx;
+}
+.topbar image{
+    width:128rpx;
+    height: 138rpx;
+    border-radius: 10rpx;
+}
+button{
+    margin: 0;
+    height: 54rpx;
+    width:120rpx;
+}
+.address{
+    width:500rpx;
+}
+.title{
+    text-align: center;
+    width:100%;
+}
+.item-list-title text{
+        border-bottom:1rpx solid #fff;
+}
+.item-list-title text.active{
+    color:#50d1fe;
+    border-bottom:1rpx solid #50d1fe;
+}
+
+.info{
+    background: #fff;
+    padding-bottom:20rpx;
+    width:360rpx;
+}
+.item:nth-child(2n+1){
+    padding-right:5rpx; 
+}
+.item:nth-child(2n){
+    padding-left:5rpx; 
+}
+.exchange{
+    background: red;
+    color:#fff;
+    padding:3rpx 6rpx;
+}
+.inputB{
+    width: 100%;
+    height: 160rpx;
+    background: #eee;
+    border-radius: 15rpx;
+    padding: 10rpx 20rpx;
+}
+.inputB textarea{
+    height: 140rpx;
+    line-height: 30rpx;
+    width:100%;
+}
+.notice{
+    background: #fff;
+}
+.notice image{
+    width:81rpx;
+    height: 81rpx;
+}
+swiper {
+    width:630rpx;
+    height:130rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5rpx;
+    background: #f0f0f0;
+}
+swiper text{
+    height:130rpx;
+    overflow: hidden;
+}
+@import "/template/posteritem/posteritem.wxss";
+@import "/template/commentitem/commentitem.wxss";
+@import "/template/groupbuyitem/groupbuy.wxss";
+@import "/template/tuijian/tuijianitem.wxss"

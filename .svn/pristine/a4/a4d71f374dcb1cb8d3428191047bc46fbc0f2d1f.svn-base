@@ -1,0 +1,11 @@
+<view class='gray fullscreen'>
+    <!-- 被评论的主题 -->
+    <view class='full-width bgw pd20 pdc30 font-sm bolder black'>{{title}}</view>
+    <!-- 评论的内容 -->
+    <textarea class='full-width pd20 bottomline bgw font-xs' placeholder-style='cgray' placeholder='评论对所有人可见，请注意措辞。' bindinput='comminputchanged'></textarea>
+    <!-- 发布 -->
+    <view class='bgw full-width pd30'>
+        <button class='full-width' wx:if='{{comm.length<=0}}'>发布</button>
+        <button class='full-width' type='primary' plain='{{true}}' wx:else bindtap='submitComm'>发布</button>
+    </view>
+</view>

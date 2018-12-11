@@ -1,0 +1,8 @@
+.ing{
+    color:#50d1fe;
+    border:1rpx solid #50d1fe;
+}
+.over{
+    color:#666;
+    border:1rpx solid #666; 
+}

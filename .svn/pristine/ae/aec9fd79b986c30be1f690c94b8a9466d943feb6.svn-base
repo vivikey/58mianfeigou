@@ -1,0 +1,68 @@
+<view class='container bgw'>
+    <view class='full-width flex flex-left bggray bottomline'>
+        <view class='menu col-6 flex flex-center {{activet==1?"active":""}}' data-tp='1' bindtap='changemenu'>总客户</view>
+        <view class='menu col-6 flex flex-center leftline rightline {{activet==2?"active":""}}' data-tp='2' bindtap='changemenu'>推荐方案客户</view>
+
+    </view>
+    <view class='sq'></view>
+    <!-- 总客户列表 activet==1-->
+    <view class='full-width' wx:if='{{activet==1}}'>
+        <navigator wx:for='{{customs}}' wx:key='' class='full-width flex flex-left pdc20 bottomline' url='customorders?id={{item.id}}&username={{item.username}}&store_id={{store_id}}'>
+            <view class='flex flex-center col-2 rightline'>
+                <image src='{{item.user_pic}}' class='img-lg radius-circle bdfull'></image>
+            </view>
+            <view class='col-8 '>
+                <view class='black bolder font-sm'>昵称：{{item.username}}</view>
+                <view class='cgray font-xs'>电话：{{item.phone}}</view>
+                <view class='lightgray font-xs'>最近购买：{{item.last_order_time}}</view>
+            </view>
+            <view class='col-2 arrow  font-xs cprimary pd'>
+                <view class='flex-col-auto flex-center'>
+                    <text>购买</text>
+                    <text>记录</text>
+                </view>
+            </view>
+        </navigator>
+        <import src="/template/emptyshow/emptyshow.wxml" />
+        <template is="empty" data='{{image:"/resource/icon/emp3.png",firstmsg:"没有任何客户",secmsg:""}}' wx:if='{{customs.length<=0}}'></template>
+    </view>
+    <!-- 推荐方案 activet==2-->
+    <view class='full-width pdc20' wx:if='{{activet==2}}'>
+        <view wx:for='{{schemeList}}' wx:key='id' class='full-width bgw'>
+            <view class='full-width flex-row pd20 bottomline'>
+                <view class='col-8 bolder pd font-md {{item.status==1?"black":item.status==2?"skr":"cgray"}}'>{{item.action_name}}</view>
+                <view class='col-4 flex flex-right font-xs cgray pd arrow'>
+                <navigator class='cprimary pd pdr20' url='recommendcustoms?store_id={{storeId}}&scheme_id={{item.id}}&scheme_name={{item.action_name}}&user_id=0&seclev=false'>
+                    客户列表
+                </navigator>
+                </view>
+            </view>
+            <!-- 审核通过 -->
+            <view class='pd20 full-width' wx:if='{{item.status==1}}'>
+                <view class='font-xs cgray'>
+                    <view>活动于
+                        <text class='cprimary bolder'>{{item.end_time}}</text> 结束</view>
+                    <view>包含
+                        <text class='cprimary bolder'>{{item.bd_shopids.length}}</text> 产品</view>
+                </view>
+            </view>
+            <!-- 审核未通过 -->
+            <view class='pd20 full-width flex-row' wx:if='{{item.status==2}}' style='border:1px solid red;'>
+                <view class='font-sm'>
+                    <view class='skr bolder'>未通过审核</view>
+                    <view class='cprimary font-xs bolder'>{{item.check_reason}}</view>
+                </view>
+            </view>
+            <!-- 等待审核 -->
+            <view class='pd20 full-width flex-row' wx:if='{{item.status==0}}'>
+                <view class='font-sm'>
+                    <view class='cprimary bolder'>等待审核中...</view>
+                </view>
+            </view>
+            <view class='sq'></view>
+        </view>
+        <template is="empty" data='{{image:"/resource/icon/emp3.png",firstmsg:"没有任何方案！",secmsg:"",times:[3]}}' wx:if='{{schemeList.length<=0}}'></template>
+    </view>
+    <import src="/template/smallmenu/smallmenu.wxml" />
+    <template is="smallmenu" data="{{showsmallmenu:flase,smallmenuclosed:smallmenuclosed}}"></template>
+</view>

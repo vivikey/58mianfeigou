@@ -1,0 +1,9 @@
+<template name='empty'>
+    <view class='pd30' wx:for='{{times}}' wx:key=''></view>
+    <view class='flex-col flex-center'>
+        <image src='{{image}}' style='width:220rpx;height:220rpx;'></image>
+        <text class='font-lg cgray bolder'>{{firstmsg}}</text>
+        <text class='font-sm cgray pd'>{{secmsg}}</text>
+    </view>
+    <view class='pd30' wx:for='{{times}}' wx:key=''></view>
+</template>

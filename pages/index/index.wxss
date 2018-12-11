@@ -1,0 +1,12 @@
+.container view{
+  padding: 30rpx;
+  margin-top: 100rpx;
+}
+.container button{
+  margin-bottom: 100rpx;
+}
+.gopay{
+    width:50%;
+    margin: 50rpx 0;
+    font-size:18px;
+}

@@ -1,0 +1,48 @@
+<view class='page-head flex-row btn-color-gray'>
+    <view class='col-12 flex flex-left flex-around font-sm short bggray mg-b10'>
+        <view class='col-6 txtcenter bkl {{type==5?"active":""}}' data-id='5' data-ts='5' bindtap='getSort'>免费赠品</view>
+        <view class='col-6 txtcenter bkl {{type==6?"active":""}}' data-id='6' data-ts='6' bindtap='getSort'>推荐赠品</view>
+    </view>
+</view>
+<view class='container gray flex-col flex-left pdc30'>
+    <view class='list flex-col font-sm'>
+        <view class='item pdr bgw' wx:for='{{myCoupons}}' wx:key=''>
+            <!-- 商铺信息 -->
+            <view class='flex-row font-sm rel bottomline'>
+                <navigator class='pd20 flex' url='/pages/store/detail?id={{item.store_id}}'>
+                    <image src='/resource/icon/store-pk.svg' class='img-sm'></image>
+                    <view class='arrow black'>{{item.store_name}}</view>
+                </navigator>
+                <view class='pd20 black bolder' wx:if='{{item.state==1}}'>待消费</view>
+                <image src='/resource/icon/yxf.png' class='yxf' wx:if='{{item.state==2}}'></image>
+                <image src='/resource/icon/ygq.png' class='yxf' wx:if='{{item.state==3}}'></image>
+            </view>
+            <view class='full-width pd20 flex flex-left font-sm bottomline bglightgray'>
+                <view class='img-lg flex-col-auto flex-center font-xs bdlinearskr wtcolor'>
+                    <text>{{item.type==5?"免费":"推荐"}}</text>
+                    <text>赠品</text>
+                </view>
+                <view class='info pd'>
+                    <view class='black font-sm'>{{item.title}} <text class='font-sm bolder skr'>x{{item.num}}</text><text class='font-xs cprimary' wx:if='{{item.state==1&&item.use_num>0}}'>(已消费x{{item.use_num}})</text></view>
+                    <view class='font-xs cgray'>有效期：{{item.start_time}}~{{item.end_time}}</view>
+                </view>
+            </view>
+            <view class='pd20 flex-row cgray'>
+                <view class='cprimary bolder font-xs'>来自：{{item.type==5?"免费赠品":"推荐赠品"}}</view>
+                <view class='flex flex-right'>
+                    <view data-id='{{item.coupon_id}}' catchtap='removeGift' class='opt pd pdr20 radius-s bglightgray' wx:if='{{item.state==3 ||  (item.state==2 && item.evaluation_state==1)}}'>删除</view>
+                    <view data-idx='{{index}}' bindtap='toDetail' class='opt pd pdr20 radius-s bgpk wtcolor' wx:if='{{item.state==1}}'>去消费</view>
+                    <view data-id='{{item.coupon_id}}' data-idx='{{index}}' class='opt pd pdr20 radius-s bdlinearskr wtcolor' wx:if='{{item.state==2 && item.evaluation_state==0}}' catchtap='toPinJia'>去评价</view>
+                </view>
+            </view>
+        </view>
+
+        <view class='flex-col flex-center radius-m pd30 emp' wx:if='{{myCoupons.length<=0}}'>
+            <image src='/resource/icon/emp2.png'></image>
+            <view class='cgray font-sm pd30 flex flex-center'>您还没有赠品券哦
+            </view>
+        </view>
+    </view>
+</view>
+<import src="/template/smallmenu/smallmenu.wxml" />
+<template is="smallmenu" data="{{showsmallmenu:false,smallmenuclosed:smallmenuclosed}}"></template>

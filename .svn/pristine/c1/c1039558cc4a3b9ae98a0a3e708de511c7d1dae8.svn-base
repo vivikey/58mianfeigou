@@ -1,0 +1,33 @@
+<template name='storeitem'>
+    <view class='storeitem flex-col'>
+        <view class='flex-row bottomline pd'>
+            <navigator url='/pages/store/detail?id={{id}}' class='flex flex-left col-10'>
+                <view>
+                    <image src='{{logo}}' mode='aspectFill' class='img-lg radius-s bdfull'></image>
+                </view>
+                <view class='title font-sm bolder black txtpt pdr30 flex-col'>{{title}}
+                    <text class='font-xs cgray'>{{distance}}km</text>
+                </view>
+            </navigator>
+            <view wx:if='{{is_attention===1}}' class='gzhu radius-s attention' data-idx='{{idx}}'>已关注</view>
+            <view wx:else class='gzhu radius-s' data-idx='{{idx}}' catchtap='addAttention'>✚关注</view>
+        </view>
+        <view class='flex-row pd'>
+        </view>
+        <view class='maininfo flex-col font-sm cgray'>
+            <view class='distance flex flex-left pd'>
+                <view>
+                    <image src='/resource/icon/weizhi.svg' class='img-sm'></image>
+                </view>
+                <text class='pdr20'>{{rel_address}}</text>
+            </view>
+            <view class='flex-row pd'>
+                <view class='distance flex flex-left'>
+                    <image src='/resource/icon/business_time.svg' class='img-sm'></image>
+                    <text class='pdr20'>{{business_start_time}}-{{business_end_time}}</text>
+                </view>
+                <navigator url='/pages/store/detail?id={{id}}' class='font-sm arrow flex flex-right cprimary bolder'>进入商铺</navigator>
+            </view>
+        </view>
+    </view>
+</template>

@@ -1,0 +1,32 @@
+<view class='container gray'>
+    <view class='bgw pd30 full-width flex-col'>
+        <view class='item-list-title'>{{store.title}} 客服电话</view>
+        <view class='skr font-underline pd20' bindtap='callPhone' data-tel='{{store.rel_mobile}}'>{{store.rel_mobile}}</view>
+        <view class='cgray font-xs pd20'>请在营业期间：{{store.business_start_time}}-{{store.business_end_time}} 电话联系</view>
+    </view>
+    <view class='sq'></view>
+    <!-- <view class='bgw pd30 full-width flex-col'>
+        <view class='item-list-title'>给客服留言</view>
+        <view class='pdc30 full-width'>
+            <textarea placeholder=' 请输入留言内容' class='bdfull full-width' bindinput='onInputChange' maxlength='200' value='{{comment}}'></textarea>
+            <text>{{comment.length}}/200</text>
+        </view>
+        <view class='pd20 font-sm bgpk wtcolor flex-row flex-center' bindtap='sendComment'>提交</view>
+    </view>
+    <view class='sq'></view>
+    <view class='bgw pd30 full-width flex-col font-sm'>
+        <view class='item-list-title'>我的留言</view>
+        <view class='pdc30 full-width'>
+            <view wx:for='{{message_list}}' wx:key='id' class='bottomline mg-b10'>
+                <text>{{item.addtime}}</text>
+                <view class='pd20 bglightgray cgray'>
+                    <view class='pd'>{{item.content}}</view>
+                    <view wx:if='{{item.reply}}' class='pd pdr30 cprimary topline'>
+                        <view>客服回复：</view>
+                        <view>{{item.reply[0].reply_content}}</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view> -->
+</view>

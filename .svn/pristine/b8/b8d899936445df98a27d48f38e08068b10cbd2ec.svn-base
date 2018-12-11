@@ -1,0 +1,35 @@
+<template name="smallmenu">
+    <!-- footer -->
+    <view class='footer flex-row flex-center cgray font-xs pd20 topline'>
+        <text>Copyright © Since 2018 </text>
+        <text class='skr mg-l10 mg-r10 font-underline pd'> 58daiyan.com </text>
+        <text> Version 1.8.9.7Beta </text>
+    </view>
+    <view class='smallmenu flex flex-wrap {{smallmenuclosed?"closed":""}}' wx:if='{{showsmallmenu}}'>
+        <view bindtap='openCloseSmallMenu' data-val="{{smallmenuclosed}}" class='{{smallmenuclosed?"":"rightline"}}'>
+            <view class='menuicon flex flex-center'>
+                <view class='menuicon2 flex flex-center'>
+                    <view class='{{smallmenuclosed?"closedarrow":"openedarrow"}}'>
+                    </view>
+                </view>
+            </view>
+            <text></text>
+        </view>
+        <navigator url='/pages/game/index' open-type='reLaunch'>
+            <image src='/resource/icon/game2.png' class='img-md'></image>
+            <text>赚积分</text>
+        </navigator>
+        <navigator url='/pages/shop/index' open-type='switchTab'>
+            <image src='/resource/icon/shop2.png' class='img-md'></image>
+            <text>免费赠品</text>
+        </navigator>
+        <navigator url='/pages/usercenter/index' open-type='switchTab'>
+            <image src='/resource/icon/user2.png' class='img-md'></image>
+            <text>个人中心</text>
+        </navigator>
+        <navigator url='/pages/credits/index' open-type='switchTab'>
+            <image src='/resource/icon/qiandao2.png' class='img-md'></image>
+            <text>每日签到</text>
+        </navigator>
+    </view>
+</template>

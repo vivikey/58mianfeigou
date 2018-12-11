@@ -1,0 +1,43 @@
+.credits{
+    background: repeating-linear-gradient(#50d1fe,#fff);
+    border-radius: 10rpx;
+}
+.userImg{
+    border-radius: 50%;
+    border:0rpx solid #ccc;
+}
+
+.qiandao{
+    padding: 20rpx 30rpx;
+    margin: 30rpx;
+    border-radius: 30rpx;
+    width:50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size:16px;
+}
+.add-credits{
+    text-decoration: underline;
+}
+.down{
+    width:36rpx;
+    height: 36rpx;
+}
+.picker{
+    color:#515151;
+}
+.credits-list{
+    background: #fff;
+    width:100%;
+}
+.container{
+    padding-bottom: 6rpx;
+}
+.credits-item{
+    padding: 10rpx 30rpx;
+}
+.credits-item .icon image{
+    width:56rpx;
+    height: 56rpx;
+}

@@ -1,0 +1,20 @@
+<view class='container gray'>
+    <view class='black font-sm pd20 bottomline full-width'>
+        <text class='skr bolder'>{{username}}</text> 的购买记录</view>
+    <view wx:for='{{orderList}}' wx:key='' class='full-width  bottomline bgw pdc20'>
+        <view class='full-width pdr20'>
+            <text class='cprimary font-sm'>{{item.shop_list[0].goods_name}}</text>
+            <text class='skr pdr font-xs bolder'>{{item.shop_list[0].goods_num}}份</text>
+        </view>
+        <view class='flex-row font-xs pdr20'>
+            <view class='cgray'>{{item.payment_time}}</view>
+            <view wx:if='{{item.tuanselect==0&&item.order_type==3}}' class='bglightgray black pdr'>免费赠品</view>
+            <view wx:if='{{item.tuanselect==1}}' class='bglightgray black pdr'>同城拼团</view>
+            <view wx:if='{{item.tuanselect==0&&item.order_type==0}}' class='bglightgray black pdr'>有奖推荐</view>
+        </view>
+    </view>
+    <import src="/template/emptyshow/emptyshow.wxml" />
+    <template is="empty" data='{{image:"/resource/icon/emp3.png",firstmsg:"没有任何记录",secmsg:""}}' wx:if='{{orderList.length<=0}}'></template>
+    <import src="/template/smallmenu/smallmenu.wxml" />
+    <template is="smallmenu" data="{{showsmallmenu:flase,smallmenuclosed:smallmenuclosed}}"></template>
+</view>

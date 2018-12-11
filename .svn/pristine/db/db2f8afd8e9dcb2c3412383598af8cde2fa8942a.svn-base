@@ -1,0 +1,5 @@
+<template name='totop'>
+<view class='toTop flex flex-center pd' bindtap='toTop' wx:if='{{showToTop}}'>
+    <image src='/resource/icon/top02.png' class='img-md'></image>
+</view>
+</template>

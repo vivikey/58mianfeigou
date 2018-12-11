@@ -1,0 +1,36 @@
+<import src="/template/smallmenu/smallmenu.wxml" />
+<view class='container'>
+    <view class='flex-row search bottomline'>
+        <input type='text' class='searchbox pd' placeholder='请输入赠品名称' value='{{KW}}' bindfocus='inputFocus' bindinput='inputBlur'></input>
+        <image src='/resource/icon/search.png' class='searchimg' bindtap='beginSearching'></image>
+    </view>
+    <view class='history mg-t30 pdr30' wx:if="{{!beginsearch}}">
+        <view class='flex-row bottomline'>
+            <text>历史搜索</text>
+            <text class='font-sm skr' bindtap='clearHistory'>清除</text>
+        </view>
+        <view class='history-list flex flex-wrap mg-t30'>
+            <text class='search-item font-md' wx:for='{{history}}' bindtap='choseitem' wx:key='item' data-context='{{item}}'>{{item}}</text>
+        </view>
+    </view>
+    <view class='products flex flex-wrap btn-color-gray' wx:if="{{beginsearch}}">
+        <view class='col-12 flex-row font-sm short bggray'>
+            <view class='col-3 txtcenter bkl {{sortType==1?"active":""}}' data-id='1' bindtap='getSort'>智能排序</view>
+            <view class='col-3 txtcenter bkl {{sortType==2?"active":""}}' data-id='2' bindtap='getSort'>距离最近</view>
+            <view class='col-3 txtcenter bkl {{sortType==3?"active":""}}' data-id='3' bindtap='getSort'>销量最高</view>
+            <view class='col-3 txtcenter {{sortType==4?"active":""}}' data-id='4' bindtap='getSort'>最新入驻</view>
+        </view>
+        <view style='height:10rpx;width:100%;'></view>
+        <view class='full-width' wx:if='{{fromtuan}}'>
+            <import src="/template/groupbuyitem/groupbuy.wxml" />
+            <template is='groupbuy' wx:for='{{shop_list}}' wx:key='' data='{{item}}'></template>
+        </view>
+        <view class='full-width' wx:else>
+            <import src="/template/giftitem/giftitem.wxml" />
+            <template wx:for='{{shop_list}}' wx:key='id' data="{{...item}}" is="gift"></template>
+        </view>
+        <import src="/template/emptyshow/emptyshow.wxml" />
+        <template is="empty" data='{{image:"/resource/icon/emp3.png",firstmsg:"哦~没有找到！",secmsg:"换个别的试试？",times:[1,2,3]}}' wx:if='{{shop_list.length<=0}}'></template>
+    </view>
+</view>
+<template is="smallmenu" data="{{showsmallmenu:false,smallmenuclosed:smallmenuclosed}}"></template>

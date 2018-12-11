@@ -1,0 +1,54 @@
+<template name='posteritem'>
+    <view class='posteritem box flex-col bottomline'>
+        <view class='head flex flex-left'>
+            <view class='img-lg flex flex-center'>
+                <image src='{{store_logo}}' wx:if='{{!selfPage}}'></image>
+            </view>
+            <view class='flex-col mg-l10 title'>
+                <navigator url='/pages/store/detail?id={{store_id}}' wx:if='{{!selfPage}}' class='font-md cprimary'>{{store_name}}</navigator>
+                <view class='btn-color-gray font-xs'>
+                    <text>{{addtime}}</text>
+                </view>
+            </view>
+            <view class=''>
+                <view class='location flex flex-center' wx:if='{{!selfPage}}'>
+                    <view class='img-xs'>
+                        <image src='/resource/icon/weizhi.svg' class='img-xs'></image>
+                    </view>
+                    <view class='cgray font-xs'>{{distance}}km </view>
+                </view>
+                <view wx:if='{{is_attention===1 && !selfPage}}' class='gzhu attention radius-s' data-idx='{{idx}}'>已关注</view>
+                <view wx:if='{{is_attention===0 && !selfPage}}' class='gzhu radius-s' data-idx='{{idx}}' catchtap='addAttention'>✚关注</view>
+            </view>
+        </view>
+        <navigator url='/pages/poster/detail?id={{id}}'>
+            <view class='content pd'>
+                <view class='font-lg black bolder font-underline'>{{title}}</view>
+            </view>
+            <view class='content pd black font-md'>
+                <text class='txtclamp txtclamp-3'>{{content}}</text>
+            </view>
+        </navigator>
+        <view class='imglist flex-row flex-left flex-wrap pd' wx:if='{{posters.length!=5}}'>
+            <image mode='aspectFill' wx:for='{{posters}}' wx:key='' src='{{item}}' class='{{posters.length==2 || posters.length==4 ?"col-5":posters.length==3 || posters.length==6 ?"col-4":""}}' bindtap='showBigImg' data-src='{{item}}' data-idx='{{idx}}' data-index='{{index}}'></image>
+        </view>
+        <view class='imglist flex-row flex-left flex-wrap pd' wx:if='{{posters.length==5}}'>
+            <image mode='aspectFill' wx:for='{{posters}}' wx:key='' src='{{item}}' class='{{index<2?"col-6":"col-4"}}' bindtap='showBigImg' data-src='{{item}}' data-idx='{{idx}}' data-index='{{index}}'></image>
+        </view>
+        <view class='footer flex flex-left flex-around font-sm pdc20 topline'>
+            <view class='flex flex-left' bindtap='toComment' data-id='{{id}}'>
+                <image src='/resource/icon/link.svg'></image>
+                <view class='font-xs cprimary'>查看详情</view>
+            </view>
+            <view class='flex flex-center' bindtap='toComment' data-id='{{id}}'>
+                <image src='/resource/icon/comm.svg'></image>
+                <view class='cgray pdr'>{{!comment_count?0:comment_count}}</view>
+            </view>
+            <view class='flex flex-center'>
+                <image src='/resource/icon/like.svg' wx:if='{{is_like!=1}}' bindtap='doLike' data-idx='{{idx}}' data-id='{{id}}'></image>
+                <image src='/resource/icon/yz.svg' wx:if='{{is_like==1}}' bindtap='donotLike' data-idx='{{idx}}' data-id='{{id}}'></image>
+                <view class='cgray pdr'>{{!like_count?0:like_count}}</view>
+            </view>
+        </view>
+    </view>
+</template>

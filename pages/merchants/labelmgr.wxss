@@ -1,0 +1,12 @@
+.inputbox input{
+    height: 64rpx;
+    width:80%;
+    border:1rpx solid #ccc;text-align: center;
+}
+.inputbox view{
+    height: 64rpx;
+    width:20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

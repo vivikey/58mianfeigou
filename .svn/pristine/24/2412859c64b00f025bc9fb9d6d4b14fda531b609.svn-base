@@ -1,0 +1,199 @@
+<import src="/template/totop/totop.wxml" />
+<template is="totop" data="{{showToTop}}"></template>
+<view class='container bgw'>
+    <!-- Swiper -->
+    <view class='swiper full-width'>
+        <swiper autoplay="{{false}}" circular="{{false}}" interval="{{3000}}" duration="{{500}}" class='img-box' bindchange='swiperChange'>
+            <swiper-item>
+                <view class='bglightgray cgray flex flex-center img-box'>
+                    <image src='{{shopMode.image}}'></image>
+                </view>
+            </swiper-item>
+            <swiper-item wx:for='{{goods.gallery}}' wx:key=''>
+                <view class='bglightgray cgray flex flex-center img-box'>
+                    <image src='{{item}}'></image>
+                </view>
+            </swiper-item>
+        </swiper>
+        <view class='dots flex-row flex-center'>
+            <view wx:for='{{goods.gallery}}' wx:key='' class='dot-box'>
+                <view class='dot bgw-opacity {{index==sc?"active":""}}'></view>
+            </view>
+            <view class='dot-box'>
+                <view class='dot bgw-opacity {{goods.gallery.length==sc?"active":""}}'></view>
+            </view>
+        </view>
+    </view>
+    <!-- 基本信息 -->
+    <view class='bgw full-width flex-col pdr20'>
+        <view class='black bolder font-md txtclamp txtclamp-2 pdc20'>{{goods.title}}
+            <text class='skr'>{{shopMode.shop_sku[shopMode.chosedIdx].sku_spec}}</text>
+        </view>
+        <view class='flex-row'>
+            <text class='bgpk wtcolor font-xs bolder pdr radius-l'>{{goods.recommend_action.action_name}}</text>
+        </view>
+        <view class='full-width flex-row pdc'>
+            <view class='item-title half'>
+                <text class='skr font-sm'>￥</text>
+                <text class='font-lgp skr bolder'>{{shopMode.shop_sku[shopMode.chosedIdx].sku_price}}</text>
+            </view>
+
+            <view class='item-title three flex flex-right'>
+                <text>{{goods.distance}}km</text>
+            </view>
+        </view>
+        <view class='full-width flex-row pdc20' wx:if='{{goods.recommend_action.award_type==2&&goods.recommend_action.award_ratio>0 || goods.recommend_action.award_type==1&&goods.recommend_action.award_money>0}}'>
+            <view class='item-title jiang-i three flex flex-left'>
+                <text class='pkcolor jiang flex flex-center'>奖</text>
+                <text class='font-md bolder black pdr' wx:if='{{goods.recommend_action.award_type==2&&goods.recommend_action.award_ratio>0}}'> {{goods.recommend_action.award_ratio}}%</text>
+                <text class='font-md bolder black pdr' wx:if='{{goods.recommend_action.award_type==1&&goods.recommend_action.award_money>0}}'> {{goods.recommend_action.award_money}}</text>
+            </view>
+        </view>
+        <view class='cgray font-xs pdc'>兑现有效期：
+            <text class='bolder'>{{goods.start}}</text> ~
+            <text class='bolder'>{{goods.end}}</text>
+        </view>
+    </view>
+    <view class='sq'></view>
+    <view class='bgw full-width flex-row pd20'>
+        <view class='black font-sm bolder'>活动说明</view>
+        <view wx:if='{{goods.recommend_action.xg_type>0}}' class='skr bolder font-xs'>** 本活动产品每人最多累计购买{{goods.recommend_action.xg_type}}份 **</view>
+    </view>
+    <view class='bgw full-width pd pd30 font-sm cgray topline'>
+        <view>◆ 参与活动的资格：
+            <text class='skr' wx:if='{{goods.recommend_action.suit_type==0}}'>所有人</text>
+            <text class='skr' wx:if='{{goods.recommend_action.suit_type==2}}'>购买本产品</text>
+        </view>
+        <view>◆ 活动参与有效期：
+            <text class='skr'>{{goods.recommend_action.start_time}} ~ {{goods.recommend_action.end_time}}</text>
+        </view>
+        <view>◆ 需要推荐的人数：
+            <text class='skr'>{{goods.recommend_action.propositus_num}}人</text>
+        </view>
+        <view wx:if='{{goods.recommend_action.propositus_consume_type==1}}'>◆ 被推荐人充值额：
+            <text class='skr'>￥{{goods.recommend_action.propositus_consume_money}}</text>
+        </view>
+        <view wx:if='{{goods.recommend_action.propositus_consume_type!=1}}'>◆ 推荐成功的条件：
+            <text class='skr'>被推荐人购买一份本产品</text>
+        </view>
+        <view wx:if='{{goods.recommend_action.award_type==2&&goods.recommend_action.award_ratio>0}}'>◆ 活动达标的奖励：
+            <text class='skr'>本产品价格{{goods.recommend_action.award_ratio}}%</text>
+        </view>
+        <view wx:if='{{goods.recommend_action.award_type==1&&goods.recommend_action.award_money>0}}'>◆ 活动达标的奖励：
+            <text class='skr'>余额￥{{goods.recommend_action.award_money}}</text>
+        </view>
+        <view class='flex flex-left' wx:if='{{goods.gifts && goods.gifts.length>0}}'>
+            <view>
+                ◆ 活动达标的赠品：
+            </view>
+            <view class='font-xs'>
+                <view wx:for='{{goods.gifts}}' wx:key='index' class='flex flex-left pdc'>
+                    <view>{{index+1}}.</view>
+                    <navigator class='cprimary bolder' url='/pages/shop/details?id={{item.gift_id}}&type=2'>{{item.title}}</navigator>
+                    <view class='skr bolder  flex flex-center radius-s'>({{item.gift_num}}份)</view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <!-- 玩法规则 -->
+    <view class='sq'></view>
+    <view class='bgw full-width flex-row pd20'>
+        <view class='black font-sm bolder'>活动玩法</view>
+        <view class='font-xs cgray'></view>
+    </view>
+    <view class='bgw full-width  pd pd30 topline font-sm cgray'>
+        <view>➊ 根据活动要求，获得参与活动的资格。</view>
+        <view>➋ 推荐参加活动的产品分享给微信好友或者好友群。</view>
+        <view>➌ 等到所推荐成功的人数达到要求人数后即可以获得奖励或者赠品。</view>
+    </view>
+    <!-- 商铺信息 -->
+    <view class='sq'></view>
+    <view class='infomation pd black full-width font-sm'>
+        <view class='bottomline  pd20 bolder black'>商铺信息</view>
+        <view class='flex-row pd pdr20'>
+            <view class='flex flex-left'>
+                <image src='{{store.logo}}' class='img-sm'></image>
+                <text class='pd20 font-sm cprimary bolder'>{{store.title}}</text>
+            </view>
+            <view class='flex flex-right '>
+                <image src='/resource/icon/weizhi.svg' class='img-xs mg'></image>
+                <text class=''>{{goods.distance}}km</text>
+            </view>
+        </view>
+        <view class='flex-row pd20 flex flex-around'>
+            <view class='stn {{store.is_attention==0?"black":"cgray"}}' bindtap='attention'>
+                <image src='{{store.is_attention==0?"/resource/icon/gz-1.svg":"/resource/icon/gz-2.svg"}}' class='img-sm pdc20'></image>
+                <text class='pdr'>{{store.is_attention==0?" 关注商铺":" 已关注商铺"}}</text>
+            </view>
+            <navigator url='/pages/store/detail?id={{store.store_id}}' class='stn pdc20'>
+                <image src='/resource/icon/nearby.png' class='img-sm'></image>
+                <text class='pdr'>进入商铺</text>
+            </navigator>
+        </view>
+    </view>
+    <!-- 最近评价 -->
+    <view class='sq'></view>
+    <view class='infomation btn-color-normal full-width'>
+        <view bindtap='goAllEva' class='bottomline font-sm pd20  bolder {{commentList.length>0?"arrow":""}}'>最近评价</view>
+        <import src="/template/commentitem/commentitem.wxml" />
+        <template is="commentitem" wx:for='{{commentList}}' wx:key='id' data="{{...item,index:index,evaluate:true}}" bindtap='goAllEva'></template>
+    </view>
+    <view class='pd20 flex flex-center full-width' wx:if='{{commentList.length>0}}'>
+        <view class='font-xs black pd pdr20 radius-l bd-gray' bindtap='goAllEva'>查看全部评价</view>
+    </view>
+    <!-- 详情说明 -->
+    <view class='sq'></view>
+    <view class='infomation btn-color-normal full-width'>
+        <view bindtap='goAllEva' class='bottomline font-sm pd20  bolder'>图文详情</view>
+        <view class='img-list'>
+            <image class='img-item' wx:for='{{goods.content}}' wx:key='' src='{{item}}' mode='widthFix'></image>
+        </view>
+
+    </view>
+    <!-- 推荐有奖list -->
+    <view class='sq'></view>
+    <view class='bottomline full-width font-sm pd20 flex flex-center bolder'>
+        <text class='col-4 bottomline'></text>
+        <text>相关产品</text>
+        <text class='col-4 bottomline'></text>
+    </view>
+    <view class='giftlist products flex flex-wrap'>
+        <import src='/template/tuijian/tuijianitem.wxml' />
+        <template is='tuijianitem' wx:for='{{groupbuyList}}' wx:key='id' data="{{...item}}"></template>
+        <view wx:if='{{groupbuyList.length<=0}}' class='flex-col flex-center pdc30 '>
+            <image src='/resource/icon/emp1.png' style='width:220rpx;height:220rpx;'></image>
+            <text class='cgray font-lg pdc30'>敬请期待</text>
+        </view>
+    </view>
+</view>
+
+<!-- 开团菜单 -->
+<view class='flex flex-right topline fix-b groupmenu '>
+    <navigator class='col-2 flex-col-auto flex-center' plain='{{true}}' url='index' open-type='switchTab'>
+        <image src='/resource/icon/tuijian2.png' class='shareimg'></image>
+        <text class='pkcolor font-xs'>推荐首页</text>
+    </navigator>
+    <view class='col-5 flex flex-center bgpk'>
+        <button plain='{{true}}' bindtap='openShareWnd' class='flex-col-auto flex-center flex-around cannotbuy' wx:if='{{qualification==1}}'>
+            <image src='/resource/icon/ic_share3.png' class='shareimg'></image>
+            <text class='wtcolor font-xs'>推荐有奖</text>
+        </button>
+        <button plain='{{true}}' type='default' class='flex-col-auto flex-center flex-around cannotbuy' wx:else>
+            <image src='/resource/icon/ic_share3.png' class='shareimg'></image>
+            <text class='clightgray font-xs'>参与资格不满足</text>
+        </button>
+    </view>
+    <view class='col-5 wtcolor flex-col-auto flex-center flex-around buy' bindtap='grouporder'>
+        <text class='font-sm flex flex-center shareimg bolder'>￥{{shopMode.shop_sku[shopMode.chosedIdx].sku_price*shopMode.count}}</text>
+        <text class='bolder flex flex-center pd font-xs'>立即购买</text>
+    </view>
+</view>
+<!-- 分享窗口 -->
+<import src="/template/sharebox/sharebox.wxml" />
+<template is="sharebox" data="{{showShareWnd:showShareWnd}}"></template>
+
+<import src="/template/chosegoodsmode/chosemode.wxml" />
+<template is="goodsmodes" data="{{...shopMode}}"></template>
+
+<import src="/template/smallmenu/smallmenu.wxml" />
+<template is="smallmenu" data="{{showsmallmenu:false,smallmenuclosed:smallmenuclosed}}"></template>

@@ -1,0 +1,57 @@
+<view class='container gray pd30'>
+    <view class='bgw bdfull radius-s pd20 full-width'>
+        <navigator class='bottomline flex-row pdc30 cgray font-sm' url='/pages/store/detail?id={{gift.store_id}}'>
+            <text>{{gift.store_name}}</text>
+            <text class='arrow'></text>
+        </navigator>
+        <view class='font-xs pd'>
+            <view class='pdc30 font-md bolder'>{{gift.title}}</view>
+            <view class='mg-b10 skr'>有效期：{{gift.start_time}}~{{gift.end_time}}</view>
+            <view class='cgray' wx:if='{{gift.type==5}}'>兑换积分：{{gift.integral}}</view>
+            <view class='flex-row bottomline pdc'>
+                <text class='bglightgray black bolder pdr'>总数量：{{gift.num}}</text>
+                <text class='bglightgray skr bolder pdr'>已消费：{{gift.use_num}}</text>
+                <text class='bglightgray cgreen bolder pdr'>可消费：{{gift.can_chosed}}</text>
+            </view>
+            <view class='flex-col flex-center'>
+                <view class='pd30 flex flex-center qrview'>
+                    <canvas canvas-id='qrcode' class='qrcode' wx:if='{{gift.coupon_state==1}}'></canvas>
+                    <canvas canvas-id='qrcode2' class='qrcode yxf' wx:if='{{gift.state==2}}'></canvas>
+                </view>
+                <view class='flex-row'>
+                    <view class='pd30 black bolder bglightgray flex flex-center font-sm'>
+                        <text wx:if='{{gift.state==1}}'>商家扫码消费</text>
+                        <text wx:if='{{gift.state==2}}'>{{gift.use_time}}完成消费</text>
+                        <text wx:if='{{gift.state==3}}'>已过期失效</text>
+                    </view>
+                        <view class='flex-col-auto flex-center bgw pd pdr20'>
+                            <view>选择数量</view>
+                            <view class='flex bdfull bgw'>
+                                <view class='pd pdr20 {{gift.waitnum>1?"":"cgray"}}' bindtap='subcount'>━</view>
+                                <view class='pd pdr20 leftline rightline black bolder'>{{waitnum}}</view>
+                                <view class='pd pdr20 {{gift.waitnum<gift.can_chosed?"":"cgray"}}' bindtap='addcount'>✚</view>
+                            </view>
+                        </view>
+                </view>
+            </view>
+        </view>
+        <view wx:if='{{gift.state==2}}' class='topline bolder flex-row flex-center pdc30 black font-sm'>
+            <button type='primary' wx:if='{{gift.evaluation_state==0}}' catchtap='toPinJia'>写评价</button>
+            <button type='warn' wx:if='{{gift.evaluation_state==1}}' catchtap='removeGift'>删除</button>
+        </view>
+    </view>
+</view>
+<view class='pd30 flex bgw font-xs cgray'>
+    <view class='col-10 flex-col'>
+        <view class='black font-sm'>{{gift.store_name}}</view>
+        <text class='txtpt' style='width:600rpx;'>{{gift.store_address}}</text>
+    </view>
+    <view class='flex-col flex-center col-2 leftline' bindtap='openMap'>
+        <view class='img-xs'>
+            <image src='/resource/icon/position.png' class='img-xs'></image>
+        </view>
+        <view>地图</view>
+    </view>
+</view>
+<import src="/template/smallmenu/smallmenu.wxml" />
+<template is="smallmenu" data="{{showsmallmenu:flase,smallmenuclosed:smallmenuclosed}}"></template>

@@ -1,0 +1,13 @@
+<view class="container fullscreen">
+    <text class='mg-b10'></text>
+    <text class='mg-b10'></text>
+    <view class='flex-col flex-center'>
+        <image src='/resource/icon/logo.png' class='userImg lg'></image>
+    </view>
+    <view class='flex flex-center pd30 font-xs'>您正在使用：<text class='bolder skr'>{{networkType}}</text></view>
+    <button class='mg-b10 pkcolor pd' bindtap='payAnnualFee' plain='{{true}}' hover-class='button-hover' type="warn" wx:if='{{showButton}}'>立即支付</button>
+    <text class='mg-b10'></text>
+    <import src="/template/version/version.wxml" />
+    <template is="version" data="{{version}}"></template>
+    <text class='mg-b10'></text>
+</view>

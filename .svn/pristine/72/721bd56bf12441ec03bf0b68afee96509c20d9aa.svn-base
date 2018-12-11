@@ -1,0 +1,46 @@
+.share_box{
+    position: fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    height: 100%;
+    z-index: 10000;
+}
+.share_box.hide{
+    height: 0%;
+}
+.share_box .share_bg{
+    position: relative;
+    width:100%;
+    height: 100%;
+    background: rgba(0,0,0,.8);
+    opacity: 0.8;
+    transition: all .8s linear;
+}
+.share_box .share_bg.hide{
+    opacity: 0.0;
+}
+.share_box .input_box{
+    position: absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    background: #f0f0f0;
+    height: auto;
+    z-index: 10100;
+    transition: all .3s linear;
+    overflow: hidden;
+}
+.share_box .input_box.hide{
+        height: 0rpx;
+}
+.opt image{
+    width:81rpx;
+    height: 81rpx;
+}
+.share_box button[type=default],.share_box button[type=default][plain] {
+    color:#222;
+    font-weight: normal;
+    background: transparent;
+    height: 100%;
+}

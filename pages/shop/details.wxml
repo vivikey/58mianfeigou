@@ -1,0 +1,146 @@
+<import src="/template/smallmenu/smallmenu.wxml" />
+<import src="/template/commentitem/commentitem.wxml" />
+<view class='details flex-col font-xs cgray'>
+    <image src='/resource/icon/ysq.png' class='over-sel' wx:if='{{present.num<=0}}'></image>
+    <!-- Swiper -->
+    <view class='swiper full-width'>
+        <view wx:if='{{playing==1}}' class='rel' style='width:750rpx;height:750rpx;'>
+            <video id="myVideo" src='{{present.videos}}' hidden='{{!playing}}' show-center-play-btn='{{false}}' loop='{{true}}' class='video-play {{playing==1?"show":"hiden"}}'></video>
+            <view class='hiden-video flex flex-center' bindtap='exitPlayVideo' wx:if='{{playing==1}}'>退出视频</view>
+        </view>
+        <swiper wx:if='{{playing==0}}' autoplay="{{false}}" circular="{{true}}" interval="{{3000}}" duration="{{500}}" class='mg-b10' bindchange='swiperChange'>
+            <swiper-item wx:if='{{present.videos&&present.videos.length>1}}' class='rel'>
+                <view class='playbtn flex flex-center' bindtap='beginPlayVideo'>
+                    <view class='play-icon'></view>
+                </view>
+                <image src='{{present.gallery[0]}}' mode='aspectFill'></image>
+            </swiper-item>
+            <swiper-item wx:for='{{present.gallery}}' wx:key=''>
+                <image src='{{item}}' mode='aspectFill' data-idx='{{index}}' bindtap='showBigImg'></image>
+            </swiper-item>
+        </swiper>
+        <view class='dots flex-row flex-center'>
+            <view wx:for='{{!present.videos?present.gallery.length:(present.gallery.length+1)}}' wx:key='' class='dot-box'>
+                <view class='dot bgw-opacity {{index==sc?"active":""}} {{present.videos&&present.videos.length>1&&index==0?"vdo":""}}'></view>
+            </view>
+        </view>
+    </view>
+    <view class='pd20 flex flex-left topline full-width'>
+        <text class='cprimary bolder font-md'>{{present.title}} <text class='font-md cgray'>{{present.specs==null?'':present.specs}}</text></text>
+    </view>
+    <view class='flex flex-left pdr20 bolder black font-xs'>
+        <view class='bglightgray' style='padding:2rpx 10rpx;' wx:if='{{type!=2}}'>{{present.type_name}}</view>
+        <view class='bglightgray' style='padding:2rpx 10rpx;' wx:if='{{type==2}}'>推荐有奖赠品</view>
+        <view wx:if='{{present.distance}}' class='bglightgray' style='padding:2rpx 10rpx;margin-left:20rpx;'>{{present.distance}}km</view>
+    </view>
+    <view class='flex-baseline pdr20 skr'>
+        <text style='padding:10rpx 0;' wx:if='{{type!=2}}'>积分</text>
+        <text style='padding:10rpx 0;' wx:if='{{type==2}}'>价值</text>
+        <text class='pd' style='font-size:22px;' wx:if='{{type!=2}}'>{{present.integral}}</text>
+        <text class='txtmidline font-sm cgray pd' wx:if='{{present.type_id!=154}}' wx:if='{{type!=2}}'>￥{{present.price}}</text>
+        <text class='font-sm bolder skr pd' wx:if='{{type==2}}'>￥{{present.price}}</text>
+    </view>
+    <view class='pdr20 flex flex-left' wx:if='{{type!=2}}'>
+        <view class='font-xs'>
+            <view class='hassel flex flex-left'>
+                <view class='hassel-t'>已售</view>
+                <view class='hassel-n bolder flex flex-center'>{{present.sale_num}}</view>
+            </view>
+        </view>
+        <view style='width:20rpx;'></view>
+        <view class='font-xs'>
+            <view class='hassel flex flex-left'>
+                <view class='hassel-t danger'>剩余</view>
+                <view class='hassel-n danger bolder flex flex-center'>{{present.num}}</view>
+            </view>
+        </view>
+    </view>
+    <view class='pd pdr20' >兑现有效期：
+        <text class='black' wx:if='{{present.valid_time_type==1}}'>{{present.start}} - {{present.end}}</text>
+         <text class='black' wx:if='{{present.valid_time_type==2}}'>购买之日起 - {{present.valid_time_days}}天内</text>
+    </view>
+    <view class='sq'></view>
+    <view class='infomation pd black full-width font-sm'>
+        <view class='bottomline  pd20 bolder black'>商铺信息</view>
+        <view class='flex-row pd pdr20'>
+            <view class='flex flex-left'>
+                <image src='{{store.logo}}' class='img-sm'></image>
+                <text class='pd20 font-sm'>{{store.title}}</text>
+            </view>
+            <view class='flex flex-right '>
+                <image src='/resource/icon/weizhi.svg' class='img-xs mg'></image>
+                <text class=''>{{present.distance}}km</text>
+            </view>
+        </view>
+        <view class='flex-row pd20 flex flex-around'>
+            <view class='stn {{store.is_attention==0?"black":"pkcolor"}}' bindtap='attention'>
+                <image src='{{store.is_attention==0?"/resource/icon/gz-1.svg":"/resource/icon/gz-3.svg"}}' class='img-xs pdr20'></image>
+                {{store.is_attention==0?"关注商铺":"已关注商铺"}}</view>
+            <navigator url='/pages/store/detail?id={{present.store_id}}' class='stn mg-l10'>
+                <image src='/resource/icon/nearby.png' class='img-sm pdr20'></image>
+                进入商铺</navigator>
+        </view>
+    </view>
+    <view class='sq'></view>
+    <view class='infomation pd black full-width'>
+        <view class='bottomline font-sm bolder pd20'>使用规则</view>
+        <text class='description font-sm cgray flex pd20'>{{present.use_rule}}</text>
+    </view>
+    <!-- 最近评价 -->
+    <view class='separator'></view>
+    <view class='infomation pd btn-color-normal full-width'>
+        <view bindtap='goAllEva' class='bottomline font-sm pd20  bolder {{commentList.length>0?"arrow":""}}'>最近评价</view>
+        <template is="commentitem" wx:for='{{commentList}}' wx:key='id' data="{{...item,index:index,evaluate:true}}" bindtap='goAllEva'></template>
+        <import src="/template/emptyshow/emptyshow.wxml" />
+        <template is="empty" data='{{image:"/resource/icon/emp1.png",firstmsg:"您的评价，如此珍贵！",secmsg:"",times:[1]}}' wx:if='{{commentList.length<=0}}'></template>
+    </view>
+    <view class='pd20 flex flex-center full-width' wx:if='{{commentList.length>0}}'>
+        <view class='font-xs black pd pdr20 radius-l bd-gray' bindtap='goAllEva'>查看全部评价</view>
+    </view>
+
+    <!-- 详情说明 -->
+    <view class='sq'></view>
+    <view class='infomation btn-color-normal full-width'>
+        <view bindtap='goAllEva' class='bottomline font-sm pd20  bolder'>图文详情</view>
+        <view class='description font-sm cgray flex pd20'>{{present.description}}</view>
+        <view class='img-list'>
+            <view wx:for='{{present.content_imgs}}' wx:key=''>
+                <image class='img-item' src='{{item}}' mode='widthFix'></image>
+            </view>
+        </view>
+    </view>
+</view>
+<!-- 分享购买 -->
+<view class='flex-row bgw topline fix-b' wx:if='{{type!=2}}'>
+    <button class='flex flex-center' plain='{{true}}' bindtap='toSC' wx:if='{{present.is_attention==0}}'>
+        <image src='/resource/icon/sc.png' class='shareimg mg'></image>
+        <text class='font-sm pkcolor pd'>加入收藏</text>
+    </button>
+    <button class='flex flex-center' plain='{{true}}' bindtap='undoSC' wx:if='{{present.is_attention==1}}'>
+        <image src='/resource/icon/sc2.png' class='shareimg mg'></image>
+        <text class='font-sm pkcolor pd'>取消收藏</text>
+    </button>
+    <button class='flex flex-center share' plain='{{true}}' type='primary' bindtap='concatCustomer'>
+        <text class='font-sm pd'>咨询客服</text>
+    </button>
+    <button class='flex flex-center share' open-type='share' plain='{{true}}' type='warn' wx:if='{{present.num>0 && integral >= present.integral}}'>
+        <text class='font-sm pd'>分享兑换</text>
+    </button>
+    <button class='flex flex-center bggray' plain='{{true}}' type='default' wx:if='{{present.num<=0}}'>
+        <text class='font-sm pd'>已售罄</text>
+    </button>
+    <button class='flex flex-center bgorange' plain='{{true}}' type='default' wx:if='{{present.num>0 && integral < present.integral}}'>
+        <text class='font-sm pd'>积分不足</text>
+    </button>
+
+</view>
+
+<view class='howgetjf flex flex-center fix-b pd pdr20' wx:if='{{type!=2}}'>
+    <view class='flex flex-center'>
+        <image src='/resource/icon/warn.svg' class='img-sm'></image>
+    </view>
+    <view class='pdr20'>┊</view>
+    <view class='title rel'>同一赠品的多次兑换请分享到不同的微信群！</view>
+
+</view>
+<template is="smallmenu" data="{{showsmallmenu:true,smallmenuclosed:smallmenuclosed}}"></template>

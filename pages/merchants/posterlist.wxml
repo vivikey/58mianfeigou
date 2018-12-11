@@ -1,0 +1,34 @@
+<import src="/template/posteritem/posteritem.wxml" />
+<view class='container gray' style='padding-bottom:76rpx;'>
+    <view class='flex-row bgw pd30'>
+        <view class='item-list-title col-8 txtpt'>{{storeName}}</view>
+        <view class='col-4 font-xs cgray flex flex-right'>已发布：<text class='black bolder'>{{posterList.length}}</text></view>
+    </view>
+    <view class='sq'></view>
+    <!-- list -->
+    <view class='list'>
+        <view class='posteritem box flex-col bottomline' wx:for='{{posterList}}' wx:key='id'>
+            <view class='head flex-row'>
+                <view class='flex-col mg-l10 title'>
+                    <view class='font-md btn-color-danger'>{{item.addtime}}</view>
+                </view>
+                <view class='delbtn catchtap='deletePoster' data-id='{{item.id}}' data-idx='{{index}}'><image src='/resource/icon/delete.svg' ></image></view>
+            </view>
+            <view class='content mg-t10 flex-row'>
+                <view class='col-9'>{{item.title}}</view> <view class='col-2 bglightgray font-xs bolder flex flex-center {{item.status==1?"cgreen":"cprimary"}}'>{{item.status==1?"审核通过":"待审核"}}</view>
+            </view>
+            <view class='content mg-t10 cgray'>
+                <text>{{item.content}}</text>
+            </view>
+            <view class='imglist flex-row flex-left flex-wrap' wx:if='{{item.posters.length<3}}'>
+                <image mode='aspectFill' wx:for='{{item.posters}}' wx:key='' src='{{item}}' class='col-6'></image>
+            </view>
+            <view class='imglist flex-row flex-left flex-wrap' wx:else>
+                <image mode='aspectFill' wx:for='{{item.posters}}' wx:key='' src='{{item}}' class='col-4'></image>
+            </view>
+        </view>
+    </view>
+</view>
+    <view class='addbtn'>
+        <navigator url="/pages/merchants/posterinfo?type=0&storeId={{storeId}}&storeName={{storeName}}" class='full-width pdc20 flex flex-center font-sm bolder'><image src='/resource/icon/add.svg' class='addbtnimg'></image> 活动海报</navigator>
+    </view>

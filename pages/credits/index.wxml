@@ -1,0 +1,44 @@
+<import src="/template/totop/totop.wxml" />
+<template is="totop" data="{{showToTop}}"></template>
+<view class='container gray'>
+    <view class='credits flex-col flex-center pd20'>
+        <image src='{{user.user_pic}}' class='userImg img-lgp'></image>
+        <text class='black pd'>我的积分：<text class='bolder font-lg cprimary'>{{userInfo.integral}}</text></text>
+        <text class='skr'><text>累积签到 <text class='bolder'>{{sign.total_day}}</text> 天 下次签到奖励 <text class='bolder'>{{sign.get_integral}}</text> 积分</text></text>
+        <view class='qiandao bdlinearskr wtcolor' wx:if='{{sign.is_sign==0}}' bindtap='sign'>立即签到</view>
+        <view class='qiandao bglightgray cgray' wx:if='{{sign.is_sign==1}}'>今日已签到</view>
+        <view class='col-12 flex-row pdr30 btn-color-gray font-xs'>
+            <!-- <navigator class='add-credits btn-color-primary font-sm' url='/pages/my/recharge?type=5&money=0.0'>代币兑换积分</navigator> -->
+        </view>
+    </view>
+    <!-- 积分明细月份选择 -->
+    <view class='full-width flex-row pd20 bgw'>
+        <view class='flex flex-left flex-center cgray arrow-down col-4'>
+            <picker mode="date" value="{{month}}" fields="month" start="2018-03-01" end="{{currDate}}" bindchange="bindDateChange">
+                <view class="picker bolder mg-r10">
+                    {{month}}
+                </view>
+            </picker>
+        </view>
+        <view class='cgray font-xs col-8 leftline'>支出
+            <text>{{expenditure}}</text> 积分 收入
+            <text>{{income}}</text> 积分</view>
+    </view>
+</view>
+<!-- 积分明细列表 -->
+<view class='credits-list flex flex-wrap'>
+    <view class='col-12 credits-item flex-row bottomline' wx:for='{{log}}' wx:key='id'>
+        <view class='col-2 icon flex'>
+            <image src='{{icons[item.integral_type]}}'></image>
+        </view>
+        <view class='flex-col flex-left col-8 pd'>
+            <text class='font-md btn-color-normal'>{{item.remark}}</text>
+            <text class='font-xs btn-color-gray'>{{item.addtime}}</text>
+        </view>
+        <view class='col-2 icon flex flex-right'>
+            <text class='col-2 font-lg bolder {{item.type==0?"skr":"cgreen"}}'>{{item.type==0?"-":"+"}}{{item.num}}</text>
+        </view>
+    </view>
+</view>
+<import src="/template/smallmenu/smallmenu.wxml" />
+<template is="smallmenu" data="{{showsmallmenu:flase,smallmenuclosed:smallmenuclosed}}"></template>

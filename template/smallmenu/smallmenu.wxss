@@ -1,0 +1,95 @@
+.smallmenu{
+    position: fixed;
+    width:570rpx;
+    height: 115rpx;
+    right: 5rpx;
+    bottom:175rpx;
+    border-radius: 10rpx;
+    box-shadow: 0 0 5rpx 2rpx #ccc; 
+    background: rgba(0,0,0,0.8);
+    overflow: hidden;
+    transition: all .2s ease-in-out;
+    border-top-left-radius: 55rpx;
+    border-bottom-left-radius: 55rpx;
+}
+.smallmenu.closed{
+    width:105rpx;
+    height: 105rpx;
+}
+.smallmenu.closed  > view{
+    margin: 0;
+}
+.smallmenu navigator,.smallmenu > view{
+    box-sizing:border-box;
+    width:105rpx;
+    height: 105rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size:11px;
+    color:#fff;
+    margin: 5rpx;
+}
+.smallmenu .menuicon{
+    width: 64rpx;
+    height: 64rpx;
+    border:1rpx solid #50d1fe;
+    border-radius: 50%;
+    padding: 5rpx;
+}
+.smallmenu .menuicon .menuicon2{
+    width: 54rpx;
+    height: 54rpx;
+    border:1rpx solid #50d1fe;
+    border-radius: 50%;
+    padding: 5rpx;
+}
+.smallmenu .menuicon .menuicon2 view{
+    background: #50d1fe;
+    width: 44rpx;
+    height: 44rpx;
+    border-radius: 50%;
+}
+.smallmenu .closedarrow,.smallmenu .openedarrow{
+
+    display: flex;
+    justify-content:space-between;
+    align-items:center;
+}
+.closedarrow::before{
+    content:"";
+    margin-left: 6rpx;
+    width:12rpx;
+    height: 12rpx;
+    border-bottom:6rpx solid #fff;
+    border-left:6rpx solid #fff;
+    transform: rotate(45deg);
+}
+.closedarrow::after{
+    content:"";
+    margin-right: 3rpx;
+    width:12rpx;
+    height: 12rpx;
+    border-bottom:6rpx solid #ddd;
+    border-left:6rpx solid #ddd;
+    transform: rotate(45deg);
+}
+.openedarrow::before{
+    content:"";
+    margin-left: 6rpx;
+    width:12rpx;
+    height: 12rpx;
+    border-top:6rpx solid #ddd;
+    border-right:6rpx solid #ddd;
+    transform: rotate(45deg);
+}
+.openedarrow::after{
+    content:"";
+    margin-right: 6rpx;
+    width:12rpx;
+    height: 12rpx;
+    border-top:6rpx solid #fff;
+    border-right:6rpx solid #fff;
+    transform: rotate(45deg);
+}

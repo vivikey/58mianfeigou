@@ -1,0 +1,46 @@
+.btn.remove{
+    background: #f00;
+}
+.specs-input{
+    width:650rpx;
+    margin-left: 100rpx;
+    padding: 5rpx 10rpx;
+}
+button{
+    margin: 0;
+    width:100%;
+}
+.img{
+    width:100rpx;
+    height: 100rpx;
+    background: #ccc;
+}
+.img image{
+    width:100%;
+    height: 100%;
+}
+.opt{
+    width:100rpx;
+    height: 60rpx;
+    background: #f00;
+}
+.info{
+    width:530rpx;
+}
+.info text{
+    margin: 0;
+    padding: 0;
+    margin-right:10rpx;
+}
+.choseimg .removeimg{
+    position: absolute;
+    font-size:18px;
+    top:10rpx;
+    right:10rpx;
+    width:48rpx;
+    height:48rpx;
+    background: red;
+    color:#fff;
+    padding: 5rpx;
+    border-radius: 10rpx;
+}

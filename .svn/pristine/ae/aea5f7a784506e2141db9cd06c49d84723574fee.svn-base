@@ -1,0 +1,93 @@
+<view class='container gray font-xs'>
+    <!-- 收货地址 暂未启用-->
+    <view class='bgw pd20 full-width'>
+        <view>本商品为免发货商品，购买成功后需去实体店进行扫码消费！</view>
+    </view>
+    <!-- 商品基本信息 -->
+    <view class='sq'></view>
+    <view class='full-width bgw pdr20'>
+        <view class='flex pdc20 bottomline'>
+            <image src='/resource/icon/store-pk.svg' class='img-sm'></image>
+            <view class='font-md bolder'>{{store_name}}</view>
+        </view>
+        <view class='flex pd-t20'>
+            <navigator class='img-lgp bglightgray' url='/pages/groupbuy/detail?id={{shop_id}}&choseIdx={{shopMode.chosedIdx}}'>
+                <image src='{{shopMode.image}}'></image>
+            </navigator>
+            <view class='shop-info pdr20'>
+                <navigator class='black bolder font-sm txtclamp txtclamp-2' url='/pages/groupbuy/detail?id={{shop_id}}&choseIdx={{shopMode.chosedIdx}}'>{{shopMode.title}} </navigator>
+                <view class='cgray'>{{shopMode.shop_sku[shopMode.chosedIdx].sku_spec}}</view>
+                <!-- 订单价格和数量 -->
+                <view class='flex-row pdc20'>
+                    <view class='skr bolder font-sm'>￥{{shopMode.shop_sku[shopMode.chosedIdx].sku_price_tuan}}</view>
+                    <view class='flex bdfull'>
+                        <!-- <view class='pd pdr20 {{shopMode.count>1?"":"cgray"}}' wx:if='{{is_tuijian}}'></view> -->
+                        <view class='pd pdr20 {{shopMode.count>1?"":"cgray"}}' bindtap='subcount' wx:if='{{!is_tuijian}}'>━</view>
+                        <view class='pd pdr20 leftline rightline'>{{shopMode.count}}</view>
+                        <!-- <view class='pd pdr20 cgray' wx:if='{{is_tuijian}}'></view> -->
+                        <view class='pd pdr20' bindtap='addcount' wx:if='{{!is_tuijian}}'>✚</view>
+                        
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <!-- 配送服务 -->
+    <view class='sq'></view>
+    <view class='bottomline pdc30 flex-row bgw pdr20'>
+        <view class='black bolder linfo'>配送服务</view>
+        <view class='cgray rinfo flex flex-row-rev'>请凭订单二维码在有效时间内去实体店消费</view>
+    </view>
+    <view class='pdc30 flex-row bgw pdr20'>
+        <view class='black bolder linfo'>订单备注</view>
+        <input type='text' placeholder='选填，给商家留言，45字(含符号)以内' class='font-sm rinfo' maxlength='45' bindinput='leaveMsg'></input>
+    </view>
+    <!-- 发票信息 -->
+    <view class='sq'></view>
+    <view class='bottomline pdc30 flex-row bgw pdr20'>
+        <view class='black bolder linfo'>发票信息</view>
+        <view class='cgray rinfo flex flex-row-rev'>请在实体店消费时，向商家索要发票</view>
+    </view>
+    <!-- 礼券和代币 -->
+    <view class='pdc30 flex-row bgw pdr20'>
+        <view class='black bolder linfo'>
+        <checkbox-group bindchange="onTokenChanged">
+            <label class="checkbox">
+                <checkbox value='daibi' checked="{{is_balance}}" color='#50d1fe' />余额
+            </label>
+            </checkbox-group>
+        </view>
+        <view class='rinfo cgray pdr20'>
+            <view class='flex flex-right font-xs'>
+                您在本商铺共有{{myBalance}}余额可用
+            </view>
+        </view>
+    </view>
+    <!-- 订单汇总 -->
+    <view class='sq'></view>
+    <view class='full-width bgw '>
+        <view class='bottomline pdc30 bgw pdr20'>
+            <view class='flex-row'>
+                <view class='black linfo bolder'>商品金额</view>
+                <view class='skr flex flex-right font-sm bolder'>￥{{lastMoney.total_price}}</view>
+            </view>
+            <view class='flex-row' wx:if='{{false}}'>
+                <view class='black linfo bolder'>运费</view>
+                <view class='skr flex flex-right font-sm'>+￥{{lastMoney.freight}}</view>
+            </view>
+            <view class='flex-row'>
+                <view class='black linfo bolder'>余额抵扣</view>
+                <view class='skr flex flex-right font-sm'>-￥{{lastMoney.balance_use}}</view>
+            </view>
+        </view>
+        <view class='bgw pd20'>
+            <view class='flex flex-right bolder' style='padding-bottom:20rpx;'>
+                实付金额：
+                <text class='font-md skr bolder'>￥{{lastMoney.last_price}}</text>
+            </view>
+            <!-- 支付方式 -->
+            <view class='bgpk wtcolor flex flex-center pd20 font-lgp' bindtap='createOrderAndPay'>{{lastMoney.last_price>0?"微信支付":"余额支付"}}</view>
+        </view>
+    </view>
+    <view class='sq'></view>
+</view>

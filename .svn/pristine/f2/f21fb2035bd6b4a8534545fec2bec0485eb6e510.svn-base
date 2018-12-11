@@ -1,0 +1,19 @@
+<view class='container gray flex-col pdc30'>
+    <view class='bgw pd30 cprimary bolder font-sm'>设置 {{username}} 的标签</view>
+    <view class='font-sm flex-row'>已设置标签
+        <view class='addbtn font-sm skr radius-m pd bgw flex flex-center' bindtap='toLabelMgr'>标签管理</view>
+    </view>
+    <view class='font-md bgw topline havied'>
+        <text class='label-item chosed' wx:for='{{label_list}}' wx:key='id' wx:if='{{item.chosed}}'>{{item.name}}</text>
+    </view>
+
+    <view class='font-sm'>选择标签</view>
+    <view class='flex flex-wrap bgw'>
+        <text class='label-item sel {{item.chosed?"chosed":""}}' wx:for='{{label_list}}' wx:key='id' data-idx='{{index}}' bindtap='setLabel'>{{item.name}}</text>
+    </view>
+    
+    <view class='bgw topline full-width flex pd'>
+        <input type='text' class='new font-md bdfull bglightgray pdr20 cgray flex flex-center' value='{{inputValue}}' placeholder='输入新标签' bindinput='endinput'></input>
+        <view class='addbtn font-sm skr pd flex flex-center' bindtap='addLabel'>✚新标签</view>
+    </view>
+</view>

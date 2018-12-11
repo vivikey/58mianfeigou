@@ -1,0 +1,31 @@
+.choseimg{
+    background: #fff;
+    color:#999;
+    font-size:36px;
+    border-radius: 10rpx;
+    margin: 5rpx 0;
+    padding: 10rpx;
+    position: relative;
+    overflow: hidden;
+}
+.removeimg{
+    position: absolute;
+    font-size:18px;
+    top:10rpx;
+    right:10rpx;
+    width:48rpx;
+    height:48rpx;
+    background: red;
+    color:#fff;
+    padding: 5rpx;
+    border-radius: 10rpx;
+}
+.choseimg image,.choseimg view{
+    width:100%;
+    height: 270rpx;
+    border-radius: 10rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #F0F0F0;
+}

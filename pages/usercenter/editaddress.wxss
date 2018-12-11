@@ -1,0 +1,3 @@
+.container > view {
+    width:100%;
+} 

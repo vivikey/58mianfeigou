@@ -1,0 +1,21 @@
+.container .content{
+    width:100%;
+    background: #fff;
+    padding: 20rpx;
+}
+.container .content view{
+    min-height:350rpx;
+    display: flex;
+    flex-flow:column wrap;
+    justify-content:space-around;
+    padding:30rpx 0;
+    align-items: center;
+    font-size:16px;
+    color:#333;
+    overflow: hidden;
+}
+.container navigator{
+    width:90%;
+    text-align: center;
+    padding:20rpx;
+}

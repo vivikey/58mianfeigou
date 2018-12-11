@@ -1,0 +1,41 @@
+<view class='container gray'>
+    <view class='info-item-row'>
+        <text class='item-list-title col-9 '>{{storeName}}</text>
+    </view>
+    <view class='full-width'>
+        <view class='msgitem bgw pd mg-t10 mg-b10' wx:for='{{message_list}}' wx:key='id'>
+            <view class='member flex-row bottomline'>
+                <view>
+                    <view class='cgray'>{{item.addtime}}</view>
+                    <view class='pkcolor'>{{item.member_name}}</view>
+                </view>
+                <view wx:if='{{item.type==3}}' class='flex flex-center'>
+                    <text class='pd font-xs bolder skr'>{{item.is_show==2?'隐藏':'显示'}}</text>
+                    <image bindtap="switchChange" data-idx='{{index}}' data-status='{{item.is_show}}' src='{{item.is_show==2?"/resource/icon/switch-off.png":"/resource/icon/switch-on.png"}}' class='img-lg'></image>
+                </view>
+            </view>
+            <view class='content pd30'>
+                <text class='cprimary'>{{item.type==1?"【留言】":"【反馈】"}}</text>
+                <text>{{item.content}}</text>
+            </view>
+            <view class='reply pd30'>
+                <view class='black bolder'>回复：</view>
+                <view class='comment pd flex '>
+                    <view class='flex-col inputB pd mg-l10 bglightgray' wx:if='{{!item.reply || item.reply.length<=0}}'>
+                        <input type='text' placeholder='写下您的回复吧' data-idx='{{index}}' confirm-type="send" bindconfirm='onSendReply' bindinput="sendReply" value='{{item.replyMsg}}'></input>
+                    </view>
+                    <view wx:else>
+                        <view wx:for='{{item.reply}}' wx:key='id' wx:for-item='sec' wx:for-index='idx' class='cgray flex-row'>
+                            <text>{{sec.reply_content}}</text>
+                            <view class='skr font-underline pdr30' data-id='{{sec.id}}' data-idx='{{idx}}' data-index='{{index}}' bindtap='removeReply'>删除</view>
+                        </view>
+                    </view>
+
+                </view>
+                <view class='flex flex-row-rev pd' wx:if='{{!item.reply || item.reply.length<=0}}'>                    
+                    <view class='bgpk wtcolor pd pdr20' data-idx='{{index}}' bindtap='onSendReply'>发送</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

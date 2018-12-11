@@ -1,0 +1,65 @@
+<view class='container gray full-width font-xs'>
+    <!-- Swiper -->
+    <view class='swiper full-width'>
+        <swiper autoplay="{{true}}" circular="{{true}}" interval="{{3000}}" duration="{{600}}" bindchange='swiperChange'>
+            <swiper-item wx:for='{{index_banner}}' wx:key=''>
+                <navigator url='{{item.ad_link}}' class='swiper-navbox flex flex-center'>
+                    <image src='{{item.UpFilePathInfo}}' width="375" height="150"></image>
+                </navigator>
+            </swiper-item>
+        </swiper>
+        <view class='dots flex-row flex-center'>
+            <view wx:for='{{index_banner}}' wx:key='' class='dot-box'>
+                <view class='dot bgw-opacity {{index==sc?"active":""}}'></view>
+            </view>
+        </view>
+    </view>
+        <!-- Main navigator -->
+    <import src="/template/mainnavbox/mainnavbox.wxml" />
+    <template is="mainvav"></template>
+    <!-- 推荐方案 -->
+    <view class='bgw pdr20 full-width' wx:if='{{flase}}'>
+        <view class='pdc20 black bolder font-md full-width bottomline'>
+            推荐方案
+        </view>
+        <view class='full-width pdc'>
+            <navigator class='full-width bottomline flex-row pdc20' wx:for='{{5}}' wx:key='index' url='fangan'>
+                <view class='col-4 pdr20 flex flex-center'>
+                    <view src='/resource/icon/logo.png' class='img-lgp bglightgray flex flex-center cgray radius-s'>商铺logo</view>
+                </view>
+                <view class='col-8 pdr20 leftline font-sm'>
+                    <view class='black font-md'>推荐方案{{index+1}}的名称</view>
+                    <view class='cgray'>所有人可参与</view>
+                    <view class='cgray'>可选商品丰富</view>
+                    <view class='skr'>完成返奖10%</view>
+                </view>
+            </navigator>
+        </view>
+    </view>
+    <view class='sq'></view>
+    <!-- 推荐列表 -->
+    <view class='full-width flex flex-center flex-around bottomline pdc30 bgw'>
+        <view class='col-4 pdr30'><view class='sl-flux'></view></view>
+        <view class='font-md black bolder'><text class='skr'>推荐</text>有奖</view>
+        <view class='col-4 pdr30'><view class='sl-flux'></view></view>
+    </view>
+    <view class='col-12 flex-row font-sm short bggray mg-b10 full-width'>
+        <view class='col-3 txtcenter bkl {{sortType==2?"active":""}}' data-id='2' bindtap='getSort'>距离最近</view>
+        <view class='col-3 txtcenter bkl {{sortType==3?"active":""}}' data-id='3' bindtap='getSort'>销量最高</view>
+        <view class='col-3 txtcenter {{sortType==4?"active":""}}' data-id='4' bindtap='getSort'>最新入驻</view>
+        <view class='col-3 txtcenter bkl {{sortType==1?"active":""}}' data-id='1' bindtap='getSort'>智能排序</view>
+    </view>
+    <view class='bgw pdr20 full-width'>
+        <view class='full-width pdc'>
+            <import src='/template/tuijian/tuijianitem.wxml' />
+            <template is='tuijianitem' wx:for='{{shop_list}}' wx:key='id' data="{{...item}}"></template>
+        </view>
+    </view>
+    <!-- 消费参与 -->
+    <view class='sq'></view>
+
+</view>
+<import src="/template/smallmenu/smallmenu.wxml" />
+<template is="smallmenu" data="{{showsmallmenu:flase,smallmenuclosed:smallmenuclosed}}"></template>
+<import src="/template/totop/totop.wxml" />
+<template is="totop" data="{{showToTop}}"></template>

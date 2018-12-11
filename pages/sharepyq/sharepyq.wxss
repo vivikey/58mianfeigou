@@ -1,0 +1,13 @@
+.container{
+    position: absolute;
+    top:0;
+    left:0;
+    background: linear-gradient(to bottom,#50d1fe,#ffffff);
+}
+canvas{
+    box-shadow: 3rpx 3rpx 5rpx #ccc;
+}
+.savebtn{
+    border-radius: 60rpx;
+    box-shadow: 0rpx 0rpx 10rpx #ccc;
+}

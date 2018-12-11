@@ -1,0 +1,13 @@
+.shop-info{
+    width:650rpx;
+}
+.linfo{
+    width:180rpx;
+}
+.rinfo{
+    width:100%;
+}
+.img-lgp image{
+    width:100%;
+    height: 100%;
+}

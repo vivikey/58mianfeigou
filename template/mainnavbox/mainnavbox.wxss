@@ -1,0 +1,33 @@
+.nav-item > view{
+    padding:10rpx;
+}
+.nav-1>view{
+    background:rgb(206, 255, 233);
+}
+.nav-2>view{
+    background:rgb(255, 233, 209);
+}
+.nav-3>view{
+    background:rgb(255, 200, 200);
+}
+.nav-4>view{
+    background:rgb(254, 220, 220);
+}
+.nav-5>view{
+    background:rgb(218, 233, 251);
+}
+.nav-item image{
+  width:64rpx;
+  height: 64rpx;
+}
+
+.box{
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+
+}
+.box .nav-item text{
+  padding-top:10rpx;
+  font-weight: 500;
+  font-size:14px;
+}
