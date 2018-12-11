@@ -8,7 +8,7 @@
             <view class='flex' style='width:650rpx;'>
                 <view class='radius-m rel'>
                     <image src='{{s.store_logo}}' class='img-lgp' mode='aspectFill'></image>
-                    <view class='jiaose flex flex-center {{s.uid===user.id?"bgprimary":"bggreen"}}'>{{s.uid===user.id?"创建者":"管理者"}}</view>
+                    <view class='jiaose flex flex-center {{s.uid===user.id?"bgprimary":"bggreen"}}'>管理者</view>
                 </view>
                 <view class='pdr20'>
                     <view class='font-md bolder black pdc flex-row'>
@@ -48,12 +48,12 @@
             <text class='skr bolder' wx:if='{{s.store_check==2}}'>审核未通过：{{s.check_reason}}</text>
             <navigator url="/pages/merchants/info?id={{s.id}}" class='pd20 cprimary' wx:if='{{s.store_check==2}}'>重新提交</navigator>
         </view>
-        <view class='item-opt-list flex-col font-sm' wx:else>
+        <view class='item-opt-list flex-col font-sm' >
             <view class='row'>
                 <navigator url="/pages/merchants/giftlist?storeId={{s.id}}&storeName={{s.store_name}}" class='pd20  imp'>积分赠品</navigator>
                 <navigator url="/pages/merchants/posterlist?storeId={{s.id}}&storeName={{s.store_name}}" class='pd20 cprimary bglightgray'>活动海报</navigator>
                 <navigator url="/pages/merchants/membermgr?storeId={{s.id}}&storeName={{s.store_name}}" class='cprimary pdc20 pd bglightgray {{s.fans_num>0?"point":""}}'>粉丝和消息</navigator>
-                <navigator url="/pages/merchants/groupbuymgr?storeId={{s.id}}&storeName={{s.store_name}}" class='pd20 imp'>拼团商品</navigator>
+                <navigator url="/pages/merchants/groupbuymgr?storeId={{s.id}}&storeName={{s.store_name}}" class='pd20 imp'>商品管理</navigator>
                 <navigator url="/pages/merchants/info?id={{s.id}}" class='pd20 cprimary bglightgray'>商铺信息</navigator>
                 <navigator url="/pages/merchants/commentlist?storeId={{s.id}}&storeName={{s.store_name}}" class='cprimary pd20 bglightgray {{s.message_num>0?"point":""}}'>反馈留言</navigator>
                 <navigator class='pd20 imp' url="/pages/merchants/recommend?storeId={{s.id}}&storeName={{s.store_name}}">推荐有奖</navigator>

@@ -3,22 +3,6 @@
         <text class='mustbe'>商品名称</text>
         <input type='text' placeholder='请输入商品名称' value='{{goods.title}}' id='title' bindblur='inputBlur'></input>
     </view>
-    <!-- <view class='info-item-row'>
-        <text class=''>商品一级分类</text>
-        <picker range='{{gifttype}}' range-key='name' value='{{currGift.gifttype}}' bindchange="bindTypeChange">
-            <view class="picker arrow-down">
-                {{gifttype[currGift.gifttype].name}}
-            </view>
-        </picker>
-    </view>
-    <view class='info-item-row'>
-        <text class=''>商品二级分类</text>
-        <picker range='{{gifttype}}' range-key='name' value='{{currGift.gifttype}}' bindchange="bindTypeChange">
-            <view class="picker arrow-down">
-                {{gifttype[currGift.gifttype].name}}
-            </view>
-        </picker>
-    </view> -->
     <!-- 属于团购产品 -->
     <view class='full-width' wx:if='{{notuan==0}}'>
         <view class='info-item-row'>
@@ -112,7 +96,7 @@
         </picker>
     </view>
     <!-- 兑现有效期 -->
-    <view class='full-width'  wx:if='{{notuan==1}}'>
+    <view class='full-width' wx:if='{{notuan==1}}'>
         <view class='info-item-row'>
             <text class='mustbe'>兑现有效期</text>
         </view>
@@ -131,7 +115,7 @@
     </view>
     <view class='info-item-row'>
         <text class='mustbe'>商品描述</text>
-        <textarea  placeholder='请输入商品描述' maxlength='256' value='{{goods.description}}' id='description' bindblur='inputBlur'></textarea>
+        <textarea placeholder='请输入商品描述' maxlength='256' value='{{goods.description}}' id='description' bindblur='inputBlur'></textarea>
     </view>
     <view class='row flex-row flex-wrap flex-left'>
         <text class='info-item-row mustbe'>商品轮播展示图片(1-5张,建议750x750)</text>

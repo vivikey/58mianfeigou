@@ -51,9 +51,12 @@
             <button plain='{{true}}' type='default' data-id='{{item.id}}' data-idx='{{index}}' catchtap='deleteGroupBuy'>上架</button> -->
         </view>
     </navigator>
+        <import src="/template/version/version.wxml" />
+    <template is="version" data="{{version}}"></template>
 </view>
-    <view class='addbtn'>
-        <navigator url="/pages/merchants/groupbuyinfo?storeId={{storeId}}&storeName={{storeName}}" class='full-width font-sm bolder pdc20 flex flex-center'>
-        <image src='/resource/icon/add.svg' class='addbtnimg'></image>
-         拼团商品</navigator>
-    </view>
+<view class='fix-b flex flex-center pd20'>
+    <navigator url="/pages/merchants/groupbuyinfo?storeId={{storeId}}&storeName={{storeName}}" class='btn-fix-b font-md'>
+        <image src='/resource/icon/add.svg' class='addbtnimg radius-circle'></image>
+        添加新商品
+    </navigator>
+</view>

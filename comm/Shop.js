@@ -6,6 +6,7 @@ let obj = {
     Post() { return '/api/addapi/shopHandle' },
     Delete() { return '/api/Deleteapi/delShop' },
     List() { return '/api/showapi/showShopList'},
+    TypeList() { return '/api/showapi/showShopClass' },
     async Do(data){
         return await new Promise((resolve, reject) => {
             $.Post(this.url, data, r => {
@@ -22,4 +23,4 @@ const Shop = new Proxy(obj,{
     }
 })
 
-export default Store
+export default Shop
