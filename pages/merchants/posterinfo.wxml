@@ -1,39 +1,28 @@
-<view class='container'>    
+<view class='container'>
     <view class='info-item-row'>
-        <text class='mustbe'>{{titleStr}}</text>
-        <input type='text' placeholder='请输入{{titleStr}}' class='pd' value='{{store.title}}' id='title' bindinput='inputBlur'></input>
+        <text class='mustbe'>活动海报标题</text>
+        <input type='text' placeholder='请输入活动海报标题' value='{{poster.poster_name}}' id='poster_name' bindinput='onInputChanged'></input>
     </view>
     <view class='info-item-row'>
-        <text class='mustbe'>{{contentT}}</text>
-        <textarea placeholder='请输入{{contentStr}}' id='content' value='{{store.content}}' class='pd' bindinput='inputBlur'></textarea>
+        <text>活动海报详情</text>
+        <textarea placeholder='请输入活动海报详情' id='poster_content' maxlength='-1' value='{{poster.poster_content}}' bindinput='onInputChanged'></textarea>
     </view>
-
-    <view class='row flex-row flex-wrap flex-left' wx:if='{{type==0}}'>
-        <text class='info-item-row mustbe' wx:if='{{type==0}}'>活动海报图片(1-6张)</text>
-        <text class='info-item-row mustbe' wx:if='{{type==1}}'>选择消息配图</text>
-        <view class='choseimg col-4' wx:for='{{poster.posters}}' wx:key=''>
-            <image src='{{item}}'></image>
-            <text data-idx='{{index}}' class='removeimg flex-row flex-center' bindtap='removeImg'> ✖</text>
-        </view>
-        <view class='choseimg col-4' bindtap='choseImg' wx:if='{{poster.posters.length<6}}'>
-            <view>✛</view>
-        </view>
-    </view>
-    <view class='flex-row flex-wrap flex-left' wx:if='{{type==1}}'>
-        <view class='choseimg col-4' wx:if='{{messageobj.image!=null}}'>
-            <image src='{{messageobj.image}}'></image>
-            <text class='removeimg flex-row flex-center' bindtap='removeObjImg'> ✖</text>
-        </view>
-        <view class='choseimg col-4' bindtap='choseObjImg' wx:if='{{messageobj.image==null}}'>
-            <view>✛</view>
+    <view class='row flex-col'>
+        <text class='mustbe'>上传相关图片(最多6张)</text>
+        <view class='flex-row flex-wrap flex-left full-width bgw  topline bottomline'>
+            <view class='choseimg col-6' wx:for='{{poster.poster_imgs}}' wx:key=' ' wx:if='{{poster.poster_imgs.length>0}}'>
+                <image src='{{item}}'></image>
+                <text data-idx='{{index}}' id='poster_imgs'  class='removeimg flex-row flex-center' bindtap='onImageRemoving'> ✖</text>
+            </view>
+            <view class='choseimg col-6'   bindtap='onImageChosed' wx:if='{{!poster.poster_imgs.length<6}}'>
+                <view>✛</view>
+            </view>
         </view>
     </view>
-    <text class='info-item-row mustbe pd30 black bolder' wx:if='{{type==1}}'>选择接收标签组(不选默认为所有粉丝)</text>
-    <view class='flex-row flex-left flex-wrap pd' wx:if='{{type==1}}'>
-        <view class='label-item {{item.chosed?"chosed":""}}' wx:for='{{label_list}}' wx:key='id' data-idx='{{index}}' bindtap='onLabelChosed'>{{item.name}}</view>
+    <view class='info-item-row flex flex-center'>
+        <view class='btn' bindtap='onSubmit'>
+        <image src='/resource/icon/ok3.svg' class='addbtnimg radius-circle'></image> 提交审核</view>
     </view>
-    
-    <view class='info-item-row flex-row bgw pd30'>
-        <view class='btn' bindtap='Save'>✔ 发布</view>
-    </view>
+    <import src="/template/version/version.wxml" />
+    <template is="version" data="{{version}}"></template>
 </view>

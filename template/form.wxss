@@ -109,22 +109,22 @@ button{
     }
 
 .info-item-row textarea {
-    height: 200rpx;
+    height: 300rpx;
     line-height: 40rpx;
 }
 
 .info-item-row .btn {
-    height: 80rpx;
-    line-height: 80rpx;
-    border-radius: 0;
-    color: #fff;
-    width: 100%;
-    background: #50d1fe;
-    border: none;
-    padding: 4rpx;
-    margin: 8rpx;
-    text-align: center;
-    font-size: 16px;
+    background: #00b642;
+    color:#fff;
+    box-shadow: 0 3px 1px -2px #66cc99,0 2px 2px 0  #66cc99,0 1px 5px 0  #66cc99;
+    width:66.7%;
+    font-size:16px;
+    border-radius: 70rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10rpx 0;
+    margin-bottom: 20rpx;
 }
 
 .info-item-row .imgchose {

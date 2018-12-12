@@ -1,59 +1,50 @@
 var app = getApp()
+import Poster from '../../comm/Poster.js'
 Page({
     data: {
-        posterList: [],
+        version:'',
+        myPosters: [],
         storeName: '',
         storeId: 0
     },
-    onLoad: function (options) {
+    onLoad(options) {
         console.log(options)
         this.setData({
             storeName: options.storeName,
-            storeId: options.storeId
+            storeId: options.storeId,
+            version:app.VERSION()
         })
     },
-    onShow: function () {
-        this.loadPosters()
+    onShow() {
+        this.getMyPosters(this.data.storeId)
     },
-    loadPosters:function(){
-        app.post('https://m.58daiyan.com/StoreApi/getPosterListByID', { token: app.globalData.userInfo.token, store_id: this.data.storeId, num:99},res=>{
-            console.log('loadPosters:',res.data)
-            if (res.data.data.poster_list){
+    getMyPosters(store_id){
+        Poster.List({user_id:app.USER_ID(),store_id}).then(r=>{
+            console.log('Poster.List => ',r)
+            if(r.code==200){
                 this.setData({
-                    posterList: res.data.data.poster_list
-                })
-            }
-            else{
-                this.setData({
-                    posterList: []
-                })
-            }
-        })
-    },
-    //-- 移除一个活动海报
-    deletePoster:function(e){
-        wx.showModal({
-            title: '警告',
-            content: '删除后将无法恢复，确定吗？',
-            confirmColor: '#f00',
-            cancelColor: '#50d1fe',
-            cancelText: '我再想想',
-            confirmText: '确定删除',
-            success: (res) => {
-                if (res.confirm) {
-                    app.post('https://m.58daiyan.com/StoreApi/del_poster', { token: app.globalData.userInfo.token, poster_id: e.currentTarget.dataset.id},res => {
-                        app.msg(res.data.message);
-                        if(res.data.status==1){
-                            var index=e.currentTarget.dataset.idx
-                            var posterList = this.data.posterList
-                            posterList.splice(index,1)
-                            this.setData({
-                                posterList: posterList
-                            })
-                        }
+                    myPosters:r.data.map(u=>{
+                        u.poster_imgs = u.poster_imgs.split(',')
+                        return u;
                     })
-                }
+                })
             }
+        })
+    },
+    deletePoster(e){
+        app.CONFIME("商铺删除后不能恢复，确定删除该商铺吗？", () => {
+            Poster.Delete({ user_id: app.USER_ID(), poster_id: e.currentTarget.dataset.id }).then(r => {
+                if (r.code === 200) {
+                    app.SUCCESS(r.message, this.getMyPosters(this.data.storeId))
+                } else {
+                    app.ERROR(r.message)
+                }
+            })
+        })
+    },
+    editPoster(e){
+        wx.navigateTo({
+            url: `/pages/merchants/posterinfo?storeId=${this.data.storeId}&storeName=${this.data.storeName}&posterId=${e.currentTarget.dataset.id}`,
         })
     }
 })

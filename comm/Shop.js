@@ -1,6 +1,8 @@
 import $ from 'request.js'
 import regeneratorRuntime from 'regenerator-runtime.js'
-
+/**
+ * 商品
+ */
 let obj = {
     Get() { return '/api/showapi/showShopInfo' },
     Post() { return '/api/addapi/shopHandle' },

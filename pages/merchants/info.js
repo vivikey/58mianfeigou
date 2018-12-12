@@ -3,6 +3,7 @@ import Store from '../../comm/Store.js'
 var app = getApp()
 Page({
     data: {
+        version:'',
         store: {
             id: 0,
             user_id: 0,
@@ -23,6 +24,9 @@ Page({
     },
     onLoad(options) {
         let store_id = options.id || 0
+        this.setData({
+            version:app.VERSION()
+        })
         if (store_id)
             Store.Get({user_id:app.USER_ID(),store_id}).then(r=>{
                 console.log('Store.Get => ',r)
@@ -176,8 +180,8 @@ Page({
             store: store
         })
     },
-    //-- 输入框失去焦点事件
-    inputBlur(e) {
+    //-- 输入框事件
+    onInputChanged(e) {
         var store = this.data.store;
         store[e.currentTarget.id] = e.detail.value;
         this.setData({
@@ -185,7 +189,7 @@ Page({
         })
     },
     //-- 执行操作
-    Save() {
+    onSubmit() {
         let store = Object.assign({}, this.data.store)
         if (store.store_name.length <= 0) {
             app.msg("请输入商铺名称")

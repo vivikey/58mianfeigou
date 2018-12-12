@@ -1,6 +1,8 @@
 import $ from 'request.js'
 import regeneratorRuntime from 'regenerator-runtime.js'
-
+/**
+ * 推荐方案
+ */
 let obj = {
     Get() { return '/api/showapi/showRecomInfo' },
     Post() { return '/api/addapi/recommendHandle' },

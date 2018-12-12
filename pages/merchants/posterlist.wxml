@@ -1,34 +1,48 @@
 <import src="/template/posteritem/posteritem.wxml" />
-<view class='container gray' style='padding-bottom:76rpx;'>
-    <view class='flex-row bgw pd30'>
-        <view class='item-list-title col-8 txtpt'>{{storeName}}</view>
-        <view class='col-4 font-xs cgray flex flex-right'>已发布：<text class='black bolder'>{{posterList.length}}</text></view>
+<view class='container gray' style='padding:90rpx 0;'>
+    <view class='full-width fix-t bglinearyellow shadow flex-row pd20'>
+        <view class='font-sm black bolder'>{{storeName}}</view>
     </view>
     <view class='sq'></view>
     <!-- list -->
     <view class='list'>
-        <view class='posteritem box flex-col bottomline' wx:for='{{posterList}}' wx:key='id'>
-            <view class='head flex-row'>
-                <view class='flex-col mg-l10 title'>
-                    <view class='font-md btn-color-danger'>{{item.addtime}}</view>
-                </view>
-                <view class='delbtn catchtap='deletePoster' data-id='{{item.id}}' data-idx='{{index}}'><image src='/resource/icon/delete.svg' ></image></view>
+        <view wx:if='{{!myPosters.length>0}}' class='bgw full-width pd30 flex-col flex-center'>
+            <view class='pd30'>
+                <image src='/resource/icon/nothing.svg'></image>
             </view>
-            <view class='content mg-t10 flex-row'>
-                <view class='col-9'>{{item.title}}</view> <view class='col-2 bglightgray font-xs bolder flex flex-center {{item.status==1?"cgreen":"cprimary"}}'>{{item.status==1?"审核通过":"待审核"}}</view>
-            </view>
-            <view class='content mg-t10 cgray'>
-                <text>{{item.content}}</text>
-            </view>
-            <view class='imglist flex-row flex-left flex-wrap' wx:if='{{item.posters.length<3}}'>
-                <image mode='aspectFill' wx:for='{{item.posters}}' wx:key='' src='{{item}}' class='col-6'></image>
-            </view>
-            <view class='imglist flex-row flex-left flex-wrap' wx:else>
-                <image mode='aspectFill' wx:for='{{item.posters}}' wx:key='' src='{{item}}' class='col-4'></image>
+            <view class='pd30'>
+                <text class='cgray font-lgp bolder'>什么都没有</text>
             </view>
         </view>
+        <view class='posteritem box flex-col bottomline' wx:for='{{myPosters}}' wx:key='id'>
+            <view class='full-width'>
+                <view class='font-sm black bolder'>{{item.poster_name}}</view>
+            </view>
+            <view class='full-width pd20'>
+                <view class='font-xs cgray'>{{item.poster_content}}</view>
+            </view>
+            <view class='full-width flex pdc'>
+                <view wx:for='{{item.poster_imgs}}' wx:key='{{index}}' wx:for-item='img' style='padding:2.5rpx;'>
+                    <image src='{{img}}' style='width:110rpx;height:100rpx;'></image>
+                </view>
+            </view>
+            <view class='full-width flex-row pdc20'>
+                <view class='font-xs black'>{{item.addtime}}</view>
+                <view class='flex pdr30'>
+                   <view catchtap='deletePoster' data-id='{{item.id}}' data-idx='{{index}}' class='skr'>删除</view>
+                   <view class='pdr20'></view>
+                   <view catchtap='editPoster' data-id='{{item.id}}' data-idx='{{index}}' class='cprimary'>编辑</view>
+                </view>
+            </view>
+        </view>
+     
     </view>
+        <import src="/template/version/version.wxml" />
+    <template is="version" data="{{version}}"></template>
 </view>
-    <view class='addbtn'>
-        <navigator url="/pages/merchants/posterinfo?type=0&storeId={{storeId}}&storeName={{storeName}}" class='full-width pdc20 flex flex-center font-sm bolder'><image src='/resource/icon/add.svg' class='addbtnimg'></image> 活动海报</navigator>
-    </view>
+<view class='fix-b flex flex-center pd20 '>
+    <navigator url="/pages/merchants/posterinfo?storeId={{storeId}}&storeName={{storeName}}&posterId=0" class='btn-fix-b font-md '>
+        <image src='/resource/icon/add.svg ' class='addbtnimg radius-circle '></image>
+        新活动海报
+    </navigator>
+</view>

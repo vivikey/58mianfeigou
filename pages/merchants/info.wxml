@@ -1,19 +1,19 @@
 <view class='container'>
     <view class='info-item-row'>
         <text class='mustbe'>商铺名称</text>
-        <input type='text' placeholder='请输入商铺名称' value='{{store.store_name}}' id='store_name' bindinput='inputBlur'></input>
+        <input type='text' placeholder='请输入商铺名称' value='{{store.store_name}}' id='store_name' bindinput='onInputChanged'></input>
     </view>
     <view class='info-item-row'>
         <text class='mustbe'>客服电话</text>
-        <input type='number' placeholder='请输入客服电话' value='{{store.store_phone}}' id='store_phone' bindinput='inputBlur'></input>
+        <input type='number' placeholder='请输入客服电话' value='{{store.store_phone}}' id='store_phone' bindinput='onInputChanged'></input>
     </view>
     <view class='info-item-row'>
         <view><text class='mustbe'>商铺类型</text><text class='font-x lightgray'>示例：[餐饮|湘菜]</text></view>
-        <input type='text' placeholder='请输入商铺性质类型' value='{{store.store_type}}' id='store_type' bindinput='inputBlur'></input>
+        <input type='text' placeholder='请输入商铺性质类型' value='{{store.store_type}}' id='store_type' bindinput='onInputChanged'></input>
     </view>
     <view class='info-item-row'>
         <view><text class='mustbe'>详细地址</text><text class='font-x lightgray'>示例：[江苏省苏州市虎丘区竹园路209号]</text></view>
-        <input type='text' placeholder='请输入商铺完整地址' value='{{store.store_addr}}' id='store_addr' bindinput='inputBlur'></input>
+        <input type='text' placeholder='请输入商铺完整地址' value='{{store.store_addr}}' id='store_addr' bindinput='onInputChanged'></input>
     </view>
     <view class='info-item-row '>
         <text class=' '>营业时间</text>
@@ -38,7 +38,7 @@
     </view>
     <view class='info-item-row'>
         <text>商铺介绍</text>
-        <textarea placeholder='请输入商铺介绍' id='store_intro' value='{{store.store_intro}}' bindinput='inputBlur'></textarea>
+        <textarea placeholder='请输入商铺介绍' id='store_intro' value='{{store.store_intro}}' bindinput='onInputChanged'></textarea>
     </view>
     <view class='info-item-row'>
         <text class='mustbe'>上传商铺Logo</text>
@@ -49,7 +49,7 @@
     </view>
     <view class='info-item-row'>
         <text class='mustbe'>身份证号码</text>
-        <input type='text' placeholder='请输入身份证号码' value='{{store.indentity_card}}' id='indentity_card' bindinput='inputBlur'></input>
+        <input type='text' placeholder='请输入身份证号码' value='{{store.indentity_card}}' id='indentity_card' bindinput='onInputChanged'></input>
     </view>
     <view class='row flex-col'>
         <text class='mustbe'>上传身份证正反两面照</text>
@@ -87,7 +87,10 @@
             </view>
         </view>
     </view>
-    <view class='info-item-row'>
-        <view class='btn' bindtap='Save'>✔ 提交审核</view>
+    <view class='info-item-row flex flex-center'>
+        <view class='btn' bindtap='onSubmit'>
+        <image src='/resource/icon/ok3.svg' class='addbtnimg radius-circle'></image> 提交审核</view>
     </view>
+    <import src="/template/version/version.wxml" />
+    <template is="version" data="{{version}}"></template>
 </view>
