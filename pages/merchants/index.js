@@ -32,25 +32,7 @@ Page({
     onShow(){
         this.initData()
     },
-    onShow_v1X: function() {
-        app.post('https://m.58daiyan.com/StoreApi/getStoreList', {
-            token: this.data.userInfo.token
-        }, res => {
-            console.log('getStoreList:', res)
-            var showadd=true
-            if (res.data.data.store_list)
-                this.setData({
-                    storeList: res.data.data.store_list.map(u=>{
-                        u.logo = app.joinPath(app.globalData.baseUrl, u.logo);
-                        if (u.is_check != 1 || u.is_fee=='0'){
-                            showadd=false
-                        }                      
-                        return u;
-                    }),
-                    showadd: showadd
-                })
-        })
-    },
+    //-- 删除商铺
     delStore(e){
         app.CONFIME("商铺删除后不能恢复，确定删除该商铺吗？", () => {
             Store.Delete({ user_id: app.USER_ID(), store_id: e.currentTarget.id }).then(r => {
@@ -61,5 +43,17 @@ Page({
                 }
             })
         })
+    },
+    //-- 转入信息编辑
+    editStore(e){
+        wx.navigateTo({
+            url: `/pages/merchants/info?id=${e.currentTarget.id}`,
+        })
+    },
+    //-- 转至商铺展示首页
+    toStoreHome(e){
+        wx.navigateTo({
+            url: `/pages/store/detail?id=${e.currentTarget.id}`,
+        })   
     }
 })

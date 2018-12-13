@@ -167,7 +167,7 @@ Page({
     //-- 移除操作
     removeImg(e) {
         var store = this.data.store
-        store[e.target.id].splice(e.target.dataset.idx, 1)
+        store[e.currentTarget.id].splice(e.currentTarget.dataset.idx, 1)
         this.setData({
             store: store
         })

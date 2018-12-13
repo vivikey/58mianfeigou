@@ -89,16 +89,16 @@
         "selectedColor": "#50d1fe",
         "list": [
             {
-                "pagePath": "pages/tuijian/index",
-                "text": "推荐有奖",
-                "iconPath": "/resource/icon/tuijian.png",
-                "selectedIconPath": "/resource/icon/tuijian2.png"
-            },
-            {
                 "pagePath": "pages/shop/index",
-                "text": "免费赠品",
+                "text": "首页",
                 "iconPath": "/resource/icon/shop.png",
                 "selectedIconPath": "/resource/icon/shop2.png"
+            },
+            {
+                "pagePath": "pages/tuijian/index",
+                "text": "任务大厅",
+                "iconPath": "/resource/icon/tuijian.png",
+                "selectedIconPath": "/resource/icon/tuijian2.png"
             },
             {
                 "pagePath": "pages/shop/nearby",
@@ -108,7 +108,7 @@
             },
             {
                 "pagePath": "pages/groupbuy/index",
-                "text": "同城拼团",
+                "text": "拼团",
                 "iconPath": "/resource/icon/gb.png",
                 "selectedIconPath": "/resource/icon/gb2.png"
             },

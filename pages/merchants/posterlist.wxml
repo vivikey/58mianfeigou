@@ -29,15 +29,18 @@
             <view class='full-width flex-row pdc20'>
                 <view class='font-xs black'>{{item.addtime}}</view>
                 <view class='flex pdr30'>
-                   <view catchtap='deletePoster' data-id='{{item.id}}' data-idx='{{index}}' class='skr'>删除</view>
-                   <view class='pdr20'></view>
-                   <view catchtap='editPoster' data-id='{{item.id}}' data-idx='{{index}}' class='cprimary'>编辑</view>
+                    <view class='flex flex-center pdr20' bindtap='deletePoster' data-id='{{item.id}}' data-idx='{{index}}'>
+                        <image src='/resource/icon/delete.svg' class='img-sm'></image>
+                    </view>
+                    <view class='flex flex-center pdr20' bindtap='editPoster' data-id='{{item.id}}' data-idx='{{index}}'>
+                        <image src='/resource/icon/edit.svg' class='img-sm'></image>
+                    </view>
                 </view>
             </view>
         </view>
-     
+
     </view>
-        <import src="/template/version/version.wxml" />
+    <import src="/template/version/version.wxml" />
     <template is="version" data="{{version}}"></template>
 </view>
 <view class='fix-b flex flex-center pd20 '>

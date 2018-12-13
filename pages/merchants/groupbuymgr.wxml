@@ -1,56 +1,22 @@
 <view class='container gray' style='padding-bottom:76rpx;'>
     <view class='flex-row pd30 bgw'>
         <view class='item-list-title col-8 txtpt'>{{storeName}}</view>
-        <view class='col-4 font-xs cgray flex flex-right'>已发布：
-            <text class='black bolder'>{{groupbuyList.length}}</text>
-        </view>
     </view>
     <view class='sq'></view>
-    <navigator url="/pages/merchants/groupbuyinfo?storeId={{storeId}}&storeName={{storeName}}&gid={{item.id}}" class='gift-item btn-color-gray flex-row flex-wrap pd' wx:for='{{groupbuyList}}' wx:key='id'>
-        <view class='pd20 col-12 bottomline flex-col'>
-            <view class='font-md black bolder txtclamp txtclamp-2'>{{item.title}}</view>
-            <view class='font-sm bglightgray cprimary ' wx:if='{{item.status==0}}'>待审核</view>
-            <view class='font-sm bglightgray skr ' wx:if='{{item.status==2}}'>审核不通过</view>
+    <view class='pd20 full-width bgw bottomline' wx:for='{{shopList}}' wx:key='id'>
+        <view class='pd20 col-12'>
+            <view class='font-md black bolder txtclamp txtclamp-2'>{{item.goods_name}}</view>
         </view>
-        <image src='{{item.gallery[0]}}' class='col-5'></image>
-        <view class='info col-6 flex-col flex-around'>
-            <view>开启：
-                <text class='font-xs font-underline btn-color-danger bolder'>{{item.tuanz_starttime}}</text>
-            </view>
-            <view>截止：
-                <text class='font-xs font-underline btn-color-danger bolder'>{{item.tuanz_endtime}}</text>
-            </view>
-            <view>库存量：
-                <text class='font-xs font-underline btn-color-info bolder'>{{item.num}}</text>
-            </view>
-            <view>成交量：
-                <text class='font-xs font-underline btn-color-danger bolder'>{{item.sale_num}}</text>
-            </view>
-            <view class='flex flex-wrap'>
-                <text wx:for='{{item.label}}' wx:key='' wx:for-item='lb' class='pdr20 bglightgray cgray font-xs mg'>{{lb}}</text>
-            </view>
-        </view>
-        <view class='flex flex-center flex-around bgw topline sku' wx:for='{{item.shop_sku}}' wx:key='' wx:for-item='sku'>
-            <view class='flex flex-center'>
-                <view class='skuimg flex flex-center'>
-                    <image src='{{sku.sku_img}}' mode='aspectFill'></image>
-                </view>
-                <view class='skuinfo pdr20'>
-                    <view class='black bolder font-sm'>{{sku.sku_spec}}</view>
-                    <view class='cgray'>
-                        <text>库存：{{sku.sku_stock}}</text>
-                        <text>原价：{{sku.sku_price}}</text>
-                        <text>团购价：{{sku.sku_price_tuan}}</text>
-                    </view>
+            <view class='full-width flex pdc'>
+                <view wx:for='{{item.goods_banners}}' wx:key='{{index}}' wx:for-item='img' style='padding:2.5rpx;'>
+                    <image src='{{img}}' style='width:110rpx;height:100rpx;'></image>
                 </view>
             </view>
-        </view>
         <view class='full-width flex flex-right pd30'>
             <view class='delbtn' data-id='{{item.id}}' data-idx='{{index}}' catchtap='deleteGroupBuy'><image src='/resource/icon/delete.svg' ></image></view>
-            <!-- <button plain='{{true}}' type='primary' data-id='{{item.id}}' data-idx='{{index}}' catchtap='deleteGroupBuy'>下架</button>
-            <button plain='{{true}}' type='default' data-id='{{item.id}}' data-idx='{{index}}' catchtap='deleteGroupBuy'>上架</button> -->
+            <navigator url="/pages/merchants/groupbuyinfo?storeId={{storeId}}&goods_id={{item.id}}" class='delbtn'><image src='/resource/icon/edit.svg' ></image></navigator>
         </view>
-    </navigator>
+    </view>
         <import src="/template/version/version.wxml" />
     <template is="version" data="{{version}}"></template>
 </view>

@@ -54,3 +54,28 @@ text.mgr{
     background: linear-gradient(to right, #50d1fe,#fff);
     color:#000;
 }
+.img-nav{
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30rpx 0;
+    flex-direction: column;
+    width:33%;
+    font-size:14px;
+    color:#333;
+    border-bottom:1rpx solid #f0f0f0;
+}
+.img-nav:nth-child(3n){
+    border-left:1rpx solid #f0f0f0;
+}
+.img-nav:nth-child(3n+1){
+    border-right:1rpx solid #f0f0f0;
+}
+.img-nav .image{
+    width:96rpx;
+    height: 93rpx;
+    background: #f0f0f0;
+    border-radius: 96rpx;
+    overflow: hidden;
+}

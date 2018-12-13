@@ -67,6 +67,9 @@ button{
     background: #f9f9f9;
     overflow-x: hidden;
 }
+.info-item-row.single-line{
+    background: #fff;
+}
 
 .info-item-row text {
     display: inline-block;

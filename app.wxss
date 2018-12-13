@@ -332,7 +332,7 @@ swiper {
 }
 
 .or {
-    color: orangered;
+    color: #e16531;
 }
 
 .btn-color-danger, .skr {
