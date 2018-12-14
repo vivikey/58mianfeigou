@@ -1,13 +1,13 @@
-<import src="/template/posteritem/posteritem.wxml" />
 <view class='container gray'>
     <view class='topblockbg'></view>
     <view class='full-width fix-t bglinearyellow shadow flex-row pd20'>
         <view class='font-sm black bolder'>{{storeName}}</view>
     </view>
+
     <view class='sq'></view>
     <!-- list -->
     <view class='list'>
-        <view wx:if='{{!myPosters.length>0}}' class='bgw full-width pd30 flex-col flex-center'>
+        <view wx:if='{{!noticeList.length>0}}' class='bgw full-width pd30 flex-col flex-center'>
             <view class='pd30'>
                 <image src='/resource/icon/nothing.svg'></image>
             </view>
@@ -15,25 +15,20 @@
                 <text class='cgray font-lgp bolder'>什么都没有</text>
             </view>
         </view>
-        <view class='posteritem box flex-col bottomline' wx:for='{{myPosters}}' wx:key='id'>
+        <view class='posteritem box flex-col bottomline' wx:for='{{noticeList}}' wx:key='id'>
             <view class='full-width'>
-                <view class='font-sm black bolder'>{{item.poster_name}}</view>
+                <view class='font-sm black bolder'>{{item.notice_name}}</view>
             </view>
             <view class='full-width pd20'>
-                <view class='font-xs cgray txtclamp txtclamp-4'>{{item.poster_content}}</view>
-            </view>
-            <view class='full-width flex pdc'>
-                <view wx:for='{{item.poster_imgs}}' wx:key='{{index}}' wx:for-item='img' style='padding:2.5rpx;'>
-                    <image src='{{img}}' style='width:110rpx;height:100rpx;'></image>
-                </view>
+                <view class='font-xs cgray txtclamp txtclamp-4'>{{item.notice_content}}</view>
             </view>
             <view class='full-width flex-row pdc20'>
                 <view class='label small yellow-label'>{{item.addtime}}</view>
                 <view class='flex pdr30'>
-                    <view class='flex flex-center pdr20' bindtap='deletePoster' data-id='{{item.id}}' data-idx='{{index}}'>
+                    <view class='flex flex-center pdr20' bindtap='deleteNotice' data-id='{{item.id}}' data-idx='{{index}}'>
                         <image src='/resource/icon/delete.svg' class='img-sm'></image>
                     </view>
-                    <view class='flex flex-center pdr20' bindtap='editPoster' data-id='{{item.id}}' data-idx='{{index}}'>
+                    <view class='flex flex-center pdr20' bindtap='editNotice' data-id='{{item.id}}' data-idx='{{index}}'>
                         <image src='/resource/icon/edit.svg' class='img-sm'></image>
                     </view>
                 </view>
@@ -45,8 +40,8 @@
     <template is="version" data="{{version}}"></template>
 </view>
 <view class='fix-b flex flex-center pd20 '>
-    <navigator url="/pages/merchants/posterinfo?storeId={{storeId}}&storeName={{storeName}}&posterId=0" class='btn-fix-b font-md '>
+    <navigator url="/pages/merchants/noticeinfo?storeId={{storeId}}&storeName={{storeName}}&noticeId=0" class='btn-fix-b font-md '>
         <image src='/resource/icon/add.svg ' class='addbtnimg radius-circle '></image>
-        新活动海报
+        发布新公告
     </navigator>
 </view>

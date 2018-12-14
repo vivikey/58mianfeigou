@@ -2,15 +2,18 @@
 <template is="totop" data="{{showToTop}}"></template>
 <view class='container gray'>
     <!-- Top SearchBar -->
-    <view class='top flex-row'>
-        <view class='location flex-row flex-left'>
+    <view class='top flex-row cgray'>
+        <view class='location flex flex-center'>
             <view class='locationImg'>
                 <image src='/resource/icon/weizhi.svg' class='img-sm'></image>
             </view>
             <view class='font-xs txtpt'>{{location}}</view>
         </view>
-        <view class='search'>
-            <image src='/resource/icon/search.png' class='searchimg' bindtap='inputFocus'></image>
+        <view class='search flex-row'  bindtap='inputFocus'>
+            <view class='flex flex-center pd'>
+                <image src='/resource/icon/search.svg' class='img-xs'></image>
+            </view>
+            <view class='flex flex-center pd font-xs'>搜索商品</view>
         </view>
     </view>
     <!-- Swiper -->
@@ -28,74 +31,7 @@
             </view>
         </view>
     </view>
-    <!-- Main navigator -->
-    <import src="/template/mainnavbox/mainnavbox.wxml" />
-    <template is="mainvav"></template>
-    <!-- dynamic notice -->
-    <view class='pd20 bgw full-width' wx:if='{{dynamic_list.length>0}}'>
-        <swiper class='dynamic' indicator-dots="{{false}}" autoplay="{{true}}" circular="{{true}}" interval="{{3000}}" vertical='{{true}}' duration="{{500}}">
-            <swiper-item wx:for='{{dynamic_list}}' wx:key=''>
-                <view class='dynamic txtpt font-xs flex flex-center' wx:for='{{item}}' wx:key='id' wx:for-item='u'>
-                    <text class='cgray'>{{u.buyer_name}}</text>兑换了
-                    <text class='cprimary bolder'>{{u.store_name}}</text> 的：
-                    <text class='skr font-underline' data-pid='{{u.goods_id}}' bindtap='gotoGift'>{{u.goods_name}}</text>({{u.goods_num}}份)
-                </view>
-            </swiper-item>
-        </swiper>
-    </view>
-    <!-- recommended -->
-    <view class='separator'></view>
-    <view class='foryou flex flex-wrap btn-color-gray font-sm'>
-        <view class='flex-col flex-center bottomline pdc30'>
-            <text class='font-md black bolder'><text class='skr'>为你</text>推荐</text>
-        </view>
-        <view class='swiper full-width'>
-            <swiper class='col-12 tj pdc30' autoplay="{{false}}" circular="{{true}}" interval="{{3000}}" duration="{{500}}" bindchange='swiperChange2'>
-                <swiper-item wx:for='{{recommendList}}' wx:key=''>
-                    <view class='flex flex-wrap'>
-                        <view class='foritem flex-col  font-xs' wx:for='{{item}}' wx:key='id' wx:for-item='iI'>
-                            <navigator url='/pages/shop/details?id={{iI.shop_id}}' class='imgblock flex flex-center'>
-                                <image src='{{iI.UpFilePathInfo}}'></image>
-                            </navigator>
-                            <text class='black bolder txtpt'>{{iI.shop_name}}</text>
-                            <text class='mg-t10 txtpt cgray'>{{iI.store_name}}</text>
-                            <view class='pd-t10 flex'>
-                                <view class='skr font-xs hight-xs'>
-                                    <text class='bolder font-sm'>{{iI.integral}}</text> 积分</view>
-                            </view>
-                        </view>
-                    </view>
-                </swiper-item>
-            </swiper>
-            <view class='dots flex-row flex-center'>
-                <view wx:for='{{recommendList}}' wx:key='' class='dot-box'>
-                    <view class='dot bgccc {{index==sc2?"active":""}}'></view>
-                </view>
-            </view>
-        </view>
-    </view>
-    <!-- all products -->
-    <view class='separator'></view>
-    <view class='products flex flex-wrap btn-color-gray'>
-        <view class='flex-col flex-center bottomline pdc30'>
-            <text class='font-md black bolder'><text class='pkcolor'>所有</text>赠品</text>
-        </view>
-        <view class='col-12 flex-row font-sm short bggray mg-b10'>
-            <view class='col-3 txtcenter bkl {{sortType==2?"active":""}}' data-id='2' bindtap='getSort'>距离最近</view>
-            <view class='col-3 txtcenter bkl {{sortType==3?"active":""}}' data-id='3' bindtap='getSort'>销量最高</view>
-            <view class='col-3 txtcenter {{sortType==4?"active":""}}' data-id='4' bindtap='getSort'>最新入驻</view>
-            <view class='col-3 txtcenter bkl {{sortType==1?"active":""}}' data-id='1' bindtap='getSort'>智能排序</view>
-        </view>
-        <view style='height:10rpx;width:100%;'></view>
-        <import src="/template/giftitem/giftitem.wxml" />
-        <template wx:for='{{shop_list}}' wx:key='id' data="{{...item}}" is="gift" class='bottomline'></template>
-        <import src="/template/emptyshow/emptyshow.wxml" />
-        <template is="empty" data='{{image:"/resource/icon/emp1.png",firstmsg:"赠品都被风吹走了~",secmsg:"",times:[1]}}' wx:if='{{shop_list.length<=0}}'></template>
-    </view>
-    <!-- <view class='full-width flex flex-center pd20' wx:if='{{showbload>0}}'>
-            <image src='/resource/icon/buttomload.gif' class='bload-img' wx:if='{{showbload==1}}'></image>
-            <text wx:if='{{showbload==2}}' class='lightgray font-xs'>-- 没有更多了 --</text>
-        </view> -->
+
     <import src="/template/version/version.wxml" />
     <template is="version" data="{{version}}"></template>
 </view>

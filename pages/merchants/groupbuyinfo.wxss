@@ -13,7 +13,9 @@ button{
 .img{
     width:100rpx;
     height: 100rpx;
-    background: #ccc;
+    border-radius: 50rpx;
+    border:1rpx solid #ccc;
+    overflow: hidden;
 }
 .img image{
     width:100%;
@@ -23,14 +25,6 @@ button{
     width:100rpx;
     height: 60rpx;
     background: #f00;
-}
-.info{
-    width:530rpx;
-}
-.info text{
-    margin: 0;
-    padding: 0;
-    margin-right:10rpx;
 }
 .choseimg .removeimg{
     position: absolute;

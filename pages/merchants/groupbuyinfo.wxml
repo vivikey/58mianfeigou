@@ -1,4 +1,4 @@
-<view class='container'>
+<view class='container gray'>
     <view class='info-item-row'>
         <text class='mustbe'>商品名称</text>
         <input type='text' placeholder='请输入商品名称' value='{{goods.goods_name}}' id='goods_name' bindinput='onInputChanged'></input>
@@ -14,10 +14,21 @@
             <view class='cprimary font-sm'>参与拼团</view>
         </view>
     </view>
+
     <!-- 属于团购产品 -->
     <view class='info-item-row' wx:if='{{goods.group_purchase==1}}'>
         <text class='mustbe'>成团人数</text>
         <slider bindchange="onInputChanged" id='group_num' show-value min="1" max="10" value="{{goods.group_num}}" activeColor="#00b642" block-color="#00b642" />
+    </view>
+        <!-- 限购数量：0表示不限制 -->
+    <view class='info-item-row'>
+        <text class='mustbe'>限购数量<text class='font-xs skr'>每个人最多购买数量，0不限</text></text>
+        <input type='text' placeholder='请输入商品名称' value='{{goods.goods_limit}}' id='goods_limit' bindinput='onInputChanged'></input>
+    </view>
+        <!-- 推广佣金 -->
+    <view class='info-item-row'>
+        <text class='mustbe'>推广佣金<text class='font-xs skr'></text></text>
+        <input type='text' placeholder='请输入推广佣金' value='{{goods.goods_brokerage}}' id='goods_brokerage' bindinput='onInputChanged'></input>
     </view>
     <!-- 商品分类 -->
     <view class='info-item-row'>
@@ -54,54 +65,68 @@
         </view>
     </view>
     <!-- 规格 -->
-    <view class='info-item-row'>
-        <text class='mustbe flex-row bottomline'>商品规格<text class='font-xs skr'>至少一种规格（首页展示的信息为第一个规格）</text></text>
+    <view class='info-item-row bottomline'>
+        <text class='mustbe flex-row bottomline'>商品规格<text class='font-xs skr'>至少一种规格</text></text>
         <view class='specs font-xs'>
-            <view class='flex flex-center flex-around bgw bottomline pdr20' wx:for='{{goods_spec}}' wx:key='id'>
-                <view class='flex flex-center'>
-                    <view class='img flex flex-center'>
-                        <image src='{{item.spec_img}}' mode='aspectFill'></image>
-                    </view>
-                    <view class='info pdr20'>
-                        <view class='cgray bolder font-xs'>{{item.spec_size}} {{item.spec_color}} </view>
-                        <view class='black'>
-                            <text>库存：{{item.spec_num}}</text>
-                            <text>价格：{{item.spec_price}}</text>
-                            <text>团购价：{{item.group_price}}</text>
-                            <text>兑换积分：{{item.integral}}</text>
+            <view class='full-width bgw bottomline pd20' wx:for='{{goods_spec}}' wx:key='id'>
+                <view class='flex-row'>
+                    <view class='flex flex-center'>
+                        <view class='img flex flex-center'>
+                            <image src='{{item.spec_img}}' mode='aspectFill'></image>
+                        </view>
+                        <view class='pdr20'>
+                            <view class='black font-sm'>尺寸：
+                                <text class='cprimary'>{{item.spec_size}}</text> 颜色：
+                                <text class='cprimary'>{{item.spec_color}}</text> </view>
                         </view>
                     </view>
+                    <view class='flex flex-center pdr20' bindtap='removeSpecsItem' data-id='{{item.id}}' data-idx='{{index}}'>
+                        <image src='/resource/icon/delete.svg' class='img-sm'></image>
+                    </view>
                 </view>
-                <view class='opt pd wtcolor flex flex-center' data-idx='{{index}}' bindtap='removeSpecsItem'>删除</view>
+                <view class='black font-xs flex flex-center flex-around'>
+                    <view class=''>库存：
+                        <text class='bolder cprimary'>{{item.spec_num}}</text>
+                    </view>
+                    <view>价格：
+                        <text class='bolder cprimary'>{{item.spec_price}}</text>
+                    </view>
+                    <view>团购价：
+                        <text class='bolder cprimary'>{{item.group_price}}</text>
+                    </view>
+                    <view>兑换积分：
+                        <text class='bolder cprimary'>{{item.integral}}</text>
+                    </view>
+                </view>
             </view>
         </view>
         <view class='specs-input font-xs leftline'>
-            <view>
-                尺寸：
+            <view class='flex-row mg-b10'>
+                <text class='line-title mustbe'>尺寸：</text>
                 <input type='text' placeholder='请输入规格尺寸' value='{{spec_item.spec_size}}' id='spec_size' bindinput='specsItemInput'></input>
             </view>
-            <view>
-                颜色：
+            <view class='flex-row mg-b10'>
+                <text class='line-title mustbe'>颜色：</text>
                 <input type='text' placeholder='请输入规格颜色' value='{{spec_item.spec_color}}' id='spec_color' bindinput='specsItemInput'></input>
             </view>
-            <view>
-                库存：
+            <view class='flex-row mg-b10'>
+                <text class='line-title mustbe'>库存：</text>
                 <input type='number' placeholder='请输入库存' value='{{spec_item.spec_num}}' id='spec_num' bindinput='specsItemInput'></input>
             </view>
-            <view>
-                规格标价：
+            <view class='flex-row mg-b10'>
+                <text class='line-title mustbe'>规格标价：</text>
                 <input type='digit' placeholder='请输入规格价值' value='{{spec_item.spec_price}}' id='spec_price' bindinput='specsItemInput'></input>
             </view>
-            <view>
-                团购价格：
-                <input type='digit ' placeholder='请输入团购价格 ' value='{{spec_item.group_price}} ' id='group_price ' bindinput='specsItemInput '></input>
+            <view class='flex-row mg-b10'>
+                <text class='line-title mustbe'>团购价格：</text>
+                <input type='digit' placeholder='请输入团购价格 ' value='{{spec_item.group_price}} ' id='group_price ' bindinput='specsItemInput '></input>
             </view>
-            <view>
-                兑换积分：
-                <input type='digit' placeholder='请输入兑换积分' value='{{spec_item.integral}}' id='integral' bindinput='specsItemInput'></input>
+            <view class='flex-row mg-b10'>
+                <text class='line-title mustbe'>兑换积分：</text>
+                <input type='number' placeholder='请输入兑换积分' value='{{spec_item.integral}}' id='integral' bindinput='specsItemInput'></input>
             </view>
-            缩略图(建议750x750)：
-            <view class='row flex-row flex-wrap flex-left'>
+            <view class='row bgw flex-row'>
+                <text class='line-title mustbe'>缩略图</text>
                 <view class='choseimg col-6 bgw' wx:if='{{spec_item.spec_img}}'>
                     <image src='{{spec_item.spec_img}}' mode='aspectFit'></image>
                     <view class='removeimg flex flex-center' bindtap='removeSpecsItemImg'>✖</view>
@@ -110,8 +135,9 @@
                     <view>✛</view>
                 </view>
             </view>
-            <view class='flex flex-right full-width pd' wx:if='{{goods.id>0}}'>
-                <button type='primary' plain='{{true}}' bindtap='addSpecsItem'>确认规格</button>
+            <view class='flex flex-right pd' wx:if='{{goods.id>0}}'>
+                <view class='btn small light' bindtap='addSpecsItem'>
+                    <image src='/resource/icon/ok.svg' class='addbtnimg radius-circle'></image> 确认规格</view>
             </view>
         </view>
     </view>
@@ -143,7 +169,8 @@
             <view>✛</view>
         </view>
     </view>
-    <view class='info-item-row flex flex-center'>
+    <view class='sq'></view>
+    <view class='info-item-row flex flex-center pdc30'>
         <view class='btn' bindtap='onSubmit'>
             <image src='/resource/icon/ok3.svg' class='addbtnimg radius-circle'></image> 提交审核</view>
     </view>

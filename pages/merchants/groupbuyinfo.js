@@ -22,7 +22,9 @@ Page({
             class_two: 0, //-- 商品二级分类
             class_three: 0, //-- 商品三级分类
             goods_click: 1000, //-- 商品热度
+            goods_limit:0, //--限购：0不限
             goods_key: '', //-- 商品键
+            goods_brokerage:0, //-- 推广佣金
             goods_describe: '', //-- 商品详情
             goods_img: [], //-- 商品图片
             goods_banners: [] //-- 商品轮播图
@@ -289,9 +291,39 @@ Page({
             })
         }
     },
+    validateSpec(spec_item){
+        if (spec_item.spec_size.length <= 0) {
+            app.msg("请输入商品规格尺寸")
+            return false;
+        }
+        if (spec_item.spec_num.length <=0 || spec_item.spec_num < 0) {
+            app.msg("规格库存必须为有效非负数")
+            return false;
+        }
+        if (spec_item.spec_price.length <= 0 || spec_item.spec_price < 0) {
+            app.msg("规格标价必须为有效非负数")
+            return false;
+        }
+        if (spec_item.group_price.length <= 0 || spec_item.group_price < 0) {
+            app.msg("规格团购价格必须为有效非负数")
+            return false;
+        }
+        if (spec_item.integral.length <= 0 || spec_item.integral < 200) {
+            app.msg("规格兑换积分必须不小于200")
+            return false;
+        }
+        if (!spec_item.spec_img || spec_item.spec_img.length <= 0) {
+            app.msg("请上传规格图片")
+            return false;
+        }
+        return true;
+    },
     //-- 增加一个规格
     addSpecsItem() {
         let spec_item = this.data.spec_item
+        if(!this.validateSpec(spec_item)){
+            return;
+        }
         if (this.data.goods.id > 0) {
             spec_item.goods_id = this.data.goods.id
             spec_item.user_id = app.USER_ID()
@@ -299,6 +331,7 @@ Page({
                 if (r.code == 200) {
                     app.SUCCESS('规格添加成功！')
                     let goods_spec = this.data.goods_spec
+                    spec_item.id = r.data
                     goods_spec.push(spec_item)
                     this.setData({
                         goods_spec: goods_spec
@@ -314,62 +347,55 @@ Page({
         let goods = Object.assign({}, this.data.goods)
         let goods_spec = this.data.goods_spec
         let spec_item = this.data.spec_item
-
+        //-- 商品名称检查
         if (goods.goods_name.length <= 0) {
             app.msg("请输入商品名称")
             return;
         }
+        //-- 限购检查
+        if (goods.goods_limit.length <= 0 || goods.goods_limit <0) {
+            goods.goods_limit = 0
+        }
+        //-- 佣金检查
+        if (goods.goods_brokerage.length <= 0 || goods.goods_brokerage < 0) {
+            goods.goods_brokerage = 0
+        }
+        //-- 规格检查
         if (goods.id > 0) {
             if (goods_spec.length <= 0) {
                 app.msg("商品至少需要有一个规格！")
                 return;
             }
         }else{
-            if (spec_item.spec_size.length<=0){
-                app.msg("请输入商品规格尺寸")
-                return; 
-            } 
-            if (spec_item.spec_num < 0) {
-                app.msg("请输入规格库存必须为有效非负数")
-                return;
-            } 
-            if (spec_item.spec_price < 0) {
-                app.msg("请输入规格标价必须为有效非负数")
-                return;
-            } 
-            if (spec_item.group_price < 0) {
-                app.msg("请输入规格团购价格必须为有效非负数")
-                return;
-            } 
-            if (spec_item.integral < 200) {
-                app.msg("请输入规格兑换积分必须不小于200")
-                return;
-            } 
-            if (!spec_item.spec_img || spec_item.spec_img.length <= 0) {
-                app.msg("请上传规格图片")
+            if (!this.validateSpec(spec_item)) {
                 return;
             }
         }
-
+        //-- 轮播展示图检查
         if (!goods.goods_banners || goods.goods_banners.length <= 0) {
             app.msg("请上传商品轮播展示图")
             return;
         }
+        //-- 商品描述图片检查
         if (!goods.goods_img || goods.goods_img.length <= 0) {
             app.msg("请上传商品描述图片")
             return;
         }
-
+        let tl = this.data.shopTypeList
+        let mi = this.data.multiIndex
         goods.goods_banners = goods.goods_banners.join(',')
         goods.goods_img = goods.goods_img.join(',')
         goods.user_id = app.USER_ID()
         goods.store_id = this.data.storeId
+        goods.class_one = tl[0][mi[0]].id
+        goods.class_two = tl[1][mi[1]].id
+        goods.class_three = tl[2][mi[2]].id
         if(goods.spec){
             delete goods.spec
         }
-        Shop.Post(goods).then(res => {
-            console.log("Shop.Post => ", res)
-            if (res.code === 200) {
+        Shop.Post(goods).then(r => {
+            console.log("Shop.Post => ", r)
+            if (r.code === 200) {
                 if(goods.id<=0){
                     spec_item.goods_id = r.data
                     spec_item.user_id = app.USER_ID()

@@ -133,7 +133,7 @@ button[type=default], button[type=default][plain] {
     font-size: 14px;
 }
 .addbtnimg{
-    width:56rpx;height:56rpx;padding:0;margin:5rpx;
+    width:56rpx;height:56rpx;padding:0;margin:5rpx;overflow: hidden;
 }
 .delbtn {
     margin: 0rpx 20rpx;
@@ -469,7 +469,7 @@ swiper {
 .row {
     width: 750rpx;
     display: flex;
-    padding: 10rpx 30rpx;
+    padding: 10rpx;
     overflow-x: hidden;
 }
 
@@ -967,6 +967,54 @@ swiper {
 .sl-flux{
     border-top:1px solid #999;
     width:100%;
+}
+.label{
+    margin: 0 5rpx;
+    padding: 5rpx 10rpx;
+    font-size: 14px;
+    background: #f0f0f0;
+    color:#282729;
+    border-radius: 10rpx;
+}
+.label.small{
+    font-size:11px;
+}
+.label.green-label{
+    background: #00b642;
+    color:#fff;
+}
+.label.orange-label{
+    background: orange;
+    color:#000;
+}
+.label.red-label{
+    background: lightpink;
+    color:#000;
+}
+.label.gold-label{
+    background: lightgoldenrodyellow;
+    color:#000;
+}.label.yellow-label{
+    background: lightyellow;
+    color:#000;
+}
+.label.blue-label{
+    background: lightblue;
+    color:#000;
+}
+.label.skyblue-label{
+    background: lightskyblue;
+    color:#000;
+}
+.label.warn-label{
+    background: yellow;
+    color:red;
+    font-weight: 600;
+}
+.topblockbg{
+    width:100%;
+    height: 80rpx;
+    background: #50d1fe;
 }
 @import "/template/smallmenu/smallmenu.wxss";
 @import "/template/form.wxss";

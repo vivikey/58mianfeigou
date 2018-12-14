@@ -1,4 +1,4 @@
-<view class='container'>
+<view class='container gray'>
     <view class='info-item-row'>
         <text class='mustbe'>活动海报标题</text>
         <input type='text' placeholder='请输入活动海报标题' value='{{poster.poster_name}}' id='poster_name' bindinput='onInputChanged'></input>
@@ -19,7 +19,8 @@
             </view>
         </view>
     </view>
-    <view class='info-item-row flex flex-center'>
+    <view class='sq'></view>
+    <view class='info-item-row flex flex-center pdc30'>
         <view class='btn' bindtap='onSubmit'>
         <image src='/resource/icon/ok3.svg' class='addbtnimg radius-circle'></image> 提交审核</view>
     </view>

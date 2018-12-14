@@ -18,7 +18,7 @@
                 </view>
             </view>
         </view>
-        <view class='full-width flex-row flex-around font-sm pdc20'>
+        <!-- <view class='full-width flex-row flex-around font-sm pdc20'>
             <view class='flex-col-auto flex-center'>
                 <text class='img-md black bolder font-sm flex flex-center'>{{!s.total_expense_people_num?0:s.total_orders_num}}</text>
                 <text class='font-xs cgray'>成交量</text>
@@ -31,7 +31,7 @@
                 <text class='img-md skr bolder font-sm flex flex-center'>{{!s.total_expense_people_num?0:s.total_expense_people_num}}</text>
                 <text class='font-xs cprimary'>客户数</text>
             </navigator>
-        </view>
+        </view> -->
         <view class='full-width flex flex-wrap font-xs topline'>
             <navigator class='img-nav' url='storeqrcode?id={{s.id}}&title={{s.store_name}}&image={{s.store_logo}}&address={{s.store_addr}}'>
                 <view class='flex flex-center'>
@@ -51,11 +51,11 @@
                 </view>
                 <view class='caption pdc'>活动海报</view>
             </navigator>
-            <navigator class='img-nav' url="/pages/merchants/membermgr?storeId={{s.id}}&storeName={{s.store_name}}">
+            <navigator class='img-nav' url="/pages/merchants/noticemgr?storeId={{s.id}}&storeName={{s.store_name}}">
                 <view class='flex flex-center'>
                     <image src='/resource/icon/notice.svg' class='img-md'></image>
                 </view>
-                <view class='caption pdc'>消息公告</view>
+                <view class='caption pdc'>公告管理</view>
             </navigator>
             <navigator class='img-nav' url="/pages/merchants/managermgr?id={{s.id}}&title={{s.store_name}}">
                 <view class='flex flex-center'>
@@ -71,9 +71,8 @@
             </navigator>
         </view>
         <view class='flex-row pd30'>
-            <view class='' wx:if='{{s.store_check != 1}}'>
-                <text class='skr bolder' wx:if='{{s.store_check==0}}'>已提交，请等待审核结果</text>
-                <text class='skr bolder' wx:if='{{s.store_check==2}}'>审核未通过：{{s.check_reason}}</text>
+            <view>
+                <view class='label warn-label' wx:if='{{s.store_check==0}}'>未审核</view>
             </view>
             <view class='flex'>
                 <view class='flex flex-center pdr20' bindtap='delStore' id='{{s.id}}'>

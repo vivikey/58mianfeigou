@@ -1,12 +1,14 @@
 .top{
     width:750rpx;
     padding:6rpx;
+    background: #fff;
 }
 .location{
     height: 68rpx;
     line-height: 68rpx; 
-    width:630rpx;
-    background: #fff;
+    background: lightgoldenrodyellow;
+    border-radius: 68rpx;
+    padding: 6rpx 18rpx;
 }
 .locationImg{
     width:54rpx;
@@ -15,6 +17,9 @@
 .search{
     height: 68rpx;
     line-height: 68rpx;
+    padding: 6rpx 18rpx;
+    background: #f8f8f8;
+    border-radius: 68rpx;
 }
 .searchbox{
   background: #fff;

@@ -1,0 +1,17 @@
+<view class='container gray'>
+    <view class='info-item-row'>
+        <text class='mustbe'>公告标题</text>
+        <input type='text' placeholder='请输入活动海报标题' value='{{notice.notice_name}}' id='notice_name' bindinput='onInputChanged'></input>
+    </view>
+    <view class='info-item-row'>
+        <text class='mustbe'>公告内容</text>
+        <textarea placeholder='请输入活动海报详情' id='notice_content' maxlength='-1' value='{{notice.notice_content}}' bindinput='onInputChanged'></textarea>
+    </view>
+    <view class='sq'></view>
+    <view class='info-item-row flex flex-center pdc30'>
+        <view class='btn' bindtap='onSubmit'>
+        <image src='/resource/icon/ok3.svg' class='addbtnimg radius-circle'></image> 发布公告</view>
+    </view>
+    <import src="/template/version/version.wxml" />
+    <template is="version" data="{{version}}"></template>
+</view>

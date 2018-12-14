@@ -71,7 +71,9 @@
         "pages/merchants/customorders",
         "pages/usercenter/userinfo",
         "pages/usercenter/addressmgr",
-        "pages/usercenter/editaddress"
+        "pages/usercenter/editaddress",
+        "pages/merchants/noticemgr",
+        "pages/merchants/noticeinfo"
     ],
     "window": {
         "navigationBarBackgroundColor": "#50d1fe",
@@ -95,26 +97,14 @@
                 "selectedIconPath": "/resource/icon/shop2.png"
             },
             {
-                "pagePath": "pages/tuijian/index",
-                "text": "任务大厅",
-                "iconPath": "/resource/icon/tuijian.png",
-                "selectedIconPath": "/resource/icon/tuijian2.png"
-            },
-            {
                 "pagePath": "pages/shop/nearby",
-                "text": "附近商铺",
+                "text": "附近",
                 "iconPath": "/resource/icon/nearby.png",
-                "selectedIconPath": "/resource/icon/nearby.png"
-            },
-            {
-                "pagePath": "pages/groupbuy/index",
-                "text": "拼团",
-                "iconPath": "/resource/icon/gb.png",
-                "selectedIconPath": "/resource/icon/gb2.png"
+                "selectedIconPath": "/resource/icon/nearby2.png"
             },
             {
                 "pagePath": "pages/usercenter/index",
-                "text": "个人中心",
+                "text": "我的",
                 "iconPath": "/resource/icon/user.png",
                 "selectedIconPath": "/resource/icon/user2.png"
             }

@@ -10,10 +10,14 @@ let obj = {
     List() { return '/api/showapi/showShopList'},
     TypeList() { return '/api/showapi/showShopClass' },
     async Do(data){
+        let b = true;
+        if (this.url.includes('showShopClass')){
+            b=false;
+        }
         return await new Promise((resolve, reject) => {
             $.Post(this.url, data, r => {
                 resolve(r.data)
-            }, null, true)
+            }, null, b)
         })
     }
 }

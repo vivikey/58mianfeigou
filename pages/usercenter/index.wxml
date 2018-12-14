@@ -45,18 +45,18 @@
         </view>
         <view class='myinfo bgw'>
             <view class='flex flex-left flex-around black font-sm'>
-                <view class='user flex-row flex-around font-sm pd20' wx:if="{{user.user_phone}}">
+                <view class='user flex-row flex-around font-sm pd20'>
                     <navigator class='flex-col-auto flex-center' url='myqrcode'>
                         <image src='/resource/icon/qr.svg' class='img-md'></image>
-                        <text class='font-xs mg-t10'>二维码名片</text>
+                        <text class='font-xs mg-t10'>我的名片</text>
                     </navigator>
                     <navigator class='flex-col-auto flex-center' url='/pages/my/myattention?type=1'>
                         <image src='/resource/icon/my-gz.svg' class='img-md'></image>
-                        <text class='font-xs mg-t10'>我的关注</text>
+                        <text class='font-xs mg-t10'>商铺关注</text>
                     </navigator>
                     <navigator class='flex-col-auto flex-center' url='/pages/my/myattention?type=2'>
                         <image src='/resource/icon/my-sc.svg' class='img-md'></image>
-                        <text class='font-xs mg-t10'>我的收藏</text>
+                        <text class='font-xs mg-t10'>商品收藏</text>
                     </navigator>
                     <navigator class='flex-col-auto flex-center' url='userdesc'>
                         <image src='/resource/icon/ts.svg' class='img-md'></image>
@@ -64,15 +64,11 @@
                     </navigator>
                 </view>
             </view>
-            <view class='user flex-row flex-around font-sm topline'>
+            <!-- <view class='user flex-row flex-around font-sm topline'>
                 <navigator class='col-3 flex-col-auto flex-center' url='balance'>
                     <text class='skr bolder'>{{myBalance}}</text>
                     <text class='font-xs mg-t10'>总余额</text>
                 </navigator>
-                <!-- <navigator class='col-3 flex-col-auto flex-center' url='/pages/my/mydaibi'>
-                    <text class='skr bolder'>{{!member.token?0:member.token}}</text>
-                    <text class='font-xs mg-t10'>代币</text>
-                </navigator> -->
                 <navigator class='col-3 flex-col-auto flex-center' url='/pages/credits/index'>
                     <view class='skr bolder'>{{!userInfo.integral?0:userInfo.integral}}</view>
                     <view class='font-xs mg-t10'>积分</view>
@@ -81,10 +77,11 @@
                     <view class='skr'>积分不够？</view>
                     <view class='cprimary'>点这里</view>
                 </view>
-            </view>
+            </view> -->
         </view>
     </view>
-    <view class='sq'></view>
+    <!-- 签到模块 -->
+    <!-- <view class='sq'></view>
     <view class='pdr20 full-width'>
         <view class='myinfo signin flex-col flex-left'>
             <view class='full-width pd20'>
@@ -101,7 +98,7 @@
                 </view>
             </view>
         </view>
-    </view>
+    </view> -->
     <view class='sq'></view>
     <view class='pdr20 full-width'>
         <view class='myinfo bgw full-width'>

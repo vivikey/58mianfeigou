@@ -1,5 +1,6 @@
 var app = getApp()
 import Shop from '../../comm/Shop.js'
+import TimeConverter from '../../comm/TimeConverter.js'
 Page({
     data: {
         shopList: [],
@@ -26,12 +27,26 @@ Page({
                 this.setData({
                     shopList:r.data.map(u=>{
                         u.goods_banners = u.goods_banners.split(',')
+                        u.addtime = TimeConverter.ToLocal(u.addtime);
                         return u;
                     })
                 })
             }else{
                 app.ERROR(r.message)
             }
+        })
+    },
+    //-- 删除商品
+    onDeleteShop(e){
+        let shop_id = e.currentTarget.dataset.id
+        app.CONFIME("商品删除后不能恢复，确定删除该商品吗？", () => {
+            Shop.Delete({ user_id: app.USER_ID(), shop_id }).then(r => {
+                if (r.code === 200) {
+                    app.SUCCESS(r.message, this.getShopList())
+                } else {
+                    app.ERROR(r.message)
+                }
+            })
         })
     }
 })
