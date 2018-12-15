@@ -24,7 +24,7 @@ Page({
             goods_click: 1000, //-- 商品热度
             goods_limit:0, //--限购：0不限
             goods_key: '', //-- 商品键
-            goods_brokerage:0, //-- 推广佣金
+            goods_brokerage:20, //-- 推广佣金
             goods_describe: '', //-- 商品详情
             goods_img: [], //-- 商品图片
             goods_banners: [] //-- 商品轮播图
@@ -401,7 +401,7 @@ Page({
                     spec_item.user_id = app.USER_ID()
                     Spec.Post(spec_item).then(r=>{
                         if(r.code==200){
-                            app.SUCCESS('提交成功！请等待审核', wx.navigateBack({
+                            app.SUCCESS(r.message, wx.navigateBack({
                                 delta: 1
                             }))
                         }else{
@@ -411,7 +411,7 @@ Page({
                         }
                     })
                 }else{
-                    app.SUCCESS('提交成功！请等待审核', wx.navigateBack({
+                    app.SUCCESS(r.message,wx.navigateBack({
                         delta: 1
                     }))
                 }

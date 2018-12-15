@@ -1,12 +1,12 @@
-const regeneratorRuntime = require('./comm/regenerator-runtime')
+const regeneratorRuntime = require('./comm/regenerator-runtime')  //-- v2.X
 import $ from './comm/request.js'
 App({
     globalData: {
-        version: 'V2.0.0',
+        version: 'V2.1.0', //-- v2.X
         appname: '58免费购小程序',
         login: false,
         baseUrl: 'https://m.58daiyan.com',
-        xcxUrl: 'https://xcx.58daiyan.com',
+        xcxUrl: 'https://xcx.58daiyan.com', //-- v2.X
         userInfo: {
             code: null,
             nickName: null,
@@ -21,12 +21,14 @@ App({
             myBalance: 0
         },
         rec_token: null,
-        user: null,
+        higher_up:0,//-- 上级ID v2.X
+        long_lat: [],//-- 当前经纬度 v2.X
+        user: null,//-- 当前用户 v2.X
         member: null,
         authed: null,
         shareImg: ['https://m.58daiyan.com/static/game/game_share.jpg', 'https://m.58daiyan.com/static/game/mall_share.jpg'],
         shareTB: '免费好产品，人人都有份!',
-        showPage: '/pages/tuijian/index',
+        showPage: '/pages/index/index',
         currGift: null
     },
     /**
@@ -42,7 +44,7 @@ App({
                     $.Post(`/api/Addapi/addLocation`, 
                     { long: res.longitude, lat: res.latitude,user_id:this.USER_ID()},
                      r => {
-                        this.UPD_LOCATION(res.latitude, res.longitude)
+                         this.UPD_LOCATION(res.longitude,res.latitude)
                         if(r.data.code==200){
                             r.data["area"] = r.data.data.match(/.+?(市|自治区|自治州|县|区)/g)
                         }
@@ -77,7 +79,8 @@ App({
                         this.globalData.userInfo.code = res.code
                     }
                     $.Post(`/api/Wxapi/wxLogin`, {
-                        code: res.code
+                        code: res.code,
+                        higher_up: this.HIGHER_UP()
                     }, res => {
                         resolve(res.data);
                     }, null, false)
@@ -110,24 +113,49 @@ App({
             });
         })
     },
+    //-- 获取默认分享数据
+    SHARE_DEFAULT(imgidx,success){
+        imgidx = imgidx || 0
+        let obj = {
+            path: `${this.globalData.showPage}?higher_up=${this.USER_ID()}`,
+            title: this.globalData.shareTB,
+            imageUrl: this.globalData.shareImg[imgidx],
+            success:success
+        }
+        return obj;
+    },
+    //-- 设置或获取上级用户的ID
+    HIGHER_UP(uid){
+        if (uid) {
+            this.globalData.higher_up = uid
+        } else {
+            return this.globalData.higher_up
+        }
+    },
+    //-- 设置或获取当前用户实体
     USER(obj){
-        if(obj){
+        if (obj){
             this.globalData.user = obj 
         }else{
             return this.globalData.user
         }
     },
+    //-- 获取当前用户的ID
     USER_ID() {
         return this.globalData.user.id
     },
+    //-- 获取当前小程序的版本
     VERSION(){
         return this.globalData.version
     },
-    UPD_LOCATION(lat,long){
-        let userInfo = this.globalData.userInfo
-        userInfo.latitude = lat
-        userInfo.longitude = long
-        this.setData({userInfo:userInfo})
+    //-- 更新当前经纬度
+    UPD_LOCATION(long,lat){
+        this.globalData.userInfo.longitude = long
+        this.globalData.userInfo.latitude = lat
+    },
+    //-- 获取当前经纬度
+    LOCATION(){
+        return { longitude: this.globalData.userInfo.longitude, latitude:this.globalData.userInfo.latitude}
     },
     ERROR(err_msg,fn) {
         wx.showModal({

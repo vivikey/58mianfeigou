@@ -1,24 +1,35 @@
 <import src="/template/totop/totop.wxml" />
 <template is="totop" data="{{showToTop}}"></template>
-<view class='container gray'>
-    <!-- Top SearchBar -->
-    <view class='top flex-row cgray'>
-        <view class='location flex flex-center'>
-            <view class='locationImg'>
-                <image src='/resource/icon/weizhi.svg' class='img-sm'></image>
+<view class='container gray font-xs cgray'>
+    <view class='topblockbg' style='height:66px;'></view>
+    <!-- Location / SearchBar / NavBar -->
+    <view class='fix-t full-width bgw pdc pdr'>
+        <view class='flex-row'>
+            <!-- Location -->
+            <view class='flex flex-center flex-left location'>
+                <view class='flex flex-center'>
+                    <image src='/resource/icon/position.svg' class='img-sm'></image>
+                </view>
+                <text class='pdr txtpt font-sm'>{{location}}</text>
             </view>
-            <view class='font-xs txtpt'>{{location}}</view>
+            <!-- SearchBar -->
+            <view class='flex-row label midd search' bindtap='inputFocus'>
+                <text class='pdr20 font-sm cgray'>搜索...</text>
+                <view class='flex flex-center'>
+                    <image src='/resource/icon/search.svg' class='img-sm'></image>
+                </view>
+            </view>
         </view>
-        <view class='search flex-row'  bindtap='inputFocus'>
-            <view class='flex flex-center pd'>
-                <image src='/resource/icon/search.svg' class='img-xs'></image>
-            </view>
-            <view class='flex flex-center pd font-xs'>搜索商品</view>
+        <scroll-view class="scroll-view_H mg-t10" scroll-x style="width: 100%">
+            <view class='scroll-view-item_H {{classNavActIdx==index?"active":""}} pdc pdr20' wx:for='{{classNavList}}' wx:key='id' id='{{index}}' bindtap='onClassNavClick'>{{item.categoryName}}</view>
+        </scroll-view>
+        <view class=''>
+            
         </view>
     </view>
     <!-- Swiper -->
     <view class='swiper full-width'>
-        <swiper autoplay="{{autoplay}}" circular="{{circular}}" interval="{{interval}}" duration="{{duration}}" bindchange='swiperChange'>
+        <swiper autoplay="{{true}}" circular="{{true}}" interval="{{3000}}" duration="{{500}}" class='mg-b10' bindchange='swiperChange'>
             <swiper-item wx:for='{{index_banner}}' wx:key=''>
                 <navigator url='{{item.ad_link}}' class='swiper-navbox flex flex-center'>
                     <image src='{{item.UpFilePathInfo}}' width="375" height="150"></image>
@@ -31,7 +42,27 @@
             </view>
         </view>
     </view>
+    <!-- dynamic notice -->
+    <view class='pdr pdc bgw flex-row' wx:if='{{dynamic_list.length>0}}'>
+        <view class='flex flex-center' style='width:200rpx;height:49rpx;'>
+            <text class='bolder pkcolor font-md'>今日头条</text>
+        </view>
+        <swiper class='dynamic flex flex-center midd black' indicator-dots="{{false}}" autoplay="{{true}}" circular="{{true}}" interval="{{3000}}" vertical='{{true}}' duration="{{500}}">
+            <swiper-item wx:for='{{dynamic_list}}' wx:key='id' class='flex flex-center'>
+                <view class=' full-width txtpt font-xs flex flex-center'>
+                    <text class='skr'>{{item.user}}</text>刚刚获得了
+                    <text class='skr bolder'>{{item.value}}</text>元
+                    <text class=''>{{item.type}}</text>
+                </view>
+            </swiper-item>
+        </swiper>
+    </view>
+    <view class='sq'></view>
+    <!-- Class Nav -->
 
+    <view class='full-width pd'>
+        <rich-text nodes='{{testHtml}}'></rich-text>
+    </view>
     <import src="/template/version/version.wxml" />
     <template is="version" data="{{version}}"></template>
 </view>

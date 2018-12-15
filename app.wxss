@@ -173,14 +173,14 @@ button[type=default], button[type=default][plain] {
 }
 
 .bgw-opacity.active {
-    background: #50d1fe;
+    background: #d81e06;
 }
 
 .bgw-opacity.active.vdo {
     height: 18rpx;
     background: transparent;
     border-top: 13rpx solid transparent;
-    border-left: 18rpx solid #50d1fe;
+    border-left: 18rpx solid #d81e06;
     border-bottom: 11rpx solid transparent;
     border-radius: 0;
 }
@@ -262,14 +262,14 @@ button[type=default], button[type=default][plain] {
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 3600;
+    z-index: 36000;
 }
 .fix-t {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 3600;
+    z-index: 36000;
 }
 .shadow{
     box-shadow: 0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12);
@@ -327,19 +327,19 @@ swiper {
     height: 300rpx;
 }
 
-.btn-color-info, .pkcolor {
-    color: #50d1fe;
+.pkcolor {
+    color: #d81e06;
 }
 
 .or {
     color: #e16531;
 }
 
-.btn-color-danger, .skr {
+.skr {
     color: #f62004;
 }
 
-.btn-color-primary, .cprimary {
+.cprimary {
     color: #337ab7;
 }
 
@@ -347,7 +347,7 @@ swiper {
     color: #00b642;
 }
 
-.btn-color-gray, .cgray {
+.cgray {
     color: #707070;
 }
 
@@ -355,11 +355,11 @@ swiper {
     color: #545454;
 }
 
-.btn-color-lightgray, .lightgray {
+.lightgray {
     color: #999;
 }
 
-.btn-color-normal, .black {
+.black {
     color: #222;
 }
 
@@ -979,6 +979,12 @@ swiper {
 .label.small{
     font-size:11px;
 }
+.label.midd{
+    font-size:13px;
+}
+.label.big{
+    font-size:15px;
+}
 .label.green-label{
     background: #00b642;
     color:#fff;
@@ -993,7 +999,7 @@ swiper {
 }
 .label.gold-label{
     background: lightgoldenrodyellow;
-    color:#000;
+    color:#f62004;
 }.label.yellow-label{
     background: lightyellow;
     color:#000;
@@ -1011,10 +1017,30 @@ swiper {
     color:red;
     font-weight: 600;
 }
+.label.white-label{
+    background: #fff;
+    color:#d81e06;
+    font-weight: 600;
+}
 .topblockbg{
     width:100%;
     height: 80rpx;
-    background: #50d1fe;
+    background: #d81e06;
+}
+.scroll-view_H{
+    display: flex;
+    white-space: nowrap; 
+    background: #fff;
+}
+.scroll-view-item_H{
+    display: inline-flex;
+    border-bottom:3rpx solid #fff;
+    color:#000;
+    font-weight: 500;
+}
+.scroll-view-item_H.active{
+    color:#d81e06;
+    border-bottom-color:#d81e06;
 }
 @import "/template/smallmenu/smallmenu.wxss";
 @import "/template/form.wxss";

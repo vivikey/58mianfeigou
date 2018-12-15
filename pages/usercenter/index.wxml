@@ -5,25 +5,15 @@
                 <image class='img-lgp radius-circle' src='{{user.user_img}}'></image>
             </view>
             <view class='userinfo flex-row pd'>
-                <view class='flex-col flex-left'>
-                    <view class='flex-row wtcolor'>
-                        <view class='bolder font-md'>{{user.nick_name}}</view>
-                        <view class='flex flex-left font-xs'>
-                            <view class='pd' bindtap='toEditUserInfo'>
-                                <image src='/resource/icon/set.svg' class='img-md'></image>
-                            </view>
-                            <view class='pd'>
-                                <image src='/resource/icon/msgbox.svg' class='img-md'></image>
-                            </view>
-                        </view>
-                    </view>
+                <view class='wtcolor flex-col flex-left'>
+                    <view class='full-width bolder font-lg'>{{user.nick_name}}</view>
                     <view class='flex-row flex-wrap font-xs'>
                         <view class='flex flex-left pd-t10 wtcolor full-width'>
-                            <view class='flex flex-left bglightgray radius-l pdr20 mg-r10'>
+                            <view class='flex flex-left label white-label small'>
                                 <view class='img-xs'>
                                     <image src='/resource/icon/memoer.svg' class='img-xs'></image>
                                 </view>
-                                <view class='pd black'>会员</view>
+                                <view>{{user.member.member_name}}</view>
                             </view>
                             <view class='flex flex-left bglightgray radius-l pdr20 mg-l10 mg-r10' wx:if='{{member.is_seller==1}}'>
                                 <view class='img-xs'>
@@ -31,14 +21,16 @@
                                 </view>
                                 <view class='pd black'>商户</view>
                             </view>
-                            <view class='flex flex-left bdlinearskr radius-l pdr20 mg-l10' wx:if='{{member.action_grade_name}}'>
-                                <view class='img-xs'>
-                                    <image src='/resource/icon/proxy.svg' class='img-xs'></image>
-                                </view>
-                                <view class='pd'>{{member.action_grade_name}}</view>
-                            </view>
                         </view>
 
+                    </view>
+                </view>
+                <view class='flex flex-left font-xs'>
+                    <view class='pd' bindtap='toEditUserInfo'>
+                        <image src='/resource/icon/set.svg' class='img-md'></image>
+                    </view>
+                    <view class='pd'>
+                        <image src='/resource/icon/msgbox.svg' class='img-md'></image>
                     </view>
                 </view>
             </view>
@@ -137,18 +129,18 @@
                     <text class='font-xs mg-t10'>商铺</text>
                 </navigator>
 
-                <navigator class='col-3 flex-col-auto flex-center' url='/pages/usercenter/giftlist'>
+                <!-- <navigator class='col-3 flex-col-auto flex-center' url='/pages/usercenter/giftlist'>
                     <image src='/resource/icon/gift.svg' class='img-md'></image>
                     <text class='font-xs mg-t10'>赠品券</text>
-                </navigator>
+                </navigator> -->
                 <!-- <navigator class='col-3 flex-col-auto flex-center' url='/pages/usercenter/mycontacts'>
                     <image src='/resource/icon/rm.svg' class='img-md'></image>
                     <text class='font-xs mg-t10'>平台人脉</text>
                 </navigator> -->
-                <navigator class='col-3 flex-col-auto flex-center' url='mytuijian'>
+                <!-- <navigator class='col-3 flex-col-auto flex-center' url='mytuijian'>
                     <image src='/resource/icon/jf.svg' class='img-md'></image>
                     <text class='font-xs mg-t10'>推荐列表</text>
-                </navigator>
+                </navigator> -->
                 <!-- <navigator class='col-3 flex-col-auto flex-center' url='' wx:if='{{member.action_grade_name}}'>
                     <image src='/resource/icon/fh.svg' class='img-md'></image>
                     <text class='font-xs mg-t10'>分红</text>
@@ -171,5 +163,5 @@
     </view>
     <view class='sq'></view>
 </view>
-    <import src="/template/version/version.wxml" />
-    <template is="version" data="{{version}}"></template>
+<import src="/template/version/version.wxml" />
+<template is="version" data="{{version}}"></template>

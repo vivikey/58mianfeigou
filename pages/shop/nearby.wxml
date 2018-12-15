@@ -1,37 +1,6 @@
-<import src="/template/totop/totop.wxml" />
-<template is="totop" data="{{showToTop}}"></template>
 <view class='container gray'>
-    <!-- Swiper -->
-    <view class='swiper full-width'>
-        <swiper autoplay="{{true}}" circular="{{true}}" interval="{{3000}}" duration="{{500}}" bindchange='swiperChange'>
-            <swiper-item wx:for='{{index_banner}}' wx:key=''>
-                <navigator url='{{item.ad_link}}' class='swiper-navbox flex flex-center'>
-                    <image src='{{item.UpFilePathInfo}}' width="375" height="150"></image>
-                </navigator>
-            </swiper-item>
-        </swiper>
-        <view class='dots flex-row flex-center'>
-            <view wx:for='{{index_banner}}' wx:key='' class='dot-box'>
-                <view class='dot bgw-opacity {{index==sc?"active":""}}'></view>
-            </view>
-        </view>
+    <web-view src="https://www.baidu.com/">
+    </web-view>
 </view>
-<view class='item-title font-sm black flex-row pd30'>
-    <view class='pd bolder'>
-        <text class='skr radius-s'>{{areas[areaidx]}}km</text>范围内的商铺</view>
-    <picker class='pd' range='{{areas}}' value='{{areaidx}}' bindchange="bindAreaChange">
-        <view class="picker arrow-down flex flex-center">
-            <text class='cgray'>选择范围(km)</text>
-        </view>
-    </picker>
-</view>
-<import src="/template/emptyshow/emptyshow.wxml" />
-<template is="empty" data='{{image:"/resource/icon/emp3.png",firstmsg:"没有找到附近入驻的商铺",secmsg:"切换附近距离试试？"}}' wx:if='{{itemList.length<=0}}'></template>
-<import src="/template/storeitem/storeitem.wxml" />
-<view class='flex-col flex-center'>
-    <template wx:for='{{itemList}}' wx:key='id' is="storeitem" data="{{...item,idx:index}}"></template>
-</view>
-<view></view>
-</view>
-<import src="/template/smallmenu/smallmenu.wxml" />
-<template is="smallmenu" data="{{showsmallmenu:false,smallmenuclosed:smallmenuclosed}}"></template>
+<import src="/template/version/version.wxml" />
+<template is="version" data="{{version}}"></template>

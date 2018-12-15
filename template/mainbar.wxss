@@ -6,13 +6,7 @@
 .location{
     height: 68rpx;
     line-height: 68rpx; 
-    background: lightgoldenrodyellow;
-    border-radius: 68rpx;
-    padding: 6rpx 18rpx;
-}
-.locationImg{
-    width:54rpx;
-    height: 54rpx;
+    width:230rpx;
 }
 .search{
     height: 68rpx;
@@ -20,17 +14,5 @@
     padding: 6rpx 18rpx;
     background: #f8f8f8;
     border-radius: 68rpx;
-}
-.searchbox{
-  background: #fff;
-  color:#50d1fe;
-  border:1rpx solid #50d1fe;
-  padding:0rpx 6rpx;
-  height: 68rpx;
-  line-height: 68rpx;
-}
-.searchimg{
-    width:108rpx;
-    height: 68rpx;
-    z-index: 999;
+    width:100%;
 }

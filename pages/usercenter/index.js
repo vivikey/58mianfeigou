@@ -6,9 +6,11 @@ Page({
     },
     onLoad: function(options) {
         this.setData({
-            showhow: true,
             version: app.VERSION()
         })
+        
+    },
+    onShow(){
         let user = app.USER()
         if (!user.user_img) {
             wx.navigateTo({
@@ -19,8 +21,6 @@ Page({
                 user: user
             })
         }
-    },
-    onShow(){
     },
     //--2.X 转向用户信息编辑
     toEditUserInfo() {

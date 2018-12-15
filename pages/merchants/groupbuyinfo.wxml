@@ -27,8 +27,8 @@
     </view>
         <!-- 推广佣金 -->
     <view class='info-item-row'>
-        <text class='mustbe'>推广佣金<text class='font-xs skr'></text></text>
-        <input type='text' placeholder='请输入推广佣金' value='{{goods.goods_brokerage}}' id='goods_brokerage' bindinput='onInputChanged'></input>
+        <text class='mustbe'>任务基价<text class='font-xs skr'>商品报价的百分比</text></text>
+        <slider bindchange="onInputChanged" id='goods_brokerage' show-value min="0" max="100" value="{{goods.goods_brokerage}}" activeColor="#00b642" block-color="#00b642" />
     </view>
     <!-- 商品分类 -->
     <view class='info-item-row'>

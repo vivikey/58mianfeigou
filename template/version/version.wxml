@@ -1,9 +1,10 @@
 <template name="version">
     <view class='footer flex-col flex-center cgray font-xs pd20'>
         <view>
-        <text>Copyright © Since 2018 </text>
-        <text class='skr bolder mg-l10 mg-r10 font-underline pd'> 58daiyan.com </text>
+        <text>Copyright © </text>
+        <text class='bolder pdr label gold-label midd'>58daiyan.com</text>
+        <text> Since 2018 </text>
         </view>
-        <view><text class='black bolder'>{{version}}</text> </view>
+        <view class='pdc'><text class='label lightblue-label bolder midd'>{{version}}</text> </view>
     </view>
 </template>
