@@ -1,147 +1,187 @@
-<import src="/template/smallmenu/smallmenu.wxml" />
-<import src="/template/commentitem/commentitem.wxml" />
-<import src="/template/giftitem/giftitem.wxml" />
 <view class='container font-xs btn-color-gray'>
-    <view class='topbar bottomline pdr30 full-width'>
-        <image src='{{store.logo}}' class='col-3' mode='aspectFill'></image>
-        <view class='flex-col pdr20 btn-color-normal col-9'>
-            <text class='black font-md bolder pd title'>{{store.title}}</text>
-            <view class='flex flex-around topline font-xs cgray full-width'>
-                <view class='flex-col flex-center mg-t10'>
-                    <text class='bolder black font-md'>{{store_ex.present_num}}</text>
-                    <text class=''>赠品</text>
+    <!-- StoreInfo -->
+    <view class='bgw flex-row pd20'>
+        <!-- StoreName -->
+        <view class='store-info'>
+            <view class='black bolder font-lg'>{{store.store_name}}</view>
+            <view class='pdc flex flex-center'>
+                <text class='label small green-label'>{{store.start_time}}</text>
+                <text class='label small orange-label'>{{store.end_time}}</text>
+            </view>
+            <view class='flex-row pdc'>
+                <view class='flex flex-center' bindtap='callPhone'>
+                    <image src='/resource/icon/tel.png' class='img-xs'></image>
+                    <text class='pdr pkcolor'>{{store.store_phone}}</text>
                 </view>
-                <view class='flex-col flex-center mg-t10'>
-                    <text class='bolder black font-md'>{{store_ex.poster_num}}</text>
-                    <text class=''>活动</text>
-
-                </view>
-                <view class='flex-col flex-center mg-t10'>
-                    <text class='bolder black font-md'>{{store_ex.attention_num}}</text>
-                    <text class=''>关注</text>
-
-                </view>
-                <view class='flex-col flex-center mg-t10' bindtap='toStoreBalance'>
-                    <text class='skr font-md'>￥{{myBalance}}</text>
-                    <text class=''>我的余额</text>
+                <view class='pdr20 flex'>
+                    <view class='flex flex-center pdr20'>
+                        <image src='/resource/icon/share.png' class='img-sm'></image>
+                    </view>
+                    <view class='flex flex-center pdr20' bindtap='onAttent'>
+                        <image src='{{store.attent_img}}' class='img-sm'></image>
+                    </view>
                 </view>
             </view>
         </view>
-    </view>
-    <view class='bottomline pd20 pdr30 flex-row full-width'>
-        <view class='flex-row pd flex-left'>
-            <text class='mg-l10'>营业时间：</text>
-            <text class='black font-sm'>{{store.business_start_time}}-{{store.business_end_time}}</text>
+        <!-- StoreLogo -->
+        <view class='store-logo'>
+            <image src='{{store.store_logo}}'></image>
         </view>
+    </view>
+    <view class='flex-row bottomline topline arrow pd20' bindtap='openMap'>
         <view class='flex flex-center'>
-            <button class='leftline flex flex-center' open-type='share' plain='{{true}}' hover-class='none'>
-                <image src='/resource/icon/share.svg' class='img-sm'></image>
-            </button>
-            <view class='leftline pdr30 flex flex-center' wx:if='{{store.is_attention===0}}' bindtap='addAOC'>
-                <image src='/resource/icon/gz-1.svg' class='img-sm'></image>
-            </view>
-            <view class='leftline pdr30 flex flex-center' wx:else bindtap='removeAOC'>
-                <image src='/resource/icon/gz-2.svg' class='img-sm'></image>
-            </view>
-
+            <image src='/resource/icon/position.svg' class='img-xs'></image>
+            <text class='pdr txtpt'>{{store.add_info.address}}</text>
         </view>
     </view>
-    <view class='bottomline pd20 pdr30 flex-row  full-width'>
-        <view class='flex-row pd flex-left address'>
-            <text class='mg-l10 col-11 black'>{{store.rel_address}}</text>
-            <text></text>
-        </view>
-        <view class='flex flex-center'>
-            <button class='leftline pdr30 flex flex-center' plain='{{true}}' bindtap='openMap'>
-                <image src='/resource/icon/map.svg' class='img-sm'></image>
-            </button>
-            <view class='leftline pdr30 flex flex-center' data-tel='{{store.rel_phone}}' bindtap='callPhone'>
-                <image src='/resource/icon/tel.svg' class='img-sm'></image>
-            </view>
-        </view>
-    </view>
-    <!-- <view class='sq'></view> -->
-    <view class='notice flex-row skr'>
-        <view class='pd'>
-            <image src='/resource/icon/notice.png'></image>
-        </view>
-        <swiper autoplay="{{true}}" circular="{{true}}" interval="{{3000}}" vertical='{{true}}' duration="{{500}}">
-            <swiper-item class='flex flex-center' wx:for='{{notice_list}}' wx:key=''>
-                <text class='font-xs bolder flex flex-center'>{{item.content}}</text>
+    <!-- Notice -->
+    <view class='full-width pd20 bglightgray'>
+        <swiper class='dynamic flex flex-center midd black' indicator-dots="{{false}}" autoplay="{{true}}" circular="{{true}}" interval="{{3000}}" vertical='{{true}}' duration="{{500}}">
+            <swiper-item wx:for='{{noticeList}}' wx:key='id' class='flex flex-center'>
+                <view class=' full-width txtpt font-xs flex flex-center'>
+                    <text class='redcolor'>{{item.title}}</text>
+                </view>
             </swiper-item>
         </swiper>
     </view>
-    <view class='pd pdr30 full-width topline'>
-        <view class='item-list-title bottomline flex-row pd'><text>商铺介绍</text><view class='bglightgray pkcolor pd pdr20 radius-s flex flex-left font-xs' bindtap='goHomePage'><image src='/resource/icon/tuijian2.png' class='img-sm'></image>推荐首页</view></view>
-        <view class='pd30'>{{store.pt_jieshao}}</view>
+    <!-- NavList -->
+    <view class='pd20 full-width'>
+        <scroll-view class="scroll-view_H" scroll-x>
+            <view class='scroll-view-item_H {{classNavActIdx==index?"active":""}} bolder pdc' wx:for='{{classNavList}}' wx:key='' id='{{index}}' bindtap='onClassNavClick'>{{item}}</view>
+        </scroll-view>
     </view>
-    <view class='sq'></view>
-    <view class='full-width bgw'>
-        <view class='col-12 flex-row font-sm short bggray mg-b10'>
-            <view class='col-3 txtcenter bkl {{showtype==2?"active":""}}' data-type='2' bindtap='changeType'>免费赠品</view>
-            <view class='col-3 txtcenter bkl {{showtype==1?"active":""}}' data-type='1' bindtap='changeType'>活动海报</view>
-            <view class='col-3 txtcenter bkl {{showtype==4?"active":""}}' data-type='4' bindtap='changeType'>同城拼团</view>
-            <!-- <view class='col-3 txtcenter {{showtype==3?"active":""}}' data-type='3' bindtap='changeType'>访客反馈</view> -->
-            <view class='col-3 txtcenter {{showtype==5?"active":""}}' data-type='5' bindtap='changeType'>推荐有奖</view>
-        </view>
-        <!-- 活动海报list -->
-        <view class='posterlist' wx:if="{{showtype==1}}">
-            <import src="/template/posteritem/posteritem.wxml" />
-            <template wx:for='{{posterList}}' wx:key='' is="posteritem" data="{{...item,idx:index,selfPage:true}}"></template>
-            <view wx:if='{{posterList.length<=0}}' class='flex-col flex-center pdc30 '>
-                <image src='/resource/icon/emp0.png' style='width:220rpx;height:220rpx;'></image>
-                <text class='cgray font-lg pdc30'>敬请期待</text>
+    <!-- 赠品 -->
+    <view class='full-width pd20' wx:if='{{classNavActIdx==0}}'>
+        <!-- ShopList is empty -->
+        <import src="/template/nothing/item.wxml" />
+        <template is="nothing" data='{{datalist:giftList,Msg:"该商铺未发布免费赠品"}}'></template>
+        <!-- ShopList -->
+        <view wx:for='{{giftList}}' wx:key='id' class='full-width pd flex-row'>
+            <view class='store_shop_specimg' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail'>
+                <image src='{{item.spec.spec_img}}'></image>
             </view>
-        </view>
-        <!-- 商品信息list -->
-        <view class='giftlist products flex flex-wrap' wx:if="{{showtype==2}}">
-            <template wx:for='{{shop_list}}' wx:key='id' data="{{...item}}" is="gift"></template>
-            <view wx:if='{{shop_list.length<=0}}' class='flex-col flex-center pdc30 '>
-                <image src='/resource/icon/emp2.png' style='width:220rpx;height:220rpx;'></image>
-                <text class='cgray font-lg pdc30'>敬请期待</text>
-            </view>
-        </view>
-        <!-- 团购产品list -->
-        <view class='giftlist products flex flex-wrap' wx:if="{{showtype==4}}">
-            <import src="/template/groupbuyitem/groupbuy.wxml" />
-            <template is='groupbuy' wx:for='{{groupbuyList}}' wx:key='' data='{{item}}'></template>
-            <view wx:if='{{groupbuyList.length<=0}}' class='flex-col flex-center pdc30 '>
-                <image src='/resource/icon/emp3.png' style='width:220rpx;height:220rpx;'></image>
-                <text class='cgray font-lg pdc30'>敬请期待</text>
-            </view>
-        </view>
-        <!-- 推荐有奖list -->
-         <view class='giftlist products flex flex-wrap' wx:if="{{showtype==5}}">
-            <import src='/template/tuijian/tuijianitem.wxml' />
-            <template is='tuijianitem' wx:for='{{groupbuyList}}' wx:key='id' data="{{...item}}"></template>
-            <view wx:if='{{groupbuyList.length<=0}}' class='flex-col flex-center pdc30 '>
-                <image src='/resource/icon/emp1.png' style='width:220rpx;height:220rpx;'></image>
-                <text class='cgray font-lg pdc30'>敬请期待</text>
-            </view>
-        </view>       
-        <!-- 会员发言list -->
-        <view class='fayanlist' wx:if="{{showtype==3}}">
-            <view wx:if='{{commentList.length<=0}}' class='flex-col flex-center pdc30 '>
-                <image src='/resource/icon/emp1.png' style='width:220rpx;height:220rpx;'></image>
-                <text class='cgray font-lg pdc30'>您的反馈 如此珍贵</text>
-            </view>
-            <view class='list'>
-                <view class='comment pd flex' wx:if='{{!owner}}'>
-                    <view class='headimg mg-r10'>
-                        <image src='{{userInfo.avatarUrl}}' class='img-md'></image>
-                    </view>
-                    <view class='flex-col inputB pd mg-l10'>
-                        <textarea type='text' placeholder='快来写下您的反馈吧' confirm-type="send" bindinput="sendComment" value='{{comment}}'></textarea>
+            <view class='store_shop_info bottomline pdc'>
+                <view>
+                    <view class='skr font-sm bolder'>{{item.goods_name}}
+                                            <text class='label white-label'>{{item.spec.spec_size}}</text>
+                        <text class='label white-label'>{{item.spec.spec_color}}</text></view>
+                    <view class='pdc'>
+                        <text wx:for='{{item.goods_key}}' wx:key='index' wx:for-item='key' class='label small'>{{key}}</text>
                     </view>
                 </view>
-                <view class='flex flex-right bottomline pd' wx:if='{{!owner}}'>
-                    <button type='primary' plain='{{true}}' bindtap='onSendComment' style='width:200rpx;'>提交</button>
+                <view class='flex-row'>
+                    <view>
+                        <text class='label small yellow-label'>{{item.spec.integral}}积分</text>
+                    </view>
+                    <view class='flex flex-center bdlinearskr wtcolor pdc pdr20 radius-m'>
+                        <text class='txtmidline cgray'>免费领取</text>
+                    </view>
                 </view>
-                <template is="commentitem" wx:for='{{commentList}}' wx:key='id' data="{{...item}}"></template>
             </view>
         </view>
     </view>
+    <!-- 拼团 -->
+    <view class='full-width pd20' wx:if='{{classNavActIdx==1}}'>        
+        <import src="/template/nothing/item.wxml" />
+        <template is="nothing" data='{{datalist:tuanList,Msg:"该商铺未发布拼团活动"}}'></template>
+        <view wx:for='{{tuanList}}' wx:key='id' class='full-width pd flex-row'>
+            <view class='store_shop_specimg' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail'>
+                <image src='{{item.spec.spec_img}}'></image>
+            </view>
+            <view class='store_shop_info bottomline pdc'>
+                <view>
+                    <view class='skr font-sm bolder'>{{item.goods_name}}
+                        <text class='label white-label'>{{item.spec.spec_size}}</text>
+                        <text class='label white-label'>{{item.spec.spec_color}}</text>
+                    </view>
+                    <view class='pdc'>
+                        <text wx:for='{{item.goods_key}}' wx:key='index' wx:for-item='key' class='label small'>{{key}}</text>
+                    </view>
+                </view>
+                <view class='font-sm flex'>
+                    <view class='redcolor font-md bolder'>
+                        <text class='font-lg'>{{item.spec.group_price}}</text>
+                    </view>
+                    <view class='cgray txtmidline'>￥{{item.spec.spec_price}}</view>
+                </view>
+                <view class='flex-row'>
+                    <view>
+                        <text wx:if='{{item.group_purchase == 1}}' class='label small red-label'>{{item.group_num}}人团</text>
+                    </view>
+                    <view class='flex flex-center bdlinearskr wtcolor pdc pdr20 radius-m' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail'>
+                        <text>我要参团</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+            </view>
+    <!-- 商品列表 -->
+    <view class='full-width pd20' wx:if='{{classNavActIdx==2}}'>        
+        <import src="/template/nothing/item.wxml" />
+        <template is="nothing" data='{{datalist:shopList,Msg:"该商铺未发布商品信息"}}'></template>
+        <view wx:for='{{shopList}}' wx:key='id' class='full-width pd flex-row'>
+            <view class='store_shop_specimg' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail'>
+                <image src='{{item.spec.spec_img}}'></image>
+            </view>
+            <view class='store_shop_info bottomline pdc'>
+                <view>
+                    <view class='skr font-sm bolder'>{{item.goods_name}}
+                        <text class='label white-label'>{{item.spec.spec_size}}</text>
+                        <text class='label white-label'>{{item.spec.spec_color}}</text>
+                    </view>
+                    <view class='pdc'>
+                        <text wx:for='{{item.goods_key}}' wx:key='index' wx:for-item='key' class='label small'>{{key}}</text>
+                    </view>
+                </view>
+                <view class='bolder font-sm'>
+                    <view class='redcolor font-lg'>￥{{item.spec.spec_price}}</view>
+                </view>
+                <view class='flex-row'>
+                    <view>
+                        <text class='lightgray'>已售{{item.sale_num}}</text>
+                    </view>
+                    <view class='flex flex-center'>
+                        <view class='pdr flex flex-center'>
+                            <image src='/resource/icon/sub.png' class='img-sm'></image>
+                        </view>
+                        <view class='pdr flex flex-center font-sm bolder black'>
+                            <text>0</text>
+                        </view>
+                        <view class='pdr flex flex-center'>
+                            <image src='/resource/icon/add.png' class='img-sm'></image>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        
+    </view>
+    <!-- userCommList -->
+    <view class='full-width pd20' wx:if='{{classNavActIdx==3}}'>
+        <!-- userCommList is empty -->
+        <import src="/template/nothing/item.wxml" />
+        <template is="nothing" data='{{datalist:userCommList,Msg:"暂无评价"}}'></template>
+    </view>
+    <!-- business_license-->
+    <view class='full-width pd20' wx:if='{{classNavActIdx==4}}'>
+        <view class='pdc30'>
+            <view class='full-width ' wx:for='{{store.business_license}}' wx:key='index'>
+                <image src='{{item}}' class='full-width' mode='widthFix'></image>
+            </view>
+        </view>
+    </view>
+    <!-- Content-->
+    <view class='full-width pd20' wx:if='{{classNavActIdx==5}}'>
+        <view class=''>
+            <text>{{store.store_intro}}</text>
+        </view>
+        <view class='pdc30'>
+            <view class='full-width ' wx:for='{{store.store_img}}' wx:key='index'>
+                <image src='{{item}}' class='full-width' mode='widthFix'></image>
+            </view>
+        </view>
+    </view>
+
 </view>
-<template is="smallmenu" data="{{showsmallmenu:false,smallmenuclosed:smallmenuclosed}}"></template>
-<import src="/template/totop/totop.wxml" />
-<template is="totop" data="{{showToTop}}"></template>
+<import src="/template/version/version.wxml" />
+<template is="version" data="{{version}}"></template>

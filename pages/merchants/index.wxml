@@ -3,6 +3,10 @@
         <view class='font-sm black bolder'>我的商铺</view>
     </view>
     <view class='sq'></view>
+    <!-- StoreList is Empty -->
+    <import src="/template/nothing/item.wxml" />
+    <template is="nothing" data='{{datalist:storeList,Msg:"请注册商铺"}}'></template>
+    <!-- StoreList -->
     <view class='merchants-item flex-col bgw bottomline shadow' wx:for='{{storeList}}' wx:key='store_id' wx:for-index="idx" wx:for-item="s">
         <view class='flex-row pdc pdr20'>
             <view class='flex' style='width:650rpx;'>
@@ -18,20 +22,6 @@
                 </view>
             </view>
         </view>
-        <!-- <view class='full-width flex-row flex-around font-sm pdc20'>
-            <view class='flex-col-auto flex-center'>
-                <text class='img-md black bolder font-sm flex flex-center'>{{!s.total_expense_people_num?0:s.total_orders_num}}</text>
-                <text class='font-xs cgray'>成交量</text>
-            </view>
-            <view class='flex-col-auto flex-center'>
-                <text class='img-md black bolder font-sm flex flex-center'>{{!s.rec_expense_people_num?0:s.rec_expense_people_num}}</text>
-                <text class='font-xs cgray'>引流量</text>
-            </view>
-            <navigator class='flex-col-auto flex-center radius-s' url='customs?id={{s.id}}'>
-                <text class='img-md skr bolder font-sm flex flex-center'>{{!s.total_expense_people_num?0:s.total_expense_people_num}}</text>
-                <text class='font-xs cprimary'>客户数</text>
-            </navigator>
-        </view> -->
         <view class='full-width flex flex-wrap font-xs topline'>
             <navigator class='img-nav' url='storeqrcode?id={{s.id}}&title={{s.store_name}}&image={{s.store_logo}}&address={{s.store_addr}}'>
                 <view class='flex flex-center'>
@@ -63,7 +53,7 @@
                 </view>
                 <view class='caption pdc or'>权限管理</view>
             </navigator>
-            <navigator class='img-nav'url="/pages/merchants/scanconsume?id={{s.id}}&title={{s.store_name}}">
+            <navigator class='img-nav' url="/pages/merchants/scanconsume?id={{s.id}}&title={{s.store_name}}">
                 <view class='flex flex-center'>
                     <image src='/resource/icon/scanqr.svg' class='img-md'></image>
                 </view>

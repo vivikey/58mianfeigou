@@ -2,7 +2,7 @@ const regeneratorRuntime = require('./comm/regenerator-runtime')  //-- v2.X
 import $ from './comm/request.js'
 App({
     globalData: {
-        version: 'V2.1.0', //-- v2.X
+        version: 'V2.2.0', //-- v2.X
         appname: '58免费购小程序',
         login: false,
         baseUrl: 'https://m.58daiyan.com',

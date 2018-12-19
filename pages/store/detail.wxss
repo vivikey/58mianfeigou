@@ -1,90 +1,40 @@
-.container{
-    flex-direction: column;
-    justify-content:flex-start;
-    align-items:flex-start;
-    padding-top:20rpx;
-}
-.topbar{
+.store-info{
+    width:430rpx;
     display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content:left;
-    padding-bottom: 10rpx;
+    flex-direction: column;
+    justify-content:space-between;
+    align-items: flex-start;
+    height: 200rpx;
 }
-.topbar image{
-    width:128rpx;
-    height: 138rpx;
-    border-radius: 10rpx;
+.store-logo{
+    overflow: hidden;
+    width:280rpx;
+    height: 200rpx;
 }
-button{
-    margin: 0;
-    height: 54rpx;
-    width:120rpx;
-}
-.address{
-    width:500rpx;
-}
-.title{
-    text-align: center;
+.store-logo image{
     width:100%;
-}
-.item-list-title text{
-        border-bottom:1rpx solid #fff;
-}
-.item-list-title text.active{
-    color:#50d1fe;
-    border-bottom:1rpx solid #50d1fe;
+    height: 100%;
 }
 
-.info{
-    background: #fff;
-    padding-bottom:20rpx;
-    width:360rpx;
+swiper.dynamic{
+    height:49rpx;
 }
-.item:nth-child(2n+1){
-    padding-right:5rpx; 
+.store_shop_specimg{
+    width:260rpx;
+    height: 260rpx;
+    background: #f9f9f9;
 }
-.item:nth-child(2n){
-    padding-left:5rpx; 
-}
-.exchange{
-    background: red;
-    color:#fff;
-    padding:3rpx 6rpx;
-}
-.inputB{
-    width: 100%;
-    height: 160rpx;
-    background: #eee;
-    border-radius: 15rpx;
-    padding: 10rpx 20rpx;
-}
-.inputB textarea{
-    height: 140rpx;
-    line-height: 30rpx;
+.store_shop_specimg image{
     width:100%;
+    height: 100%;
 }
-.notice{
-    background: #fff;
-}
-.notice image{
-    width:81rpx;
-    height: 81rpx;
-}
-swiper {
-    width:630rpx;
-    height:130rpx;
+.store_shop_info{
+    width:430rpx;
+    height: 260rpx;
+    padding:0 10rpx;
+    padding-bottom:10rpx;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 5rpx;
-    background: #f0f0f0;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
 }
-swiper text{
-    height:130rpx;
-    overflow: hidden;
-}
-@import "/template/posteritem/posteritem.wxss";
-@import "/template/commentitem/commentitem.wxss";
-@import "/template/groupbuyitem/groupbuy.wxss";
-@import "/template/tuijian/tuijianitem.wxss"

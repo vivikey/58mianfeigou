@@ -4,15 +4,10 @@
     background: #fff;
 }
 .location{
-    height: 68rpx;
-    line-height: 68rpx; 
     width:230rpx;
 }
 .search{
-    height: 68rpx;
-    line-height: 68rpx;
     padding: 6rpx 18rpx;
-    background: #f8f8f8;
     border-radius: 68rpx;
     width:100%;
 }

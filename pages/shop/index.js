@@ -28,8 +28,8 @@ var pageObj = {
         showbload:0,
         sc:0,
         sc2:0,
-        testHtml:`
-            <img style="width: 100%;display: block;" src="http://image2.135editor.com/cache/remote/aHR0cHM6Ly9tbWJpei5xbG9nby5jbi9tbWJpel9wbmcvN1FSVHZrSzJxQzdKbWNaTGJwbEdjOG9wUmliNjdiZDBteDR6NDEzMmVCSkh6bHVHYWJpYXhHcEhLaWJMRkdoOUtFMjYxdXFGUzM2MnVuaWIyeHZOWHRqNjB3LzA/d3hfZm10PXBuZw==" data-width="100%"/>`
+        testHtml:`<div></div>
+            <div>This is the DIV target <h1>This is the H1 target</h1></div>`
     },
     swiperChange:function(e){
         this.setData({

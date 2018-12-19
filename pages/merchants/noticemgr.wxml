@@ -7,14 +7,9 @@
     <view class='sq'></view>
     <!-- list -->
     <view class='list'>
-        <view wx:if='{{!noticeList.length>0}}' class='bgw full-width pd30 flex-col flex-center'>
-            <view class='pd30'>
-                <image src='/resource/icon/nothing.svg'></image>
-            </view>
-            <view class='pd30'>
-                <text class='cgray font-lgp bolder'>什么都没有</text>
-            </view>
-        </view>
+        <import src="/template/nothing/item.wxml" />
+        <template is="nothing" data='{{datalist:noticeList,Msg:"请发布公告"}}'></template>
+        
         <view class='posteritem box flex-col bottomline' wx:for='{{noticeList}}' wx:key='id'>
             <view class='full-width'>
                 <view class='font-sm black bolder'>{{item.notice_name}}</view>

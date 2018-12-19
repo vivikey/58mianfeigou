@@ -17,6 +17,17 @@ Page({
         region: ['江苏省', '苏州市', '姑苏区'],
         customItem: '全部'
     },
+    //-- 设置默认
+    onSetDefAddr(){
+        Address.SetDef({ user_id: app.USER_ID(), addr_id: this.data.address.id}).then(r=>{
+            if(r.code==200){
+                this.data.address['default'] = 1
+                this.setData({
+                    address: this.data.address
+                })
+            }
+        })
+    },
     onLoad: function (options) {
         let addr_id = options.id || 0
         let user = app.USER()

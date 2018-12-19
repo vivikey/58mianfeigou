@@ -1,8 +1,12 @@
 <view class='container gray font-xs black'>
     <view class='pd20 cgray'>收货人：</view>
-    <view class='bgw bottomline pd20 bolder'><input type='text' placeholder='请输入收货人姓名' value='{{address.user_name}}' id='user_name' bindinput='inputBlur'></input></view>
+    <view class='bgw bottomline pd20 bolder'>
+        <input type='text' placeholder='请输入收货人姓名' value='{{address.user_name}}' id='user_name' bindinput='inputBlur'></input>
+    </view>
     <view class='pd20 cgray'>手机号：</view>
-    <view class='bgw bottomline pd20 bolder'><input type='number' placeholder='请输入收货人手机号码' value='{{address.phone}}' id='phone' bindinput='inputBlur' ></input></view>
+    <view class='bgw bottomline pd20 bolder'>
+        <input type='number' placeholder='请输入收货人手机号码' value='{{address.phone}}' id='phone' bindinput='inputBlur'></input>
+    </view>
     <view class='bottomline'>
         <view class="pd20 cgray">所在地区：</view>
         <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
@@ -12,13 +16,25 @@
         </picker>
     </view>
     <view class='pd20 cgray'>详细地址：</view>
-    <view class='bgw bottomline pd20 bolder'><input type='text' placeholder='请输入收货人详细地址' value='{{address.addr_detail}}' id='addr_detail' bindinput='inputBlur'></input></view>
+    <view class='bgw bottomline pd20 bolder'>
+        <input type='text' placeholder='请输入收货人详细地址' value='{{address.addr_detail}}' id='addr_detail' bindinput='inputBlur'></input>
+    </view>
 
-<view class='fix-b flex flex-center pd20'>
-    <view class='btn-fix-b font-md pd20' style='height:80rpx;' bindtap='Save'>
-    <image src='/resource/icon/ok3.svg' class='addbtnimg radius-circle'></image>
-    保存收货地址</view>
-</view>
+    <view class='full-width pdc20' wx:if='{{address.id>0}}'>
+        <view class='pd20 cgray'></view>
+        <view class='flex-row bgw bottomline pd20 bolder'>
+            <view>设置默认</view>
+            <view bindtap="onSetDefAddr">
+                <image src='{{address.default == 1?"/resource/icon/switch-on.png":"/resource/icon/switch-off.png"}}' class='img-md'></image>
+            </view>
+        </view>
+    </view>
+
+    <view class='fix-b flex flex-center pd20'>
+        <view class='btn-fix-b font-md pd20' style='height:80rpx;' bindtap='Save'>
+            <image src='/resource/icon/ok3.svg' class='addbtnimg radius-circle'></image>
+            保存收货地址</view>
+    </view>
 
 </view>
 <import src="/template/version/version.wxml" />

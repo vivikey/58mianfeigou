@@ -1,17 +1,18 @@
 <view class='container bgw black'>
     <view class='full-width bottomline pd20 flex-row shadow' wx:for='{{addressList}}' wx:key='id'>
-        <view>
-            <view class='bolder pdc font-sm'>
-                <text class='pd-r20'>{{item.user_name}}</text>
-                <text class='pd-l20'>{{item.phone}}</text>
+        <view bindtap='toChosed' data-idx='{{index}}'>
+            <view class='pdc font-sm'>
+                <text class='pd-r20 bolder'>{{item.user_name}}</text>
+                <text class='pd-l20 bolder'>{{item.phone}}</text>
+                <text class='label green-label small' wx:if='{{item.default==1}}'>默认</text>
             </view>
             <view class='cgray pdc font-xs'>{{item.province}}{{item.city}}{{item.district}}{{item.addr_detail}}</view>
         </view>
         <view class='flex flex-around'>
-            <view class='pd20' bindtap='toEditAddress' id='{{item.id}}'>
+            <view class='pd20' catchtap='toEditAddress' id='{{item.id}}'>
                 <image src='/resource/icon/edit.svg' class='img-sm'></image>
             </view>
-            <view class='pd20' bindtap='toDeleteAddress' id='{{item.id}}'>
+            <view class='pd20' catchtap='toDeleteAddress' id='{{item.id}}'>
                 <image src='/resource/icon/delete.svg' class='img-sm'></image>
             </view>
         </view>

@@ -4,6 +4,10 @@
         <view class='font-sm black bolder'>{{storeName}}</view>
     </view>
     <view class='sq'></view>
+    <!-- shopList is Empty -->
+    <import src="/template/nothing/item.wxml" />
+    <template is="nothing" data='{{datalist:shopList,Msg:"请添加商品"}}'></template>
+
     <view class='pd20 full-width bgw bottomline' wx:for='{{shopList}}' wx:key='id'>
         <view class='flex-row pdc20 col-12'>
             <view class='font-md black bolder txtclamp txtclamp-2'>

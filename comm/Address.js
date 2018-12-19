@@ -8,6 +8,7 @@ let obj = {
     Post() { return '/api/addapi/addUserAddress' },
     Delete() { return '/api/Deleteapi/delUserAddr' },
     List() { return '/api/showapi/showUserAddrList'},
+    SetDef() { return '/api/addapi/setAddrDefault'},
     async Do(data){
         return await new Promise((resolve, reject) => {
             $.Post(this.url, data, r => {

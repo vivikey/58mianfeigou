@@ -336,7 +336,7 @@ swiper {
 }
 
 .skr {
-    color: #f62004;
+    color: #1296db;
 }
 
 .cprimary {
@@ -368,7 +368,7 @@ swiper {
 }
 
 .redcolor {
-    color: #f00;
+    color: #f62004;
 }
 
 .font-lgpp {
@@ -587,7 +587,7 @@ swiper {
 }
 
 .bgpk {
-    background: #50d1fe;
+    background: #1296db;
 }
 
 .bgprimary {
@@ -1031,16 +1031,21 @@ swiper {
     display: flex;
     white-space: nowrap; 
     background: #fff;
+    width:100%;
+    margin: 0 10rpx;
+    transition: all .3s linear;
 }
 .scroll-view-item_H{
     display: inline-flex;
-    border-bottom:3rpx solid #fff;
+    border-bottom:6rpx solid #fff;
     color:#000;
-    font-weight: 500;
+    font-weight: 600;
+    margin: 0 20rpx;
 }
 .scroll-view-item_H.active{
     color:#d81e06;
     border-bottom-color:#d81e06;
+    font-weight: bolder;
 }
 @import "/template/smallmenu/smallmenu.wxss";
 @import "/template/form.wxss";

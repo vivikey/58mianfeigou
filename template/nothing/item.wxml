@@ -1,0 +1,10 @@
+<template name='nothing'>
+        <view wx:if='{{!datalist.length>0}}' class='bgw full-width pd30 flex-col flex-center'>
+            <view class='pd30'>
+                <image src='/resource/icon/nothing.svg'></image>
+            </view>
+            <view class='pd30'>
+                <text class='cgray font-lgp bolder'>{{Msg}}</text>
+            </view>
+        </view>
+</template>
