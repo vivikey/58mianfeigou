@@ -1,98 +1,178 @@
 <view class='container gray font-xs cgray'>
-    <view class='topblockbg' style='height:35px;'></view>
-    <!-- Location / SearchBar / NavBar -->
-    <view class='fix-t full-width bgw flex flex-center topnav' style='height:35px;'>
-        <view class='scroll-view-item_H {{classNavActIdx==index?"active":""}} pdc' wx:for='{{classNavList}}' wx:key='index' id='{{index}}' bindtap='onClassNavClick'>{{item}}</view>
+  <view class='topblockbg' style='height:35px;'></view>
+  <!-- Location / SearchBar / NavBar -->
+  <view class='fix-t full-width bgw flex flex-center topnav' style='height:35px;'>
+    <view class='scroll-view-item_H {{classNavActIdx==index?"active":""}} pdc' wx:for='{{classNavList}}' wx:key='index' id='{{index}}' bindtap='onClassNavClick'>{{item}}</view>
+  </view>
+  <!-- Swiper -->
+  <view class='swiper full-width'>
+    <swiper autoplay="{{false}}" circular="{{true}}" interval="{{3000}}" duration="{{500}}" bindchange='swiperChange'>
+      <swiper-item>
+        <image src='{{goods.goods_spec[spec_chosed].spec_img}}' mode='aspectFill' data-idx='{{0}}'></image>
+      </swiper-item>
+      <swiper-item wx:for='{{goods.goods_banners}}' wx:key=''>
+        <image src='{{item}}' mode='aspectFill' data-idx='{{index+1}}'></image>
+      </swiper-item>
+    </swiper>
+    <view class='dots flex-row flex-center'>
+      <view class='dot-box'>
+        <view class='dot bgw-opacity {{0==sc?"active":""}}'></view>
+      </view>
+      <view wx:for='{{goods.goods_banners}}' wx:key='' class='dot-box'>
+        <view class='dot bgw-opacity {{index+1==sc?"active":""}}'></view>
+      </view>
     </view>
-    <!-- Swiper -->
-    <view class='swiper full-width'>
-        <swiper autoplay="{{false}}" circular="{{true}}" interval="{{3000}}" duration="{{500}}" bindchange='swiperChange'>
-            <swiper-item>
-                <image src='{{goods.goods_spec[spec_chosed].spec_img}}' mode='aspectFill' data-idx='{{0}}'></image>
-            </swiper-item>
-            <swiper-item wx:for='{{goods.goods_banners}}' wx:key=''>
-                <image src='{{item}}' mode='aspectFill' data-idx='{{index+1}}'></image>
-            </swiper-item>
-        </swiper>
-        <view class='dots flex-row flex-center'>
-            <view class='dot-box'>
-                <view class='dot bgw-opacity {{0==sc?"active":""}}'></view>
-            </view>
-            <view wx:for='{{goods.goods_banners}}' wx:key='' class='dot-box'>
-                <view class='dot bgw-opacity {{index+1==sc?"active":""}}'></view>
-            </view>
-        </view>
+  </view>
+  <!-- 价格 -->
+  <view class='full-width pdr20 pdc bdlinearskr price-box' wx:if='{{goods.group_purchase ==0 && goods.is_gift ==0}}'>
+    <view class='wtcolor font-xp'>￥
+      <text class='font-lgpp bolder'>{{goods.goods_spec[spec_chosed].spec_price}}</text>
     </view>
-    <!-- 价格 -->
-    <view class='full-width pdr20 pdc bdlinearskr price-box' wx:if='{{goods.group_purchase ==0 && goods.is_gift ==0}}'>
-        <view class='wtcolor font-xp'>￥
-            <text class='font-lgpp bolder'>{{goods.goods_spec[spec_chosed].spec_price}}</text>
-        </view>
+  </view>
+  <view class='full-width pdr20 pdc bdlinearskr price-box' wx:if='{{goods.group_purchase ==0 && goods.is_gift ==1}}'>
+    <view class='wtcolor font-xp'>￥
+      <text class='font-lgpp bolder'>{{goods.goods_spec[spec_chosed].spec_price}}</text>
     </view>
-    <view class='full-width pdr20 pdc bdlinearskr price-box' wx:if='{{goods.group_purchase ==0 && goods.is_gift ==1}}'>
-        <view class='wtcolor font-xp'>￥
-            <text class='font-lgpp bolder'>{{goods.goods_spec[spec_chosed].spec_price}}</text>
-        </view>
-        <view class='pdr'>
-            <text class='label yellow-label small'>{{goods.goods_spec[spec_chosed].integral}}积分</text>
-        </view>
+    <view class='pdr'>
+      <text class='label yellow-label small'>{{goods.goods_spec[spec_chosed].integral}}积分</text>
     </view>
-    <view class='full-width pdr20 pdc bdlinearskr price-box' wx:if='{{goods.group_purchase ==1 }}'>
-        <view class='wtcolor font-xp'>￥
-            <text class='font-lgpp bolder'>{{goods.goods_spec[spec_chosed].group_price}}</text>
-        </view>
-        <view class='pdr'>
-            <text class='txtmidline font-xs'>￥{{goods.goods_spec[spec_chosed].spec_price}}</text>
-        </view>
-        <view class='pdr'>
-            <text class='label white-label small'>{{goods.group_num}}人拼</text>
-        </view>
+  </view>
+  <view class='full-width pdr20 pdc bdlinearskr price-box' wx:if='{{goods.group_purchase ==1 }}'>
+    <view class='wtcolor font-xp'>￥
+      <text class='font-lgpp bolder'>{{goods.goods_spec[spec_chosed].group_price}}</text>
     </view>
-    <!-- 名称等信息 -->
-    <view class='pdr20 pdc flex-row black bgw'>
-        <view class='goods-name bolder'>{{goods.goods_name}}
-            <text class='label white-label'>{{goods.goods_spec[spec_chosed].spec_size}}</text>
-            <text class='label white-label'>{{goods.goods_spec[spec_chosed].spec_color}}</text>
-        </view>
-        <view class='cgray sc pdr20 flex-col flex-center'>
-            <view>
-                <image src='/resource/icon/sc.png' class='img-xs'></image>
-            </view>
-            <view>收藏</view>
-        </view>
+    <view class='pdr'>
+      <text class='txtmidline font-xs'>￥{{goods.goods_spec[spec_chosed].spec_price}}</text>
     </view>
-    <view class='sq'></view>
-    <!-- 选择规格 -->
-    <view class='full-width bgw pd20'>
-        <picker bindchange="bindPickerChange" value="{{spec_chosed}}" range="{{goods.goods_spec}}" range-key='showT' class='full-width'>
-            <view class="flex-row arrow-down">
-                <view>
-                    <text class='cgray font-x pdr'>已选择</text>
-                    <text class='black font-xs bolder'>{{goods.goods_spec[spec_chosed].showT}}</text>
-                </view>
-            </view>
-        </picker>
+    <view class='pdr'>
+      <text class='label white-label small'>{{goods.group_num}}人拼</text>
     </view>
-    <!-- 线下消费 -->
-    <view wx:if='{{goods.store_info.on_line == 0}}' class='label gold-label small full-width flex flex-center'>
-        <text class='pd20 bolder'>本商品不提供发货服务，购买后请至线下实体店扫码消费</text>
+  </view>
+  <!-- 名称等信息 -->
+  <view class='pdr20 pdc flex-row black bgw'>
+    <view class='goods-name bolder'>{{goods.goods_name}}
+      <text class='label white-label'>{{goods.goods_spec[spec_chosed].spec_size}}</text>
+      <text class='label white-label'>{{goods.goods_spec[spec_chosed].spec_color}}</text>
     </view>
-    <!-- 收货地址 -->
-    <view class='full-width bgw pd20' wx:if='{{goods.store_info.on_line == 1}}'>
-        <navigator url='/pages/usercenter/addressmgr?fromShop={{true}}' class='flex-row'>
-            <view class='flex flex-left flex-center full-width'>
-                <text class='cgray font-x pdr'>送  至</text>
-                <text class='black font-xs bolder'>{{defaultAddress.province}} {{defaultAddress.city}} {{defaultAddress.district}}</text>
-            </view>
-            <view class=''></view>
-        </navigator>
+    <view class='cgray sc pdr20 flex-col flex-center'>
+      <view>
+        <image src='/resource/icon/sc.png' class='img-xs'></image>
+      </view>
+      <view>收藏</view>
     </view>
-    <view class='sq'></view>
-    <!-- 商铺信息 -->
-    <view class='sq'></view>
-    <!-- 评价信息 -->
-    <view class='sq'></view>
-    <!-- 商品详情 -->
+  </view>
+  <view></view>
+  <view class='sq'></view>
+  <!-- 选择规格 -->
+  <view class='full-width bgw pd20'>
+    <view class="flex bottomline pdc">
+      <text class='cgray font-x pdr'>已选择</text>
+      <text class='black font-xs bolder'>{{goods.goods_spec[spec_chosed].showT}} {{goods.goods_number}}件</text>
+    </view>
+    <view class='full-width pdc20 '>
+      <text class='black bolder pdr20'>规格</text>
+      <view class='full-width flex flex-left flex-wrap pd20'>
+        <view wx:for='{{goods.goods_spec}}' wx:key='' data-idx='{{index}}' class='label mg10 {{index==spec_chosed?"chosed":""}}' bindtap='bindPickerChange'>{{item.showT}}</view>
+      </view>
+    </view>
+    <view class='full-width flex flex-left flex-wrap black'>
+      <text class='bolder pdr20'>数量</text>
+      <view class='flex bdfull bgw fong-sm'>
+        <view class='pd pdr20 bolder {{goods.goods_number>1?"":"cgray"}}' bindtap='subcount'>━</view>
+        <view class='pd pdr20 leftline rightline black bolder'>{{goods.goods_number}}</view>
+        <view class='pd pdr20 bolder' bindtap='addcount'>✚</view>
+      </view>
+    </view>
+  </view>
+  <!-- 线下消费 -->
+  <view wx:if='{{goods.store_info.on_line == 0}}' class='label gold-label small full-width flex flex-center'>
+    <text class='pd20 bolder'>本商品不提供发货服务，购买后请至线下实体店扫码消费</text>
+  </view>
+  <!-- 收货地址 -->
+  <view class='full-width bgw pd20' wx:if='{{goods.store_info.on_line == 1}}'>
+    <navigator url='/pages/usercenter/addressmgr?fromShop={{true}}' class='flex-row'>
+      <view class='flex flex-left flex-center full-width'>
+        <text class='cgray font-x pdr'>送  至</text>
+        <text class='black font-xs bolder'>{{defaultAddress.province}} {{defaultAddress.city}} {{defaultAddress.district}}</text>
+      </view>
+      <view class=''></view>
+    </navigator>
+  </view>
+  <view class='sq'></view>
+  <!-- 商铺信息 -->
+  <view class='full-width pd20 bgw'>
+    <view class='cgray bolder font-sm pdc flex flex-left flex-center bottomline'>
+      <image src='/resource/icon/twodots.png' class='img-xs pdr'></image>
+      <text class='skr pdr20'>商铺信息</text>
+    </view>
+    <navigator url='/pages/store/detail?id={{goods.store_info.id}}' class='flex-row pdc20'>
+      <view class='flex flex-center pdr20'>
+        <image src='{{goods.store_info.store_logo}}' class='img-lg radius-l'></image>
+        <text class='font-lg black bolder pdr20'>{{goods.store_info.store_name}}</text>
+      </view>
+      <view class='arrow flex flex-around cgray font-xs'>进入店铺</view>
+    </navigator>
+  </view>
+  <view class='sq'></view>
+  <!-- 评价信息 -->
+  <view class='full-width pd20 bgw'>
+    <view class='flex-row bottomline'>
+      <view class='cgray bolder font-sm pdc flex flex-left flex-center'>
+        <image src='/resource/icon/twodots.png' class='img-xs pdr'></image>
+        <text class='skr pdr20'>最新评价</text>
+      </view>
+      <view class='arrow flex flex-around'>更多</view>
+    </view>
+  </view>
+  <view class='sq'></view>
+  <!-- 商品详情 -->
+  <view class='full-width pd20 bgw'>
+    <view class='cgray bolder font-sm pdc flex flex-left flex-center bottomline'>
+      <image src='/resource/icon/twodots.png' class='img-xs pdr'></image>
+      <text class='skr pdr20'>商品详情</text>
+    </view>
+    <view class='full-width pdr20 font-sm black'>
+      <text decode>{{goods.goods_describe}}</text>
+    </view>
+    <view class='full-width'>
+      <image src='{{item}}' wx:for='{{goods.goods_img}}' wx:key='index' mode='widthFix' style='margin:0;'></image>
+    </view>
+  </view>
+  <import src="/template/version/version.wxml" />
+  <template is="version" data="{{version}}"></template>
 </view>
-<import src="/template/version/version.wxml" />
-<template is="version" data="{{version}}"></template>
+
+<!-- 开团菜单 -->
+<view class='fix-b optmenu font-sm'>
+  <view class='mitem1 bgw hardgray flex flex-center flex-around'>
+    <view class='flex-col-around '>
+      <image src='/resource/icon/index.png' class='img-sm'></image>
+      <text class=''>首页</text>
+    </view>
+    <view class='flex-col-around '>
+      <image src='/resource/icon/share2.png' class='img-sm'></image>
+      <text class=''>分享</text>
+    </view>
+    <view class='flex-col-around'>
+      <image src='/resource/icon/cart.png' class='img-sm'></image>
+      <text class=''>购物车</text>
+
+    </view>
+  </view>
+  <view class='mitem2 flex-col-center bgorange wtcolor' bindtap='importToCart'>
+    <text class=''>￥{{goods.goods_spec[spec_chosed].spec_price}}</text>
+    <text class=''>加入购物车</text>
+  </view>
+  <view class='mitem2 flex-col-center bgdanger wtcolor' wx:if='{{goods.group_purchase ==1 }}' bindtap='tuanOrder'>
+    <text class=''>￥{{goods.goods_spec[spec_chosed].group_price}}</text>
+    <text class=''>我要开团</text>
+  </view>
+  <view class='mitem2 flex-col-center bgdanger wtcolor' wx:if='{{goods.group_purchase ==0 && goods.is_gift ==1}}'>
+    <text class=''>{{goods.goods_spec[spec_chosed].integral}}积分</text>
+    <text class=''>免费领取</text>
+  </view>
+  <view class='mitem2 flex-col-center bgdanger wtcolor' wx:if='{{goods.group_purchase ==0 && goods.is_gift ==0}}' bindtap='directOrder'>
+    <text class=''>{{goods.goods_spec[spec_chosed].spec_price}}</text>
+    <text class=''>直接购买</text>
+  </view>
+</view>

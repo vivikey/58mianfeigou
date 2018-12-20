@@ -87,32 +87,32 @@
         "navigationStyle": "default"
     },
     "tabBar": {
-        "color": "#8a8a8a",
+        "color": "#777",
         "selectedColor": "#d81e06",
         "list": [
             {
                 "pagePath": "pages/shop/index",
                 "text": "首页",
-                "iconPath": "/resource/icon/shop.png",
-                "selectedIconPath": "/resource/icon/shop2.png"
+                "iconPath": "/resource/icon/index.png",
+                "selectedIconPath": "/resource/icon/index-atv.png"
             },
             {
                 "pagePath": "pages/shop/nearby",
                 "text": "附近",
                 "iconPath": "/resource/icon/nearby.png",
-                "selectedIconPath": "/resource/icon/nearby2.png"
+                "selectedIconPath": "/resource/icon/nearby-atv.png"
             },
             {
                 "pagePath": "pages/shop/nearby",
                 "text": "发现",
                 "iconPath": "/resource/icon/find.png",
-                "selectedIconPath": "/resource/icon/find2.png"
+                "selectedIconPath": "/resource/icon/find-atv.png"
             },
             {
                 "pagePath": "pages/usercenter/index",
                 "text": "我的",
                 "iconPath": "/resource/icon/user.png",
-                "selectedIconPath": "/resource/icon/user2.png"
+                "selectedIconPath": "/resource/icon/user-atv.png"
             }
         ]
     },

@@ -352,7 +352,7 @@ swiper {
 }
 
 .hardgray {
-    color: #545454;
+    color: #515151;
 }
 
 .lightgray {
@@ -597,9 +597,11 @@ swiper {
 .bggreen {
     background: #00b642;
 }
-
+.bgpark{
+	background: #f99;
+}
 .bgdanger {
-    background: #d9534f;
+    background: #f62004;
 }
 .bglinearyellow{
     background: linear-gradient(to right, #FFFFCC, #FFFFFF);
@@ -697,10 +699,17 @@ swiper {
     justify-content:flex-start;
 }
 .flex-col-around {
-    justify-content: start;
-    align-items: space-around;
+		display: flex;
+		flex-direction: column;
+		justify-content:space-around;
+		align-items: center;
 }
-
+.flex-col-center{
+		display: flex;
+		flex-direction: column;
+		justify-content:center;
+		align-items: center;
+}
 .flex-col-rev {
     flex-direction: column-reverse;
 }
@@ -886,14 +895,14 @@ swiper {
 
 .message .point {
     position: absolute;
-    top: 0;
-    right: 0;
-    width: 40rpx;
-    height: 40rpx;
+    top: -5rpx;
+    right: -5rpx;
+    width: 30rpx;
+    height: 30rpx;
     background: red;
     border-radius: 50%;
     color: #fff;
-    font-size: 12px;
+    font-size: 10px;
 }
 
 .message .point.small {
@@ -1046,6 +1055,20 @@ swiper {
     color:#d81e06;
     border-bottom-color:#d81e06;
     font-weight: bolder;
+}
+.reversal{
+	transform: scale(-1,1);
+}
+.point-data{
+	position: asbolute;
+	right: 0;
+	top:0;
+	height: 20rpx;
+	width: 20rpx;
+	background: red;
+	color:#fff;
+	border-radius: 20rpx;
+	z-index: 300;
 }
 @import "/template/smallmenu/smallmenu.wxss";
 @import "/template/form.wxss";

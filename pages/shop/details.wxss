@@ -24,3 +24,27 @@ swiper .swiper-navbox,swiper swiper-item image{
     width:600rpx;
     font-size:16px;
 }
+.optmenu{
+	display: flex;
+	flex-direction: row;
+	justify-content:flex-start;
+	align-items: center;
+	background: #fff;
+	border-top:1rpx solid #ccc;
+}
+.optmenu .mitem1,.optmenu .mitem2{
+	width:40%;
+	margin: 0;
+	height: 100rpx;
+	padding: 5rpx 0;
+}
+.optmenu .mitem2{
+	width:30%;
+}
+.container{
+	padding-bottom:100rpx;
+}
+.label.chosed{
+	background: #f62004;
+	color:#fff;
+}

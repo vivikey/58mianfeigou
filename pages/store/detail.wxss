@@ -38,3 +38,29 @@ swiper.dynamic{
     justify-content: space-between;
     align-items: flex-start;
 }
+.container{
+	padding-bottom:100rpx;
+}
+.store-cart{
+	z-index: 1800;
+}
+.store-cart .opt-bar{
+	height: 100rpx;
+	background: rgba(33,33,33,.9);
+	color:#fff;
+}
+.store-cart .opt-bar .cart-box{
+	background: #00b642;
+	width:80rpx;
+	height: 80rpx;
+	border:3px solid rgba(33,33,33,.9);
+	border-radius: 80rpx;
+	transform:translate(15px,-15px);
+}
+.store-cart .opt-bar .cart-box.empty{
+		background: #383838;
+}
+.store-cart .opt-bar .go{
+	height: 100rpx;
+	width:180rpx;
+}

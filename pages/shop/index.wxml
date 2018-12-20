@@ -1,6 +1,6 @@
 <import src="/template/totop/totop.wxml" />
 <template is="totop" data="{{showToTop}}"></template>
-<view class='container gray font-xs cgray'>
+<view class='container gray font-xs hardgray'>
     <view class='topblockbg' style='height:70px;'></view>
     <!-- Location / SearchBar / NavBar -->
     <view class='fix-t full-width bgw' style='height:70px;'>
@@ -8,7 +8,7 @@
             <!-- Location -->
             <view class='flex flex-center flex-left location'>
                 <view class='flex flex-center'>
-                    <image src='/resource/icon/position.svg' class='img-sm'></image>
+                    <image src='/resource/icon/position.png' class='img-sm'></image>
                 </view>
                 <text class='pdr txtpt font-sm'>{{location}}</text>
             </view>
