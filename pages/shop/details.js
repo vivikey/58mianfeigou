@@ -18,6 +18,11 @@ Page({
       district: '请配置选择收货地址'
     }
   },
+	toCartOrder() {
+		wx.navigateTo({
+			url: `/pages/store/cartorder?store_id=${this.data.goods.store_id}`,
+		})
+	},
   swiperChange: function(e) {
     this.setData({
       sc: e.detail.current

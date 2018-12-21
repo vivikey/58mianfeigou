@@ -39,7 +39,7 @@
 				{
 					"id": 0,
 					"name": "单页调试",
-					"pathName": "pages/merchants/customs",
+					"pathName": "pages/orders/pay",
 					"query": ""
 				}
 			]

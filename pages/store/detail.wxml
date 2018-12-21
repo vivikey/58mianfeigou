@@ -146,7 +146,7 @@
               <image src='/resource/icon/sub.png' class='img-sm'></image>
             </view>
             <view class='pdr flex flex-center font-sm bolder black'>
-              <text>0</text>
+              <text>{{item.cart}}</text>
             </view>
             <view class='pdr flex flex-center' data-idx='{{index}}' id='{{item.id}}' bindtap='importToCart'>
               <image src='/resource/icon/add.png' class='img-sm'></image>
@@ -205,7 +205,7 @@
         <view class='font-xs lightgray ' wx:if='{{storeCart.total_num<=0}}'></view>
       </view>
     </view>
-    <view class='go flex flex-center bggreen bolder' wx:if='{{storeCart.total_num>0}}'>去结算</view>
+    <view class='go flex flex-center bggreen bolder' wx:if='{{storeCart.total_num>0}}' bindtap='toCartOrder'>去结算</view>
     <view class='go flex flex-center bggray txtmidline' wx:if='{{storeCart.total_num<=0}}'>去结算</view>
   </view>
 </view>

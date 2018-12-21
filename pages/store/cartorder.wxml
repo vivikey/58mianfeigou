@@ -1,0 +1,75 @@
+<view class='container gray font-xs'>
+  <!-- 线下消费 -->
+  <view wx:if='{{store.on_line == 0}}' class='label gold-label small full-width flex flex-center'>
+    <text class='pd20 bolder'>本商品不提供发货服务，购买后请至线下实体店扫码消费</text>
+  </view>
+  <!-- 商品基本信息 -->
+  <view class='sq'></view>
+  <view class='full-width bgw pdr20'>
+    <view class='flex pdc20 bottomline'>
+      <image src='/resource/icon/store-pk.svg' class='img-sm'></image>
+      <view class='font-md bolder'>{{store.store_name}}</view>
+    </view>
+    <view class='flex pdc20 bottomline' wx:for='{{storeCart.cart_list}}' wx:key='id'>
+      <navigator class='img-lgp bglightgray' url='/pages/shop/details?id={{item.goods_id}}&spec={{item.spec_id}}'>
+        <image src='{{item.spec_img}}'></image>
+      </navigator>
+      <view class='shop-info pdr20'>
+        <navigator class='black bolder font-sm txtclamp txtclamp-2' url='/pages/shop/details?id={{item.goods_id}}&spec={{item.spec_id}}'>{{item.goods_name}} </navigator>
+        <view class='cgray'>{{item.spec_size}} {{item.spec_color}}</view>
+        <!-- 订单价格和数量 -->
+        <view class='flex-row pdc20'>
+          <view class='redcolor bolder font-sm'>￥
+            <text>{{item.spec_price}}</text>
+          </view>
+          <view class='flex bdfull bgw fong-sm'>
+            <view class='pd pdr20 leftline rightline black bolder'>{{item.spec_num}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 配送服务 -->
+  <view class='sq'></view>
+  <view class='bottomline pdc30 flex-row bgw pdr20'>
+    <view class='black bolder linfo'>配送服务</view>
+    <view class='cgray rinfo flex flex-row-rev'>请凭订单二维码在有效时间内去实体店消费</view>
+  </view>
+  <view class='pdc30 flex-row bgw pdr20'>
+    <view class='black bolder linfo'>订单备注</view>
+    <input type='text' placeholder='选填，给商家留言，45字(含符号)以内' class='font-sm rinfo' maxlength='45' bindinput='leaveMsg'></input>
+  </view>
+  <!-- 发票信息 -->
+  <view class='sq'></view>
+  <view class='bottomline pdc30 flex-row bgw pdr20'>
+    <view class='black bolder linfo'>发票信息</view>
+    <view class='cgray rinfo flex flex-row-rev'>请在实体店消费时，向商家索要发票</view>
+  </view>
+  <!-- 订单汇总 -->
+  <view class='sq'></view>
+  <view class='full-width bgw '>
+    <view class='bottomline pdc30 bgw pdr20'>
+      <view class='flex-row'>
+        <view class='black linfo bolder'>商品数量</view>
+        <view class='redcolor flex flex-right font-sm bolder'>{{storeCart.total_num}}</view>
+      </view>
+      <view class='flex-row'>
+        <view class='black linfo bolder'>商品金额</view>
+        <view class='redcolor flex flex-right font-sm bolder'>￥{{storeCart.total_price}}</view>
+      </view>
+      <view class='flex-row'>
+        <view class='black linfo bolder'>运费</view>
+        <view class='skr flex flex-right font-sm'>+￥{{storeCart.transport_cost}}</view>
+      </view>
+    </view>
+  </view>
+  <view class='sq'></view>
+  <view class='bgw pdr20 topline full-width'>
+    <view class='flex flex-right bolder' style='padding-bottom:20rpx;'>
+      总金额：
+      <text class='font-md redcolor bolder'>￥{{storeCart.total_price + storeCart.transport_cost}}</text>
+    </view>
+    <view class='bgdanger wtcolor font-md flex flex-center pdc20' bindtap='submitOrder'>确认付款</view>
+  </view>
+  <view class='sq'></view>
+</view>

@@ -153,7 +153,7 @@
       <image src='/resource/icon/share2.png' class='img-sm'></image>
       <text class=''>分享</text>
     </view>
-    <view class='flex-col-around'>
+    <view class='flex-col-around' bindtap='toCartOrder'>
       <image src='/resource/icon/cart.png' class='img-sm'></image>
       <text class=''>购物车</text>
 

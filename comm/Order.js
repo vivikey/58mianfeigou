@@ -5,9 +5,11 @@ import regeneratorRuntime from 'regenerator-runtime.js'
  */
 let obj = {
   Submit() {
-    return '/api/Purchaseapi/submitOrder'
+		return '/api/Purchaseapi/submitOrder'
   }, //-- 生成订单
-
+	PayOrder() {
+		return '/api/Purchaseapi/payOrder'
+	}, //-- 确认订单
   async Do(data) {
     return await new Promise((resolve, reject) => {
       $.Post(this.url, data, r => {

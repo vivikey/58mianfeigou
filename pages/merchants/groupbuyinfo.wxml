@@ -119,7 +119,7 @@
             </view>
             <view class='flex-row mg-b10'>
                 <text class='line-title mustbe'>团购价格：</text>
-                <input type='digit' placeholder='请输入团购价格 ' value='{{spec_item.group_price}} ' id='group_price ' bindinput='specsItemInput '></input>
+                <input type='digit' placeholder='请输入团购价格 ' value='{{spec_item.group_price}}' id='group_price' bindinput='specsItemInput'></input>
             </view>
             <view class='flex-row mg-b10'>
                 <text class='line-title mustbe'>兑换积分：</text>

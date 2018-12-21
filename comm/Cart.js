@@ -10,6 +10,9 @@ let obj = {
   Sub() {
 		return '/api/Purchaseapi/subCartShops'
   }, //-- 减少商品
+	List() {
+		return '/api/Purchaseapi/StoreCartInfo'
+	}, //-- 列表
   async Do(data) {
     return await new Promise((resolve, reject) => {
       $.Post(this.url, data, r => {

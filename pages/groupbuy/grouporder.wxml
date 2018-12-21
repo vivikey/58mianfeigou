@@ -8,7 +8,7 @@
     <view class='full-width bgw pdr20'>
         <view class='flex pdc20 bottomline'>
             <image src='/resource/icon/store-pk.svg' class='img-sm'></image>
-            <view class='font-md bolder'>{{goods.store_info.store_name}} <text class='label small red-label' wx:if='{{!goods.orderDirect}}'>{{goods.group_num}}人拼</text></view>
+            <view class='font-md bolder'>{{goods.store_info.store_name}} </view>
         </view>
         <view class='flex pd-t20'>
             <navigator class='img-lgp bglightgray' url='/pages/groupbuy/detail?id={{shop_id}}&choseIdx={{shopMode.chosedIdx}}'>
@@ -19,7 +19,7 @@
                 <view class='cgray'>{{goods.goods_spec.showT}}</view>
                 <!-- 订单价格和数量 -->
                 <view class='flex-row pdc20'>
-                    <view class='redcolor bolder font-sm'>￥<text wx:if='{{goods.orderDirect}}'>{{goods.goods_spec.spec_price}}</text><text wx:if='{{!goods.orderDirect}}'>{{goods.goods_spec.group_price}}</text></view>
+                    <view class='redcolor bolder font-sm'>￥<text wx:if='{{goods.orderDirect}}'>{{goods.goods_spec.spec_price}}</text><text wx:if='{{!goods.orderDirect}}'>{{goods.goods_spec.group_price}}</text><text class='label small red-label' wx:if='{{!goods.orderDirect}}'>{{goods.group_num}}人拼</text></view>
 											<view class='flex bdfull bgw fong-sm'>
 												<view class='pd pdr20 bolder {{goods.goods_number>1?"":"cgray"}}' bindtap='subcount'>━</view>
 												<view class='pd pdr20 leftline rightline black bolder'>{{goods.goods_number}}</view>
