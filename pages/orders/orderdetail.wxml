@@ -1,0 +1,126 @@
+<view class='container gray font-xs black'>
+    <view class='full-width bgw pd20'>
+        <view class='flex pdc20 bottomline'>
+            <image src='/resource/icon/store-pk.svg' class='img-sm'></image>
+            <view class='font-sm cgray bolder'>{{order_info.store_name}}</view>
+        </view>
+        <!-- 商品列表 -->
+        <view class='info font-xs'>
+            <view wx:for='{{order_goods_info}}' wx:key='' wx:for-item='gds' class='full-width bglightgray mg-t10'>
+                <!-- 商品简简信息 -->
+                <view class='full-width flex-row pd20 bgw'>
+                    <view class='flex flex-left' style='width:540rpx;' bindtap='toShopDetail'>
+                        <view class='pdr'>
+                            <image src='{{gds.shop_sku.sku_img}}' class='item-image'></image>
+                        </view>
+                        <view class='full-width pd bottomline'>
+                            <view class='black font-sm'>{{gds.goods_name}}</view>
+                            <view class='skr'>{{gds.goods_sku_spec}}
+                                <text class='cgray pdr30'>￥{{order_info.tuanselect==1?gds.shop_sku.sku_price_tuan:gds.shop_sku.sku_price}} x{{gds.goods_num}}</text>
+                            </view>
+                        </view>
+                    </view>
+                    <button type='primary' plain='{{true}}' open-type='share' class='flex-col-auto flex-center font-sm pd20 ttt' wx:if='{{qualification==1}}'>
+                        <view>我要</view>
+                        <view>推荐</view>
+                    </button>
+                </view>
+
+                <!-- 二维码设定 -->
+                <view class='full-width' wx:if='{{order_info.stat==1}}'>
+                    <view class='black font-sm flex-row pd20'>
+                        <view class='flex-col-auto flex-center bgw pd pdr20'>
+                            <view>已消费</view>
+                            <view class='pkcolor bolder font-sm pd'>{{gds.goods_use_num}}</view>
+                        </view>
+                        <view class='flex-col-auto flex-center bgw pd pdr20'>
+                            <view>可消费</view>
+                            <view class='pkcolor bolder font-sm pd'>{{gds.can_chosed}}</view>
+                        </view>
+                        <view class='flex-col-auto flex-center bgw pd pdr20'>
+                            <view>选择数量</view>
+                            <view class='flex bdfull bgw'>
+                                <view class='pd pdr20 {{gds.use_chosed>1?"":"cgray"}}' bindtap='subcount' data-idx='{{index}}'>━</view>
+                                <view class='pd pdr20 leftline rightline black bolder'>{{gds.use_chosed}}</view>
+                                <view class='pd pdr20 {{gds.use_chosed<gds.can_chosed?"":"cgray"}}' bindtap='addcount' data-idx='{{index}}'>✚</view>
+                            </view>
+                        </view>
+                        <view class='flex-col-auto flex-center bdlinearskr wtcolor pd20' style='width:150rpx;' bindtap='showQR' data-idx='{{index}}'>
+                            <view>消费</view>
+                            <view>二维码</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class='sq'></view>
+    <view class='full-width bgw pd20 rel'>
+        <view class='pd'>
+            <text class='cgray'>订单来源：</text>
+            <text class='cprimary bolder'>{{order_info.tuanselect==1?"同城拼团":"推荐有奖"}}</text>
+        </view>
+        <view class='pd'>
+            <text class='cgray'>订单状态：</text>
+            <text class='skr bolder'>{{order_info.statMsg}}</text>
+        </view>
+        <view class='pd'>
+            <text class='cgray'>订单编号：</text>
+            <text class='bolder'>{{order_no}}</text>
+        </view>
+        <view class='pd'>
+            <text class='cgray'>下单时间：</text>
+            <text>{{order_info.add_time}}</text>
+        </view>
+        <view class='pd' wx:if='{{order_info.stat>0}}'>
+            <text class='cgray'>付款时间：</text>
+            <text>{{order_info.payment_time}}</text>
+        </view>
+        <image src='/resource/icon/yxf.png' class='yxf' wx:if='{{order_info.stat==3}}'></image>
+    </view>
+
+    <view class='sq'></view>
+    <view class='full-width bgw pd20'>
+        <view class='pd'>
+            <text class='cgray'>订单金额：</text>
+            <text class='skr bolder'>￥{{order_info.order_amount}}</text>
+        </view>
+        <view class='pd' wx:if='{{order_info.stat>=0}}'>
+            <text class='cgray'>余额支付：</text>
+            <text class='skr bolder'>￥{{!order_info.balance_use?"0.00":order_info.balance_use}}</text>
+        </view>
+        <view class='pd' wx:if='{{order_info.stat>=0}}'>
+            <text class='cgray'>{{order_info.stat==0?"待":"实"}}付金额：</text>
+            <text class='skr bolder'>￥{{order_info.pay_amount}}</text>
+        </view>
+    </view>
+
+    <view class='opt-box bgw pd20 flex flex-right full-width topline'>
+        <view data-id='{{order_info.order_id}}' catchtap='cancelOrder' class='opt pd pdr20 radius-s bglightgray' wx:if='{{order_info.stat==0}}'>取消订单</view>
+        <view data-id='{{order_info.order_id}}' catchtap='removeOrder' class='opt pd pdr20 radius-s bglightgray' wx:if='{{order_info.stat==3||order_info.stat==-1}}'>删除订单</view>
+        <view bindtap='wexinpay' class='opt pd pdr20 radius-s bdlinearskr wtcolor' wx:if='{{order_info.stat==0}}'>立即支付</view>
+        <navigator url='/pages/groupbuy/injoin?shop_id={{shop_id}}&tuan_id={{tuan_id}}' class='opt pd pdr20 radius-s bdlinearskr wtcolor' wx:if='{{order_info.stat==2}}'>查看拼团</navigator>
+    </view>
+</view>
+<!-- 消费二维码 -->
+<view class='qrcode-box flex flex-center' wx:if='{{showqrbox}}'>
+    <view class='bgw content-box'>
+        <view class='flex-row bglightgray pd30'>
+            <view class='col-10 font-xs black'>
+                <text>当前消费：</text>
+                <text class='bolder'>{{qr_msg}}</text>
+            </view>
+            <view class='col-2 flex flex-center' bindtap='closeQrBox'>
+                <image src='/resource/icon/close.svg' class='img-md'></image>
+            </view>
+        </view>
+        <view class='flex-col flex-center pd20'>
+            <view class='pd30 flex flex-center qrview'>
+                <canvas canvas-id='qrcode' class='qrcode'></canvas>
+            </view>
+            <view class='pd30 skr bolder col-6 bglightgray flex flex-center font-sm' wx:if='{{order_info.stat>-1}}'>
+                <text wx:if='{{order_info.stat==1}}'>商家扫码消费</text>
+            </view>
+        </view>
+    </view>
+</view>

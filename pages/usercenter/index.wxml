@@ -1,62 +1,62 @@
 <view class='container gray'>
-    <view class='mybase full-width pdr20'>
-        <view class='full-width flex-row pdc20'>
-            <view class='img-lgp'>
-                <image class='img-lgp radius-circle' src='{{user.user_img}}'></image>
+  <view class='mybase full-width pdr20'>
+    <view class='full-width flex-row pdc20'>
+      <view class='img-lgp'>
+        <image class='img-lgp radius-circle' src='{{user.user_img}}'></image>
+      </view>
+      <view class='userinfo flex-row pd'>
+        <view class='wtcolor flex-col flex-left'>
+          <view class='full-width bolder font-lg'>{{user.nick_name}}</view>
+          <view class='flex-row flex-wrap font-xs'>
+            <view class='flex flex-left pd-t10 wtcolor full-width'>
+              <view class='flex flex-left label white-label small'>
+                <view class='img-xs'>
+                  <image src='/resource/icon/memoer.svg' class='img-xs'></image>
+                </view>
+                <view>{{user.member.member_name}}</view>
+              </view>
+              <view class='flex flex-left bglightgray radius-l pdr20 mg-l10 mg-r10' wx:if='{{member.is_seller==1}}'>
+                <view class='img-xs'>
+                  <image src='/resource/icon/store-pk.svg' class='img-xs'></image>
+                </view>
+                <view class='pd black'>商户</view>
+              </view>
             </view>
-            <view class='userinfo flex-row pd'>
-                <view class='wtcolor flex-col flex-left'>
-                    <view class='full-width bolder font-lg'>{{user.nick_name}}</view>
-                    <view class='flex-row flex-wrap font-xs'>
-                        <view class='flex flex-left pd-t10 wtcolor full-width'>
-                            <view class='flex flex-left label white-label small'>
-                                <view class='img-xs'>
-                                    <image src='/resource/icon/memoer.svg' class='img-xs'></image>
-                                </view>
-                                <view>{{user.member.member_name}}</view>
-                            </view>
-                            <view class='flex flex-left bglightgray radius-l pdr20 mg-l10 mg-r10' wx:if='{{member.is_seller==1}}'>
-                                <view class='img-xs'>
-                                    <image src='/resource/icon/store-pk.svg' class='img-xs'></image>
-                                </view>
-                                <view class='pd black'>商户</view>
-                            </view>
-                        </view>
 
-                    </view>
-                </view>
-                <view class='flex flex-left font-xs'>
-                    <view class='pd' bindtap='toEditUserInfo'>
-                        <image src='/resource/icon/set.svg' class='img-md'></image>
-                    </view>
-                    <view class='pd'>
-                        <image src='/resource/icon/msgbox.svg' class='img-md'></image>
-                    </view>
-                </view>
-            </view>
+          </view>
         </view>
-        <view class='myinfo bgw'>
-            <view class='flex flex-left flex-around black font-sm'>
-                <view class='user flex-row flex-around font-sm pd20'>
-                    <navigator class='flex-col-auto flex-center' url='myqrcode'>
-                        <image src='/resource/icon/qr.svg' class='img-md'></image>
-                        <text class='font-xs mg-t10'>我的名片</text>
-                    </navigator>
-                    <navigator class='flex-col-auto flex-center' url='/pages/my/myattention?type=1'>
-                        <image src='/resource/icon/my-gz.svg' class='img-md'></image>
-                        <text class='font-xs mg-t10'>商铺关注</text>
-                    </navigator>
-                    <navigator class='flex-col-auto flex-center' url='/pages/my/myattention?type=2'>
-                        <image src='/resource/icon/my-sc.svg' class='img-md'></image>
-                        <text class='font-xs mg-t10'>商品收藏</text>
-                    </navigator>
-                    <navigator class='flex-col-auto flex-center' url='userdesc'>
-                        <image src='/resource/icon/ts.svg' class='img-md'></image>
-                        <text class='font-xs mg-t10'>用户说明</text>
-                    </navigator>
-                </view>
-            </view>
-            <!-- <view class='user flex-row flex-around font-sm topline'>
+        <view class='flex flex-left font-xs'>
+          <view class='pd' bindtap='toEditUserInfo'>
+            <image src='/resource/icon/set.svg' class='img-md'></image>
+          </view>
+          <view class='pd'>
+            <image src='/resource/icon/msgbox.svg' class='img-md'></image>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class='myinfo bgw'>
+      <view class='flex flex-left flex-around black font-sm'>
+        <view class='user flex-row flex-around font-sm pd20'>
+          <navigator class='flex-col-auto flex-center' url='myqrcode'>
+            <image src='/resource/icon/qr.svg' class='img-md'></image>
+            <text class='font-xs mg-t10'>我的名片</text>
+          </navigator>
+          <navigator class='flex-col-auto flex-center' url='/pages/my/myattention?type=1'>
+            <image src='/resource/icon/my-gz.svg' class='img-md'></image>
+            <text class='font-xs mg-t10'>商铺关注</text>
+          </navigator>
+          <navigator class='flex-col-auto flex-center' url='/pages/my/myattention?type=2'>
+            <image src='/resource/icon/my-sc.svg' class='img-md'></image>
+            <text class='font-xs mg-t10'>商品收藏</text>
+          </navigator>
+          <navigator class='flex-col-auto flex-center' url='userdesc'>
+            <image src='/resource/icon/ts.svg' class='img-md'></image>
+            <text class='font-xs mg-t10'>用户说明</text>
+          </navigator>
+        </view>
+      </view>
+      <!-- <view class='user flex-row flex-around font-sm topline'>
                 <navigator class='col-3 flex-col-auto flex-center' url='balance'>
                     <text class='skr bolder'>{{myBalance}}</text>
                     <text class='font-xs mg-t10'>总余额</text>
@@ -70,10 +70,10 @@
                     <view class='cprimary'>点这里</view>
                 </view>
             </view> -->
-        </view>
     </view>
-    <!-- 签到模块 -->
-    <!-- <view class='sq'></view>
+  </view>
+  <!-- 签到模块 -->
+  <!-- <view class='sq'></view>
     <view class='pdr20 full-width'>
         <view class='myinfo signin flex-col flex-left'>
             <view class='full-width pd20'>
@@ -91,66 +91,73 @@
             </view>
         </view>
     </view> -->
-    <view class='sq'></view>
-    <view class='pdr20 full-width'>
-        <view class='myinfo bgw full-width'>
-            <view class='flex flex-left black font-sm pd20 bolder'>
-                订单
-            </view>
-            <view class='user flex-row flex-around font-sm topline pd20'>
-                <navigator class='flex-col-auto flex-center' url='/pages/usercenter/groupbylist?sortType=1&tuanselect=2'>
-                    <image src='/resource/icon/wait-pay.svg' class='img-md'></image>
-                    <text class='font-xs mg-t10'>待付款</text>
-                </navigator>
-                <navigator class='flex-col-auto flex-center' url='/pages/usercenter/groupbylist?sortType=2&tuanselect=1'>
-                    <image src='/resource/icon/wait-pt.svg' class='img-md'></image>
-                    <text class='font-xs mg-t10'>拼团中</text>
-                </navigator>
-                <navigator class='flex-col-auto flex-center' url='/pages/usercenter/groupbylist?sortType=3&tuanselect=2'>
-                    <image src='/resource/icon/wait-qr.svg' class='img-md'></image>
-                    <text class='font-xs mg-t10'>待消费</text>
-                </navigator>
-                <navigator class='flex-col-auto flex-center' url='/pages/usercenter/groupbylist?sortType=0&tuanselect=2'>
-                    <image src='/resource/icon/wait-od.svg' class='img-md'></image>
-                    <text class='font-xs mg-t10'>全部订单</text>
-                </navigator>
-            </view>
+  <view class='sq'></view>
+  <view class='pdr20 full-width'>
+    <view class='myinfo bgw full-width'>
+      <view class='flex-row pdr'>
+        <view class='flex flex-left black font-sm pd20 bolder'>
+          订单
         </view>
+        <navigator url='/pages/orders/index' class='arrow font-xs cgray'>全部订单</navigator>
+      </view>
+      <view class='user flex-row flex-around font-sm topline pd20'>
+        <navigator class='flex-col-auto flex-center' url='/pages/orders/index?idx=1'>
+          <image src='/resource/icon/wait-pay.svg' class='img-md'></image>
+          <text class='font-xs mg-t10'>待付款</text>
+        </navigator>
+        <navigator class='flex-col-auto flex-center' url='/pages/orders/index?idx=2'>
+          <image src='/resource/icon/waitfh.png' class='img-md'></image>
+          <text class='font-xs mg-t10'>待发货</text>
+        </navigator>
+        <navigator class='flex-col-auto flex-center' url='/pages/orders/index?idx=3'>
+          <image src='/resource/icon/waitrec.png' class='img-md'></image>
+          <text class='font-xs mg-t10'>待收货</text>
+        </navigator>
+        <navigator class='flex-col-auto flex-center' url='/pages/orders/index?idx=4'>
+          <image src='/resource/icon/wait-qr.svg' class='img-md'></image>
+          <text class='font-xs mg-t10'>待消费</text>
+        </navigator>
+        <navigator class='flex-col-auto flex-center' url='/pages/orders/index?idx=5'>
+          <image src='/resource/icon/wait-pt.svg' class='img-md'></image>
+          <text class='font-xs mg-t10'>拼团中</text>
+        </navigator>
+      </view>
     </view>
-    <view class='sq'></view>
-    <view class='pdr20 full-width'>
-        <view class='myinfo bgw full-width'>
-            <view class='flex flex-left black font-sm pd20 bolder'>
-                我的
-            </view>
-            <view class='user flex flex-left flex-wran font-sm topline pd20'>
-                <navigator class='col-3 flex-col-auto flex-center' url='/pages/merchants/index'>
-                    <image src='/resource/icon/m-nav-4.svg' class='img-md'></image>
-                    <text class='font-xs mg-t10'>商铺</text>
-                </navigator>
+  </view>
+  <view class='sq'></view>
+  <view class='pdr20 full-width'>
+    <view class='myinfo bgw full-width'>
+      <view class='flex flex-left black font-sm pd20 bolder'>
+        我的
+      </view>
+      <view class='user flex flex-left flex-wran font-sm topline pd20'>
+        <navigator class='col-3 flex-col-auto flex-center' url='/pages/merchants/index'>
+          <image src='/resource/icon/m-nav-4.svg' class='img-md'></image>
+          <text class='font-xs mg-t10'>商铺</text>
+        </navigator>
 
-                <!-- <navigator class='col-3 flex-col-auto flex-center' url='/pages/usercenter/giftlist'>
+        <!-- <navigator class='col-3 flex-col-auto flex-center' url='/pages/usercenter/giftlist'>
                     <image src='/resource/icon/gift.svg' class='img-md'></image>
                     <text class='font-xs mg-t10'>赠品券</text>
                 </navigator> -->
-                <!-- <navigator class='col-3 flex-col-auto flex-center' url='/pages/usercenter/mycontacts'>
+        <!-- <navigator class='col-3 flex-col-auto flex-center' url='/pages/usercenter/mycontacts'>
                     <image src='/resource/icon/rm.svg' class='img-md'></image>
                     <text class='font-xs mg-t10'>平台人脉</text>
                 </navigator> -->
-                <!-- <navigator class='col-3 flex-col-auto flex-center' url='mytuijian'>
+        <!-- <navigator class='col-3 flex-col-auto flex-center' url='mytuijian'>
                     <image src='/resource/icon/jf.svg' class='img-md'></image>
                     <text class='font-xs mg-t10'>推荐列表</text>
                 </navigator> -->
-                <!-- <navigator class='col-3 flex-col-auto flex-center' url='' wx:if='{{member.action_grade_name}}'>
+        <!-- <navigator class='col-3 flex-col-auto flex-center' url='' wx:if='{{member.action_grade_name}}'>
                     <image src='/resource/icon/fh.svg' class='img-md'></image>
                     <text class='font-xs mg-t10'>分红</text>
                 </navigator> -->
-                <navigator class='col-3 flex-col-auto flex-center' url='about'>
-                    <image src='/resource/icon/help.svg' class='img-md'></image>
-                    <text class='font-xs mg-t10'>帮助</text>
-                </navigator>
+        <navigator class='col-3 flex-col-auto flex-center' url='about'>
+          <image src='/resource/icon/help.svg' class='img-md'></image>
+          <text class='font-xs mg-t10'>帮助</text>
+        </navigator>
 
-                <!-- <view class='item-list-title' bindtap='toMerchants'>
+        <!-- <view class='item-list-title' bindtap='toMerchants'>
             <view class='flex-col flex-center nav-item nav-4'>
                 <view class='radius-circle flex flex-center'>
                     <image src='/resource/icon/m-nav-4.svg'></image>
@@ -158,10 +165,10 @@
                 <text>商家入口</text>
             </view>
         </view> -->
-            </view>
-        </view>
+      </view>
     </view>
-    <view class='sq'></view>
+  </view>
+  <view class='sq'></view>
 </view>
 <import src="/template/version/version.wxml" />
 <template is="version" data="{{version}}"></template>

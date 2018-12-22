@@ -50,7 +50,7 @@
 		"pages/groupbuy/grouporder",
 		"pages/merchants/storeqrcode",
 		"pages/usercenter/groupbylist",
-		"pages/groupbuy/orderdetail",
+		"pages/orders/orderdetail",
 		"pages/poster/detail",
 		"pages/sharepyq/sharepyq",
 		"pages/merchants/recommend",
@@ -75,7 +75,8 @@
 		"pages/merchants/noticemgr",
 		"pages/merchants/noticeinfo",
 		"pages/store/cartorder",
-		"pages/orders/pay"
+		"pages/orders/pay",
+		"pages/orders/index"
 	],
 	"window": {
 		"navigationBarBackgroundColor": "#d81e06",

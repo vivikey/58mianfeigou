@@ -1,0 +1,16 @@
+.scroll-view_H{
+	height: 40px;
+		display: flex;
+	justify-content: space-around;
+	align-items: flex-end;
+}
+.scroll-view-item_H{
+	height: 40px;
+
+}
+.order-item{
+	background: #fff;
+	border-radius: 10rpx;
+	padding: 10rpx;
+	margin-bottom:20rpx;
+}

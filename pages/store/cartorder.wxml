@@ -3,6 +3,25 @@
   <view wx:if='{{store.on_line == 0}}' class='label gold-label small full-width flex flex-center'>
     <text class='pd20 bolder'>本商品不提供发货服务，购买后请至线下实体店扫码消费</text>
   </view>
+  <!-- 收货地址 -->
+  <view wx:if='{{store.on_line == 1}}' class='rinfo bgw pdr'>
+    <navigator url='/pages/usercenter/addressmgr?fromShop={{true}}' class='flex arrow pd'>
+      <view>
+        <view class='font-md pdc'>
+          <text class='pd-r20 bolder'>{{defaultAddress.user_name}}</text>
+          <text class='pd-l20 bolder'>{{defaultAddress.phone}}</text>
+          <text class='label green-label small' wx:if='{{defaultAddress.default==1}}'>默认</text>
+        </view>
+        <view class='cgray bolder font-sm'>{{defaultAddress.province}}{{defaultAddress.city}}{{defaultAddress.district}}{{defaultAddress.addr_detail}}</view>
+      </view>
+    </navigator>
+    <view class='flex'>
+      <view class='flex' wx:for='{{10}}' wx:key=''>
+        <view class='bgdanger add-side'></view>
+        <view class='bgpk add-side'></view>
+      </view>
+    </view>
+  </view>
   <!-- 商品基本信息 -->
   <view class='sq'></view>
   <view class='full-width bgw pdr20'>
@@ -33,7 +52,8 @@
   <view class='sq'></view>
   <view class='bottomline pdc30 flex-row bgw pdr20'>
     <view class='black bolder linfo'>配送服务</view>
-    <view class='cgray rinfo flex flex-row-rev'>请凭订单二维码在有效时间内去实体店消费</view>
+    <view class='cgray rinfo flex flex-row-rev' wx:if='{{store.on_line == 0}}'>请凭订单二维码在有效时间内去实体店消费</view>
+		<view class='cgray rinfo flex flex-row-rev' wx:if='{{store.on_line == 1}}'>快递发货</view>
   </view>
   <view class='pdc30 flex-row bgw pdr20'>
     <view class='black bolder linfo'>订单备注</view>

@@ -31,8 +31,8 @@ Page({
 		
   },
 	//-- 提交订单
-	submitOrder(){
-		Order.Submit({ user_id: app.USER_ID(), store_id: this.data.goods.store_id, cart_id:0, up_user_id: app.USER().higher_up.id || 0}).then(r=>{
+	SubmitGroup(){
+		Order.SubmitGroup({ user_id: app.USER_ID(), store_id: this.data.goods.store_id, cart_id:0, up_user_id: app.USER().higher_up.id || 0}).then(r=>{
 			console.log('Order.Submit => ',r)
 		})
 	},

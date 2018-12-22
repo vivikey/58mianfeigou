@@ -68,7 +68,7 @@
                 <text class='font-md redcolor bolder'>￥{{lastMoney.last_price}}</text>
             </view>
             <!-- 支付方式 -->
-            <view class='bggreen wtcolor flex flex-center pd20 font-lgp' bindtap='createOrderAndPay'>微信支付</view>
+            <view class='bggreen wtcolor flex flex-center pd20 font-lgp' bindtap='createOrderAndPay'>确定支付</view>
         </view>
     </view>
     <view class='sq'></view>

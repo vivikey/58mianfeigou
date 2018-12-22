@@ -1,0 +1,58 @@
+<view class='container gray font-xs hardgray'>
+  <view class='topblockbg' style='height:40px;'></view>
+  <!-- Location / SearchBar / NavBar -->
+  <view class='fix-t full-width bgw ' style='height:40px;'>
+    <scroll-view class="scroll-view_H" scroll-x>
+      <view class='scroll-view-item_H {{classNavActIdx==index?"active":""}} pdc flex flex-center' wx:for='{{classNavList}}' wx:key='index' id='{{index}}' bindtap='onClassNavClick'>{{item}}</view>
+    </scroll-view>
+  </view>
+  <view class='sq'></view>
+  <view class='full-width pd20'>
+    <import src="/template/nothing/item.wxml" />
+    <template is="nothing" data='{{datalist:showList,Msg:"没有相关订单"}}'></template>
+    <view wx:for='{{showList}}' wx:key='id' class='order-item'>
+      <!-- Store Info -->
+      <view class='flex-row'>
+        <view class='flex flex-left flex-center'>
+          <view>
+            <image src='{{item.store.store_logo}}' class='img-sm'></image>
+          </view>
+          <view class='flex flex-center pd font-sm cgray'>{{item.store.store_name}}</view>
+        </view>
+        <view class='flex flex-center'>
+          <view class='flex flex-center pd label small'>{{item.order_status_txt}}</view>
+          <view class='flex flex-center pd leftline' data-order='{{item.id}}' wx:if='{{item.order_status==4}}' bindtap='delOrder'>
+            <image src='/resource/icon/delete.svg' class='img-sm'></image>
+          </view>
+        </view>
+      </view>
+      <!-- Goods Info -->
+      <view class='full-width pd20'>
+        <view class='pd flex-row bottomline' wx:for='{{item.goods}}' wx:key='id' wx:for-item='gd'>
+          <view class='flex flex-center'>
+            <image src='{{gd.spec_img}}' class='img-md'></image>
+            <view class='font-x black bolder pd'>{{gd.goods_name}}</view>
+          </view>
+          <view>
+            <text class='lightgray font-x'>{{gd.spec_size}}{{gd.spec_color}} <text class='pkcolor bolder'>￥{{gd.spec_price}} x{{gd.spec_num}}</text></text>
+          </view>
+        </view>
+      </view>
+      <view class='flex-row pd20 '>
+        <view class='font-x lightgray'>{{item.addtime}}</view>
+        <view class='font-sm bolder redcolor'> ￥{{item.goods_price}}</view>
+      </view>
+      <!-- Options -->
+      <view class='flex flex-right pd20'>
+          <view bindtap='cancelOrder' data-order='{{item.id}}' class='radius-m pdc pdr20 bdfull black font-xs bglightgray mg-r10' wx:if='{{item.order_status==0}}'>取消订单</view>
+          <view bindtap='toPayOrder' data-order='{{item.id}}' class='radius-m pdc pdr20 bdfull wtcolor font-xs bgdanger mg-r10' wx:if='{{item.order_status==0}}'>去付款</view>
+          <view class='radius-m pdc pdr20 bdfull black font-xs bglightgray mg-r10' wx:if='{{item.order_status==4}}'>去评价</view>
+          <view class='radius-m pdc pdr20 bdfull wtcolor font-xs bggreen mg-r10' wx:if='{{item.order_status==3}}'>去消费</view>
+          <view class='radius-m pdc pdr20 bdfull black font-xs bgorange mg-r10' wx:if='{{item.order_status==2}}'>签收</view>
+          <view class='radius-m pdc pdr20 bdfull black font-xs bglightgray mg-r10' wx:if='{{item.order_status==4}}'>退货/款</view>
+      </view>
+    </view>
+  </view>
+  <import src="/template/version/version.wxml" />
+  <template is="version" data="{{version}}"></template>
+</view>

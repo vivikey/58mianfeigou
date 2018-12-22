@@ -1070,5 +1070,11 @@ swiper {
 	border-radius: 20rpx;
 	z-index: 300;
 }
+.add-side{
+	width:40rpx;
+	height: 10rpx;
+	transform:skewX(150deg);
+	margin-right:10rpx;
+}
 @import "/template/smallmenu/smallmenu.wxss";
 @import "/template/form.wxss";
