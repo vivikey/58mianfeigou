@@ -3,73 +3,93 @@
   <view wx:if='{{goods.store_info.on_line == 0}}' class='label gold-label small full-width flex flex-center'>
     <text class='pd20 bolder'>本商品不提供发货服务，购买后请至线下实体店扫码消费</text>
   </view>
-    <!-- 商品基本信息 -->
-    <view class='sq'></view>
-    <view class='full-width bgw pdr20'>
-        <view class='flex pdc20 bottomline'>
-            <image src='/resource/icon/store-pk.svg' class='img-sm'></image>
-            <view class='font-md bolder'>{{goods.store_info.store_name}} </view>
+  <!-- 收货地址 -->
+  <view wx:if='{{goods.store_info.on_line == 1}}' class='rinfo bgw pdr'>
+    <navigator url='/pages/usercenter/addressmgr?fromShop={{true}}' class='flex arrow pd'>
+      <view>
+        <view class='font-md pdc'>
+          <text class='pd-r20 bolder'>{{defaultAddress.user_name}}</text>
+          <text class='pd-l20 bolder'>{{defaultAddress.phone}}</text>
+          <text class='label green-label small' wx:if='{{defaultAddress.default==1}}'>默认</text>
         </view>
-        <view class='flex pd-t20'>
-            <navigator class='img-lgp bglightgray' url='/pages/groupbuy/detail?id={{shop_id}}&choseIdx={{shopMode.chosedIdx}}'>
-                <image src='{{goods.store_info.store_logo}}'></image>
-            </navigator>
-            <view class='shop-info pdr20'>
-                <navigator class='black bolder font-sm txtclamp txtclamp-2' url='/pages/shop/details?id={{goods.id}}&spec={{goods.goods_spec.id}}'>{{goods.goods_name}} </navigator>
-                <view class='cgray'>{{goods.goods_spec.showT}}</view>
-                <!-- 订单价格和数量 -->
-                <view class='flex-row pdc20'>
-                    <view class='redcolor bolder font-sm'>￥<text wx:if='{{goods.orderDirect}}'>{{goods.goods_spec.spec_price}}</text><text wx:if='{{!goods.orderDirect}}'>{{goods.goods_spec.group_price}}</text><text class='label small red-label' wx:if='{{!goods.orderDirect}}'>{{goods.group_num}}人拼</text></view>
-											<view class='flex bdfull bgw fong-sm'>
-												<view class='pd pdr20 bolder {{goods.goods_number>1?"":"cgray"}}' bindtap='subcount'>━</view>
-												<view class='pd pdr20 leftline rightline black bolder'>{{goods.goods_number}}</view>
-												<view class='pd pdr20 bolder' bindtap='addcount'>✚</view>
-											</view>
-                </view>
-            </view>
+        <view class='cgray bolder font-sm'>{{defaultAddress.province}}{{defaultAddress.city}}{{defaultAddress.district}}{{defaultAddress.addr_detail}}</view>
+      </view>
+    </navigator>
+    <view class='flex'>
+      <view class='flex' wx:for='{{10}}' wx:key=''>
+        <view class='bgdanger add-side'></view>
+        <view class='bgpk add-side'></view>
+      </view>
+    </view>
+  </view>
+  <!-- 商品基本信息 -->
+  <view class='sq'></view>
+  <view class='full-width bgw pdr20'>
+    <view class='flex pdc20 bottomline'>
+      <image src='/resource/icon/store-pk.svg' class='img-sm'></image>
+      <view class='font-md bolder'>{{goods.store_info.store_name}} </view>
+    </view>
+    <view class='flex pd-t20'>
+      <navigator class='img-lgp bglightgray' url='/pages/groupbuy/detail?id={{shop_id}}&choseIdx={{shopMode.chosedIdx}}'>
+        <image src='{{goods.store_info.store_logo}}'></image>
+      </navigator>
+      <view class='shop-info pdr20'>
+        <navigator class='black bolder font-sm txtclamp txtclamp-2' url='/pages/shop/details?id={{goods.id}}&spec={{goods.goods_spec.id}}'>{{goods.goods_name}} </navigator>
+        <view class='cgray'>{{goods.goods_spec.showT}}</view>
+        <!-- 订单价格和数量 -->
+        <view class='flex-row pdc20'>
+          <view class='redcolor bolder font-sm'>￥
+            <text wx:if='{{goods.orderDirect}}'>{{goods.goods_spec.spec_price}}</text>
+            <text wx:if='{{!goods.orderDirect}}'>{{goods.goods_spec.group_price}}</text>
+            <text class='label small red-label' wx:if='{{!goods.orderDirect}}'>{{goods.group_num}}人拼</text>
+          </view>
+          <view class='flex bdfull bgw fong-sm'>
+            <view class='pd pdr20 bolder {{goods.goods_number>1?"":"cgray"}}' bindtap='subcount'>━</view>
+            <view class='pd pdr20 leftline rightline black bolder'>{{order.total_num}}</view>
+            <view class='pd pdr20 bolder' bindtap='addcount'>✚</view>
+          </view>
         </view>
+      </view>
     </view>
-    <!-- 配送服务 -->
-    <view class='sq'></view>
-    <view class='bottomline pdc30 flex-row bgw pdr20'>
-        <view class='black bolder linfo'>配送服务</view>
-        <view class='cgray rinfo flex flex-row-rev'>请凭订单二维码在有效时间内去实体店消费</view>
+  </view>
+  <!-- 配送服务 -->
+  <view class='sq'></view>
+  <view class='bottomline pdc30 flex-row bgw pdr20'>
+    <view class='black bolder linfo'>配送服务</view>
+    <view class='cgray rinfo flex flex-row-rev' wx:if='{{goods.store_info.on_line == 0}}'>请凭订单二维码在有效时间内去实体店消费</view>
+    <view class='cgray rinfo flex flex-row-rev' wx:if='{{goods.store_info.on_line == 1}}'>快递发货</view>
+  </view>
+  <view class='pdc30 flex-row bgw pdr20'>
+    <view class='black bolder linfo'>订单备注</view>
+    <input type='text' placeholder='选填，给商家留言，45字(含符号)以内' class='font-sm rinfo' maxlength='45' bindinput='leaveMsg'></input>
+  </view>
+  <!-- 发票信息 -->
+  <view class='sq'></view>
+  <view class='bottomline pdc30 flex-row bgw pdr20'>
+    <view class='black bolder linfo'>发票信息</view>
+    <view class='cgray rinfo flex flex-row-rev'>请在实体店消费时，向商家索要发票</view>
+  </view>
+  <!-- 订单汇总 -->
+  <view class='sq'></view>
+  <view class='full-width bgw '>
+    <view class='bottomline pdc30 bgw pdr20'>
+      <view class='flex-row'>
+        <view class='black linfo bolder'>商品金额</view>
+        <view class='redcolor flex flex-right font-sm bolder'>￥{{order.total_price}}</view>
+      </view>
+      <view class='flex-row'>
+        <view class='black linfo bolder'>运费</view>
+        <view class='skr flex flex-right font-sm'>+￥{{order.discount_money}}</view>
+      </view>
     </view>
-    <view class='pdc30 flex-row bgw pdr20'>
-        <view class='black bolder linfo'>订单备注</view>
-        <input type='text' placeholder='选填，给商家留言，45字(含符号)以内' class='font-sm rinfo' maxlength='45' bindinput='leaveMsg'></input>
+    <view class='bgw pd20'>
+      <view class='flex flex-right bolder' style='padding-bottom:20rpx;'>
+        实付金额：
+        <text class='font-md redcolor bolder'>￥{{order.total_price}}</text>
+      </view>
+      <!-- 支付方式 -->
+      <view class='bggreen wtcolor flex flex-center pd20 font-lgp' bindtap='ConfirmOrderAndPay'>确定支付</view>
     </view>
-    <!-- 发票信息 -->
-    <view class='sq'></view>
-    <view class='bottomline pdc30 flex-row bgw pdr20'>
-        <view class='black bolder linfo'>发票信息</view>
-        <view class='cgray rinfo flex flex-row-rev'>请在实体店消费时，向商家索要发票</view>
-    </view>
-    <!-- 订单汇总 -->
-    <view class='sq'></view>
-    <view class='full-width bgw '>
-        <view class='bottomline pdc30 bgw pdr20'>
-            <view class='flex-row'>
-                <view class='black linfo bolder'>商品金额</view>
-                <view class='redcolor flex flex-right font-sm bolder'>￥{{lastMoney.total_price}}</view>
-            </view>
-            <view class='flex-row' wx:if='{{false}}'>
-                <view class='black linfo bolder'>运费</view>
-                <view class='skr flex flex-right font-sm'>+￥{{lastMoney.freight}}</view>
-            </view>
-            <view class='flex-row'>
-                <view class='black linfo bolder'>余额抵扣</view>
-                <view class='redcolor flex flex-right font-sm'>-￥{{lastMoney.balance_use}}</view>
-            </view>
-        </view>
-        <view class='bgw pd20'>
-            <view class='flex flex-right bolder' style='padding-bottom:20rpx;'>
-                实付金额：
-                <text class='font-md redcolor bolder'>￥{{lastMoney.last_price}}</text>
-            </view>
-            <!-- 支付方式 -->
-            <view class='bggreen wtcolor flex flex-center pd20 font-lgp' bindtap='createOrderAndPay'>确定支付</view>
-        </view>
-    </view>
-    <view class='sq'></view>
+  </view>
+  <view class='sq'></view>
 </view>

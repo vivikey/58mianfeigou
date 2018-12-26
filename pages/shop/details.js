@@ -101,6 +101,7 @@ Page({
           return u
         })
         r.data.goods_number = 1
+				r.data.goods_limit = r.data.goods_limit || 0
         r.data.goods_spec.forEach((val, idx) => {
           if (val.id == this.data.spec_id) {
             this.setData({
@@ -134,16 +135,16 @@ Page({
     this.getShopOrCommList()
   },
   //-- 加入购物车
-  importToCart() {
-    Cart.Add({
-      user_id: app.USER_ID(),
-      store_id: this.data.goods.store_id,
-      spec_id: this.data.goods.goods_spec[this.data.spec_chosed].id,
-			spec_num: this.data.goods.goods_number
-    }).then(r => {
-      console.log('Cart.Add => ', r)
-    })
-  },
+  // importToCart() {
+  //   Cart.Add({
+  //     user_id: app.USER_ID(),
+  //     store_id: this.data.goods.store_id,
+  //     spec_id: this.data.goods.goods_spec[this.data.spec_chosed].id,
+	// 		spec_num: this.data.goods.goods_number
+  //   }).then(r => {
+  //     console.log('Cart.Add => ', r)
+  //   })
+  // },
   //-- 直接购买
   directOrder() {
     this.order(true)
@@ -157,9 +158,9 @@ Page({
     direct = direct || false //-- true 表示直接购买
     let chosedObj = { ...this.data.goods
     }
-    chosedObj.goods_spec = { ...this.data.goods.goods_spec[this.data.spec_chosed]
-    }
+    chosedObj.goods_spec = { ...this.data.goods.goods_spec[this.data.spec_chosed]}
     chosedObj.orderDirect = direct
+		chosedObj.store_info = { ...this.data.goods.store_info}
     wx.setStorageSync('chosedObj', chosedObj)
     wx.navigateTo({
       url: `/pages/groupbuy/grouporder`,

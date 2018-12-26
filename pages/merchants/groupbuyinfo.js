@@ -356,10 +356,10 @@ Page({
     if (goods.goods_limit.length <= 0 || goods.goods_limit < 0) {
       goods.goods_limit = 0
     }
-    //-- 佣金检查
-    if (goods.goods_brokerage.length <= 0 || goods.goods_brokerage < 0) {
-      goods.goods_brokerage = 0
-    }
+    // //-- 佣金检查
+    // if (goods.goods_brokerage.length <= 0 || goods.goods_brokerage < 0) {
+    //   goods.goods_brokerage = 0
+    // }
     //-- 规格检查
     if (goods.id > 0) {
       if (goods_spec.length <= 0) {

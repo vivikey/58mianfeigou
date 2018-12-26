@@ -21,22 +21,33 @@ Page({
   onShow: function() {
     this.loadUserOrderList()
   },
-  getOrderStatusTxt(u) {
-    if (u == 0) {
-      return '未付款'
-    }
-    if (u == 1) {
-      return '待发货'
-    }
-    if (u == 2) {
-      return '待收货'
-    }
-    if (u == 3) {
-      return '待消费'
-    }
-    if (u == 4) {
-      return '已完成'
-    }
+
+	goOrderDeatil(e){
+		wx.navigateTo({
+			url: `/pages/orders/orderdetail?id=${e.currentTarget.dataset.order}`,
+		})
+	},
+	getOrderStatusTxt(order_status) {
+		switch (order_status){
+			case 0:
+				return '待付款'
+			case 1001:
+			case 1021:
+				return '待发货'
+			case 1011:
+			case 2011:
+				return '拼团中'
+			case 1002:
+			case 1012:
+			case 1022:
+				return '待收货'
+			case 2003:
+			case 2013:
+			case 2023:
+				return '待消费'
+			default:
+				return '已完成'
+		}
   },
   //-- 加载用户订单列表
   loadUserOrderList() {
@@ -49,6 +60,9 @@ Page({
           orderList: r.data.map(u => {
             u.order_status_txt = this.getOrderStatusTxt(u.order_status)
             u.addtime = TimeConverter.ToLocal(u.addtime);
+						if(u.paytime){
+							u.paytime = TimeConverter.ToLocal(u.paytime);
+						}
             return u;
           })
 				}, this.classifyList)
@@ -84,7 +98,13 @@ Page({
 	//-- 去付款
 	toPayOrder(e){
 		wx.navigateTo({
-			url: `/pages/orders/orderdetail?id=${e.currentTarget.dataset.order}`
+			url: `/pages/orders/orderdetail?id=${e.currentTarget.dataset.order}&type=Pay`
+		})
+	},
+	//-- 去消费
+	toConsumeOrder(e){
+		wx.navigateTo({
+			url: `/pages/orders/orderdetail?id=${e.currentTarget.dataset.order}&type=Consume`
 		})
 	},
   //-- 归类列表
@@ -94,30 +114,30 @@ Page({
     let classNavActIdx = this.data.classNavActIdx,
       orderList = this.data.orderList;
       
-		let showList = orderList.filter(item=>{
+		let showList = orderList.filter(item=>{			
 			if (classNavActIdx==0) //-- 全部
 			{
 				return true;
 			}
 			if (classNavActIdx == 1) //-- 待付款
 			{
-				return item.order_status == 0;
+				return item.order_status_txt == '待付款';
 			}
 			if (classNavActIdx == 2) //-- 待发货
 			{
-				return item.order_status == 1;
+				return item.order_status_txt == '待发货' ;
 			}
 			if (classNavActIdx == 3) //-- 待收货
 			{
-				return item.order_status == 2;
+				return item.order_status_txt == '待收货' ;
 			}
 			if (classNavActIdx == 4) //-- 待消费
 			{
-				return item.order_status == 3;
+				return item.order_status_txt == '待消费';
 			}
 			if (classNavActIdx == 5) //-- 拼团中
 			{
-				return item.order_status == 1 && order_type == 1;
+				return item.order_status_txt == '拼团中';
 			}
 		})
 

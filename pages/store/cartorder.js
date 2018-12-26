@@ -22,6 +22,7 @@ Page({
    * 确定订单
    */
   payOrder(order_sn, order_id) {
+		if (this.data.store.on_line == 1){
     Order.OrderAddr({
       user_id: app.USER_ID(),
       order_id,
@@ -44,6 +45,20 @@ Page({
 				app.ERROR("订单已生成，但地址配置失败！")
 			}
     })
+		}else{
+			Order.PayOrder({
+				user_id: app.USER_ID(),
+				order_sn
+			}).then(r => {
+				console.log('Order.PayOrder => ', r)
+				if (r.code == 200) {
+					this.useWeChatPay(r.data)
+				} else {
+					app.ERROR(`确认订单失败！`)
+
+				}
+			})
+		}
 
   },
   /**
@@ -138,6 +153,7 @@ Page({
       }))
     }
   },
+	/**微信支付 */
   useWeChatPay(obj) {
     wx.requestPayment({
       'timeStamp': obj.timeStamp.toString(),
@@ -150,9 +166,15 @@ Page({
           content: '支付成功',
           showCancel: false,
           success: d => {
-            wx.switchTab({
-              url: `/pages/usercenter/index`
-            })
+						if (this.data.store.on_line === 1) {
+							wx.navigateTo({
+								url: `/pages/orders/index?idx=2`
+							})
+						} else {
+							wx.navigateTo({
+								url: `/pages/orders/index?idx=4`
+							})
+						}
           }
         })
       },
@@ -169,8 +191,8 @@ Page({
           showCancel: false,
           success: d => {
             //-- 跳转到未付款订单页
-            wx.switchTab({
-              url: `/pages/usercenter/index`
+						wx.navigateTo({
+							url: `/pages/orders/index?idx=1`
             })
           }
         })

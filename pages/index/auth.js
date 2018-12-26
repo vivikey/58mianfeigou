@@ -13,7 +13,7 @@ Page({
             country: e.detail.userInfo.country,
             province: e.detail.userInfo.province,
             city: e.detail.userInfo.city,
-            id: app.USER_ID()
+            user_id: app.USER_ID()
         }
         app._nplogin(data).then(r=>{
             console.log('app._nplogin => ',r)

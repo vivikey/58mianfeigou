@@ -1,19 +1,11 @@
 <view class='container'>
     <view class='container gray full-width'>
-        <view class='bgw pd20 full-width'>
-            <view class='flex height-sm'>
-                <view class='img-lgp'>
-                    <image src='{{is_tuan?gift.shop_list[0].shop_sku.sku_img:gift.image}}' class='img-lgp bdfull'></image>
-                </view>
-                <view class='pd bolder font-sm'>{{is_tuan?gift.shop_list[0].goods_name+gift.shop_list[0].shop_sku.sku_spec:gift.title}}</view>
-            </view>
-        </view>
         <text class='mg-t10'>评价内容</text>
         <view class='info-item-row'>
-            <textarea placeholder='请输入评价内容' id='content' bindinput='inputBlur'></textarea>
+            <textarea placeholder='请输入评价内容' id='evaluate' bindinput='inputBlur'></textarea>
         </view>
         <view class='flex-row flex-wrap flex-left'>
-            <view class='choseimg col-4' wx:for='{{poster.posters}}' wx:key=''>
+            <view class='choseimg col-4' wx:for='{{evaluate_img}}' wx:key=''>
                 <image src='{{item}}'></image>
                 <text data-idx='{{index}}' class='removeimg flex-row flex-center' bindtap='removeImg'> ✖</text>
             </view>
@@ -23,7 +15,7 @@
         </view>
 
         <view class='info-item-row'>
-            <view class='btn' bindtap='Save' wx:if='{{poster.posters.length>0 || poster.content.length>0}}'>✔ 发布</view>
+            <view class='btn' bindtap='Save' wx:if='{{evaluate.length>0 || evaluate_img.length>0}}'>✔ 发布</view>
         </view>
     </view>
 </view>

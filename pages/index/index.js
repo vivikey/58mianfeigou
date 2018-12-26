@@ -15,7 +15,7 @@ Page({
     login(){
         app._init().then(r=>{
             console.log('index.login => ',r)
-            r.data["id"]=r.data.user_id
+						r.data["user_id"]=r.data.id
             app.globalData.user = r.data
             wx.switchTab({
                 url: '/pages/shop/index',

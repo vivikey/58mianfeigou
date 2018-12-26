@@ -6,19 +6,31 @@ import regeneratorRuntime from 'regenerator-runtime.js'
 let obj = {
   Submit() {
 		return '/api/Purchaseapi/submitOrder'
-  }, //-- 生成订单
+  }, //-- 生成直购订单
 	PayOrder() {
 		return '/api/Purchaseapi/payOrder'
 	}, //-- 确认订单
 	OrderAddr() {
 		return '/api/Purchaseapi/userModOrderAddr'
-	}, //-- 确认订单
+	}, //-- 绑定收货地址
+	AddNumber() {
+		return '/api/Purchaseapi/userAddOrderGoodsNum'
+	}, //-- 订单中商品数量增1
+	SubNumber() {
+		return '/api/Purchaseapi/userSubOrderGoodsNum'
+	}, //-- 订单中商品数量减1
+	SubmitSingle() {
+		return '/api/Purchaseapi/directBuy'
+	}, //-- 生成团购订单
 	SubmitGroup() {
 		return '/api/Purchaseapi/confirmGroupOrder'
-	}, //-- 开团订单
-	List() {
-		return '/api/Purchaseapi/userOrderList'
-	}, //-- 开团订单
+	}, //-- 生成团购订单
+	JoinGroup() {
+		return '/api/Purchaseapi/confirmGroupOrderOther'
+	}, //-- 参团
+	ListGroup() {
+		return '/api/Purchaseapi/StoreCartInfo'
+	}, //-- 列表开团信息
 	Cancel() {
 		return '/api/Purchaseapi/userCancelOrder'
 	}, //-- 取消订单
@@ -28,6 +40,10 @@ let obj = {
 	Get() {
 		return '/api/Purchaseapi/userOrderInfo'
 	}, //-- 删除订单
+	List() {
+		return '/api/Purchaseapi/userOrderList'
+	}, //-- 用户订单列表
+
   async Do(data) {
     return await new Promise((resolve, reject) => {
       $.Post(this.url, data, r => {

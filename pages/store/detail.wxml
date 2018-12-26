@@ -52,10 +52,10 @@
   </view>
   <!-- 赠品 -->
   <view class='full-width pd20' wx:if='{{classNavActIdx==0}}'>
-    <!-- ShopList is empty -->
+    <!-- giftList is empty -->
     <import src="/template/nothing/item.wxml" />
     <template is="nothing" data='{{datalist:giftList,Msg:"该商铺未发布免费赠品"}}'></template>
-    <!-- ShopList -->
+    <!-- giftList -->
     <view wx:for='{{giftList}}' wx:key='id' class='full-width pd flex-row'>
       <view class='store_shop_specimg' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail'>
         <image src='{{item.spec.spec_img}}'></image>
@@ -72,7 +72,7 @@
         </view>
         <view class='flex-row'>
           <view>
-            <text class='label small yellow-label'>{{item.spec.integral}}积分</text>
+            <!-- <text class='label small yellow-label'>{{item.spec.integral}}积分</text> -->
           </view>
           <view class='flex flex-center bdlinearskr wtcolor pdc pdr20 radius-m'>
             <text class='txtmidline cgray'>免费领取</text>
