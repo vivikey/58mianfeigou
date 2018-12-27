@@ -74,8 +74,8 @@
           <view>
             <!-- <text class='label small yellow-label'>{{item.spec.integral}}积分</text> -->
           </view>
-          <view class='flex flex-center bdlinearskr wtcolor pdc pdr20 radius-m'>
-            <text class='txtmidline cgray'>免费领取</text>
+          <view class='flex flex-center bdlinearskr wtcolor pdc pdr20 radius-m' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail'>
+            <text class='wtcolor'>我要领取</text>
           </view>
         </view>
       </view>

@@ -39,8 +39,8 @@ Page({
             sysinfo: sysinfo,
             canvasHeight: parseInt(sysinfo.windowHeight * 0.76),
             canvasWidth: parseInt(sysinfo.windowWidth * 0.76),
-            wB: sysinfo.windowWidth * 0.76 / this.data.lines, //-- 画布上设定的最小单元格的宽度 px
-            hB: sysinfo.windowHeight * 0.76 / this.data.lines //-- 画布上设定的最小单元格的高度 px
+            wB: sysinfo.windowWidth*0.76/this.data.lines, //-- 画布上设定的最小单元格的宽度 px
+            hB: sysinfo.windowHeight*0.76/this.data.lines //-- 画布上设定的最小单元格的高度 px
         }, () => {
             //-- 获得产品对应的小程序码图片
             wx.showLoading({

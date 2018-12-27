@@ -1,5 +1,6 @@
 import FrontEndStore from '../../comm/FrontEndStore.js'
 import Cart from '../../comm/Cart.js'
+
 var app = getApp()
 var pageObj = {
   data: {
@@ -40,6 +41,7 @@ var pageObj = {
     })
     this.loadStoreInfo(store_id)
   },
+	//-- 加载商铺信息
   loadStoreInfo(store_id) {
     FrontEndStore.Get({
       user_id: app.USER_ID(),
@@ -242,6 +244,7 @@ var pageObj = {
       }
     })
   },
+	//-- 加载购物车列表
   loadCartList() {
     Cart.List({
       user_id: app.USER_ID(),
@@ -256,11 +259,13 @@ var pageObj = {
       }
     })
   },
+	//-- 去结算
   toCartOrder() {
     wx.navigateTo({
       url: `/pages/store/cartorder?store_id=${this.data.store_id}`,
     })
   },
+
   onShow: function() {
     this.getShopOrCommList()
   },

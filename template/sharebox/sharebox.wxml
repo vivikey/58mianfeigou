@@ -3,7 +3,7 @@
         <view class='share_bg {{!showShareWnd?"hide":""}}' catchtap='hideShareBox' catchtouchmove='true'></view>
         <view class='input_box {{!showShareWnd?"hide":""}}' catchtouchmove='true'>
             <view class='bglightgray cgray flex-row pd20'>
-                <view>分享到</view>
+                <view>分享</view>
                 <view class='img-sm' catchtap='hideShareBox'>
                     <image src='/resource/icon/close.svg' class='img-sm'></image>
                 </view>
@@ -13,13 +13,13 @@
                     <view>
                         <image src='/resource/icon/wx.svg'></image>
                     </view>
-                    <view>微信好友</view>
+                    <view>分享微信好友</view>
                 </button>
                 <view class='flex-col-auto col-6 flex-center leftline' bindtap='shareToPYQ'>
                     <view>
                         <image src='/resource/icon/pyq.svg'></image>
                     </view>
-                    <view>海报图片</view>
+                    <view>保存手机图片</view>
                 </view>
             </view>
         </view>

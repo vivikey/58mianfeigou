@@ -8,6 +8,7 @@ let obj = {
     Post() { return '/api/addapi/storeHandle' },
     Delete() { return '/api/Deleteapi/delStore' },
     List() { return '/api/showapi/showStoreList'},
+		ScanQr() { return '/api/Purchaseapi/storeOrderFinish'},
     async Do(data){
         return await new Promise((resolve, reject) => {
             $.Post(this.url, data, r => {

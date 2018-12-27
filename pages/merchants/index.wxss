@@ -61,16 +61,19 @@ text.mgr{
     align-items: center;
     padding: 30rpx 0;
     flex-direction: column;
-    width:33%;
+    width:24%;
     font-size:14px;
     color:#333;
     border-bottom:1rpx solid #f0f0f0;
+		box-sizing: border-box;
+		border-left:1rpx solid #f0f0f0;
 }
-.img-nav:nth-child(3n){
+.img-nav:nth-child(4n){
     border-left:1rpx solid #f0f0f0;
 }
-.img-nav:nth-child(3n+1){
-    border-right:1rpx solid #f0f0f0;
+.img-nav:nth-child(4n+1){
+    border-right:0rpx solid #f0f0f0;
+	  border-left:0rpx solid #f0f0f0;
 }
 .img-nav .image{
     width:96rpx;

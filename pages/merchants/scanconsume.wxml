@@ -1,24 +1,24 @@
 <view class='container gray'>
     <view class='scanQr bgw pd20 flex flex-around full-width'>
         <view class='item-list-title flex flex-center'>{{title}}</view>
-        <view class='flex-col-auto flex-center pd pdr30 leftline' bindtap='scanQR'>
+        <!-- <view class='flex-col-auto flex-center pd pdr30 leftline' bindtap='scanQR'>
             <image src='/resource/icon/scanqr.png' class='scanimg'></image>
             <text>扫一扫兑现</text>
-        </view>
+        </view> -->
     </view>
+		<view class='flex flex-center pd30'>
+			<view class='pd30 bdfull' bindtap='scanQR'>
+				<image src='/resource/icon/scanqr.svg' class='img-lgp'></image>
+			</view>
+		</view>
     <view class='cgray full-width font-sm'>
         <view class='black font-sm pd20'>兑现历史记录查询：</view>
-        <!-- <radio-group class='bgw cgray full-width font-xs pdc20 flex flex-around' bindchange='getSort'>
-            <radio value='1' color='#50d1fe' checked='{{sortType==1}}'>免费赠品</radio>
-            <radio value='2' color='#50d1fe' checked='{{sortType==2}}'>同城拼团</radio>
-            <radio value='3' color='#50d1fe' checked='{{sortType==3}}'>推荐有奖</radio>
-        </radio-group> -->
     </view>
 
     <view class='info-item-row pdr30 font-xs cgray'>
         <view class='pd flex-row'>
             <view>选择日期区间</view>
-            <view class='bgpk col-2 wtcolor font-sm radius-s pd pdr20 flex flex-center' bindtap='loadChoseData'>查询</view>
+            <view class='label'>敬请期待</view>
         </view>
         <view class='full-width'>
             <picker mode="date" value="{{currGift.startdate}}" start="2018-01-01" end="2999-01-01" bindchange="bindStartDateChange">

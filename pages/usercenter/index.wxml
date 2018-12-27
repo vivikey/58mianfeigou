@@ -39,7 +39,7 @@
       <view class='flex flex-left flex-around black font-sm'>
         <view class='user flex-row flex-around font-sm pd20'>
           <navigator class='flex-col-auto flex-center' url='myqrcode'>
-            <image src='/resource/icon/qr.svg' class='img-md'></image>
+            <image src='/resource/icon/myqr.png' class='img-md'></image>
             <text class='font-xs mg-t10'>我的名片</text>
           </navigator>
           <navigator class='flex-col-auto flex-center' url='/pages/my/myattention?type=1'>

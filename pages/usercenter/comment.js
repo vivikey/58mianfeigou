@@ -56,32 +56,29 @@ Page({
   },
   //-- 执行操作
   Save: function() {
-		Shop.Post(goods).then(r => {
-			console.log("Shop.Post => ", r)
-			if (r.code === 200) {
-				if (goods.id <= 0) {
-					spec_item.goods_id = r.data
-					spec_item.user_id = app.USER_ID()
-					Spec.Post(spec_item).then(r => {
-						if (r.code == 200) {
-							app.SUCCESS(r.message, wx.navigateBack({
-								delta: 1
-							}))
-						} else {
-							app.ERROR('商品提交成功，但规格增加失败!', wx.navigateBack({
-								delta: 1
-							}))
-						}
+		if (this.data.stat ==0 ) //-- 商品评价
+		{
+			Evaluate.PostForGoods({ user_id: app.USER_ID(), goods_id: this.data.id, goods_grade: 5, evaluate: this.data.evaluate, evaluate_img: this.data.evaluate_img.join(',')}).then(r=>{
+				console.log('Evaluate.PostForGoods => ',r)
+				if(r.code == 200){
+					app.SUCCESS(r.message,()=>{
+						wx.navigateBack({
+							detail:1
+						})
 					})
-				} else {
-					app.SUCCESS(r.message, wx.navigateBack({
-						delta: 1
-					}))
 				}
-
-			} else {
-				app.ERROR(res.message || "提交失败！")
-			}
-		})
+			})
+		}else{
+			Evaluate.PostForStore({ user_id: app.USER_ID(), store_id: this.data.id, store_grade: 5, evaluate: this.data.evaluate, evaluate_img: this.data.evaluate_img.join(',') }).then(r => {
+				console.log('Evaluate.PostForGoods => ', r)
+				if (r.code == 200) {
+					app.SUCCESS(r.message, () => {
+						wx.navigateBack({
+							detail: 1
+						})
+					})
+				}
+			})
+		}
   }
 })

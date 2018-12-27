@@ -25,19 +25,19 @@
         <view class='full-width flex flex-wrap font-xs topline'>
             <navigator class='img-nav' url='storeqrcode?id={{s.id}}&title={{s.store_name}}&image={{s.store_logo}}&address={{s.store_addr}}'>
                 <view class='flex flex-center'>
-                    <image src='/resource/icon/qr.svg' class='img-md'></image>
+                    <image src='/resource/icon/qr.png' class='img-md'></image>
                 </view>
                 <view class='caption pdc'>二维码</view>
             </navigator>
             <navigator class='img-nav' url="/pages/merchants/groupbuymgr?storeId={{s.id}}&storeName={{s.store_name}}">
                 <view class='flex flex-center'>
-                    <image src='/resource/icon/productmg.svg' class='img-md'></image>
+                    <image src='/resource/icon/productmg.png' class='img-md'></image>
                 </view>
                 <view class='caption pdc'>商品管理</view>
             </navigator>
             <navigator class='img-nav' url="/pages/merchants/posterlist?storeId={{s.id}}&storeName={{s.store_name}}">
                 <view class='flex flex-center'>
-                    <image src='/resource/icon/haibao.svg' class='img-md'></image>
+                    <image src='/resource/icon/haibao.png' class='img-md'></image>
                 </view>
                 <view class='caption pdc'>活动海报</view>
             </navigator>
@@ -46,6 +46,18 @@
                     <image src='/resource/icon/notice.svg' class='img-md'></image>
                 </view>
                 <view class='caption pdc'>公告管理</view>
+            </navigator>
+            <navigator class='img-nav' url="/pages/merchants/noticemgr?storeId={{s.id}}&storeName={{s.store_name}}">
+                <view class='flex flex-center'>
+                    <image src='/resource/icon/wait-od.png' class='img-md'></image>
+                </view>
+                <view class='caption pdc'>订单管理</view>
+            </navigator>
+            <navigator class='img-nav' url="/pages/merchants/noticemgr?storeId={{s.id}}&storeName={{s.store_name}}">
+                <view class='flex flex-center'>
+                    <image src='/resource/icon/comm.png' class='img-md'></image>
+                </view>
+                <view class='caption pdc'>评价管理</view>
             </navigator>
             <navigator class='img-nav' url="/pages/merchants/managermgr?id={{s.id}}&title={{s.store_name}}">
                 <view class='flex flex-center'>

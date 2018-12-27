@@ -90,7 +90,7 @@
 		"navigationStyle": "default"
 	},
 	"tabBar": {
-		"color": "#777",
+		"color": "#2c2c2c",
 		"selectedColor": "#d81e06",
 		"list": [
 			{

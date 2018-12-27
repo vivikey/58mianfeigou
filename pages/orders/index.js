@@ -49,6 +49,32 @@ Page({
 				return '已完成'
 		}
   },
+	//-- 订单来源
+	getOrderFrm(order_status){
+		switch (order_status) {
+			case 1001:
+			case 1002:
+			case 1003:
+			case 2001:
+			case 2004:
+			case 2003:
+				return '直接购买'
+			case 1011:
+			case 1012:
+			case 1013:
+			case 2011:
+			case 2014:
+			case 2013:
+				return '拼团'
+			case 1021:
+			case 1022:
+			case 1023:
+			case 2021:
+			case 2024:
+			case 2023:
+				return '赠品领取'
+		}
+	},
   //-- 加载用户订单列表
   loadUserOrderList() {
     Order.List({
@@ -60,6 +86,7 @@ Page({
           orderList: r.data.map(u => {
             u.order_status_txt = this.getOrderStatusTxt(u.order_status)
             u.addtime = TimeConverter.ToLocal(u.addtime);
+						u.orderfrm = this.getOrderFrm(u.order_status)
 						if(u.paytime){
 							u.paytime = TimeConverter.ToLocal(u.paytime);
 						}

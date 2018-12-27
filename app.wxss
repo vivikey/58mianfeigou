@@ -998,6 +998,10 @@ swiper {
     background: #00b642;
     color:#fff;
 }
+.label.pk-label{
+    background: #f62004;
+    color:#fff;
+}
 .label.orange-label{
     background: orange;
     color:#000;
@@ -1075,6 +1079,10 @@ swiper {
 	height: 10rpx;
 	transform:skewX(150deg);
 	margin-right:10rpx;
+}
+.caption{
+	color:#2c2c2c;
+	font-size:14px;
 }
 @import "/template/smallmenu/smallmenu.wxss";
 @import "/template/form.wxss";

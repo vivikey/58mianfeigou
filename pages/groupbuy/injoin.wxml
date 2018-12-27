@@ -63,10 +63,13 @@
             <button type='warn' plain='{{true}}' class='full-width font-md' bindtap='toInjoinGroup' wx:else>我要参团</button>
         </view>
         <view class='full-width pdc20' wx:else>
-            <button type='warn' plain='{{true}}' class='full-width font-md' bindtap='reOpenOneBuy'>重开一团</button>
+            <view class='full-width font-md label pk-label flex flex-center' bindtap='reOpenOneBuy'>
+						<text class='pd'>重开一团</text>
+						</view>
         </view>
         <view class='full-width pdc20'>
-            <navigator class='bgpk wtcolor flex flex-center pdc20' open-type='switchTab' url='/pages/groupbuy/index'>拼团首页</navigator>
+            <navigator class='label green-label flex flex-center pdc20' open-type='switchTab' url='/pages/groupbuy/index'>
+						<text class='pd'>返回首页</text></navigator>
         </view>
 
         <!--已开团 列表 -->
@@ -93,40 +96,5 @@
         </view>
     </view>
 </view>
-<view class='foryou flex flex-wrap btn-color-gray font-sm full-width' wx:if='{{false}}'>
-    <view class='flex-col flex-center bottomline pdc30 col-12'>
-        <text class='font-md black bolder'>精选<text class='skr'>推荐</text></text>
-    </view>
-
-    <!-- Swiper -->
-    <view class='swiper full-width'>
-        <swiper autoplay="{{true}}" circular="{{true}}" interval="{{4000}}" duration="{{800}}" class='hot mg-b10' bindchange='swiperChange2'>
-            <swiper-item wx:for='{{3}}' wx:key=''>
-                <view class='bgw flex flex-around pd pdc30 col-12'>
-                    <view class='item-88 flex-col flex-center' wx:for='{{3}}' wx:key='' bindtap='toDetail'>
-                        <view class='img-box flex flex-center cgray'>图像1:1</view>
-                        <view class='info full-width'>
-                            <view class='title flex-row font-xs skr'>
-                                <text class='pd pkcolor'>2人拼</text>
-                                <text class='bolder font-sm pd'>￥19.90</text>
-                            </view>
-                            <view class='title flex font-xs '>
-                                <text class='pd black'>已拼999件</text>
-                            </view>
-                        </view>
-                    </view>
-                </view>
-            </swiper-item>
-        </swiper>
-        <view class='dots flex-row flex-center'>
-            <view wx:for='{{3}}' wx:key='' class='dot-box'>
-                <view class='dot bgccc {{index==sc2?"active":""}}'></view>
-            </view>
-        </view>
-    </view>
-</view>
-<import src="/template/chosegoodsmode/chosemode.wxml" />
-<template is="goodsmodes" data="{{...shopMode}}"></template>
-
-<import src="/template/smallmenu/smallmenu.wxml" />
-<template is="smallmenu" data="{{showsmallmenu:false,smallmenuclosed:smallmenuclosed}}"></template>
+    <import src="/template/version/version.wxml" />
+    <template is="version" data="{{version}}"></template>

@@ -1,15 +1,15 @@
 import $ from 'request.js'
 import regeneratorRuntime from 'regenerator-runtime.js'
 /**
- * 提交订单
+ * 商铺购物车
  */
 let obj = {
   Add() {
 		return '/api/Purchaseapi/addCartShops'
-  }, //-- 增加商品
+  }, //-- 增加商品到购物车
   Sub() {
 		return '/api/Purchaseapi/subCartShops'
-  }, //-- 减少商品
+  }, //-- 从购物车中减少商品
 	List() {
 		return '/api/Purchaseapi/StoreCartInfo'
 	}, //-- 列表

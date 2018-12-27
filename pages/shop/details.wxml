@@ -34,7 +34,7 @@
       <text class='font-lgpp bolder'>{{goods.goods_spec[spec_chosed].spec_price}}</text>
     </view>
     <view class='pdr'>
-      <text class='label yellow-label small'>{{goods.goods_spec[spec_chosed].integral}}积分</text>
+      <text class='label yellow-label small'>免费领取</text>
     </view>
   </view>
   <view class='full-width pdr20 pdc bdlinearskr price-box' wx:if='{{goods.group_purchase ==1 }}'>
@@ -169,11 +169,11 @@
 <!-- 开团菜单 -->
 <view class='fix-b optmenu font-sm'>
   <view class='mitem1 bgw hardgray flex flex-center flex-around'>
-    <view class='flex-col-around '>
+    <view class='flex-col-around' bindtap='toHome'>
       <image src='/resource/icon/index.png' class='img-sm'></image>
       <text class=''>首页</text>
     </view>
-    <view class='flex-col-around '>
+    <view class='flex-col-around' bindtap='openShareWnd'>
       <image src='/resource/icon/share2.png' class='img-sm'></image>
       <text class=''>分享</text>
     </view>
@@ -189,9 +189,12 @@
   <view class='mitem2 flex-col-center bgdanger wtcolor' wx:if='{{goods.group_purchase ==1 }}' bindtap='tuanOrder'>
     <text class=''>我要开团</text>
   </view>
-  <view class='mitem2 flex-col-center bgdanger wtcolor' wx:if='{{goods.group_purchase ==0 && goods.is_gift ==1}}'>
+  <view class='mitem2 flex-col-center bgdanger wtcolor' wx:if='{{goods.group_purchase ==0 && goods.is_gift ==1}}' bindtap='onGetGift'>
 
     <text class=''>免费领取</text>
   </view>
-
 </view>
+
+<!-- 分享窗口 -->
+<import src="/template/sharebox/sharebox.wxml" />
+<template is="sharebox" data="{{showShareWnd:showShareWnd}}"></template>

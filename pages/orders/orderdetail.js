@@ -5,7 +5,8 @@ import TimeConverter from '../../comm/TimeConverter.js'
 Page({
   data: {
     order_id: 0,
-		order:{}
+		order:{},
+		waiting:false
   },
   onLoad: function(options) {
 		this.data.order_id = options.id || 0
@@ -42,7 +43,8 @@ Page({
 				r.data.statMsg = this.getOrderStatusTxt(r.data.order_status)
 				r.data.addtime = TimeConverter.ToLocal(r.data.addtime)
 				r.data.goods = r.data.goods.map(u=>{
-					u.use_chosed = u.spec_price
+					u.use_chosed = u.spec_num
+					u.can_use = u.spec_num - u.use_num
 					return u;
 				})
 				this.setData({
@@ -51,6 +53,28 @@ Page({
 			}
 		})
   },
+	//-- 增加消费数量
+	onAddUseNum(e){
+		let order = this.data.order		
+		let idx = e.currentTarget.dataset.idx
+		if(order.goods[idx].use_chosed<order.goods[idx].can_use){
+			order.goods[idx].use_chosed++
+			this.setData({
+				order:order
+			})
+		}
+	},
+	//-- 减少消费数量 
+	onSubUseNum(e){
+		let order = this.data.order
+		let idx = e.currentTarget.dataset.idx
+		if (order.goods[idx].use_chosed > 1) {
+			order.goods[idx].use_chosed--
+			this.setData({
+				order: order
+			})
+		}
+	},
 	//-- 去评价
 	gotoEvaluate(e){
 		wx.navigateTo({
@@ -59,32 +83,69 @@ Page({
 	},
   //-- 弹出消费二维码
   showQR: function(e) {
-    var idx = e.currentTarget.dataset.idx
-    var arr = this.data.order_goods_info
-    var item = arr[idx]
-    var text = `{"token":"${app.userInfo().token}","num":"${item.use_chosed}","order_id":"${item.order_id}","title":"${item.goods_name}","is_tuan":"${this.data.order_info.tuanselect}","tuan_id":"${this.data.tuan_id}","store_id":"${this.data.order_info.store_id}"}`
-    console.log('qrcode:', text)
+    let idx = e.currentTarget.dataset.idx
+    let arr = this.data.order.goods
+    let item = arr[idx]
+		// let obj = {
+		// 	user_id:app.USER_ID(),
+		// 	order_id:this.data.order.id,
+		// 	order_goods_num:item.use_chosed,
+		// 	order_goods_id: item.id,
+		// 	store_id: this.data.order.store_id,
+		// 	order_goods_name: item.goods_name
+		// }
+		let data = [
+			app.USER_ID(),
+			this.data.order.id,
+			item.use_chosed,
+			item.id,
+			this.data.order.store_id,
+			item.goods_name
+		]
     drawQrcode({
       width: 200,
       height: 200,
       canvasId: 'qrcode',
-      foreground: '#50d1fe',
-      text: text
+      foreground: '#2c2c2c',
+      text: data.join('-')
     })
     this.setData({
       showqrbox: true,
-      qr_msg: `${item.use_chosed}份 ${item.goods_name}`
-    })
-
-    this.checkOutQrCodeStat(idx)
+			qr_msg: `${item.use_chosed}份 ${item.goods_name}(${item.spec_color}${item.spec_size})`,
+			waiting:true
+    },()=>{this.waitingScan(idx)})
   },
+	waitingScan(idx){
+		let waitting = this.data.waiting
+		if(waitting){
+			Order.GetNoLoading({ user_id: app.USER_ID(), order_id: this.data.order_id }).then(r => {
+				console.log('Order.Get => ', r)
+				if (r.code === 200) {
+					let source = this.data.order.goods[idx]
+					let item = r.data.goods[idx]
+					if (item.use_num!=source.use_num){
+						app.SUCCESS('消费成功',()=>{
+							this.setData({
+								waiting:false
+							}, this.closeQrBox)
+						})
+					}else{
+						setTimeout(()=>{this.waitingScan(idx)},1000)
+					}
+				}
+
+			})
+		}
+	},
   //-- 关闭消费二维码
-  closeQrBox: function() {
+  closeQrBox() {
     this.setData({
       showqrbox: false,
       qr_msg: '',
-      xh: false
+      xh: false,
+			waiting:false
     })
+		this.loadOrderDetail()
   },
   //-- 分享到用户或群
   onShareAppMessage: function(res) {

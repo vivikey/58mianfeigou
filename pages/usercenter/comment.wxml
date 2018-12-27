@@ -14,8 +14,8 @@
             </view>
         </view>
 
-        <view class='info-item-row'>
-            <view class='btn' bindtap='Save' wx:if='{{evaluate.length>0 || evaluate_img.length>0}}'>✔ 发布</view>
+        <view class='info-item-row flex flex-center'>
+            <view class='btn' bindtap='Save' wx:if='{{evaluate.length>0 || evaluate_img.length>0}}'>发布</view>
         </view>
     </view>
 </view>

@@ -31,6 +31,9 @@ let obj = {
 	ListGroup() {
 		return '/api/Purchaseapi/StoreCartInfo'
 	}, //-- 列表开团信息
+	GetGroup() {
+		return '/api/Showapi/groupInfo'
+	}, //-- 列表开团信息
 	Cancel() {
 		return '/api/Purchaseapi/userCancelOrder'
 	}, //-- 取消订单
@@ -39,23 +42,38 @@ let obj = {
 	}, //-- 删除订单
 	Get() {
 		return '/api/Purchaseapi/userOrderInfo'
-	}, //-- 删除订单
+	}, //-- 查询订单
+	GetNoLoading() {
+		return '/api/Purchaseapi/userOrderInfo'
+	}, //-- 查询订单
 	List() {
 		return '/api/Purchaseapi/userOrderList'
 	}, //-- 用户订单列表
-
+	AcGift() {
+		return '/api/Purchaseapi/directGet'
+	}, //-- 用户领取赠品
   async Do(data) {
     return await new Promise((resolve, reject) => {
       $.Post(this.url, data, r => {
         resolve(r.data)
       }, null, true)
     })
-  }
+  },
+	async DoNoLoading(data) {
+		return await new Promise((resolve, reject) => {
+			$.Post(this.url, data, r => {
+				resolve(r.data)
+			}, null, false)
+		})
+	}
 }
 
 const Order = new Proxy(obj, {
   get(target, property) {
     target.url = target[property]()
+		if (property == "GetNoLoading"){
+			return target.DoNoLoading.bind(target)
+		}
     return target.Do.bind(target)
   }
 })

@@ -48,3 +48,4 @@ swiper .swiper-navbox,swiper swiper-item image{
 	background: #f62004;
 	color:#fff;
 }
+@import "/template/sharebox/sharebox.wxss";
