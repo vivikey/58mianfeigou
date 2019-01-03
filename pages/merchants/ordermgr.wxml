@@ -1,0 +1,103 @@
+<view class='container gray'>
+  <view class='topblockbg'></view>
+  <view class='full-width fix-t bglinearyellow shadow flex-row pd20'>
+    <view class='font-sm black bolder'>{{storeName}}</view>
+  </view>
+
+  <view class='sq'></view>
+  <!-- list -->
+  <view class='list full-width'>
+    <import src="/template/nothing/item.wxml" />
+    <template is="nothing" data='{{datalist:orderList,Msg:"~空空的~"}}'></template>
+
+    <view class='posteritem box flex-col bottomline' wx:for='{{orderList}}' wx:key='id'>
+      <view class='flex-row'>
+        <view class='font-sm black bolder'>{{item.order_sn}}</view>
+        <view class='flex flex-center'>
+          <view class='flex flex-center bolder pdr20 cgray'>{{item.order_status_txt}}</view>
+        </view>
+      </view>
+      <view class='full-width pd20'>
+        <!-- Goods Info -->
+        <view class='full-width pd20 bottomline'>
+          <view class='pd flex-row' wx:for='{{item.goods}}' wx:key='id' wx:for-item='gd'>
+            <navigator url='/pages/shop/details?id={{gd.goods_id}}' class='flex flex-center'>
+              <image src='{{gd.spec_img}}' class='img-md'></image>
+              <view class='font-sm black bolder pd'>{{gd.goods_name}}</view>
+            </navigator>
+            <view>
+              <text class='lightgray font-xs'>{{gd.spec_size}} {{gd.spec_color}}</text>
+            </view>
+          </view>
+          <view class='flex pd20' catchtap='goOrderDeatil' data-order='{{item.id}}'>
+            <view class='font-x lightgray'>
+              <view>下单：{{item.addtime}}</view>
+              <view wx:if='{{item.paytime}}'>付款：{{item.paytime}}</view>
+            </view>
+          </view>
+          <view class='flex flex-right lightgray font-sm pdc pdr'>金额：
+            <text class='pkcolor font-md'>￥{{item.goods_price}}</text>
+          </view>
+
+        </view>
+        <view class='flex-row pdc'>
+          <view class='label red-label small'>{{item.orderfrm}}</view>
+          <!-- Options -->
+          <view class='flex flex-right pd20'>
+            <!-- 确认收货 ：待收货-->
+            <view class='zs-btn zs-red' data-idx='{{index}}' bindtap='modifyMonery' wx:if='{{item.order_status_txt=="待付款"}}'>修改金额</view>
+            <!-- 确认收货 ：待收货-->
+            <view class='zs-btn' data-idx='{{index}}' wx:if='{{item.order_status_txt=="待收货"}}' bindtap='showExpress' data-order='{{item.id}}'>查看物流</view>
+            <!-- 确认收货 ：待收货-->
+            <view class='zs-btn zs-green' data-idx='{{index}}' bindtap='setExpress' wx:if='{{item.order_status_txt=="待发货"}}'>设置发货</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+  </view>
+  <import src="/template/version/version.wxml" />
+  <template is="version" data="{{version}}"></template>
+</view>
+<!-- 修改金额弹窗-->
+<view class='modifyWnd {{!modifyShow?"hide":""}} full-width cgray font-xs'>
+  <view class='share_bg {{!modifyShow?"hide":""}}' catchtap='hidemodifyWnd' catchtouchmove='true'></view>
+  <view class='input_box {{!modifyShow?"hide":""}}' catchtouchmove='true'>
+    <view class='bglightgray cgray flex-row pd20'>
+      <view>修改金额</view>
+      <view class='img-sm' catchtap='hidemodifyWnd'>
+        <image src='/resource/icon/close.svg' class='img-sm'></image>
+      </view>
+    </view>
+    <view class='bgw cgray flex flex-center flex-around pd30 opt black'>
+      <input class='bdfull font-md pkcolor' placeholder='请输入金额' type='digit'  id='moeryInput' bindinput='onInputChange'></input>
+    </view>
+    <view class='bglightgray black pd30 flex flex-center'>
+      <view class='zs-btn zs-red' catchtap='onModifyHandle'>确定</view>
+    </view>
+  </view>
+</view>
+
+<!-- 设置物流弹窗-->
+<view class='modifyWnd {{!setShow?"hide":""}} full-width cgray font-xs'>
+  <view class='share_bg {{!setShow?"hide":""}}' catchtap='hidesetShow' catchtouchmove='true'></view>
+  <view class='input_box {{!setShow?"hide":""}}' catchtouchmove='true'>
+    <view class='bglightgray cgray flex-row pd20'>
+      <view>设置物流</view>
+      <view class='img-sm' catchtap='hidesetShow'>
+        <image src='/resource/icon/close.svg' class='img-sm'></image>
+      </view>
+    </view>
+    <view class='bgw cgray flex flex-center flex-around pd30 opt black'>
+      <input class='bdfull font-md pkcolor' placeholder='请输入物流单号' type='text' id='expressInput' bindinput='onInputChange'></input>
+    </view>
+    <view class='bgw cgray flex flex-center flex-around pd30 opt black'>
+      <radio-group class='flex flex-around flex-wrap' bindchange="radioChange">
+        <radio wx:for='{{expressList}}' wx:key='id' class='flex col-4 pd' value="{{item.code}}" checked="{{item.code==expressCode}}">{{item.name}}</radio>
+      </radio-group>
+    </view>
+    <view class='bglightgray black pd30 flex flex-center'>
+      <view class='zs-btn zs-red' catchtap='onSetExpressHandle'>确定</view>
+    </view>
+  </view>
+</view>

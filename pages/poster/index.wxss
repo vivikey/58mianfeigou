@@ -3,6 +3,7 @@
     top:0;
     left:0;
     background: #fff;
+		z-index: 800;
 }
 .tab-btn view{
     padding: 20rpx;
@@ -11,8 +12,8 @@
     font-weight: bolder;
 }
 .tab-btn view.active{
-    color: #50d1fe;
-    border-bottom:1rpx solid #50d1fe;
+    color: #d81e06;
+    border-bottom:2px solid #d81e06;
 }
 .container{
         padding-top: 84rpx;

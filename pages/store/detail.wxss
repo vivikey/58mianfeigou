@@ -44,6 +44,21 @@ swiper.dynamic{
 .store-cart{
 	z-index: 1800;
 }
+.store-cart.full{
+	background: rgba(0,0,0,0.4);
+	top:0;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+}
+.store-cart .shop-list .itemList{
+	max-height: 200px;
+	width:100%;
+	overflow-y:scroll;
+}
+.store-cart .shop-list .items .title{
+	width:400rpx;
+}
 .store-cart .opt-bar{
 	height: 100rpx;
 	background: rgba(33,33,33,.9);

@@ -3,11 +3,11 @@
     <view class='qr-box bgw radius-s bdfull pd20 full-width'>
         <view class='pd20 flex bottomline'>
             <view class='img-box'>
-                <image src='{{user.user_pic}}'></image>
+                <image src='{{user.user_img}}'></image>
             </view>
             <view class='pd flex-col-auto flex-around'>
-                <view class='black font-lg bolder'>{{user.username}}</view>
-                <view class='cgray font-xs'>{{user.phone}}</view>
+                <view class='black font-lg bolder'>{{user.nick_name}}</view>
+                <view class='cgray font-xs'>{{!user.user_phone?"":user.user_phone}}</view>
             </view>
         </view>
         <canvas canvas-id='qrCanvas' class='qrcode'></canvas>

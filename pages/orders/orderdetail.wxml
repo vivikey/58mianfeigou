@@ -1,4 +1,27 @@
 <view class='container gray font-xs black'>
+  <!-- 线下消费 -->
+  <view wx:if='{{order.store.on_line == 0}}' class='label gold-label small full-width flex flex-center'>
+    <text class='pd20 bolder'>本商品不提供发货服务，购买后请至线下实体店扫码消费</text>
+  </view>
+  <!-- 收货地址 -->
+  <view wx:if='{{order.store.on_line == 1}}' class='rinfo bgw pdr'>
+    <navigator url='/pages/usercenter/addressmgr?fromShop={{true}}' class='flex arrow pd'>
+      <view>
+        <view class='font-md pdc'>
+          <text class='pd-r20 bolder'>{{defaultAddress.user_name}}</text>
+          <text class='pd-l20 bolder'>{{defaultAddress.phone}}</text>
+          <text class='label green-label small' wx:if='{{defaultAddress.default==1}}'>默认</text>
+        </view>
+        <view class='cgray bolder font-sm'>{{defaultAddress.province}}{{defaultAddress.city}}{{defaultAddress.district}}{{defaultAddress.addr_detail}}</view>
+      </view>
+    </navigator>
+    <view class='flex'>
+      <view class='flex' wx:for='{{10}}' wx:key=''>
+        <view class='bgdanger add-side'></view>
+        <view class='bgpk add-side'></view>
+      </view>
+    </view>
+  </view>
   <view class='full-width bgw pd20'>
     <view class='flex pdc20 bottomline'>
       <image src='{{order.store.store_logo}}' class='img-sm'></image>
@@ -9,7 +32,7 @@
       <view wx:for='{{order.goods}}' wx:key='id' wx:for-item='gds' class='full-width bglightgray mg-t10 shadow'>
         <!-- 商品简简信息 -->
         <view class='full-width flex-row pd20 bgw'>
-          <view class='flex flex-left' style='width:540rpx;' bindtap='toShopDetail'>
+          <view class='flex flex-left' style='width:540rpx;' bindtap='toShopDetail' data-id='{{gds.goods_id}}' data-spec='{{gds.spec_id}}'>
             <view class='pdr'>
               <image src='{{gds.spec_img}}' class='item-image'></image>
             </view>
@@ -91,12 +114,11 @@
 		<!-- 删除订单 -->
     <view data-order='{{order.id}}' catchtap='delOrder' class='opt pd pdr20 radius-s bglightgray' wx:if='{{order.statMsg=="已完成"}}'>删除订单</view>
 		<!-- 去评价 -->
-    <view data-goods='{{order.goods[0].goods_id}}' class='opt pd pdr20 radius-s bglightgray' wx:if='{{order.statMsg=="已完成"}}'>去评价</view>
-    <view data-goods='{{order.goods[0].goods_id}}' catchtap='gotoEvaluate' class='opt pd pdr20 radius-s bglightgray' >去评价</view>
+    <view data-goods='{{order.goods[0].goods_id}}' catchtap='gotoEvaluate' class='opt pd pdr20 radius-s bglightgray' wx:if='{{order.statMsg=="已完成"}}'>去评价</view>
 		<!-- 立即支付 -->
     <view bindtap='ConfirmOrderAndPay' class='opt pd pdr20 radius-s bdlinearskr wtcolor' wx:if='{{order.statMsg=="待付款"}}'>立即支付</view>
 		<!-- 确认收货 -->
-    <view bindtap='wexinpay' class='opt pd pdr20 radius-s bdlinearskr wtcolor' wx:if='{{order.statMsg == "待收货" }}'>确认收货</view>
+    <view bindtap='onTakeDelivery' class='opt pd pdr20 radius-s bdlinearskr wtcolor' wx:if='{{order.statMsg == "待收货" }}'>确认收货</view>
 		<!-- 查看拼团 -->
     <navigator url='/pages/groupbuy/injoin?group_id={{order.group_id}}' class='opt pd pdr20 radius-s bdlinearskr wtcolor' wx:if='{{order.statMsg == "拼团中"}}'>查看拼团</navigator>
   </view>

@@ -4,7 +4,7 @@
     <!-- 1我的关注 -->
     <navigator wx:for='{{storeList}}' wx:key='id' class='full-width bgw pd20 bottomline flex flex-spance' url='/pages/store/detail?id={{item.id}}'>
         <view class='flex flex-left col-8'>
-            <image src='{{item.logo}}' class='img-lg radius-s'></image>
+            <image src='{{item.store_logo}}' class='img-lg radius-s'></image>
             <view>
                 <view class='pdr20 font-md black'>{{item.store_name}}</view>
                 <view class='pdr20 font-xs cgray'>{{item.distance}}km</view>
@@ -22,20 +22,10 @@
             </view>
         </view>
     </navigator>
-    <!-- 1我的反馈 -->
-    <navigator wx:for='{{message_list}}' wx:key='id' class='full-width bgw pd20 bottomline mg-b10' >
-        <view class='flex cprimary'>@<navigator url='/pages/store/detail?id={{item.store_id}}' class='font-sm bolder '>{{item.store_name}}</navigator></view>
-        <view class='flex flex-left bottomline font-xs cgray'>{{item.addtime}}</view>
-        <view class='black font-sm pd20'>{{item.content}}</view>
-        <view class='reply leftline' wx:if='{{item.reply.length>0}}'>
-            <view class='cprimary flex'><navigator url='/pages/store/detail?id={{item.store_id}}'>@{{item.store_name}}</navigator>：</view>
-            <view>{{item.reply[0].reply_content}}</view>
-        </view>
-    </navigator>
     <view wx:if='{{isempty}}' class='bgw full-width pd30'>
     <import src="/template/emptyshow/emptyshow.wxml" />
     <template is="empty" data='{{image:"/resource/icon/emp3.png",firstmsg:emptymsg,secmsg:"",times:[1,2,3]}}' wx:if='{{isempty}}'></template>
     </view>
 </view>
-<import src="/template/smallmenu/smallmenu.wxml" />
-<template is="smallmenu" data="{{showsmallmenu:flase,smallmenuclosed:smallmenuclosed}}"></template>
+  <import src="/template/version/version.wxml" />
+  <template is="version" data="{{version}}"></template>

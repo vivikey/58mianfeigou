@@ -76,7 +76,8 @@
 		"pages/merchants/noticeinfo",
 		"pages/store/cartorder",
 		"pages/orders/pay",
-		"pages/orders/index"
+		"pages/orders/index",
+		"pages/merchants/ordermgr"
 	],
 	"window": {
 		"navigationBarBackgroundColor": "#d81e06",

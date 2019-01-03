@@ -47,7 +47,7 @@
                 </view>
                 <view class='caption pdc'>公告管理</view>
             </navigator>
-            <navigator class='img-nav' url="/pages/merchants/noticemgr?storeId={{s.id}}&storeName={{s.store_name}}">
+            <navigator class='img-nav' url="/pages/merchants/ordermgr?storeId={{s.id}}&storeName={{s.store_name}}">
                 <view class='flex flex-center'>
                     <image src='/resource/icon/wait-od.png' class='img-md'></image>
                 </view>

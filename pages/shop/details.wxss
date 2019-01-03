@@ -32,7 +32,7 @@ swiper .swiper-navbox,swiper swiper-item image{
 	background: #fff;
 	border-top:1rpx solid #ccc;
 }
-.optmenu .mitem1,.optmenu .mitem2{
+.optmenu .mitem1,.optmenu .mitem2,.optmenu .mitem3{
 	width:40%;
 	margin: 0;
 	height: 100rpx;
@@ -41,11 +41,11 @@ swiper .swiper-navbox,swiper swiper-item image{
 .optmenu .mitem2{
 	width:30%;
 }
+.optmenu .mitem3{
+	width:60%;
+}
 .container{
 	padding-bottom:100rpx;
 }
-.label.chosed{
-	background: #f62004;
-	color:#fff;
-}
+@import "/template/commentitem/commentitem.wxss";
 @import "/template/sharebox/sharebox.wxss";

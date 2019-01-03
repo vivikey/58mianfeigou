@@ -75,11 +75,15 @@
     <view class='bottomline pdc30 bgw pdr20'>
       <view class='flex-row'>
         <view class='black linfo bolder'>商品金额</view>
-        <view class='redcolor flex flex-right font-sm bolder'>￥{{order.total_price}}</view>
+        <view class='redcolor flex flex-right font-sm bolder'>￥{{order.goods_price}}</view>
       </view>
       <view class='flex-row'>
         <view class='black linfo bolder'>运费</view>
-        <view class='skr flex flex-right font-sm'>+￥{{order.discount_money}}</view>
+        <view class='skr flex flex-right font-sm'>+￥{{order.transport_price}}</view>
+      </view>
+			<view class='flex-row'>
+        <view class='black linfo bolder'>抵扣</view>
+        <view class='skr flex flex-right font-sm'>-￥{{order.discount_money}}</view>
       </view>
     </view>
     <view class='bgw pd20'>

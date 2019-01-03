@@ -1,21 +1,18 @@
 import $ from 'request.js'
 import regeneratorRuntime from 'regenerator-runtime.js'
 /**
- * 前端 - 商品
+ * 用户中心
  */
 let obj = {
   Get() {
-    return '/api/showapi/showShopInfoAtView'
-  },
-  ShopList() {
-    return '/api/showapi/showShopByCondition'
-  },
-  AddCollect() { //-- 收藏
-    return '/api/addapi/userCollectShop'
-  },
-  RemoveCollect() { //-- 取消收藏
-    return '/api/addapi/userCancelCollectShop'
-  },
+		return '/api/showapi/personalCenterIndex'
+  }, //-- 获取用户信息
+	AttentList() {
+		return '/api/showapi/personalCenterAttentList'
+	}, //-- 商铺关注列表
+	CollectList() {
+		return '/api/showapi/personalCenterCollectList'
+	}, //-- 商品收藏列表
   async Do(data) {
     return await new Promise((resolve, reject) => {
       $.Post(this.url, data, r => {
@@ -25,11 +22,11 @@ let obj = {
   }
 }
 
-const FrontEndShop = new Proxy(obj, {
+const UserCenter = new Proxy(obj, {
   get(target, property) {
     target.url = target[property]()
     return target.Do.bind(target)
   }
 })
 
-export default FrontEndShop
+export default UserCenter

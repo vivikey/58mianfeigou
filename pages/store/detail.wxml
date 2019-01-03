@@ -15,7 +15,7 @@
         </view>
         <view class='pdr20 flex'>
           <view class='flex flex-center pdr20'>
-            <image src='/resource/icon/share.png' class='img-sm'></image>
+            <image src='/resource/icon/share3.png' class='img-sm'></image>
           </view>
           <view class='flex flex-center pdr20' bindtap='onAttent'>
             <image src='{{store.attent_img}}' class='img-sm'></image>
@@ -187,13 +187,34 @@
 </view>
 
 <!-- 商铺购物车 -->
-<view class='fix-b store-cart font-sm'>
+<view class='fix-b store-cart font-sm {{showCartList?"full":""}}' catchtouchmove='true'>
   <!-- shop list -->
-  <view class='shop-list'></view>
+  <view class='shop-list bgw mg-b20' wx:if='{{showCartList}}'>
+    <view class='full-width bglinearyellow shadow flex-row pd20'>
+      <view class='font-sm black bolder'>已选商品</view>
+    </view>
+		<view class='itemList'>
+    <view wx:for='{{storeCart.cart_list}}' wx:key='cart_id' class='items flex-row pd20 bottomline'>
+      <view class='font-sx black title'><view class='full-width txtpt'>{{item.goods_name}}</view> <view class='font-x cgray'>{{item.spec_size}} {{item.spec_color}}</view></view>
+			<view class='label small white-label'>￥{{item.spec_price}}</view>
+      <view class='flex flex-center'>
+        <view class='pdr flex flex-center' data-idx='{{index}}' bindtap='exportFromCart2'>
+          <image src='/resource/icon/sub.png' class='img-sm'></image>
+        </view>
+        <view class='pdr flex flex-center font-sm bolder black'>
+          <text>{{item.spec_num}}</text>
+        </view>
+        <view class='pdr flex flex-center' data-idx='{{index}}' bindtap='importToCart2'>
+          <image src='/resource/icon/add.png' class='img-sm'></image>
+        </view>
+      </view>
+    </view>
+		</view>
+  </view>
   <!-- opt bar -->
   <view class='opt-bar flex-row'>
     <view class='cart flex flex-center'>
-      <view class='cart-box flex flex-center message {{storeCart.total_num>0?"":"empty"}}'>
+      <view class='cart-box flex flex-center message {{storeCart.total_num>0?"":"empty"}}' bindtap='onShowCartListClick'>
         <text class='point flex flex-center' wx:if='{{storeCart.total_num>0}}'>{{storeCart.total_num}}</text>
         <image src='{{storeCart.total_num>0?"/resource/icon/cart3.png":"/resource/icon/cart.png"}}' class='img-sm'></image>
       </view>
@@ -201,7 +222,10 @@
       <view class='pdr30'>
         <view class='font-sm wtcolor ' wx:if='{{storeCart.total_num>0}}'>￥{{storeCart.total_price}}</view>
         <view class='font-sm lightgray ' wx:if='{{storeCart.total_num<=0}}'>未选购商品</view>
-        <view class='font-xs wtcolor ' wx:if='{{storeCart.total_num>0}}'>运费：￥{{storeCart.transport_cost}}</view>
+        <view class='font-xs wtcolor ' wx:if='{{storeCart.total_num>0}}'>
+				<text>运费：+￥{{storeCart.transport_cost}}</text>，
+				<text>抵扣：-￥{{storeCart.discount_money}}</text>
+				</view>
         <view class='font-xs lightgray ' wx:if='{{storeCart.total_num<=0}}'></view>
       </view>
     </view>

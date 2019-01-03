@@ -22,6 +22,5 @@ export default {
         o.s = `${o.s < 10 ? "0" : ""}${o.s}`
 
         return `${o.YY}-${o.MM}-${o.DD} ${o.h}:${o.m}:${o.s}`
-    },
-
+    }
 }

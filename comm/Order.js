@@ -27,7 +27,7 @@ let obj = {
 	}, //-- 生成团购订单
 	JoinGroup() {
 		return '/api/Purchaseapi/confirmGroupOrderOther'
-	}, //-- 参团
+	}, //-- 参团生成订单
 	ListGroup() {
 		return '/api/Purchaseapi/StoreCartInfo'
 	}, //-- 列表开团信息
@@ -52,6 +52,12 @@ let obj = {
 	AcGift() {
 		return '/api/Purchaseapi/directGet'
 	}, //-- 用户领取赠品
+	Express() {
+		return '/api/showapi/showUserExpress'
+	}, //-- 订单物流
+	TakeDelivery() {
+		return '/api/Purchaseapi/userOrderFinish'
+	}, //-- 确认收货
   async Do(data) {
     return await new Promise((resolve, reject) => {
       $.Post(this.url, data, r => {

@@ -18,7 +18,7 @@ view, text, input {
 }
 
 .navigator-hover, .other-navigator-hover {
-    color: #50d1fe;
+    color: #d81e06;
 }
 
 .bd-gray {
@@ -366,7 +366,9 @@ swiper {
 .wtcolor {
     color: #fff;
 }
-
+.violet{
+	color:#6435c9;
+}
 .redcolor {
     color: #f62004;
 }
@@ -581,13 +583,18 @@ swiper {
 .bgw {
     background: #fff;
 }
-
+.bgviolet{
+	background: #6435c9;
+}
+.bgviolet-light{
+	background: #eae7ff;
+}
 .bgorange {
-    background: orange;
+    background: #e16531;
 }
 
 .bgpk {
-    background: #1296db;
+    background: #d81e06;
 }
 
 .bgprimary {
@@ -784,9 +791,46 @@ swiper {
 }
 .box {
     background: #fff;
-    padding: 20rpx 10rpx;
+    padding: 10rpx 0;
+		width:100%;
+}
+.box .title{
+	font-family: 'Helvetica Neue';
+	letter-spacing: 5;
+	font-size:16px;
+	font-weight: bold;
+	text-align: center;
+	padding: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width:100%;
+	position: relative;
+}
+.box .title .tomore{
+	position: absolute;
+	right:10rpx;
+	margin: auto 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
+.box .didi{
+	height: 32rpx;
+	width:12rpx;
+	margin: 0 10rpx;
+}
+.box .didi.half{
+	height: 22rpx;
+	width:12rpx;
+	margin: 0 10rpx;
+}
+.box .didi.mix{
+	height: 6rpx;
+	width:64rpx;
+	margin: 0 10rpx;
+}
 .pd {
     padding: 10rpx;
 }
@@ -838,8 +882,8 @@ swiper {
     height: 32rpx;
 }
 
-.separator, .sq {
-    height: 20rpx;
+.sq {
+    padding: 10rpx 0;
     width: 100%;
     background: #f2f2f2;
 }
@@ -895,24 +939,19 @@ swiper {
 
 .message .point {
     position: absolute;
-    top: -5rpx;
-    right: -5rpx;
-    width: 30rpx;
-    height: 30rpx;
+    top: -3px;
+    right: -3px;
+    width: 15px;
+    height: 15px;
     background: red;
     border-radius: 50%;
     color: #fff;
     font-size: 10px;
+		font-weight: 500;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 }
-
-.message .point.small {
-    width: 30rpx;
-    height: 30rpx;
-    font-size: 11px;
-    top: -5rpx;
-    right: -5rpx;
-}
-
 .txtclamp {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -985,6 +1024,10 @@ swiper {
     color:#282729;
     border-radius: 10rpx;
 }
+.label.chosed{
+	background: #f62004;
+	color:#fff;
+}
 .label.small{
     font-size:11px;
 }
@@ -1025,6 +1068,10 @@ swiper {
     background: lightskyblue;
     color:#000;
 }
+.label.violet-label{
+	background:#eae7ff;
+	color:#6435c9;
+}
 .label.warn-label{
     background: yellow;
     color:red;
@@ -1048,16 +1095,17 @@ swiper {
     margin: 0 10rpx;
     transition: all .3s linear;
 }
-.scroll-view-item_H{
+.scroll-view-item_H,.sort-type-item{
     display: inline-flex;
     border-bottom:6rpx solid #fff;
-    color:#000;
-    font-weight: 600;
+    color:#2c2c2c;
+    font-weight: 500;
     margin: 0 20rpx;
 }
-.scroll-view-item_H.active{
+
+.scroll-view-item_H.active,.sort-type-item.active{
     color:#d81e06;
-    border-bottom-color:#d81e06;
+    border-bottom-color:#f62004;
     font-weight: bolder;
 }
 .reversal{
@@ -1083,6 +1131,35 @@ swiper {
 .caption{
 	color:#2c2c2c;
 	font-size:14px;
+}
+
+.zs-btn{
+	min-width:160rpx;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size:14px;
+	color:#2c2c2c;
+	border:1rpx solid #999;
+	height: 60rpx;
+	box-sizing: border-box;
+	border-radius: 15rpx;
+	margin: 0 6rpx;
+}
+.zs-btn.zs-red{
+	background: #d81e06;
+	color:#fff;
+	border-color:#f99;
+}
+.zs-btn.zs-green{
+	background: #00b642;
+	color:#fff;
+	border-color:#FFFFCC;
+}
+.zs-btn.zs-orange{
+		background: orangered;
+	color:#fff;
+	border-color:orange;
 }
 @import "/template/smallmenu/smallmenu.wxss";
 @import "/template/form.wxss";

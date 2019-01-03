@@ -1,4 +1,4 @@
 <import src="/template/commentitem/commentitem.wxml" />
 <view class='container gray'>
-    <template is="commentitem" wx:for='{{commentList}}' wx:key='id' data="{{...item,index:index,evaluate:true}}"></template>
+    <template is="commentitem" wx:for='{{evaluateList}}' wx:key='id' data="{{...item,index:index}}"></template>
 </view>

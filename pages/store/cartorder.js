@@ -72,7 +72,7 @@ Page({
       user_id: app.USER_ID(),
       store_id: this.data.store_id,
       cart_id: ids,
-      up_user_id: app.USER().higher_up.id || 0
+			up_user_id: app.HIGHER_UP() || 0
     }).then(r => {
       console.log('Order.Submit => ', r)
       if (r.code == 200) {

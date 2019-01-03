@@ -6,6 +6,7 @@ var pageObj = {
   data: {
     store_id: 0,
     store: {},
+		showCartList:false,
     version: '',
     noticeList: [{
       id: 1,
@@ -31,13 +32,20 @@ var pageObj = {
     },
     storeKey: ''
   },
+	onShowCartListClick(){
+		if (this.data.storeCart.cart_list.length>0){
+			this.setData({
+				showCartList: !this.data.showCartList
+			})
+		}
+	},
   //--页面加载时
   onLoad: function(options) {
     let store_id = options.id || 0
     this.data.storeKey = `store_${store_id}`
     this.setData({
       version: app.VERSION(),
-      store_id: store_id
+      store_id: store_id			
     })
     this.loadStoreInfo(store_id)
   },
@@ -198,7 +206,6 @@ var pageObj = {
   importToCart(e) {
     let idx = e.currentTarget.dataset.idx
     let goods = this.data.shopList[idx]
-    console.log(idx, goods)
     Cart.Add({
       user_id: app.USER_ID(),
       store_id: goods.store_id,
@@ -219,6 +226,30 @@ var pageObj = {
       }
     })
   },
+	//-- 加入到购物车
+	importToCart2(e) {
+		let idx = e.currentTarget.dataset.idx
+		let goods = this.data.storeCart.cart_list[idx]
+		Cart.Add({
+			user_id: app.USER_ID(),
+			store_id: this.data.store_id,
+			spec_id: goods.spec_id,
+			spec_num: 1
+		}).then(r => {
+			console.log('Cart.Add => ', r)
+			if (r.code == 200) {
+				if (!r.data.cart_list) {
+					r.data.cart_list = []
+					r.data.total_num = 0
+					r.data.total_price = 0
+					r.data.transport_cost = 0
+				}
+				this.renderCart(r.data)
+			} else {
+				app.msg(`操作失败:${r.message}`)
+			}
+		})
+	},
   //-- 渲染购物车数据
   renderCart(storeCart) {
     this.setData({
@@ -229,7 +260,6 @@ var pageObj = {
   exportFromCart(e) {
     let idx = e.currentTarget.dataset.idx
     let goods = this.data.shopList[idx]
-    console.log(idx, goods)
     Cart.Sub({
       user_id: app.USER_ID(),
       store_id: goods.store_id,
@@ -244,6 +274,24 @@ var pageObj = {
       }
     })
   },
+	//-- 从购物车移出
+	exportFromCart2(e) {
+		let idx = e.currentTarget.dataset.idx
+		let goods = this.data.storeCart.cart_list[idx]
+		Cart.Sub({
+			user_id: app.USER_ID(),
+			store_id: this.data.store_id,
+			spec_id: goods.spec_id,
+			spec_num: 1
+		}).then(r => {
+			console.log('Cart.Add => ', r)
+			if (r.code == 200) {
+				this.renderCart(r.data)
+			} else {
+				app.msg("操作失败")
+			}
+		})
+	},
 	//-- 加载购物车列表
   loadCartList() {
     Cart.List({

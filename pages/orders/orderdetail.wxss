@@ -44,3 +44,6 @@
     width:150rpx;
     height: 90rpx;
 }
+.rinfo{
+    width:100%;
+}

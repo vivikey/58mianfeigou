@@ -3,13 +3,18 @@ import FrontEndShop from '../../comm/FrontEndShop.js'
 import Address from '../../comm/Address.js'
 import Cart from '../../comm/Cart.js'
 import Order from '../../comm/Order.js'
+import Evaluate from '../../comm/Evaluate.js'
+import TimeConverter from '../../comm/TimeConverter.js'
 Page({
   data: {
+    screenHeight: 0,
+    scrollPosition: 0,
     version: '',
     goods_id: 0,
     spec_id: 0,
     spec_chosed: 0,
     goods: {},
+    evaluateList: [],
     classNavList: ['商品', '评价', '详情'],
     classNavActIdx: 0,
     sc: 0,
@@ -18,7 +23,7 @@ Page({
       district: '请配置选择收货地址'
     },
     showShareWnd: false,
-		timerid:0
+    timerid: 0
   },
   toCartOrder() {
     wx.navigateTo({
@@ -38,15 +43,52 @@ Page({
       var id = params.split('=')[1]
       options['id'] = id
     }
-
     this.setData({
       goods_id: options.id || 0,
       spec_id: options.spec || 0,
-      version: app.VERSION()
+      version: app.VERSION(),
+      screenHeight: app.SYSTEM_INFO().windowHeight
     })
+
     wx.showShareMenu({
       withShareTicket: true
     })
+  },
+  //-- 改变收藏状态
+  changeCollectShop() {
+    if (this.data.goods.goods_collect == 0) {
+      //-- 添加收藏
+      FrontEndShop.AddCollect({
+          user_id: app.USER_ID(),
+          goods_id: this.data.goods.id,
+          spec_id: this.data.goods.goods_spec[this.data.spec_chosed].id
+        })
+        .then(r => {
+          app.msg(r.message)
+          if (r.code == 200) {
+            this.data.goods.goods_collect = 1
+            this.setData({
+              goods: this.data.goods
+            })
+          }
+        })
+    } else {
+      //-- 取消收藏
+      FrontEndShop.RemoveCollect({
+          user_id: app.USER_ID(),
+          goods_id: this.data.goods.id,
+          spec_id: this.data.goods.goods_spec[this.data.spec_chosed].id
+        })
+        .then(r => {
+          app.msg(r.message)
+          if (r.code == 200) {
+            this.data.goods.goods_collect = 0
+            this.setData({
+              goods: this.data.goods
+            })
+          }
+        })
+    }
   },
   //-- 获取用户收货地址
   getUserAddress() {
@@ -116,6 +158,8 @@ Page({
         })
       }
     })
+    this.getEvaluate()
+
     let chosedAddress = wx.getStorageSync("chosedAddress") || null
     if (!chosedAddress) {
       this.getUserAddress()
@@ -127,42 +171,77 @@ Page({
         success: function(res) {},
       }))
     }
-
-		//-- 定时器
-		this.setData({
-			timerid:setInterval(this.udpGroupLessTime,1000)
-		})
+    //-- 定时器
+    this.setData({
+      timerid: setInterval(this.udpGroupLessTime, 1000)
+    })
   },
-	//--
-	udpGroupLessTime(){		
-		clearInterval(this.data.timerid)
-		let goods = this.data.goods
-		if (goods.goods_group && goods.goods_group.length>0){
-			goods.goods_group.forEach(item=>{
-				let short_time = item.short_time
-				
-			})
-		}
-	},
+  //-- 获取商品评价
+  getEvaluate() {
+    Evaluate.ListForGoods({
+      user_id: app.USER_ID(),
+      goods_id: this.data.goods_id
+    }).then(r => {
+      console.log('Evaluate.ListForGoods => ', r)
+      if (r.code == 200) {
+        this.setData({
+          evaluateList: r.data.filter((item, index) => index < 2).map(u => {
+            u.addtime = TimeConverter.ToLocal(u.addtime)
+            u.evaluate_img = u.evaluate_img && u.evaluate_img.length > 0 ? u.evaluate_img.split(',') : []
+            return u
+          })
+        })
+      }
+    })
+  },
+  //-- 查看全部评价
+  goAllEva: function() {
+    if (this.data.evaluateList.length > 0) {
+      wx.navigateTo({
+        url: `/pages/shop/allevaluates?id=${this.data.goods_id}`,
+      })
+    }
+  },
+  //--更新剩余时间
+  udpGroupLessTime() {
+    clearInterval(this.data.timerid)
+    let goods = this.data.goods
+    if (goods.goods_group && goods.goods_group.length > 0) {
+      goods.goods_group.forEach(item => {
+        let short_time = item.short_time
+
+      })
+    }
+  },
   //-- 分类导航点击事件
   onClassNavClick(e) {
     this.data.classNavActIdx = e.currentTarget.id
     this.setData({
       classNavActIdx: this.data.classNavActIdx
     })
-    this.getShopOrCommList()
+
+    if (e.currentTarget.id == 0) { //-- 商品			
+      wx.pageScrollTo({
+        scrollTop: 0,
+      })
+    }
+    if (e.currentTarget.id == 1) { //-- 评价
+      wx.createSelectorQuery().select('#commbox').boundingClientRect().exec(res => {
+        console.log('#commbox rect => ', res[0])
+        wx.pageScrollTo({
+          scrollTop: this.data.scrollPosition + res[0].top - 45,
+        })
+      })
+    }
+    if (e.currentTarget.id == 2) { //-- 详情
+      wx.createSelectorQuery().select('#contentbox').boundingClientRect().exec(res => {
+        console.log('#commbox rect => ', res[0])
+        wx.pageScrollTo({
+          scrollTop: this.data.scrollPosition + res[0].top - 45,
+        })
+      })
+    }
   },
-  //-- 加入购物车
-  // importToCart() {
-  //   Cart.Add({
-  //     user_id: app.USER_ID(),
-  //     store_id: this.data.goods.store_id,
-  //     spec_id: this.data.goods.goods_spec[this.data.spec_chosed].id,
-  // 		spec_num: this.data.goods.goods_number
-  //   }).then(r => {
-  //     console.log('Cart.Add => ', r)
-  //   })
-  // },
   //-- 领取赠品
   onGetGift(e) {
     let goods = this.data.goods
@@ -212,29 +291,30 @@ Page({
     })
   },
   //-- 分享到用户或群
-  onShareAppMessage: function(res) {
-		let goods = this.data.goods
-		let spec_chosed = this.data.spec_chosed
-		let spec = goods.goods_spec[spec_chosed]
+  onShareAppMessage(res) {
+    let goods = this.data.goods
+    let spec_chosed = this.data.spec_chosed
+    let spec = goods.goods_spec[spec_chosed]
 
-		let title = ''
-		if (goods.group_purchase == 1){
-			title = `${app.USER().nick_name}邀您一起【拼购】：${goods.goods_name}只需￥${spec.group_price}`
-		}else if (goods.is_gift == 1){
-			title=`好礼免费领，还能赚佣金：${goods.goods_name}`
-		}else{
-			title = `${app.USER().nick_name}向您推荐：${goods.goods_name}只需￥${spec.spec_price}`
-		}
-		let path = `/pages/shop/details?id=${spec.goods_id}&spec=${spec.id}&higher_up=${app.USER_ID()}`
+    let title = ''
+    if (goods.group_purchase == 1) {
+      title = `${app.USER().nick_name}邀您一起【拼购】：${goods.goods_name}只需￥${spec.group_price}`
+    } else if (goods.is_gift == 1) {
+      title = `好礼免费领，还能赚佣金：${goods.goods_name}`
+    } else {
+      title = `${app.USER().nick_name}向您推荐：${goods.goods_name}只需￥${spec.spec_price}`
+    }
+    let path = `/pages/shop/details?id=${spec.goods_id}&spec=${spec.id}&higher_up=${app.USER_ID()}`
     return {
-			title, path, imageUrl: spec.spec_img,
+      title,
+      path,
+      imageUrl: spec.spec_img,
       success: res => {
-				console.log('ShareAppMessage.res => ',res)
+        console.log('ShareAppMessage.res => ', res)
         this.hideShareBox()
       }
     }
   },
-
   //-- 打开分享窗口
   openShareWnd: function() {
     this.setData({
@@ -243,30 +323,30 @@ Page({
   },
   //-- 关闭分享窗口
   hideShareBox: function() {
-		console.log('hideShareBox is running...')
+    console.log('hideShareBox is running...')
     this.setData({
       showShareWnd: false
     })
   },
   //-- 分享到朋友圈
   shareToPYQ: function() {
-		let goods = this.data.goods
-		let spec_chosed = this.data.spec_chosed
-		let spec = goods.goods_spec[spec_chosed]
+    let goods = this.data.goods
+    let spec_chosed = this.data.spec_chosed
+    let spec = goods.goods_spec[spec_chosed]
     let shareData = {
-			img: spec.spec_img, //-- 规格图片
+      img: spec.spec_img, //-- 规格图片
       title: goods.goods_name, //-- 商品名称
-			spec_size: spec.spec_size,//-- 规格尺寸
-			spec_color: spec.spec_color, //-- 规格颜色
-			group_purchase: goods.group_purchase, //-- 是否是拼团
-			is_gift: goods.is_gift, //-- 是否是赠品 
-			tuan_num: goods.group_num, //-- 几人团
-			tuan_price: spec.group_price,//-- 拼团价
-			price: spec.spec_price, //-- 商品标价
-			url: `pages/shop/details`, //-- 页面地址
-			id: spec.goods_id, //-- 商品ID
-			choseIdx: spec_chosed, //-- 规格index
-			higher_up: app.USER_ID(), //-- 推荐人ID
+      spec_size: spec.spec_size, //-- 规格尺寸
+      spec_color: spec.spec_color, //-- 规格颜色
+      group_purchase: goods.group_purchase, //-- 是否是拼团
+      is_gift: goods.is_gift, //-- 是否是赠品 
+      tuan_num: goods.group_num, //-- 几人团
+      tuan_price: spec.group_price, //-- 拼团价
+      price: spec.spec_price, //-- 商品标价
+      url: `pages/shop/details`, //-- 页面地址
+      id: spec.goods_id, //-- 商品ID
+      choseIdx: spec_chosed, //-- 规格index
+      higher_up: app.USER_ID(), //-- 推荐人ID
       qrMsg: '进入详情页',
       store_name: goods.store_info.store_name //-- 商铺名称
     }
@@ -275,6 +355,27 @@ Page({
     this.hideShareBox();
     wx.navigateTo({
       url: '/pages/sharepyq/sharepyq',
+    })
+  },
+  onPageScroll(e) {
+    this.data.scrollPosition = e.scrollTop
+    wx.createSelectorQuery().select('#commbox').boundingClientRect().exec(res => {
+      let r = res[0]
+      if (r.top >= this.data.screenHeight - 44) {
+        this.setData({
+          classNavActIdx: 0
+        })
+      }
+      if (r.top < this.data.screenHeight - 44 && r.top >= 44) {
+        this.setData({
+          classNavActIdx: 1
+        })
+      }
+      if (r.top < 44) {
+        this.setData({
+          classNavActIdx: 2
+        })
+      }
     })
   }
 })

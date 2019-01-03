@@ -41,11 +41,38 @@ Page({
     let goods = this.data.goods
     console.log('firstRun goods => ', goods)
     if (!goods.orderDirect) {
-      this.SubmitGroup()
+      if (goods.group_id) {
+        this.JoinGroup()
+      } else {
+        this.SubmitGroup()
+      }
     } else {
       this.Submit()
     }
 
+  },
+  //-- JoinGroup
+  JoinGroup() {
+    Order.JoinGroup({
+      user_id: app.USER_ID(),
+      spec_id: this.data.goods.goods_spec.id,
+      spec_num: this.data.goods.goods_number,
+      group_purchase: 1,
+      group_id: this.data.goods.group_id
+    }).then(r => {
+      console.log('Order.JoinGroup => ', r)
+      if (r.code === 200) {
+        this.setData({
+          order: r.data
+        })
+      } else {
+        app.ERROR(r.message, () => {
+          wx.navigateBack({
+            detail: 1
+          })
+        })
+      }
+    })
   },
   onShow: function() {
     let chosedAddress = wx.getStorageSync("chosedAddress") || null
@@ -64,23 +91,23 @@ Page({
   Submit() {
     Order.SubmitSingle({
       user_id: app.USER_ID(),
-			goods_id: this.data.goods.id,
-			spec_id: this.data.goods.goods_spec.id,
-			spec_num: this.data.goods.goods_number
-		}).then(r => {
-			console.log('Group.Pub => ', r)
-			if (r.code === 200) {
-				this.setData({
-					order: r.data
-				})
-			} else {
-				app.ERROR(r.message, () => {
-					wx.navigateBack({
-						detail: 1
-					})
-				})
-			}
-		})
+      goods_id: this.data.goods.id,
+      spec_id: this.data.goods.goods_spec.id,
+      spec_num: this.data.goods.goods_number
+    }).then(r => {
+      console.log('Group.Pub => ', r)
+      if (r.code === 200) {
+        this.setData({
+          order: r.data
+        })
+      } else {
+        app.ERROR(r.message, () => {
+          wx.navigateBack({
+            detail: 1
+          })
+        })
+      }
+    })
   },
   //-- 提交开团订单
   SubmitGroup() {
@@ -210,9 +237,15 @@ Page({
           content: '支付成功',
           showCancel: false,
           success: d => {
-              wx.navigateTo({
-                url: `/pages/orders/index`
+            if (!this.data.goods.orderDirect) { //-- 拼团
+              wx.redirectTo({
+                url: `/pages/groupbuy/injoin?group_id=${this.data.order.group_id}`,
               })
+            } else {
+							wx.redirectTo({
+                url: `/pages/orders/orderdetail?id=${this.data.order.id}`
+              })
+            }
           }
         })
       },
@@ -229,7 +262,7 @@ Page({
           showCancel: false,
           success: d => {
             //-- 跳转到未付款订单页
-            wx.navigateTo({
+						wx.redirectTo({
               url: `/pages/orders/index?idx=1`
             })
           }

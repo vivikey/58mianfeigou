@@ -3,18 +3,18 @@
 <import src="/template/totop/totop.wxml" />
 <template is="totop" data="{{showToTop}}"></template>
 <view class='container'>
-    <!-- tab -->
-    <view class='tab-btn flex-row pdr30 bottomline'>
-        <view></view>
-        <view bindtap='changeDis' data-dis='0' class='{{distance==0?"active":""}}'>全部</view>
-        <view></view>
-        <view bindtap='changeDis' data-dis='10' class='{{distance>0?"active":""}}'>附近</view>
-        <view></view>
-    </view>
-    <!-- list -->
-    <view class='list'>
-        <template wx:for='{{posterList}}' wx:key='' is="posteritem" data="{{...item,idx:index}}"></template>
-    </view>
+  <!-- tab -->
+  <view class='tab-btn flex-row pdr30 bottomline bgw'>
+    <view></view>
+    <view bindtap='changeDis' data-dis='10' class='{{distance>0?"active":""}}'>附近</view>
+    <view></view>
+    <view bindtap='changeDis' data-dis='0' class='{{distance==0?"active":""}}'>全部</view>
+    <view></view>
+  </view>
+  <!-- list -->
+  <view class='list'>
+    <template wx:for='{{posterHotList}}' wx:key='' is="posteritem" data="{{...item,idx:index}}"></template>
+  </view>
 </view>
-
-<template is="smallmenu" data="{{showsmallmenu:false,smallmenuclosed:smallmenuclosed}}"></template>
+<import src="/template/version/version.wxml" />
+<template is="version" data="{{version}}"></template>

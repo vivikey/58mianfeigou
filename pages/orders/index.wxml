@@ -17,53 +17,58 @@
           <view>
             <image src='{{item.store.store_logo}}' class='img-sm'></image>
           </view>
-          <view class='flex flex-center pd font-sm cgray'>{{item.store.store_name}}</view>
+          <view class='flex flex-center pd font-md black'>{{item.store.store_name}}</view>
         </view>
         <view class='flex flex-center'>
-          <view class='flex flex-center pd label small bolder mt-r'>{{item.order_status_txt}}</view>
-          <view class='flex flex-center pd leftline' data-order='{{item.id}}' bindtap='delOrder'>
+          <view class='flex flex-center bolder pdr20 cgray'>{{item.order_status_txt}}</view>
+          <view class='flex flex-center pd leftline' data-order='{{item.id}}' bindtap='delOrder' wx:if='{{item.order_status_txt=="已完成"}}'>
             <image src='/resource/icon/delete.svg' class='img-sm'></image>
           </view>
         </view>
       </view>
       <!-- Goods Info -->
-      <view class='full-width pd20'>
-        <view class='pd flex-row bottomline' wx:for='{{item.goods}}' wx:key='id' wx:for-item='gd'>
-          <view class='flex flex-center'>
+      <view class='full-width pd20 bottomline'>
+        <view class='pd flex-row' wx:for='{{item.goods}}' wx:key='id' wx:for-item='gd'>
+          <navigator url='/pages/shop/details?id={{gd.goods_id}}' class='flex flex-center'>
             <image src='{{gd.spec_img}}' class='img-md'></image>
-            <view class='font-x black bolder pd'>{{gd.goods_name}}</view>
-          </view>
+            <view class='font-sm black bolder pd'>{{gd.goods_name}}</view>
+          </navigator>
           <view>
-            <text class='lightgray font-x'>{{gd.spec_size}} {{gd.spec_color}} <text class='pkcolor bolder'>￥{{gd.order_type==1?gd.goods_price:gd.spec_price}} x{{gd.spec_num}}</text></text>
+            <text class='lightgray font-xs'>{{gd.spec_size}} {{gd.spec_color}}</text>
           </view>
         </view>
-      </view>
-      <view class='flex-row pd20 '>
-        <view class='font-x lightgray' catchtap='goOrderDeatil' data-order='{{item.id}}'>
-          <view>下单：{{item.addtime}}</view>
-          <view wx:if='{{item.paytime}}'>付款：{{item.paytime}}</view>
+        <view class='flex pd20' catchtap='goOrderDeatil' data-order='{{item.id}}'>
+          <view class='font-x lightgray'>
+						<view>编号：{{item.order_sn}}</view>
+            <view>下单：{{item.addtime}}</view>
+            <view wx:if='{{item.paytime}}'>付款：{{item.paytime}}</view>
+          </view>
         </view>
-        <view class='font-sm bolder redcolor'> ￥{{item.goods_price}}</view>
+        <view class='flex flex-right lightgray font-sm pdc pdr'>实付金额：
+          <text class='pkcolor font-md'>￥{{item.order_price}}</text>
+        </view>
+
       </view>
       <view class='flex-row'>
         <view class='label red-label small'>{{item.orderfrm}}</view>
-
         <!-- Options -->
         <view class='flex flex-right pd20'>
           <!-- 取消订单：待付款 cancelOrder-->
-          <view bindtap='cancelOrder' data-order='{{item.id}}' class='radius-m pdc pdr20 bdfull black font-xs bglightgray mg-r10' wx:if='{{item.order_status==0}}'>取消订单</view>
+          <view bindtap='cancelOrder' data-order='{{item.id}}' class='zs-btn' wx:if='{{item.order_status==0}}'>取消订单</view>
           <!-- 去付款 ：待付款 toPayOrder-->
-          <view bindtap='toPayOrder' data-order='{{item.id}}' class='radius-m pdc pdr20 bdfull wtcolor font-xs bgdanger mg-r10' wx:if='{{item.order_status==0}}'>去付款</view>
+          <view bindtap='toPayOrder' data-order='{{item.id}}' class='zs-btn' wx:if='{{item.order_status==0}}'>去付款</view>
           <!-- 去评价：已完成 -->
-          <view class='radius-m pdc pdr20 bdfull black font-xs bglightgray mg-r10' wx:if='{{item.order_status_txt=="已完成"}}'>去评价</view>
+          <view data-goods='{{item.goods[0].goods_id}}' catchtap='gotoEvaluate' class='zs-btn' wx:if='{{item.order_status_txt=="已完成"}}'>去评价</view>
           <!-- 去消费 ：待消费 toConsumeOrder-->
-          <view bindtap='toConsumeOrder' data-order='{{item.id}}' class='radius-m pdc pdr20 bdfull wtcolor font-xs bggreen mg-r10' wx:if='{{item.order_status_txt=="待消费"}}'>去消费</view>
+          <view bindtap='toConsumeOrder' data-order='{{item.id}}' class='zs-btn zs-green' wx:if='{{item.order_status_txt=="待消费"}}'>去消费</view>
+					<!-- 确认收货 ：待收货-->
+          <view class='zs-btn' wx:if='{{item.order_status_txt=="待收货"}}' bindtap='showExpress' data-order='{{item.id}}'>查看物流</view>
           <!-- 确认收货 ：待收货-->
-          <view class='radius-m pdc pdr20 bdfull black font-xs bgorange mg-r10' wx:if='{{item.order_status_txt=="待收货"}}'>确认收货</view>
-          <!-- 提醒发货 ：待发货-->
-          <!-- <view class='radius-m pdc pdr20 bdfull black font-xs bgorange mg-r10' wx:if='{{item.order_status_txt=="待发货"}}'>提醒发货</view> -->
+          <view class='zs-btn zs-red' wx:if='{{item.order_status_txt=="待收货"}}'  bindtap='onTakeDelivery' data-order='{{item.id}}'>确认收货</view>
+					<!-- 确认收货 ：待收货-->
+          <view class='zs-btn zs-orange' wx:if='{{item.order_status_txt=="待发货"}}'>提醒发货</view>
           <!-- 查看拼团 -->
-          <!-- <navigator url='/pages/groupbuy/injoin?shop_id={{shop_id}}&tuan_id={{tuan_id}}' class='opt pd pdr20 radius-s bdlinearskr wtcolor' wx:if='{{item.order_status_txt == "拼团中"}}'>查看拼团</navigator> -->
+          <navigator url='/pages/groupbuy/injoin?group_id={{item.group_id}}' class='zs-btn' wx:if='{{item.order_status_txt == "拼团中"}}'>查看拼团</navigator>
         </view>
       </view>
     </view>

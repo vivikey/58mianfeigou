@@ -15,14 +15,14 @@ swiper.hot {
 }
 
 .item-77 .img-box {
-    width: 300rpx;
-    height: 300rpx;
+    width: 260rpx;
+    height: 260rpx;
     background: #ccc;
 }
 
 .item-77 .info {
-    width: 400rpx;
-    height: 300rpx;
+    width: 440rpx;
+    height: 260rpx;
     border-radius: 10rpx;
 }
 
@@ -99,5 +99,23 @@ swiper.hot {
     padding: 5rpx;
     border-radius: 10rpx;
 }
-
-@import "/template/chosegoodsmode/chosemode.wxss";
+button {
+    position: relative;
+    box-sizing: border-box;
+    font-size: 14px;
+    text-align: center;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    overflow: hidden;
+    background: #fff;
+    color:#f62004;
+    box-shadow: none;
+    width:120rpx;
+    height: 60rpx;
+    border-radius: 60rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10rpx 15rpx;
+    border:1rpx solid #fff;
+}

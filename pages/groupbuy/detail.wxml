@@ -145,7 +145,7 @@
     <view class='infomation btn-color-normal full-width'>
         <view bindtap='goAllEva' class='bottomline font-sm pd20  bolder {{commentList.length>0?"arrow":""}}'>最近评价</view>
         <import src="/template/commentitem/commentitem.wxml" />
-        <template is="commentitem" wx:for='{{commentList}}' wx:key='id' data="{{...item,index:index,evaluate:true}}" bindtap='goAllEva'></template>
+        <template is="commentitem" wx:for='{{evaluateList}}' wx:key='id' data="{{...item,index:index}}" bindtap='goAllEva'></template>
     </view>
     <view class='pd20 flex flex-center full-width' wx:if='{{commentList.length>0}}'>
         <view class='font-xs black pd pdr20 radius-l bd-gray' bindtap='goAllEva'>查看全部评价</view>

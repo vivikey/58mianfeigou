@@ -1,19 +1,72 @@
 var app = getApp()
 import drawQrcode from '../../utils/weapp.qrcode.esm.js'
 import Order from '../../comm/Order.js'
+import Address from '../../comm/Address.js'
 import TimeConverter from '../../comm/TimeConverter.js'
 Page({
   data: {
     order_id: 0,
 		order:{},
-		waiting:false
+		waiting:false,
+		addressList: [],
+		defaultAddress: {
+			district: '请配置选择收货地址'
+		}
   },
+	//-- 获取用户收货地址
+	getUserAddress() {
+		Address.List({
+			user_id: app.USER_ID()
+		}).then(r => {
+			console.log('Address.List => ', r)
+			if (r.data.length > 0) {
+				let defaddr = r.data.find(item => item['default'] == 1)
+				defaddr = defaddr || r.data[0]
+				this.setData({
+					defaultAddress: defaddr
+				})
+
+			}
+
+		})
+	},
   onLoad: function(options) {
 		this.data.order_id = options.id || 0
   },
   onShow: function() {
+		let chosedAddress = wx.getStorageSync("chosedAddress") || null
+		if (!chosedAddress) {
+			this.getUserAddress()
+		} else {
+			this.setData({
+				defaultAddress: chosedAddress
+			}, wx.removeStorage({
+				key: 'chosedAddress',
+				success: function (res) { },
+			}))
+		}
     this.loadOrderDetail()
   },
+	//-- 去商品详情
+	toShopDetail(e){
+		let url=`/pages/shop/details?id=${e.currentTarget.dataset.id}&spec=${e.currentTarget.dataset.spec}`
+		wx.navigateTo({
+			url
+		})
+	},
+	onTakeDelivery() {
+		Order.TakeDelivery({ user_id: app.USER_ID(), order_id: this.data.order_id })
+			.then(r => {
+				console.log('Order.TakeDelivery => ', r)
+				if (r.code == 200) {
+					app.msg(r.message)
+					this.loadOrderDetail()
+				} else {
+					app.ERROR(r.message)
+				}
+			})
+	},
+	//-- 转换订单状态
 	getOrderStatusTxt(order_status) {
 		switch (order_status) {
 			case 0:

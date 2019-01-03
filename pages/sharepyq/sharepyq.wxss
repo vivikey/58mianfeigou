@@ -2,7 +2,7 @@
     position: absolute;
     top:0;
     left:0;
-    background: linear-gradient(to bottom,#50d1fe,#ffffff);
+    background: linear-gradient(to bottom,#d81e06,#ffffff);
 }
 canvas{
     box-shadow: 3rpx 3rpx 5rpx #ccc;

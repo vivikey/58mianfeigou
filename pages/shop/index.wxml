@@ -1,65 +1,237 @@
 <import src="/template/totop/totop.wxml" />
 <template is="totop" data="{{showToTop}}"></template>
 <view class='container gray font-xs hardgray'>
-    <view class='topblockbg' style='height:70px;'></view>
-    <!-- Location / SearchBar / NavBar -->
-    <view class='fix-t full-width bgw' style='height:70px;'>
-        <view class='flex-row pdr pdc20' style='height:35px;'>
-            <!-- Location -->
-            <view class='flex flex-center flex-left location'>
-                <view class='flex flex-center'>
-                    <image src='/resource/icon/position.png' class='img-sm'></image>
-                </view>
-                <text class='pdr txtpt font-sm'>{{location}}</text>
-            </view>
-            <!-- SearchBar -->
-            <view class='flex-row label midd search' bindtap='inputFocus'>
-                <text class='pdr20 font-sm cgray'>搜索商品...</text>
-                <view class='flex flex-center'>
-                    <image src='/resource/icon/search.svg' class='img-sm'></image>
-                </view>
-            </view>
+  <view class='topblockbg' style='height:70px;'></view>
+  <!-- Location / SearchBar / NavBar -->
+  <view class='fix-t full-width bgw bottomline' style='min-height:70px;'>
+    <view class='flex-row pdr pdc20' style='height:35px;'>
+      <!-- Location -->
+      <view class='flex flex-center flex-left location'>
+        <view class='flex flex-center'>
+          <image src='/resource/icon/position.png' class='img-sm'></image>
         </view>
-        <scroll-view class="scroll-view_H" scroll-x>
-            <view class='scroll-view-item_H {{classNavActIdx==index?"active":""}} pdc' wx:for='{{classNavList}}' wx:key='id' id='{{index}}' bindtap='onClassNavClick'>{{item.categoryName}}</view>
-        </scroll-view>
+        <text class='pdr txtpt font-sm'>{{location}}</text>
+      </view>
+      <!-- SearchBar -->
+      <view class='flex-row label midd search mg-t10' bindtap='inputFocus'>
+        <text class='pdr20 font-sm cgray'>搜索商品...</text>
+        <view class='flex flex-center'>
+          <image src='/resource/icon/search.svg' class='img-sm'></image>
+        </view>
+      </view>
     </view>
+    <scroll-view class="scroll-view_H" scroll-x>
+      <view class='scroll-view-item_H {{classNavActIdx==index?"active":""}} pdc' wx:for='{{classNavList}}' wx:key='id' id='{{index}}' bindtap='onClassNavClick'>{{item.categoryName}}</view>
+    </scroll-view>
+		<view class='full-width bgw flex flex-around pd20' wx:if='{{classNavActIdx>0}}'>
+				<view wx:for='{{sortTypeList}}' wx:key='value' id='{{item.value}}' class='sort-type-item {{item.value==shopListWhere.sort_type?"active":""}}'  bindtap='onShortTypeClick'>{{item.key}}</view>
+      </view>
+  </view>
+  <view class='full-width' wx:if='{{classNavActIdx == 0}}'>
     <!-- Swiper -->
     <view class='swiper full-width'>
-        <swiper autoplay="{{true}}" circular="{{true}}" interval="{{3000}}" duration="{{500}}" class='mg-b10' bindchange='swiperChange'>
-            <swiper-item wx:for='{{index_banner}}' wx:key=''>
-                <navigator url='{{item.ad_link}}' class='swiper-navbox flex flex-center'>
-                    <image src='{{item.UpFilePathInfo}}' width="375" height="150"></image>
-                </navigator>
-            </swiper-item>
-        </swiper>
-        <view class='dots flex-row flex-center'>
-            <view wx:for='{{index_banner}}' wx:key='' class='dot-box'>
-                <view class='dot bgw-opacity {{index==sc?"active":""}}'></view>
-            </view>
+      <swiper autoplay="{{true}}" circular="{{true}}" interval="{{3000}}" duration="{{500}}" class='mg-b10' bindchange='swiperChange'>
+        <swiper-item wx:for='{{index_banner}}' wx:key=''>
+          <navigator url='{{item.ad_link}}' class='swiper-navbox flex flex-center'>
+            <image src='{{item.UpFilePathInfo}}' width="375" height="150"></image>
+          </navigator>
+        </swiper-item>
+      </swiper>
+      <view class='dots flex-row flex-center'>
+        <view wx:for='{{index_banner}}' wx:key='' class='dot-box'>
+          <view class='dot bgw-opacity {{index==sc?"active":""}}'></view>
         </view>
+      </view>
     </view>
     <!-- dynamic notice -->
     <view class='pdr pdc bgw flex-row' wx:if='{{dynamic_list.length>0}}'>
-        <view class='flex flex-center' style='width:200rpx;height:49rpx;'>
-            <text class='bolder pkcolor font-md'>今日头条</text>
-        </view>
-        <swiper class='dynamic flex flex-center midd black' indicator-dots="{{false}}" autoplay="{{true}}" circular="{{true}}" interval="{{3000}}" vertical='{{true}}' duration="{{500}}">
-            <swiper-item wx:for='{{dynamic_list}}' wx:key='id' class='flex flex-center'>
-                <view class=' full-width txtpt font-xs flex flex-center'>
-                    <text class='redcolor'>{{item.user}}</text>刚刚获得了
-                    <text class='redcolor bolder'>{{item.value}}</text>元
-                    <text class=''>{{item.type}}</text>
-                </view>
-            </swiper-item>
-        </swiper>
+      <view class='flex flex-center' style='width:200rpx;height:49rpx;'>
+        <text class='bolder pkcolor font-md'>今日头条</text>
+      </view>
+      <swiper class='dynamic flex flex-center midd black' indicator-dots="{{false}}" autoplay="{{true}}" circular="{{true}}" interval="{{3000}}" vertical='{{true}}' duration="{{500}}">
+        <swiper-item wx:for='{{dynamic_list}}' wx:key='id' class='flex flex-center'>
+          <view class=' full-width txtpt font-xs flex flex-center'>
+            <text class='redcolor'>{{item.user}}</text>刚刚获得了
+            <text class='redcolor bolder'>{{item.value}}</text>元
+            <text class=''>{{item.type}}</text>
+          </view>
+        </swiper-item>
+      </swiper>
     </view>
     <view class='sq'></view>
-    <!-- Class Nav -->
-
-    <view class='full-width pd'>
-        <rich-text nodes='{{testHtml}}'></rich-text>
+    <view class='full-width bgw pd'>
+      <view class='task-enter'>
+        <image src='https://xcx.58daiyan.com/static/20181229/201812291118443402.png' class=''>
+        </image>
+      </view>
     </view>
-    <import src="/template/version/version.wxml" />
-    <template is="version" data="{{version}}"></template>
+
+    <!-- <view class='sq'></view>
+  	<view class='box'>
+    <view class='full-width flex flex-wrap'>
+      <view class='gift-item flex-row'>
+        <view class='gift-info pd'>
+          <text class='font-md black bolder'>实时免费</text>
+          <text class='txtmidline cgray'>原价￥128.0</text>
+        </view>
+        <view class='gift-img flex flex-center'>
+          <image src='/resource/game/jb.png'></image>
+        </view>
+      </view>
+      <view class='gift-item flex flex-center'>
+        <view class='gift-info pd'>
+          <text class='font-md cgreen bolder'>任务大厅</text>
+          <text class='pkcolor'>更多任务等您完成</text>
+        </view>
+        <view class='gift-img flex flex-center'>
+          <image src='/resource/icon/more.png' class='moreimg'></image>
+        </view>
+      </view>
+    </view>
+  	</view> -->
+
+    <view class='sq'></view>
+    <view class='box'>
+      <view class='title'>
+        <text class='didi bgviolet mix'></text>
+        <text class='didi bgviolet half'></text>
+        <text class='didi bgviolet'></text>
+        <text class='pdr violet'>活动海报</text>
+        <text class='didi bgviolet'></text>
+        <text class='didi bgviolet half'></text>
+        <text class='didi bgviolet mix'></text>
+        <view class='tomore' bindtap='toPosterIndex'>
+          <image src='/resource/icon/more.png' class='img-sm'></image>
+        </view>
+      </view>
+      <scroll-view class="scroll-view_H" scroll-x>
+        <view class='scroll-view-poster' wx:for='{{posterHotList}}' wx:key='id'>
+          <!-- 海报图片 -->
+          <view class='img'>
+            <image src='{{item.poster_imgs}}'></image>
+          </view>
+          <!-- 海报标题 -->
+          <view class='poster-title pdr'>
+            <view class='txtpt pd full-width'>{{item.poster_name}}</view>
+          </view>
+          <!-- 商铺名称 -->
+          <!-- <view class='poster-store-name'>MicrosoftChina</view> -->
+        </view>
+      </scroll-view>
+    </view>
+
+    <view class='sq'></view>
+    <view class='box pd'>
+      <view class='flex-row'>
+        <view class='title full-width'>
+          <text class='didi bgorange mix'></text>
+          <text class='didi bgorange half'></text>
+          <text class='didi bgorange'></text>
+          <text class='pdr or'>热门拼团</text>
+          <text class='didi bgorange'></text>
+          <text class='didi bgorange half'></text>
+          <text class='didi bgorange mix'></text>
+          <view class='tomore'>
+            <image src='/resource/icon/more.png' class='img-sm'></image>
+          </view>
+        </view>
+      </view>
+      <view wx:for='{{groupHotList}}' wx:key='id' class='full-width pd flex-row'>
+        <view class='store_shop_specimg' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}'>
+          <image src='{{item.goods_spec[0].spec_img}}'></image>
+        </view>
+        <view class='store_shop_info bottomline pdc'>
+          <view>
+            <view class='black font-sm txtclamp txtclamp-2'>{{item.goods_name}}
+              <text class='label white-label small'>{{item.goods_spec[0].spec_size}}</text>
+              <text class='label white-label small'>{{item.goods_spec[0].spec_color}}</text>
+            </view>
+            <view class='pdc'>
+              <text class='label small'>{{item.goods_key}}</text>
+            </view>
+          </view>
+          <view class='font-sm flex'>
+            <view class='redcolor font-md bolder'>
+              <text class='font-md'>{{item.goods_spec[0].group_price}}</text>
+            </view>
+            <view class='cgray txtmidline font-xs'>¥{{item.goods_spec[0].spec_price}}</view>
+          </view>
+          <view class='flex-row'>
+            <view>
+              <text class='label small red-label'>{{item.group_num}}人团</text>
+							<text class='label small'>{{item.sale_num}}已团</text>
+            </view>
+            <view class='flex flex-center bdlinearskr wtcolor pdc pdr20 radius-m' bindtap='onShopClick' data-id='{{item.id}}' data-spec='{{item.goods_spec[0].id}}'>
+              <text>我要参团</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class='sq'></view>
+    <view class='box pd'>
+      <view class='title'>
+        <text class='didi bgpk mix'></text>
+        <text class='didi bgpk half'></text>
+        <text class='didi bgpk'></text>
+        <text class='pdr pkcolor'>推荐商品</text>
+        <text class='didi bgpk'></text>
+        <text class='didi bgpk half'></text>
+        <text class='didi bgpk mix'></text>
+      </view>
+      <view class='full-witdh flex flex-wrap'>
+        <view class='tuijian-item' wx:for='{{shop_list}}' wx:key='' bindtap='onShopClick' data-id='{{item.id}}' data-spec='{{item.goods_spec[0].id}}'>
+          <view class='content'>
+            <view class='img flex flex-center'>
+              <image src='{{item.goods_spec[0].spec_img}}'></image>
+            </view>
+            <view class='info'>
+              <view class='shop-name full-width black font-sm txtclamp txtclamp-2'>
+                {{item.goods_name}} {{item.goods_spec[0].spec_size}} {{item.goods_spec[0].spec_color}}
+              </view>
+              <view class='flex-row'>
+                <view class='pkcolor font-md pdc'>
+                  <text class='font-x'>￥</text>
+                  <text class='bolder'>{{item.goods_spec[0].spec_price}}</text>
+                </view>
+                <view class='cgray font-x'>
+                  <text class='black'>{{item.sale_num}}</text>已售
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+  </view>
+  <view wx:if='{{classNavActIdx>0}}' style='padding-top:70rpx;'>
+    <view class='full-width bglightgray'>
+      <view class='full-witdh flex flex-wrap'>
+        <view class='tuijian-item' wx:for='{{shop_list}}' wx:key='' bindtap='onShopClick' data-id='{{item.id}}' data-spec='{{item.goods_spec[0].id}}'>
+          <view class='content'>
+            <view class='img flex flex-center'>
+              <image src='{{item.goods_spec[0].spec_img}}'></image>
+            </view>
+            <view class='info'>
+              <view class='shop-name full-width black font-sm txtclamp txtclamp-2'>
+                {{item.goods_name}} {{item.goods_spec[0].spec_size}} {{item.goods_spec[0].spec_color}}
+              </view>
+              <view class='flex-row'>
+                <view class='pkcolor font-md pdc'>
+                  <text class='font-x'>￥</text>
+                  <text class='bolder'>{{item.goods_spec[0].spec_price}}</text>
+                </view>
+                <view class='cgray font-x'>
+                  <text class='black'>{{item.sale_num}}</text>已售
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <import src="/template/version/version.wxml" />
+  <template is="version" data="{{version}}"></template>
 </view>

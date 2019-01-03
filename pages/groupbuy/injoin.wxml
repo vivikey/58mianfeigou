@@ -1,100 +1,96 @@
-<view class='container pd30 full-width'>
-    <!-- 拼购的商品信息 -->
-    <view class='item-77 flex pd bdfull' wx:if='{{goods}}'>
-        <view class='img-box flex flex-center cgray'>
-            <image src='{{shopMode.image}}' style='width:100%;height:100%;'></image>
-        </view>
-        <view class='info font-xs pd pdr20 flex-col flex-space'>
-            <view>
-                <view class='item-title txtclamp txtclamp-2'>
-                    {{shopMode.title}}
-                </view>
-                <view class='item-label flex flex-wrap'>
-                    <text class='bgdanger wtcolor radius-s '>{{goods.order_good.goods_sku_spec}}</text>
-                </view>
-            </view>
-            <view class='flex-row'>
-                <view>
-                    <view class='title flex-row font-xs skr'>
-                        <text class='bolder pkcolor'>{{goods.shop_info.tuan_num}}人拼</text>
-                        <text class='bolder font-md pd'>￥{{shopMode.price}}</text>
-                    </view>
-                    <view class='title flex font-xs cgray'>
-                        <text class='black'>已拼 <text class='bolder'>{{goods.shop_info.sale_num}}</text> 件</text>
-                    </view>
-                </view>
-                <view>
-                </view>
-            </view>
-        </view>
+<view class='container gray pd30 full-width'>
+  <!-- 拼购的商品信息 -->
+  <view class='item-77 flex pd20 bdfull bgw shadow' bindtap='toShopDetail'>
+    <view class='img-box flex flex-center cgray'>
+      <image src='{{group_info.goods.spec[spec_chosed].spec_img}}' style='width:100%;height:100%;'></image>
     </view>
-    <!-- 团购信息 -->
-    <view class='full-width font-sm mg-b10'>
-        <view class='full-width flex-col flex-center' wx:if='{{sur_num>0&&remaining.havtime<=0}}'>
-            <view class='pdc20'>还差
-                <text class='skr bolder'>{{sur_num}}人</text> 拼团成功
-            </view>
+    <view class='info font-xs pd pdr20 flex-col flex-space'>
+      <view>
+        <view class='item-title bolder txtclamp txtclamp-2'>
+          {{group_info.goods.goods_name}}
         </view>
-        <view class='full-width flex-col flex-center' wx:else>
-            <view class='pdc20' wx:if='{{sur_num>0&&remaining.ut>0}}'>还差
-                <text class='skr bolder'>{{sur_num}}人</text> 拼团成功,剩余
-                <text class='timeles'>{{remaining.h}}</text> :
-                <text class='timeles'>{{remaining.m}}</text> :
-                <text class='timeles'>{{remaining.s}}</text>
-            </view>
-            <view class='pdc20' wx:if='{{sur_num>0&&remaining.ut<=0}}'>还差
-                <text class='skr bolder'>{{sur_num}}人</text> 拼团成功,
-                <text class='skr bolder'>已过有效期</text>
-            </view>
-            <view class='pdc20' wx:if='{{sur_num<=0}}'>
-                <text class='skr bolder font-lg'>{{msg}}</text>
-            </view>
+        <view class='item-label flex flex-wrap'>
+          <text class='bgdanger wtcolor radius-s '>{{group_info.goods.spec[spec_chosed].spec_size}}</text>
+          <text class='bgdanger wtcolor radius-s '>{{group_info.goods.spec[spec_chosed].spec_color}}</text>
         </view>
-        <view class='flex flex-center pdc20'>
-            <view class='{{item.is_first==1?"tuanzhang":"tuanyuan"}} mg' wx:for='{{buy_users}}' wx:key=''>
-                <image src='{{item.header_pic}}' class='radius-circle'></image>
-            </view>
-            <view class='tuanyuan wait mg flex flex-center font-lg cgray' wx:for='{{sur_num}}' wx:key=''>
-                ?
-            </view>
+      </view>
+      <view class='flex-row'>
+        <view>
+          <view class='title flex-row font-xs skr'>
+            <text class='bolder redcolor'>{{group_info.goods.group_num}}人拼</text>
+            <text class='bolder redcolor font-lg pdr'><text class='font-x'>￥</text>{{group_info.goods.spec[spec_chosed].group_price}}</text>
+          </view>
+          <view class='title flex font-xs cgray'>
+            <text class='cgray font-xs'>单买： <text class='bolder txtmiddline'>￥{{group_info.goods.spec[spec_chosed].spec_price}}</text></text>
+          </view>
         </view>
-        <view class='full-width pdc20' wx:if='{{sur_num>0&&!remaining.overdue}}'>
-            <button type='warn' plain='{{true}}' class='full-width font-md' open-type='share' wx:if='{{hasjioned}}'>邀请好友</button>
-            <button type='warn' plain='{{true}}' class='full-width font-md' bindtap='toInjoinGroup' wx:else>我要参团</button>
+        <view>
         </view>
-        <view class='full-width pdc20' wx:else>
-            <view class='full-width font-md label pk-label flex flex-center' bindtap='reOpenOneBuy'>
-						<text class='pd'>重开一团</text>
-						</view>
-        </view>
-        <view class='full-width pdc20'>
-            <navigator class='label green-label flex flex-center pdc20' open-type='switchTab' url='/pages/groupbuy/index'>
-						<text class='pd'>返回首页</text></navigator>
-        </view>
+      </view>
+    </view>
+  </view>
 
-        <!--已开团 列表 -->
-        <view class='bglightgray mg-t10 full-width flex-col flex-center' wx:if='{{goods.new_rs_tuan && goods.new_rs_tuan.length>1}}'>
-            <view class='skr bolder font-sm pdc20'>或者参加别人的团</view>
-            <view class='full-width flex-row pd20 topline' wx:for='{{goods.new_rs_tuan}}' wx:key='' wx:if='{{item.order_id!=goods.order_good.order_id&&!item.overdue}}'>
-                <view class='flex'>
-                    <view class='u-img'>
-                        <image src='{{item.user_pic}}' class='radius-circle'></image>
-                    </view>
-                    <text class='black pd font-sm'>{{item.buyer_name}}</text>
-                </view>
-                <view class='flex flex-center font-xs'>
-                    <view class='pd'>
-                        <view>还差
-                            <text class='skr'>{{item.tuannum-item.num}}人</text>成团</view>
-                        <view class='font-x cgray' wx:if='{{item.havtime>0}}'>剩余 {{item.havtext}}</view>
-                    </view>
-                    <view>
-                        <navigator class='btn-open' open-type='redirect' url='injoin?shop_id={{shop_id}}&tuan_id={{item.order_id}}'>立即参团</navigator>
-                    </view>
-                </view>
-            </view>
+  <!-- 团购信息 -->
+  <view class='full-width font-sm bgw'>
+    <view class='full-width flex-col flex-center bottomline' wx:if='{{group_info.short_num>0}}'>
+      <view class='flex-row pd20'>
+        <view>还差
+          <text class='black font-lg bolder'>{{group_info.short_num}}人</text> 成团
         </view>
+        <view class='label gold-label bolder' wx:if='{{group_info.hastime}}' >{{group_info.short_time}}</view>
+                <view class='label gold-label bolder' wx:if='{{!group_info.hastime}}'>已过期</view>
+        <view wx:if='{{group_info.hastime}}'>
+          <button open-type='share' plain='{{true}}'>
+            <image src='/resource/icon/share3.png' class='img-sm'></image>
+          </button>
+        </view>
+      </view>
     </view>
+      <view class='full-width flex-col flex-center bottomline' wx:if='{{group_info.short_num<=0}}'>
+      <view class='flex-row pd20'>
+        <view class='redcolor bolder'>
+          拼购成功！
+        </view>
+      </view>
+    </view>
+    <view class='flex flex-center pdc20'>
+      <view class='{{item.is_first==1?"tuanzhang":"tuanyuan"}} mg' wx:for='{{group_info.user}}' wx:key='id'>
+        <image src='{{item.user_img}}' class='radius-circle'></image>
+      </view>
+      <view class='tuanyuan wait mg flex flex-center font-lg cgray' wx:for='{{group_info.short_num}}' wx:key=''>
+        ?
+      </view>
+    </view>
+  </view>
+  <view class='sq'></view>
+  <!-- 选择规格 -->
+  <view class='full-width bgw pd20'>
+    <view class="flex bottomline pdc">
+      <text class='cgray font-x pdr'>已选择</text>
+      <text class='black font-xs bolder'>{{group_info.goods.spec[spec_chosed].spec_size}} {{group_info.goods.spec[spec_chosed].spec_color}} {{group_info.goods.goods_number}}件</text>
+    </view>
+    <view class='full-width pdc20 '>
+      <text class='black bolder pdr20'>规格</text>
+      <view class='full-width flex flex-left flex-wrap pd20'>
+        <view wx:for='{{group_info.goods.spec}}' wx:key='id' data-idx='{{index}}' class='label mg10 {{index==spec_chosed?"chosed":""}}' bindtap='bindPickerChange'>{{item.spec_size}} {{item.spec_color}}</view>
+      </view>
+    </view>
+    <view class='full-width flex flex-left flex-wrap black'>
+      <text class='bolder pdr20'>数量</text>
+      <view class='flex bdfull bgw fong-sm'>
+        <view class='pd pdr20 bolder {{group_info.goods.goods_number>1?"":"cgray"}}' bindtap='subcount'>━</view>
+        <view class='pd pdr20 leftline rightline black bolder'>{{group_info.goods.goods_number}}</view>
+        <view class='pd pdr20 bolder' bindtap='addcount'>✚</view>
+      </view>
+    </view>
+  </view>
+  <view class='full-width flex flex-around pdc20'>
+    <navigator class='full-width label green-label flex flex-center pdc20' open-type='switchTab' url='/pages/shop/index'>
+      <text class='pd'>返回首页</text>
+    </navigator>
+    <view class='full-width label orange-label flex flex-center pdc20' bindtap='toShopDetail'>重开一团</view>
+    <view class='full-width label pk-label flex flex-center pdc20' bindtap='joinOrder' wx:if='{{group_info.hastime && group_info.short_num>0}}'>我要参团</view>
+  </view>
 </view>
-    <import src="/template/version/version.wxml" />
-    <template is="version" data="{{version}}"></template>
+<import src="/template/version/version.wxml" />
+<template is="version" data="{{version}}"></template>
