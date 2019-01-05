@@ -1,13 +1,22 @@
 .user{
-  padding: 20rpx 0rpx;
-  color:#454545;
+  padding: 40rpx 0rpx;
+}
+.user .cap{
+	font-size:13px;
+  color:#515151;
+	font-weight: 400;
+	margin-top:15rpx;
 }
 .mybase{
     background: linear-gradient(to bottom,#d81e06,#f2f2f2);
 }
 .myinfo{
     overflow: hidden;
-    border-radius: 20rpx;
+    border-radius: 0rpx;
+}
+.myinfo.f{
+	border-top-left-radius: 60rpx;
+	border-top-right-radius: 60rpx;
 }
 .userinfo{
   width:580rpx;
@@ -59,5 +68,16 @@
     display: flex;
     margin: 0;
     border:none;
+}
+.money-item{
+	width:50%;
+}
+.money-item .money-img{
+	width:64rpx;
+	height: 64rpx;
+}
+.money-item .money-img image{
+	width:100%;
+	height: 100%;
 }
 

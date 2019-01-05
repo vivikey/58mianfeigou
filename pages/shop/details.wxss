@@ -12,7 +12,7 @@ swiper .swiper-navbox,swiper swiper-item image{
 .price-box{
     display: flex;
     justify-content:flex-start;
-    align-items:baseline;
+    align-items:center;
     color:#f8f8f8;
 }
 .sc{

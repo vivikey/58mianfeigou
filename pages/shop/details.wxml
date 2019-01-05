@@ -24,31 +24,33 @@
     </view>
   </view>
   <!-- 价格 -->
-  <view class='full-width pdr20 pdc bdlinearskr price-box' wx:if='{{goods.group_purchase ==0 && goods.is_gift ==0}}'>
-    <view class='wtcolor font-xp'>￥
-      <text class='font-lgpp bolder'>{{goods.goods_spec[spec_chosed].spec_price}}</text>
+  <view class='full-width pdr20 pdc bdlinearskr price-box'>
+    <view class='flex-rlc' wx:if='{{goods.group_purchase ==0 && goods.is_gift ==0}}'>
+      <view class='wtcolor font-xp'>￥
+        <text class='font-lgpp bolder'>{{goods.goods_spec[spec_chosed].spec_price}}</text>
+      </view>
     </view>
-  </view>
-  <view class='full-width pdr20 pdc bdlinearskr price-box' wx:if='{{goods.group_purchase ==0 && goods.is_gift ==1}}'>
-    <view class='wtcolor font-xp'>￥
-      <text class='font-lgpp bolder'>{{goods.goods_spec[spec_chosed].spec_price}}</text>
+    <view class='flex-rlc' wx:if='{{goods.group_purchase ==0 && goods.is_gift ==1}}'>
+      <view class='wtcolor font-xp'>￥
+        <text class='font-lgpp bolder'>{{goods.goods_spec[spec_chosed].spec_price}}</text>
+      </view>
+      <view class='pdr'>
+        <text class='label yellow-label small'>免费领取</text>
+      </view>
     </view>
-    <view class='pdr'>
-      <text class='label yellow-label small'>免费领取</text>
+    <view class='flex-rlc' wx:if='{{goods.group_purchase ==1 }}'>
+      <view class='wtcolor font-xp'>￥
+        <text class='font-lgpp bolder'>{{goods.goods_spec[spec_chosed].group_price}}</text>
+      </view>
+      <view class='pdr'>
+        <text class='txtmidline font-xs'>￥{{goods.goods_spec[spec_chosed].spec_price}}</text>
+      </view>
+      <view class=''>
+        <text class='label white-label small'>{{goods.group_num}}人拼</text>
+      </view>
     </view>
-  </view>
-  <view class='full-width pdr20 pdc bdlinearskr price-box' wx:if='{{goods.group_purchase ==1 }}'>
-    <view class='wtcolor font-xp'>￥
-      <text class='font-lgpp bolder'>{{goods.goods_spec[spec_chosed].group_price}}</text>
-    </view>
-    <view class='pdr'>
-      <text class='txtmidline font-xs'>￥{{goods.goods_spec[spec_chosed].spec_price}}</text>
-    </view>
-    <view class='pdr'>
-      <text class='label white-label small'>{{goods.group_num}}人拼</text>
-    </view>
-    <view class='pdr'>
-      <text class='label orange-label font-sm bolder ' wx:if='{{goods.goods_limit>0}}'>本商品限购{{goods.goods_limit}}份/人</text>
+    <view class='flex-rlc label warn-label' wx:if='{{goods.goods_brokerage>0}}'>
+      <view class='font-x skr'>佣金{{goods.goods_brokerage}}</view>
     </view>
   </view>
   <!-- 名称等信息 -->
@@ -64,7 +66,9 @@
       <image src='/resource/icon/sc2.png' class='img-sm'></image>
     </view>
   </view>
-  <view></view>
+    <view class='full-width bglinearyellow pd' wx:if='{{goods.goods_limit>0}}'>
+      <text class='black bolder font-xs'>本商品限购{{goods.goods_limit}}份/人</text>
+    </view>
   <view class='sq'></view>
   <!-- 选择规格 -->
   <view class='full-width bgw pd20'>
@@ -177,7 +181,7 @@
     </view>
     <view class='flex-col-around' bindtap='openShareWnd'>
       <image src='/resource/icon/share3.png' class='img-sm'></image>
-      <text class=''>分享</text>
+      <text class=''>推广</text>
     </view>
   </view>
   <view class='mitem2 flex-col-center bgorange wtcolor' wx:if='{{goods.group_purchase ==1 || goods.is_gift ==1}}' bindtap='directOrder'>
@@ -189,12 +193,10 @@
   <view class='mitem2 flex-col-center bgdanger wtcolor' wx:if='{{goods.group_purchase ==0 && goods.is_gift ==1}}' bindtap='onGetGift'>
     <text class=''>免费领取</text>
   </view>
-	  <view class='mitem3 flex-col-center bgdanger wtcolor' wx:if='{{goods.group_purchase ==0 && goods.is_gift ==0}}' bindtap='directOrder'>
+  <view class='mitem3 flex-col-center bgdanger wtcolor' wx:if='{{goods.group_purchase ==0 && goods.is_gift ==0}}' bindtap='directOrder'>
     <text class=''>立即购买</text>
   </view>
 </view>
-  <import src="/template/version/version.wxml" />
-  <template is="version" data="{{version}}"></template>
 <!-- 分享窗口 -->
 <import src="/template/sharebox/sharebox.wxml" />
 <template is="sharebox" data="{{showShareWnd:showShareWnd}}"></template>

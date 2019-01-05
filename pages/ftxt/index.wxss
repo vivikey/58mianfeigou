@@ -1,0 +1,141 @@
+@import "/template/mainbar.wxss";
+
+swiper.tj {
+  width: 750rpx;
+  height: 420rpx;
+}
+
+swiper.dynamic {
+  height: 49rpx;
+}
+
+.bg-gray {
+  background: #ccc;
+}
+
+swiper image {
+  width: 100%;
+  height: 100%;
+}
+
+.moreimg {
+	width:224rpx;
+	height: 128rpx;
+}
+
+.foritem {
+  margin-top: 15rpx;
+  padding: 0 15rpx;
+  width: 33.33%;
+}
+
+.foritem text {
+  width: 100%;
+}
+
+.imgblock {
+  width: 100%;
+  height: 220rpx;
+  margin-bottom: 20rpx;
+  border-radius: 5rpx;
+  overflow: hidden;
+}
+
+.pd-t30 {
+  padding-top: 30rpx;
+}
+
+.scroll-view_H{
+    display: flex;
+		justify-content: flex-start;
+		align-items: flex-start;
+    white-space: nowrap; 
+    background: #fff;
+    width:100%;
+    margin: 0 10rpx;
+    transition: all .3s linear;
+}
+
+.gift-item{
+  width:50%;
+  height: 180rpx;
+  background: #fff;
+  border-top:1rpx solid #ddd;
+  box-sizing: border-box;
+}
+.gift-img:nth-child(2n){
+  border-right:1rpx solid #ddd;
+}
+
+.gift-item .gift-img{
+  height: 180rpx;
+  width:50%;
+
+}
+.gift-item .gift-img image{
+  width:80%;
+  height: 80%;
+}
+.gift-item .gift-info{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 180rpx;
+  box-sizing: border-box;
+}
+
+.store_shop_specimg{
+    width:260rpx;
+    height: 260rpx;
+    background: #f9f9f9;
+}
+.store_shop_specimg image{
+    width:100%;
+    height: 100%;
+}
+.store_shop_info{
+    width:430rpx;
+    height: 260rpx;
+    padding:0 10rpx;
+    padding-bottom:10rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.tuijian-item{
+  width:50%;
+  background: #fff;
+  padding: 12rpx;
+	border:6rpx solid #f2f2f2;
+	border-radius: 12rpx;
+}
+.tuijian-item .content{
+  width:100%;
+  background: #fff;
+}
+.tuijian-item .content .img{
+  width:100%;
+	border-radius:12rpx;
+}
+.tuijian-item .content .img image{
+  height: 300rpx;
+}
+.tuijian-item .info .shop-name{
+	height: 80rpx;
+	line-height: 40rpx;
+}
+
+.task-enter{
+	width:100%;
+	padding: 12rpx;
+	border-radius: 12rpx;
+	overflow: hidden;
+}
+.task-enter image{
+	width:100%;
+	height: 200rpx;
+	border-radius: 36rpx;
+}

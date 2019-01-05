@@ -28,6 +28,12 @@ let obj = {
 	AddExpress() {
 		return '/api/addapi/storeAddExpress'
 	},
+	AddFTxt() {
+		return '/api/addapi/addModeAdContent'
+	},//-- 添加修改富文
+	GetFTxt() {
+		return '/api/addapi/showAdInfo'
+	},//-- 富文详情
   async Do(data) {
     return await new Promise((resolve, reject) => {
       $.Post(this.url, data, r => {

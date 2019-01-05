@@ -77,7 +77,11 @@
 		"pages/store/cartorder",
 		"pages/orders/pay",
 		"pages/orders/index",
-		"pages/merchants/ordermgr"
+		"pages/merchants/ordermgr",
+		"pages/shop/giftIndex",
+		"pages/shop/taskindex",
+		"pages/merchants/ftxtedit",
+		"pages/ftxt/index"
 	],
 	"window": {
 		"navigationBarBackgroundColor": "#d81e06",
@@ -107,7 +111,7 @@
 				"selectedIconPath": "/resource/icon/nearby-atv.png"
 			},
 			{
-				"pagePath": "pages/shop/nearby",
+				"pagePath": "pages/ftxt/index",
 				"text": "发现",
 				"iconPath": "/resource/icon/find.png",
 				"selectedIconPath": "/resource/icon/find-atv.png"

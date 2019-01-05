@@ -33,4 +33,5 @@
         <template is="empty" data='{{image:"/resource/icon/emp3.png",firstmsg:"哦~没有找到！",secmsg:"换个别的试试？",times:[1,2,3]}}' wx:if='{{shop_list.length<=0}}'></template>
     </view>
 </view>
-<template is="smallmenu" data="{{showsmallmenu:false,smallmenuclosed:smallmenuclosed}}"></template>
+  <import src="/template/version/version.wxml" />
+  <template is="version" data="{{version}}"></template>

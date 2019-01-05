@@ -1,53 +1,57 @@
 <view class='container gray font-xs hardgray'>
-    <view class='topblockbg' style='height:70px;'></view>
-    <!-- Location / SearchBar / NavBar -->
-    <view class='fix-t full-width bgw' style='height:70px;'>
-        <view class='flex-row pdr pdc20' style='height:35px;'>
-            <!-- Location -->
-            <view class='flex flex-center flex-left location'>
-                <view class='flex flex-center'>
-                    <image src='/resource/icon/position.png' class='img-sm'></image>
-                </view>
-                <text class='pdr txtpt font-sm'>{{location}}</text>
-            </view>
-            <!-- SearchBar -->
-            <view class='flex-row label midd search' bindtap='inputFocus'>
-                <text class='pdr font-xs cgray'>搜索附近商铺...</text>
-                <view class='flex flex-center'>
-                    <image src='/resource/icon/search.svg' class='img-sm'></image>
-                </view>
-            </view>
+  <view class='topblockbg' style='height:70px;'></view>
+  <!-- Location / SearchBar / NavBar -->
+  <view class='fix-t full-width bgw' style='height:70px;'>
+    <view class='flex-row pdr pdc20' style='height:35px;'>
+      <!-- Location -->
+      <view class='flex flex-center flex-left location'>
+        <view class='flex flex-center'>
+          <image src='/resource/icon/position.png' class='img-sm'></image>
         </view>
-        <scroll-view class="scroll-view_H" scroll-x>
-            <view class='scroll-view-item_H {{classNavActIdx==index?"active":""}} pdc' wx:for='{{classNavList}}' wx:key='' id='{{index}}' bindtap='onClassNavClick'>{{item.caption}}</view>
-        </scroll-view>
+        <text class='pdr txtpt font-sm'>{{location}}</text>
+      </view>
+      <!-- SearchBar -->
+      <view class='flex-row label midd search' bindtap='inputFocus'>
+        <text class='pdr font-xs cgray'>搜索附近商铺...</text>
+        <view class='flex flex-center'>
+          <image src='/resource/icon/search.svg' class='img-sm'></image>
+        </view>
+      </view>
     </view>
-    <view class='sq'></view>
-    <view class='bgw full-width pd20'>
-        <!-- nearByList is empty -->
-                <!-- nearByList is empty -->
-        <import src="/template/nothing/item.wxml" />
-        <template is="nothing" data='{{datalist:nearByList,Msg:"当前区域内未发现商铺"}}'></template>
-        <!-- nearByList.forEach item -->
-        <navigator wx:for='{{nearByList}}' wx:key='id' class='bottomline pdc20 flex-row' url='/pages/store/detail?id={{item.id}}'>
-            <view class='flex flex-center'>
-                <view class='store_logo'>
-                    <image src='{{item.store_logo}}'></image>
-                </view>
-                <view class='store_info mg-l10'>
-                    <view class='font-md black bolder'>{{item.store_name}}</view>
-                    <view>
-                        <text class='label small green-label'>{{item.start_time}}</text>
-                        <text class='label small orange-label'>{{item.end_time}}</text>
-                    </view>
-                    <view class='txtpt font-x pdc lightgray'>{{item.store_addr.address}}</view>
-                </view>
+    <scroll-view class="scroll-view_H" scroll-x>
+      <view class='scroll-view-item_H {{classNavActIdx==index?"active":""}} pdc' wx:for='{{classNavList}}' wx:key='' id='{{index}}' bindtap='onClassNavClick'>{{item.caption}}</view>
+    </scroll-view>
+  </view>
+  <view class='sq'></view>
+  <view class='full-width'>
+    <!-- nearByList is empty -->
+    <!-- nearByList is empty -->
+    <import src="/template/nothing/item.wxml" />
+    <template is="nothing" data='{{datalist:nearByList,Msg:"当前区域内未发现商铺"}}'></template>
+    <!-- nearByList.forEach item -->
+    <view class='store-item' wx:for='{{nearByList}}' wx:key='id'>
+      <navigator class='flex-row' url='/pages/store/detail?id={{item.id}}'>
+        <view class='flex flex-center'>
+          <view class='store_logo'>
+            <image src='{{item.store_logo}}'></image>
+          </view>
+          <view class='store_info'>
+            <view class='font-sm skr bolder mg-b10 txtpt'>{{item.store_name}}</view>
+            <view>
+              <text class='label small green-label'>{{item.start_time}}</text>
+
+              <text class='label small green-label'>{{item.start_time}}</text>
+              <text class='label small chosed'>{{item.end_time}}</text>
             </view>
-            <view class='store_info'>
-                <text class='label small bolder'>{{item.distance}}km</text>
-            </view>
-        </navigator>
+            <view class='txtpt font-x pdc lightgray'>{{item.store_addr.address}}</view>
+          </view>
+        </view>
+        <view class='store_info'>
+          <text class='label small bolder'>{{item.distance}}km</text>
+        </view>
+      </navigator>
     </view>
-    <import src="/template/version/version.wxml" />
-    <template is="version" data="{{version}}"></template>
+  </view>
+  <import src="/template/version/version.wxml" />
+  <template is="version" data="{{version}}"></template>
 </view>

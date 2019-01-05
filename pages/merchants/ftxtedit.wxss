@@ -1,0 +1,68 @@
+
+.editor{
+  border-top:1px solid #ccc;
+	position: fixed;
+	bottom:0;
+	left:0;
+	right:0;
+	background: #f2f2f2;
+}
+.editor .options{
+  width:100%;
+  border-bottom:1rpx solid #eaeaea;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+textarea{
+  background: #fff;
+  width:90%;
+  height: 200rpx;
+  margin: 0 auto;
+  border:1rpx solid #ddd;
+  border-radius: 12rpx;
+  padding: 6rpx;
+}
+.size-item,
+.bolder-item{
+	padding: 10rpx 15rpx;
+	color:black;
+}
+.bolder-item.active,
+.size-item.active{
+  background: #fff;
+  border:1rpx solid #ccc;
+  border-radius:50%;
+  font-weight: bolder;
+}
+.chose-color{
+  width:48rpx;
+  height: 48rpx;
+  border-radius: 48rpx;
+	border-bottom:2px solid red;
+}
+.color-list{
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height: 100%;
+  overflow-y: scroll;
+  display: flex;
+  flex-wrap: wrap;
+  z-index: 66666;
+}
+.color-list .color-item{
+  width:125rpx;
+  height: 100rpx;
+  box-sizing: border-box;
+  font-size:12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color:#777;
+}
+.color-list .color-item.active{
+  border:1rpx solid #ababab;
+}

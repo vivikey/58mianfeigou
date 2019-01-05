@@ -19,6 +19,18 @@ let obj = {
 	ListShop() {
 		return '/api/showapi/showShopByCondition'
 	}, //-- 显示自定义分类商品
+	TaskList() {
+		return '/api/showapi/showShopBrokerageSort'
+	}, //-- 推广任务列表
+	ShopSortList() {
+		return '/api/showapi/showShopSort'
+	}, //-- 商品排序（赠品和拼团）
+	TouTiao() {
+		return '/api/showapi/showAwardList'
+	}, //-- 首页头条
+	TypeList() {
+		return '/api/showapi/showShopClassAtView'
+	}, //-- 首页头条
   async Do(data) {
     return await new Promise((resolve, reject) => {
       $.Post(this.url, data, r => {

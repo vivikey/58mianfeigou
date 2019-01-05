@@ -1,0 +1,62 @@
+<view class='fix-t flex-row pd bglinearyellow bottomline'>
+  <view>预览</view>
+  <view class='flex flex-center bgw pd'>
+    <view class='flex flex-center label gold-label mg-r20' wx:if='{{ad_id>0}}'>
+      <image src='/resource/icon/delete.svg' class='img-xs radius-circle'></image>
+      <text class='pdr'>删除</text>
+    </view>
+    <view class='flex flex-center label green-label' bindtap='onSubmit'>
+      <image src='/resource/icon/ok3.svg' class='img-xs radius-circle'></image>
+      <text class='pdr'>提交</text>
+    </view>
+  </view>
+</view>
+<view class='container bgw pdr' id='container' style='padding-top:42px;padding-bottom:186px;'>
+  <view wx:for='{{ftxtData}}' wx:key='idx' class='pdr pdc20 flex-col'>
+    <text class='full-width flex flex-center flex-wrap lh-sm' wx:if='{{item.type=="text"}}' style='color:{{item.color}};font-size:{{item.fontSize}}px;font-weight: {{item.bolder?"bolder":"normal"}};font-style:{{item.italic?"italic":"normal"}};'>{{item.content}}</text>
+    <image wx:if='{{item.type=="image"}}' src='{{item.content}}' mode='widthFix' class='full-width'></image>
+  </view>
+</view>
+<import src="/template/version/version.wxml" />
+<template is="version" data="{{version}}"></template>
+<view class='full-width editor'>
+  <!-- options -->
+  <view class='options pdc'>
+    <!-- font -->
+    <view class='flex flex-center'>
+      <text class='font-x size-item {{currItem.fontSize==11?"active":""}}' data-val='11' bindtap='onFontSizeClick'>小</text>
+      <text class='font-sm size-item {{currItem.fontSize==14?"active":""}}' data-val='14' bindtap='onFontSizeClick'>中</text>
+      <text class='font-lg size-item {{currItem.fontSize==18?"active":""}}' data-val='18' bindtap='onFontSizeClick'>大</text>
+    </view>
+    <!-- italic -->
+    <view class='flex flex-center'>
+      <text class='font-md bolder wtcolor bolder-item {{currItem.italic?"active":""}}' style='font-style:italic;' bindtap='openItalicClick'>I</text>
+    </view>
+    <!-- bolder -->
+    <view class='flex flex-center'>
+      <text class='font-md bolder wtcolor bolder-item {{currItem.bolder?"active":""}}' bindtap='openBolderClick'>B</text>
+    </view>
+    <!-- color -->
+    <view class=''>
+      <text class='chose-color font-md bolder flex flex-center' style='color:{{currItem.color}}' bindtap='openColorList'>A</text>
+    </view>
+    <!-- image -->
+    <view class='label' bindtap='onInsertImage'>
+      <image src='/resource/icon/insert_photo.png' class='img-sm'></image>
+    </view>
+    <!-- paragraph -->
+    <view class='label' bindtap='onInsertText'>
+      <image src='/resource/icon/paragraph.png' class='img-sm'></image>
+    </view>
+
+  </view>
+  <view class='full-width pdr'>
+    <textarea placeholder='请输入段落内容' id='ftxt-item' value='{{currItem.content}}' fixed='{{true}}' bindinput='onTextareaInput' wx:if='{{!showColorList}}' maxlength='-1' cursor-spacing='15px'></textarea>
+    <view class='info-item-row flex flex-center pdc20'>
+
+    </view>
+  </view>
+</view>
+<view class='color-list' wx:if='{{showColorList}}'>
+  <view wx:for='{{colors}}' wx:key='' class='color-item {{currItem.color==item?"active":""}}' style='background:{{item}};' data-val='{{item}}' bindtap='onColorChange'>{{item}}</view>
+</view>

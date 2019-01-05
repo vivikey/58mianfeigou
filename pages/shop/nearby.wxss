@@ -3,9 +3,15 @@
 .location{
     width:400rpx;
 }
+.store-item{
+	margin-bottom:20rpx;
+	background: #fff;
+	padding:20rpx;
+	width:100%;
+}
 .store_logo{
     width:160rpx;
-    height: 140rpx;
+    height: 160rpx;
     border:1rpx solid #ddd;
     border-radius: 15rpx;
     overflow: hidden;
@@ -15,9 +21,10 @@
     height: 100%;
 }
 .store_info{
-    height: 140rpx;
+    height: 160rpx;
     display: flex;
     flex-direction: column;
     justify-content:space-between;
     align-items:flex-start;
+		padding-left:18rpx;
 }

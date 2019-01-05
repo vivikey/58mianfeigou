@@ -1,1 +1,33 @@
-/* pages/usercenter/balance.wxss */
+.big-top {
+  background: #d81e06;
+	height: 69px;
+  width: 100%;
+  color: #fff;
+  font-size: 28px;
+}
+
+.top-menu {
+	height: 46px;
+  background: #d81e06;
+  color: #fff;
+}
+.top-menu .top-menu-kk{
+	border:1rpx solid #fff;
+	border-radius: 64rpx;
+}
+.top-menu-item {
+  width: 300rpx;
+  font-size: 14px;
+  height: 64rpx;
+  display: flex;
+  justify-content: center;
+	align-items: center;
+	border-radius: 64rpx;
+	transition: all .3s linear;
+}
+
+.top-menu-item.active {
+  background: #fff;
+  color: #d81e06;
+	font-weight: bolder;
+}

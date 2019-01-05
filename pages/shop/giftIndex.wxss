@@ -1,0 +1,41 @@
+swiper.tj {
+  width: 750rpx;
+  height: 420rpx;
+}
+
+swiper.dynamic {
+  height: 49rpx;
+}
+
+.bg-gray {
+  background: #ccc;
+}
+
+swiper image {
+  width: 100%;
+  height: 100%;
+}
+
+.pd-t30 {
+  padding-top: 30rpx;
+}
+
+.store_shop_specimg{
+    width:260rpx;
+    height: 260rpx;
+    background: #f9f9f9;
+}
+.store_shop_specimg image{
+    width:100%;
+    height: 100%;
+}
+.store_shop_info{
+    width:430rpx;
+    height: 260rpx;
+    padding:0 10rpx;
+    padding-bottom:10rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}

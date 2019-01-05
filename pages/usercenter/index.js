@@ -41,4 +41,10 @@ Page({
       url: 'userinfo',
     })
   },
+	//--2.X 转向我的账户
+	toMyBalance(e){
+		wx.navigateTo({
+			url: `balance?type=${e.currentTarget.dataset.type}`,
+		})
+	}
 })

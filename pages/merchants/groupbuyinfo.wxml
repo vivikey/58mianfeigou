@@ -3,7 +3,9 @@
         <text class='mustbe'>商品名称</text>
         <input type='text' placeholder='请输入商品名称' value='{{goods.goods_name}}' id='goods_name' bindinput='onInputChanged'></input>
     </view>
-    <view class='sq'></view>
+    <view class='info-item-row'>
+			<text class=''>参与活动(二选一)</text>
+		</view>
     <view class='info-item-row single-line flex flex-around pd20 bottomline'>
         <view class='flex'>
             <switch checked='{{goods.is_gift==1}}' id='is_gift' type='checkbox' bindchange="onInputChanged" />
@@ -18,7 +20,9 @@
     <!-- 属于团购产品 -->
     <view class='info-item-row' wx:if='{{goods.group_purchase==1}}'>
         <text class='mustbe'>成团人数</text>
+				<view class='full-width bgw pd'>
         <slider bindchange="onInputChanged" id='group_num' show-value min="1" max="10" value="{{goods.group_num}}" activeColor="#00b642" block-color="#00b642" />
+				</view>
     </view>
         <!-- 限购数量：0表示不限制 -->
     <view class='info-item-row'>
@@ -27,8 +31,8 @@
     </view>
         <!-- 推广佣金 -->
     <view class='info-item-row'>
-        <text class='mustbe'>任务基价<text class='font-xs skr'>商品报价的百分比</text></text>
-        <slider bindchange="onInputChanged" id='goods_brokerage' show-value min="0" max="100" value="{{goods.goods_brokerage}}" activeColor="#00b642" block-color="#00b642" />
+        <text class='mustbe'>推广佣金<text class='font-xs skr'></text></text>
+				<input type='digit' placeholder='请输入推广佣金' value='{{goods.goods_brokerage}}' id='goods_brokerage' bindinput='onInputChanged'></input>
     </view>
     <!-- 商品分类 -->
     <view class='info-item-row'>

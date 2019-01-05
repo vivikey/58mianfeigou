@@ -1,31 +1,34 @@
-<view class='container gray'>
-    <view class='full-width bgw'>
-
+<view class='container'>
+  <view class='' style='height:92px;'></view>
+  <view class='fix-t full-width' style='height:92px;'>
+    <!-- <view class='big-top pd'>
+      <view class='full-width flex flex-center bolder pd'>0.00</view>
+      <view class='full-width flex flex-center font-xs'>我的总资产</view>
+    </view> -->
+		<view class='top-menu full-width flex flex-center font-xs'>注：余额包含了推广佣金</view>
+    <view class='top-menu bgw pd20 bottomline full-width flex flex-center'>
+      <view class='flex flex-center top-menu-kk'>
+        <view class='top-menu-item {{type==1?"active":""}}' id='1' bindtap='onChangeType'>账户余额：0.00</view>
+        <view class='top-menu-item {{type==2?"active":""}}' id='2' bindtap='onChangeType'>推广佣金：0.00</view>
+      </view>
     </view>
-    <view class='full-width bgw pdr20'>
-        <view class='font-xs bottomline pdc20 flex-row'>
-            <text class='black bolder'>余额分布</text>
-            <text class='cgray'>我的总余额：<text class='skr pdr'>￥{{myBalance}}</text></text>
-        </view>
-        <view class='full-width font-xs'>
-            <import src="/template/emptyshow/emptyshow.wxml" />
-            <template is="empty" data='{{image:"/resource/icon/emp3.png",firstmsg:"没有相关商铺信息",secmsg:"",times:[1,2,3]}}' wx:if='{{balanceList.length<=0}}'></template>
-            <view class='pdc20 bottomline flex-row' wx:for='{{balanceList}}' wx:key='id'>
-                <view>
-                    <view class='cgray'>{{item.store_name}}</view>
-                    <view class='black bolder font-sm'>￥{{item.money}}</view>
-                </view>
-                <view class='col-5 flex flex-around font-sm'>
-                    <view class='flex flex-center pd'>
-                        <navigator class='cprimary pd pdr20 radius-m' url='/pages/store/balance?store_id={{item.store_id}}&store_name={{item.store_name}}&myBalance={{item.money}}'>明细</navigator>
-                    </view>
-                    <view class='flex flex-center pd'>
-                        <navigator class='cgreen pd pdr20 radius-m' url='/pages/my/recharge?type=5&money=0&store_id={{item.store_id}}&store_name={{item.store_name}}'>✚充值</navigator>
-                    </view>
-                </view>
-            </view>
-        </view>
-    </view>
+  </view>
 </view>
-<import src="/template/smallmenu/smallmenu.wxml" />
-<template is="smallmenu" data="{{showsmallmenu:flase,smallmenuclosed:smallmenuclosed}}"></template>
+<!-- giftList is empty -->
+<import src="/template/nothing/item.wxml" />
+<template is="nothing" data='{{datalist:giftList,Msg:"记录空空如也~~"}}'></template>
+<view class='fix-b' style='padding-bottom:20rpx;' wx:if='{{type==1}}'>
+  <view class='full-width bglinearyellow shadow flex-row pd20'>
+    <view class='font-sm black bolder'>可提现：0.00</view>
+  </view>
+  <view class='flex flex-center pdr20'>
+    <navigator class='btn-fix-b green font-md'>
+      <image src='/resource/icon/money_in.png' class='addbtnimg radius-circle'></image>
+      充值
+    </navigator>
+    <navigator class='btn-fix-b white font-md'>
+      <image src='/resource/icon/money_out.png' class='addbtnimg radius-circle'></image>
+      提现
+    </navigator>
+  </view>
+</view>

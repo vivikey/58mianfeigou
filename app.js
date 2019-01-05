@@ -2,7 +2,7 @@ const regeneratorRuntime = require('./comm/regenerator-runtime') //-- v2.X
 import $ from './comm/request.js'
 App({
   globalData: {
-    version: 'V2.3.1', //-- v2.X
+    version: 'V2.4.2', //-- v2.X
     appname: '58免费购小程序',
     login: false,
     baseUrl: 'https://m.58daiyan.com',
@@ -34,6 +34,7 @@ App({
   /**
    * 以下是2.X的API
    */
+	//-- 转换订单状态
 	getOrderStatusTxt(order_status) {
 		switch (order_status) {
 			case 0:
@@ -82,7 +83,7 @@ App({
 				return '赠品领取'
 		}
 	},
-  //--M6 获取用户经纬度和地址
+  //--获取用户经纬度和地址
   async _localAddress() {
     return await new Promise((resolve, reject) => {
       wx.getLocation({
@@ -106,7 +107,7 @@ App({
       })
     })
   },
-  //--M5 上传图片 
+  //--上传图片 
   async _uploadImage(path) {
     return await new Promise((resolve, reject) => {
       wx.uploadFile({
@@ -120,7 +121,7 @@ App({
       })
     })
   },
-  //--M1 init code
+  //--init code
   async _init() {
     return await new Promise((resolve, reject) => {
       wx.login({
@@ -139,7 +140,7 @@ App({
       });
     })
   },
-  //--M2 登录到平台
+  //--登录到平台
   async _nplogin(data) {
     return await new Promise((resolve, reject) => {
       $.Post(`/api/Wxapi/wxUserInfo`, data, r => {
@@ -147,7 +148,7 @@ App({
       }, null, true)
     })
   },
-  //--M3 获取微信用户信息
+  //--获取微信用户信息
   async _getUserInfo() {
     return await new Promise((resolve, reject) => {
       wx.getUserInfo({
@@ -246,9 +247,6 @@ App({
       }
     })
   },
-  /**
-   * 以下是1.X的API
-   */
   onLaunch() {
   },
   request(url, method, data, showload, success, failHandle) {

@@ -1,49 +1,55 @@
 <view class='container gray'>
-    <view class='topblockbg'></view>
-    <view class='full-width fix-t bglinearyellow shadow flex-row pd20'>
-        <view class='font-sm black bolder'>{{storeName}}</view>
-    </view>
-    <view class='sq'></view>
-    <!-- shopList is Empty -->
-    <import src="/template/nothing/item.wxml" />
-    <template is="nothing" data='{{datalist:shopList,Msg:"请添加商品"}}'></template>
+  <view class='topblockbg'></view>
+  <view class='full-width fix-t bglinearyellow shadow flex-row pd20'>
+    <view class='font-sm black bolder'>{{storeName}}</view>
+  </view>
+  <view class='sq'></view>
+  <!-- shopList is Empty -->
+  <import src="/template/nothing/item.wxml" />
+  <template is="nothing" data='{{datalist:shopList,Msg:"请添加商品"}}'></template>
 
-    <view class='pd20 full-width bgw bottomline' wx:for='{{shopList}}' wx:key='id'>
-        <view class='flex-row pdc20 col-12'>
-            <view class='font-md black bolder txtclamp txtclamp-2'>
-                <view>{{item.goods_name}}</view>
-                <view class='label small yellow-label'>{{item.addtime}}</view>
-            </view>
-            <view class='label warn-label' wx:if='{{item.goods_check==0}}'>未审核</view>
-        </view>
-        <view class='full-width flex pdc'>
-            <view wx:for='{{item.goods_banners}}' wx:key='{{index}}' wx:for-item='img' style='padding:2.5rpx;'>
-                <image src='{{img}}' style='width:110rpx;height:100rpx;'></image>
-            </view>
-        </view>
-        <view class='flex-row pdc20'>
-            <view class='flex flex-left'>
-                <view class='label green-label' wx:if='{{item.is_gift==1}}'>赠品</view>
-                <view class='label orange-label' wx:if='{{item.group_purchase==1}}'>拼团</view>
-                
-            </view>
-            
-            <view class='flex flex-center'>
-                <view class='flex flex-center pdr20' data-id='{{item.id}}' data-idx='{{index}}' catchtap='onDeleteShop'>
-                    <image src='/resource/icon/delete.svg' class='img-sm'></image>
-                </view>
-                <navigator url="/pages/merchants/groupbuyinfo?storeId={{storeId}}&goods_id={{item.id}}" class='flex flex-center pdr20'>
-                    <image src='/resource/icon/edit.svg' class='img-sm'></image>
-                </navigator>
-            </view>
-        </view>
+  <view class='pd20 full-width bgw bottomline' wx:for='{{shopList}}' wx:key='id'>
+    <view class='flex-row pdc20 col-12'>
+      <view class='font-md black bolder txtclamp txtclamp-2'>
+        <view>{{item.goods_name}}</view>
+        <view class='label small yellow-label'>{{item.addtime}}</view>
+      </view>
+      <view class='label warn-label' wx:if='{{item.goods_check==0}}'>未审核</view>
     </view>
-    <import src="/template/version/version.wxml" />
-    <template is="version" data="{{version}}"></template>
+    <view class='full-width flex pdc'>
+      <view wx:for='{{item.goods_banners}}' wx:key='{{index}}' wx:for-item='img' style='padding:2.5rpx;'>
+        <image src='{{img}}' style='width:110rpx;height:100rpx;'></image>
+      </view>
+    </view>
+    <view class='flex-row pdc20'>
+      <view class='flex flex-left'>
+        <view class='label green-label small' wx:if='{{item.is_gift==1}}'>赠品</view>
+        <view class='label orange-label small' wx:if='{{item.group_purchase==1}}'>拼团</view>
+			<view class='label red-label small' wx:if='{{item.ad_id>0}}'>富文</view>
+      </view>
+
+      <view class='flex flex-center'>
+        <navigator url="/pages/merchants/ftxtedit?storeId={{storeId}}&goods_id={{item.id}}&ad_id={{item.ad_id}}" class='flex-col-auto flex-center pdr20'>
+          <image src='/resource/icon/ftxt.png' class='img-sm'></image>
+          <text class='font-x black'>富文</text>
+        </navigator>
+        <view class='flex-col-auto flex-center pdr20' data-id='{{item.id}}' data-idx='{{index}}' catchtap='onDeleteShop'>
+          <image src='/resource/icon/delete.svg' class='img-sm'></image>
+          <text class='font-x black'>删除</text>
+        </view>
+        <navigator url="/pages/merchants/groupbuyinfo?storeId={{storeId}}&goods_id={{item.id}}" class='flex-col-auto flex-center pdr20'>
+          <image src='/resource/icon/edit.svg' class='img-sm'></image>
+          <text class='font-x black'>编辑</text>
+        </navigator>
+      </view>
+    </view>
+  </view>
+  <import src="/template/version/version.wxml" />
+  <template is="version" data="{{version}}"></template>
 </view>
 <view class='fix-b flex flex-center pd20'>
-    <navigator url="/pages/merchants/groupbuyinfo?storeId={{storeId}}&storeName={{storeName}}" class='btn-fix-b font-md'>
-        <image src='/resource/icon/add.svg' class='addbtnimg radius-circle'></image>
-        添加新商品
-    </navigator>
+  <navigator url="/pages/merchants/groupbuyinfo?storeId={{storeId}}&storeName={{storeName}}" class='btn-fix-b font-md'>
+    <image src='/resource/icon/add.svg' class='addbtnimg radius-circle'></image>
+    添加新商品
+  </navigator>
 </view>

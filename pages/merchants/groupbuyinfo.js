@@ -24,7 +24,7 @@ Page({
       goods_click: 1000, //-- 商品热度
       goods_limit: 0, //--限购：0不限
       goods_key: '', //-- 商品键
-      goods_brokerage: 20, //-- 推广佣金
+      goods_brokerage: 0, //-- 推广佣金
       goods_describe: '', //-- 商品详情
       goods_img: [], //-- 商品图片
       goods_banners: [] //-- 商品轮播图
@@ -186,6 +186,12 @@ Page({
   onInputChanged(e) {
     let goods = this.data.goods
     goods[e.currentTarget.id] = e.detail.value
+    if (e.currentTarget.id == "is_gift" && e.detail.value == 1) {
+      goods.group_purchase = 0
+    }
+    if (e.currentTarget.id == "group_purchase" && e.detail.value == 1) {
+      goods.is_gift = 0
+    }
     this.setData({
       goods: goods
     })

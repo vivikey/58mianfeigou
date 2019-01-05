@@ -1,154 +1,188 @@
-var app=getApp()
-var pageObj={
-  data: {
-      sc: 0,
-      sc2:0,
-      user: {},
-      userInfo: {},
-      location: '',
-      shop_list:[],
-      hot_list:[],
-      timer: 0,
-      sortType: 2,
-      showbload:0,
-      index_banner:[]
-  },
-    swiperChange: function (e) {
-        this.setData({
-            sc: e.detail.current
-        })
-    },
-    swiperChange2: function (e) {
-        this.setData({
-            sc2: e.detail.current
-        })
-    },
-  onLoad: function (options) {
-      app.globalData.rec_token = options.rec_token
-
-      if (!app.globalData.user) {
-          app.globalData.showPage = '/pages/groupbuy/index?rec_token=' + options.rec_token
-          app.Launch('/pages/index/index')
-      }
-      this.setData({
-          user: app.globalData.user,
-          userInfo: app.globalData.userInfo,
-          timer: 1,
-          msgC: 0,
-          shop_list: []
-      })
-  },
-  onShow:function(){
-      this.setData({
-          user: app.globalData.user,
-          userInfo: app.globalData.userInfo,
-          timer: 1,
-      })
-      app.getUserLocation((latitude, longitude) => {
-          app.updateUserLocation(latitude, longitude);
-          app.changeLocation({
-              latitude,
-              longitude
-          }, res => {
-              console.log('changeLocation:', res)
-              this.setData({
-                  userInfo: app.globalData.userInfo,
-                  location: res.data.data
-              })
-              if (this.data.shop_list.length <= 0) {
-                  this.loadSortData()
-              }
-          })
-
-      });
-      app.getBanner(res => {
-          if (res.data.data.index_banner) {
-              this.setData({
-                  index_banner: res.data.data.index_banner.map(u => {
-                      u.UpFilePathInfo = app.joinPath(app.globalData.baseUrl, u.UpFilePathInfo)
-                      return u;
-                  })
-              })
-          }
-      })
-  },
-  toDetail:function(e){
-      var id = e.currentTarget.dataset.id || 452
-      wx.navigateTo({
-          url: `detail?id=${id}`,
-      })
-  },
-    //-- 设备排序规则
-    getSort: function (e) {
-        var sortType = e.currentTarget.dataset.id;
-        this.setData({
-            sortType: sortType,
-            shop_list: []
-        })
-        this.loadSortData()
-    },
-    //-- 按照排序规则加载数据
-    loadSortData: function (callback) {
-        let sortType = this.data.sortType
-        let shop_list = this.data.shop_list
-        app.getGroupBuyListByCat({
-            token: app.globalData.userInfo.token,
-            tuanselect:1,
-            longitude: app.globalData.userInfo.longitude,
-            latitude: app.globalData.userInfo.latitude,
-            label: sortType,
-            keyword: '',
-            num: 20,
-            lastId: shop_list.length - 1 >= 0 ? shop_list[shop_list.length - 1].id : 0
-        }, res => {
-            console.log('shop:getPresentListByCat:', res)
-            var stat = 0
-            if (res.data.data.shop_list) {
-                this.setData({
-                    shop_list: shop_list.concat(res.data.data.shop_list.map(u => {
-                        u.label = !u.label?[]:u.label.split(' ')
-                        return u;
-                    }))
-                })
-                stat = 1
-            } else {
-                stat = 2
-            }
-            if (typeof callback === 'function')
-                callback(stat)
-        })
-    },
-    onShareAppMessage: function () {
-        var resObj = {
-            title: app.globalData.shareTB,
-            path: '/pages/groupbuy/index?rec_token=' + app.userInfo().token,
-            imageUrl: app.globalData.shareImg[1],
-            success: res => {
-                console.log('share path:', '/pages/shop/index?rec_token=' + app.userInfo().token)
-            }
-        }
-        return resObj
-    },
-    onReachBottom: function () {
-        console.log('onReachBottom')
-        this.setData({
-            showbload: 1
-        })
-        this.loadSortData(r => {
-            this.setData({
-                showbload: r
-            })
-        })
-    },
-    //--进入到搜索页面
-    inputFocus: function () {
-        wx.navigateTo({
-            url: '/pages/shop/search?fromtuan=1',
-        })
-    },
+var app = getApp()
+import Shop from '../../comm/Shop.js'
+import Index from '../../comm/Index.js'
+var pageObj = {
+	data: {
+		version: '',
+		user: {},
+		userInfo: {},
+		sortTypeList: [{
+			key: '距离',
+			value: 1
+		}, {
+			key: '上架时间',
+			value: 2
+		}, {
+			key: '价格',
+			value: 3
+		}, {
+			key: '销量',
+			value: 4
+		}, {
+			key: '综合',
+			value: 5
+		}],
+		shopListWhere: {
+			goods_type: 2, //-- 
+			sort_type: 5, //-- 排序方式：0：没有排序 1:距离 2：上架时间 3：价格 4：销量 5：综合排序
+			user_location: '', //-- 用户位置坐标
+			sort_way: 1, //排序类型：1：升序0：降序，默认1,
+			page: 1,
+			num: 50
+		},
+		index_banner: [],
+		indicatorDots: true,
+		vertical: true,
+		autoplay: true,
+		circular: true,
+		interval: 3000,
+		duration: 500,
+		previousMargin: 0,
+		nextMargin: 0,
+		location: '',
+		sortType: 2,
+		groupHotList: [],
+		msgC: 0,
+		timer: 0,
+		showbload: 0,
+		sc: 0,
+		sc2: 0,
+	},
+	swiperChange: function (e) {
+		this.setData({
+			sc: e.detail.current
+		})
+	},
+	swiperChange2: function (e) {
+		this.setData({
+			sc2: e.detail.current
+		})
+	},
+	//--进入到搜索页面
+	inputFocus: function () {
+		wx.navigateTo({
+			url: '/pages/shop/search',
+		})
+	},
+	//-- 排序点击事件
+	onShortTypeClick(e) {
+		this.data.shopListWhere.sort_type = e.currentTarget.id
+		this.data.shopListWhere.page_num = 1
+		this.data.shopListWhere.user_id = app.USER_ID()
+		this.setData({
+			shopListWhere: this.data.shopListWhere
+		}, this.loadRecommendData)
+	},
+	//-- 商品点击事件:跳转至详情页
+	onShopClick(e) {
+		let id = e.currentTarget.dataset.id
+		let spec = e.currentTarget.dataset.spec
+		let url = `/pages/shop/details?id=${id}&spec=${spec}`
+		wx.navigateTo({
+			url
+		})
+	},
+	//-- 加载数据
+	loadRecommendData() {
+		//-- 拼团
+		Index.ShopSortList(this.data.shopListWhere).then(r => {
+			console.log('Index.ShopSortList => ', r)
+			if (r.code == 200 && r.data.length>0) {
+				let groupHotList = this.data.groupHotList
+				if (this.data.shopListWhere.page>1){
+					groupHotList = [...groupHotList,...r.data]
+				}else{
+					groupHotList = [...r.data]
+				}
+				this.setData({
+					groupHotList: groupHotList
+				})
+			}else{
+				if (this.data.shopListWhere.page > 1){
+					this.data.shopListWhere.page--
+					app.msg("没有更多了~~")
+				}
+			}
+		})
+	},
+	//-- 页面加载事件
+	onLoad: function (options) {
+		this.data.shopListWhere.user_id = app.USER_ID()
+		app.HIGHER_UP(options.higher_up || 0)
+		this.setData({
+			version: app.VERSION(),
+			user: app.USER(),
+			shop_list: [],
+			shopListWhere: this.data.shopListWhere
+		})
+		//-- 获取轮番图数据  V1.X
+		app.getBanner(res => {
+			if (res.data.data.index_banner) {
+				this.setData({
+					index_banner: res.data.data.index_banner.map(u => {
+						u.UpFilePathInfo = app.joinPath(app.globalData.baseUrl, u.UpFilePathInfo)
+						return u;
+					})
+				})
+			}
+		})
+	},
+	//-- 每次进入页面触发
+	onShow() {
+		//-- 刷新当前位置 V2.X
+		app._localAddress().then(r => {
+			console.log('_localAddress => ', r)
+			if (r.area && r.area.length > 0) {
+				let len = r.area.length - 1
+				let local = app.LOCATION()
+				let long_lat = `${local.longitude},${local.latitude}`
+				this.data.shopListWhere.user_location = long_lat
+				this.setData({
+					location: r.area[len],
+					shopListWhere: this.data.shopListWhere
+				})
+			}
+			this.loadRecommendData()
+		})
+	},
+	//-- 赠品首页
+	toGiftIndex() {
+		wx.navigateTo({
+			url: '/pages/shop/giftIndex',
+		})
+	},
+	//-- 拼团首页
+	toGroupIndex() {
+		wx.navigateTo({
+			url: '/pages/groupbuy/index',
+		})
+	},
+	//-- 推广首页
+	toTaskIndex() {
+		wx.navigateTo({
+			url: '/pages/shop/taskindex',
+		})
+	},
+	//--2.X 转向我的账户
+	toMyBalance() {
+		wx.navigateTo({
+			url: '/pages/usercenter/balance',
+		})
+	},
+	//-- 返回首页
+	toHomeIndex() {
+		wx.switchTab({
+			url: '/pages/shop/index',
+		})
+	},
+	onReachBottom(){
+		console.log('============= 上拉事件发生了 =============')
+		this.data.shopListWhere.page++
+		this.loadRecommendData()
+	}
 }
 import pageex from "../../utils/pageEx.js"
-import mainnav from "../../template/mainnavbox/mainnavbox.js"
+
 pageex(pageObj)
-mainnav(pageObj)
+
 Page(pageObj)

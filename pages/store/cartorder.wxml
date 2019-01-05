@@ -71,15 +71,19 @@
     <view class='bottomline pdc30 bgw pdr20'>
       <view class='flex-row'>
         <view class='black linfo bolder'>商品数量</view>
-        <view class='redcolor flex flex-right font-sm bolder'>{{storeCart.total_num}}</view>
+        <view class='prise-show'>{{storeCart.total_num}}</view>
       </view>
       <view class='flex-row'>
         <view class='black linfo bolder'>商品金额</view>
-        <view class='redcolor flex flex-right font-sm bolder'>￥{{storeCart.total_price}}</view>
+        <view class='prise-show'>{{storeCart.goods_price}}</view>
       </view>
       <view class='flex-row'>
         <view class='black linfo bolder'>运费</view>
-        <view class='skr flex flex-right font-sm'>+￥{{storeCart.transport_cost}}</view>
+        <view class='prise-show'>+{{storeCart.transport_cost}}</view>
+      </view>
+			<view class='flex-row'>
+        <view class='black linfo bolder'>会员优惠</view>
+        <view class='prise-show'>-{{storeCart.discount_money}}</view>
       </view>
     </view>
   </view>

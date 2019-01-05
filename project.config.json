@@ -14,7 +14,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "2.4.3",
 	"appid": "wxa4a70e32758fc534",
-	"projectname": "58%E5%85%8D%E8%B4%B9%E8%B4%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F2.1.9",
+	"projectname": "58%E5%85%8D%E8%B4%B9%E8%B4%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F2.4.2",
 	"isGameTourist": false,
 	"condition": {
 		"search": {
@@ -39,7 +39,7 @@
 				{
 					"id": 0,
 					"name": "单页调试",
-					"pathName": "pages/orders/pay",
+					"pathName": "pages/merchants/ftxtedit",
 					"query": ""
 				}
 			]

@@ -1,11 +1,16 @@
 <view class='container ' style='width:{{sysinfo.windowWidth}}px;height:{{sysinfo.windowHeight}}px'>
-    <view class='full-width pdc30 wtcolor flex flex-center'>保存海报图片到手机相册</view>
+    <view class='full-width pdc30 wtcolor flex flex-center'>海报预览</view>
     <view class='full-width flex flex-center'>
         <canvas canvas-id='share_canvas' style='width:{{canvasWidth}}px;height:{{canvasHeight}}px;' class='bgw bdfull'></canvas>
     </view>
     <view class='full-width flex flex-center pd30'>
         <view class="pd30">
-            <view class='font-md pd20 bgdanger wtcolor flex flex-center savebtn' style='width:{{canvasWidth}}px;' bindtap='saveShareImage'>保存到相册</view>
+            <view class='font-md bggreen wtcolor flex flex-center savebtn' style='width:{{canvasWidth}}px;' bindtap='saveShareImage'>
+						<view class='pd'>
+						<image src='/resource/icon/saveimg.png' class='img-md'></image>
+						</view>
+						<view class='pd'>保存到手机相册</view>
+						</view>
         </view>
     </view>
 </view>

@@ -31,7 +31,7 @@
   <view class='flex-row bottomline topline arrow pd20' bindtap='openMap'>
     <view class='flex flex-center'>
       <image src='/resource/icon/position.png' class='img-xs'></image>
-      <text class='pdr txtpt black'>{{store.add_info.address}}</text>
+      <text class='pdr txtpt black'>{{store.store_addr}}</text>
     </view>
   </view>
   <!-- Notice -->
@@ -57,8 +57,9 @@
     <template is="nothing" data='{{datalist:giftList,Msg:"该商铺未发布免费赠品"}}'></template>
     <!-- giftList -->
     <view wx:for='{{giftList}}' wx:key='id' class='full-width pd flex-row'>
-      <view class='store_shop_specimg' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail'>
+      <view class='store_shop_specimg rel' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail'>
         <image src='{{item.spec.spec_img}}'></image>
+				<view class='goods_brokerage'  wx:if='{{item.goods_brokerage>0}}'>佣金￥{{item.goods_brokerage}}</view>
       </view>
       <view class='store_shop_info bottomline pdc'>
         <view>
@@ -86,8 +87,9 @@
     <import src="/template/nothing/item.wxml" />
     <template is="nothing" data='{{datalist:tuanList,Msg:"该商铺未发布拼团活动"}}'></template>
     <view wx:for='{{tuanList}}' wx:key='id' class='full-width pd flex-row'>
-      <view class='store_shop_specimg' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail'>
+      <view class='store_shop_specimg rel' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail'>
         <image src='{{item.spec.spec_img}}'></image>
+				<view class='goods_brokerage' wx:if='{{item.goods_brokerage>0}}'>佣金￥{{item.goods_brokerage}}</view>
       </view>
       <view class='store_shop_info bottomline pdc'>
         <view>
@@ -106,8 +108,9 @@
           <view class='cgray txtmidline'>￥{{item.spec.spec_price}}</view>
         </view>
         <view class='flex-row'>
-          <view>
-            <text wx:if='{{item.group_purchase == 1}}' class='label small red-label'>{{item.group_num}}人团</text>
+          <view wx:if='{{item.group_purchase == 1}}'>
+              <text class='label small red-label'>{{item.group_num}}人团</text>
+							<text class='label small'>{{item.sale_num}}已团</text>
           </view>
           <view class='flex flex-center bdlinearskr wtcolor pdc pdr20 radius-m' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail'>
             <text>我要参团</text>
@@ -121,8 +124,9 @@
     <import src="/template/nothing/item.wxml" />
     <template is="nothing" data='{{datalist:shopList,Msg:"该商铺未发布商品信息"}}'></template>
     <view wx:for='{{shopList}}' wx:key='id' class='full-width pd flex-row'>
-      <view class='store_shop_specimg' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail'>
+      <view class='store_shop_specimg rel' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail'>
         <image src='{{item.spec.spec_img}}'></image>
+				<view class='goods_brokerage' wx:if='{{item.goods_brokerage>0}}'>佣金￥{{item.goods_brokerage}}</view>
       </view>
       <view class='store_shop_info bottomline pdc'>
         <view>
@@ -219,12 +223,12 @@
         <image src='{{storeCart.total_num>0?"/resource/icon/cart3.png":"/resource/icon/cart.png"}}' class='img-sm'></image>
       </view>
       <view class='font-md cgray pdr20'></view>
-      <view class='pdr30'>
+      <view class='pdr20'>
         <view class='font-sm wtcolor ' wx:if='{{storeCart.total_num>0}}'>￥{{storeCart.total_price}}</view>
         <view class='font-sm lightgray ' wx:if='{{storeCart.total_num<=0}}'>未选购商品</view>
         <view class='font-xs wtcolor ' wx:if='{{storeCart.total_num>0}}'>
-				<text>运费：+￥{{storeCart.transport_cost}}</text>，
-				<text>抵扣：-￥{{storeCart.discount_money}}</text>
+				<text>运费：+{{storeCart.transport_cost}}</text>，
+				<text>抵扣：-{{storeCart.discount_money}}</text>
 				</view>
         <view class='font-xs lightgray ' wx:if='{{storeCart.total_num<=0}}'></view>
       </view>
