@@ -19,6 +19,26 @@ Page({
     showColorList: false,
     ftxtData: []
   },
+	/**删除富文事件 */
+	onDelete(){
+		app.CONFIME("商品富文编辑不易，确定要删除吗？",()=>{
+			Store.DelFTxt({
+				user_id:app.USER_ID(),
+				ad_id: this.data.ad_id
+			}).then(r=>{
+				console.log('FrontEndFTxt.Delete => ',r)
+				if(r.code==200){
+					app.SUCCESS(r.message,()=>{
+						wx.navigateBack({
+							delta:1
+						})
+					})
+				}else{
+					app.ERROR(r.message)
+				}
+			})
+		})
+	},
   /**插入图片事件 */
   onInsertImage() {
     wx.chooseImage({

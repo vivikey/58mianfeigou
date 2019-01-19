@@ -17,30 +17,8 @@
     top: 6rpx;
     font-size: 14px;
 }
-.choseimg{
-    background: #fff;
-    color:#999;
-    font-size:36px;
-    height: 300rpx;
-    border-radius: 10rpx;
-    margin: 5rpx 0;
-    padding: 15rpx 10rpx;
-    position: relative;
-    overflow: hidden;
-}
-.removeimg{
-    position: absolute;
-    font-size:18px;
-    top:10rpx;
-    right:10rpx;
-    width:48rpx;
-    height:48rpx;
-    background: red;
-    color:#fff;
-    padding: 5rpx;
-    border-radius: 10rpx;
-}
-.choseimg image,.choseimg view,.choseimg video{
+
+.choseimg video{
     width:100%;
     height: 270rpx;
     border-radius: 10rpx;
@@ -48,9 +26,6 @@
     justify-content: center;
     align-items: center;
     border: 1rpx dashed #666;
-}
-.choseimg video{
-    width:270rpx;
 }
 button{
     width:160rpx;
@@ -73,10 +48,25 @@ button{
 
 .info-item-row text {
     display: inline-block;
-    text-align: left;
-    height: 80rpx;
-    line-height: 80rpx;
-    padding-left: 16rpx;
+    text-align: left;  
+    padding:6rpx 20rpx;
+		color:#707070;
+}
+.info-item-row text.black{
+	color:black;
+	font-weight: 600;
+}
+.info-item-row text.warn{
+	color:#d81e06;
+	font-weight: 600;
+	font-size:12px;
+}
+.info-item-row text.kk{
+	color:#777;
+}
+.info-item-row text.white{
+	color:#fff;
+	font-weight: 600;
 }
 .info-item-row text.line-title{
     background: linear-gradient(to right,#F8F8D9,#fff);
@@ -95,10 +85,6 @@ button{
 }
 .picker{
     color:#707070;
-}
-
-.info-item-row text.mustbe {
-    font-weight: bolder;
 }
 
 .info-item-row text.mustbe::after {
@@ -120,10 +106,10 @@ button{
     height: 80rpx;
     line-height: 80rpx;
     background: #fff;
-    border-top:1rpx solid #e8e8e8;
-    border-bottom:1rpx solid #e8e8e8;
-    color:#337ab7;
+    border-bottom:1rpx solid #eaeaea;
+    color:black;
     box-sizing: border-box;
+		font-weight: bolder;
     }
 
 .info-item-row textarea {
@@ -134,7 +120,7 @@ button{
 .info-item-row .btn {
     background: #00b642;
     color:#fff;
-    box-shadow: 0 3px 1px -2px #66cc99,0 2px 2px 0  #66cc99,0 1px 5px 0  #66cc99;
+    box-shadow: 0 3px 1px -2px #777,0 2px 2px 0  #777,0 1px 5px 0  #777;
     width:66.7%;
     font-size:16px;
     border-radius: 70rpx;
@@ -143,6 +129,10 @@ button{
     align-items: center;
     padding: 10rpx 0;
     margin: 10rpx 0;
+}
+.info-item-row .btn.full{
+	width:100%;
+	
 }
 .info-item-row .btn.small{
     width:50%;
@@ -156,8 +146,8 @@ button{
 }
 .info-item-row .btn.light{
     background: #F8F8D9;
-    color:#50d1fe;
-    box-shadow: 0 3px 1px -2px #50d1fe,0 2px 2px 0  #50d1fe,0 1px 5px 0  #50d1fe;
+    color:#00b642;
+    box-shadow: 0 3px 1px -2px #777,0 2px 2px 0  #777,0 1px 5px 0  #777;
 }
 .info-item-row .imgchose {
     background: #fff;
@@ -227,27 +217,40 @@ button{
     position: relative;
     overflow: hidden;
 }
-.removeimg{
-    position: absolute;
-    font-size:18px;
-    top:10rpx;
-    right:10rpx;
-    width:48rpx;
-    height:48rpx;
-    background: red;
-    color:#fff;
-    padding: 5rpx;
-    border-radius: 10rpx;
+.choseimg.wait{
+	  background: #f9f9f9;
+		border-color:#f9f9f9;
+    height: 300rpx;
+    border-radius: 0rpx;
+    margin: 5rpx 0;
+    padding: 15rpx 10rpx;
+    position: relative;
+    overflow: hidden;
 }
-.choseimg image,.choseimg view{
+.choseimg > image,.choseimg view{
     width:100%;
     height: 270rpx;
     border-radius: 10rpx;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1rpx dashed #666;
+    box-shadow: 0 3px 1px -2px #777,0 2px 2px 0  #777,0 1px 5px 0  #777;
 }
+
+.choseimg view.removeimg{
+    position: absolute;
+    top:10rpx;
+    right:10rpx;
+    width:48rpx;
+    height:48rpx;
+		border: none;
+		box-shadow: none;
+}
+.choseimg view.removeimg image{
+    box-shadow: 0 3px 1px -2px #ccc,0 2px 2px 0  #ccc,0 1px 5px 0  #ccc;	
+		border-radius: 48rpx;
+}
+
 .label-item{
     padding: 10rpx 20rpx ;
     border:1rpx solid #ddd;
@@ -258,7 +261,7 @@ button{
 }
 .label-item.chosed{
     background: #fff;
-    border-color:#50d1fe;
-    color:#50d1fe;
+    border-color:#f62004;
+    color:#d81e06;
     font-weight: bolder;
 }

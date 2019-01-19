@@ -1,0 +1,106 @@
+<view class='container gray mybase pdc20'>
+  <view class='full-width bglightred pdc30'>
+    <view class='full-width flex flex-center'>
+      <image src='/resource/icon/m-nav-5.png' class='img-md'></image>
+    </view>
+    <view class='full-width flex flex-center'>
+      <text class='font-lg pdc bolder or'>自强联盟会员 享受以下特权</text>
+    </view>
+  </view>
+  <view class='full-width bgw flex flex-wrap'>
+    <view wx:for='{{memberpwe}}' wx:key='id' class='pwe-item-box'>
+      <view class=''>
+        <image src='/resource/icon/vip-p.png' class='img-md'></image>
+      </view>
+      <text class='pwe-content'>{{item.content}}</text>
+    </view>
+  </view>
+
+  <view class='full-width bgbreath pdc30'>
+    <view class='full-width flex flex-center'>
+      <image src='/resource/icon/m-nav-5.png' class='img-md'></image>
+    </view>
+    <view class='full-width flex flex-center'>
+      <text class='font-lg pdc bolder or'>各级会员资格与权益</text>
+    </view>
+  </view>
+
+  <view class='bgb-opacity pd flex flex-center full-width' wx:for='{{memberMetric}}' wx:key=''>
+    <view class='btn-fix-b full-width heighter' data-index='{{index}}' bindtap='onToPayHandle' wx:if='{{userinfo.member.member_grade < item.member_grade}}'>
+      <text class='font-md bolder'>（续费）{{ty}}{{item.member_name}}</text>
+      <text class='font-x'>￥</text>
+      <text class='font-lg bolder'>{{item.pay_money}}</text>
+      <text class='txtmidline font-xs black'>￥{{item.grade_pay}}</text>
+      <text class='font-xs'>/年</text>
+    </view>
+    <view class='btn-fix-b orb full-width heighter' wx:if='{{userinfo.member.member_grade == item.member_grade}}'>
+      <text class='font-md bolder'>您已经是{{item.member_name}}</text>
+    </view>
+  </view>
+</view>
+
+<!-- 弹出 -->
+<view class='qqw flex-col flex-center bgb-opacity {{!inputWndShow?"hide":""}}' bindtap=''>
+  <view class='full-width pd30'>
+    <view class='radius-s shadow full-width' catchtap='onAreaClick'>
+      <view class='bglightgray cgray flex-row pd20'>
+        <view>开通{{obj.member_name}}</view>
+        <view class='img-sm' catchtap='hideInputWnd'>
+          <image src='/resource/icon/close.svg' class='img-sm'></image>
+        </view>
+      </view>
+      <view class='input-panel'>
+        <view class='input-line' wx:if='{{!userinfo.member.user_name}}'>
+          <text class='input-label'>真实姓名<text></text></text>
+          <input type='text' placeholder='请输入真实姓名' class='input-box' bindinput='onUserNameChange' value='{{memberObj.user_name}}'></input>
+        </view>
+        <view class='input-line' wx:else>
+          <text class='input-label'>真实姓名<text></text></text>
+          <input type='text' placeholder='请输入真实姓名' disabled='{{true}}' class='input-box cgray' value='{{userinfo.member.user_name}}'></input>
+        </view>
+      </view>
+      <view class='input-panel'>
+        <view class='input-line' wx:if='{{!userinfo.higher}}'>
+          <text class='input-label'>推 荐 码</text>
+          <input type='text' placeholder='请输入推荐人会员编码或扫码' class='input-box idt' bindinput='onCodeChange' value='{{memberObj.higher_member_code}}'>
+          </input>
+          <view class='pd flex flex-center' bindtap='onScanCode'>
+            <image src='/resource/icon/scanqr.svg' class='img-sm'></image>
+          </view>
+        </view>
+        <view class='input-line' wx:else>
+          <text class='input-label'>推 荐 码</text>
+          <input type='text' placeholder='无推荐会员' disabled='{{true}}' class='input-box' bindinput='endinput' value='{{userinfo.higher.member_code}}'>
+          </input>
+        </view>
+      </view>
+
+      <view class='input-panel'>
+        <view class='input-line' wx:if='{{!userinfo.member.member_district}}'>
+          <text class='input-label'>选择区域</text>
+          <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}" class='input-box'>
+            {{region[0]}}，{{region[1]}}，{{region[2]}}
+          </picker>
+        </view>
+        <view class='input-line' wx:else>
+          <text class='input-label'>选择区域</text>
+          <input mode="text" disabled='{{true}}' value="{{region[0]}}，{{region[1]}}，{{region[2]}}" class='input-box cgray'>
+          </input>
+        </view>
+      </view>
+
+      <view class='pd20 bgw flex-col'>
+        <text class='label blder small white-label'>真实姓名将做为实名验证信息，与实名身份不符时，实名验证失败</text>
+        <text class='label blder small white-label'>区域信息为会员体系所使用，与实名验证无关，一旦确定不能更改</text>
+      </view>
+      <view class='full-width flex flex-center pd20'>
+        <view class='btn-fix-b green font-md pd20' style='height:80rpx;' bindtap='payChosed'>
+          <image src='/resource/icon/wxpay.png' class='addbtnimg'></image>
+          支付{{obj.pay_money}}马上开通</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<import src="/template/version/version.wxml" />
+<template is="version" data="{{version}}"></template>

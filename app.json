@@ -5,9 +5,8 @@
 		"pages/merchants/index",
 		"pages/merchants/info",
 		"pages/merchants/giftinfo",
-		"pages/merchants/giftlist",
+		"pages/merchants/commlist",
 		"pages/shop/index",
-		"pages/game/index",
 		"pages/index/bindphone",
 		"pages/index/auth",
 		"pages/credits/index",
@@ -34,10 +33,7 @@
 		"pages/my/recharge",
 		"pages/my/payhistory",
 		"pages/my/mydaibi",
-		"pages/proxy/index",
 		"pages/shop/customer",
-		"pages/proxy/apply",
-		"pages/proxy/info",
 		"pages/usercenter/userdesc",
 		"pages/groupbuy/index",
 		"pages/groupbuy/detail",
@@ -75,17 +71,29 @@
 		"pages/merchants/noticemgr",
 		"pages/merchants/noticeinfo",
 		"pages/store/cartorder",
+		"pages/store/recomtoorder",
 		"pages/orders/pay",
 		"pages/orders/index",
 		"pages/merchants/ordermgr",
 		"pages/shop/giftIndex",
+		"pages/shop/jifengIndex",
 		"pages/shop/taskindex",
 		"pages/merchants/ftxtedit",
-		"pages/ftxt/index"
+		"pages/ftxt/index",
+		"pages/ftxt/detail",
+		"pages/store/notice",
+		"pages/orders/expressdetail",
+		"pages/merchants/memberinfo",
+		"pages/usercenter/bemember"
 	],
+	"permission": {
+		"scope.userLocation": {
+			"desc": "您的位置信息将用于展示您的当前位置"
+		}
+	},
 	"window": {
 		"navigationBarBackgroundColor": "#d81e06",
-		"navigationBarTitleText": "58免费购",
+		"navigationBarTitleText": "热网小程序",
 		"navigationBarTextStyle": "white",
 		"backgroundColor": "#f2f2f2",
 		"backgroundTextStyle": "light",

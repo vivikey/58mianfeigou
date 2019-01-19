@@ -6,6 +6,7 @@ Page({
   data: {
     version: '',
     orderList: [],
+		store_money:0,
     storeName: '',
     storeId: 0,
 		expressList:[],
@@ -37,10 +38,11 @@ Page({
   },
 	//-- 查看物流
 	showExpress(e) {
-		Order.Express({ user_id: app.USER_ID(), order_id: e.currentTarget.dataset.order })
-			.then(r => {
-				console.log('Order.Express => ', r)
-			})
+		let user_id = e.currentTarget.dataset.user
+		let order_id = e.currentTarget.dataset.order
+		wx.navigateTo({
+			url: `expressdetail?user_id=${user_id}&order_id=${order_id}`,
+		})
 	},
 	onInputChange(e){
 		let inputdata = this.data.inputdata
@@ -117,7 +119,7 @@ Page({
         console.log('Order.OrderList => ', r)
         if (r.code == 200) {
           this.setData({
-            orderList: r.data.map(u=>{
+						orderList: r.data.order_list.map(u=>{
 							u.order_status_txt = app.getOrderStatusTxt(u.order_status)
 							u.addtime = TimeConverter.ToLocal(u.addtime);
 							u.orderfrm = app.getOrderFrm(u.order_status)
@@ -125,7 +127,8 @@ Page({
 								u.paytime = TimeConverter.ToLocal(u.paytime);
 							}
 							return u;
-						})
+						}),
+						store_money: r.data.store_money || 0
           })
         }
       })

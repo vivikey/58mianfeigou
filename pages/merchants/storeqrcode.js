@@ -15,7 +15,7 @@ Page({
         this.drawQrCode()
     },
     drawQrCode: function () {
-        var text = `https://m.58daiyan.com/wechat/qr/store/?id=${this.data.store_id}`
+			var text = `https://xcx.58daiyan.com/store/?id=${this.data.store_id}`
         drawQrcode({
             width: 250,
             height: 250,

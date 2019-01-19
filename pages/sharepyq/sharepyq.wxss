@@ -4,8 +4,15 @@
     left:0;
     background: linear-gradient(to bottom,#d81e06,#ffffff);
 }
+.img-show-box{
+	transform: scale(.76,.76);
+	box-shadow: 3px 4px 46px -6px rgba(0,0,0,.51);
+}
 canvas{
     box-shadow: 3rpx 3rpx 5rpx #ccc;
+		position: absolute;
+		top:0;
+		left: 1999px;
 }
 .savebtn{
     border-radius: 60rpx;

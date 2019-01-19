@@ -1,0 +1,53 @@
+<view class='container gray font-xs black'>
+  <view class='full-width bgw pd20'>
+    <view class='flex-row'>
+      <view class='pd'>
+        <text class='cgray'>订单编号：</text>
+        <text class='bolder black'>{{order.order_sn}}</text>
+      </view>
+    </view>
+    <!-- 商品列表 -->
+    <view class='info font-xs'>
+      <view wx:for='{{order.goods}}' wx:key='id' wx:for-item='gds' class='full-width bottomline'>
+        <!-- 商品简简信息 -->
+        <view class='full-width flex-row'>
+          <view class='flex flex-left' style='width:700rpx;' data-id='{{gds.goods_id}}' data-spec='{{gds.spec_id}}'>
+            <view class='pd'>
+              <image src='{{gds.spec_img}}' class='item-image'></image>
+            </view>
+            <view class='full-width'>
+              <view class='black font-sm'>{{gds.goods_name}}</view>
+              <view class='pkcolor pdc'>
+                <text class='label small'>{{gds.spec_size}}</text>
+                <text class='label small'>{{gds.spec_color}}</text>
+                <text class='pkcolor bolder pdr30'>{{gds.spec_num}}件</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='full-width bgw pdr20 rel'>
+    <view class='pd'>
+      <text class='cgray'>物流单号：</text>
+      <text class='black bolder'>{{expressList.LogisticCode}}</text>
+    </view>
+    <view class='pd'>
+      <text class='cgray'>承运公司：</text>
+      <text class='black bolder'>{{expressList.ShipperCode}}</text>
+    </view>
+  </view>
+  <view class='sq'></view>
+  <view class='full-width bgw pd20'>
+    <view wx:for='{{expressList.Traces}}' wx:key='' class='express-item'>
+      <view class='flex-col content pdr'>
+        <text class='bolder'>{{item.Remark}}</text>
+        <text class='font-xs lh-xs pdc'>{{item.AcceptStation}}</text>
+        <text class='font-x lightgray'>{{item.AcceptTime}}</text>
+      </view>
+    </view>
+  </view>
+</view>
+  <import src="/template/version/version.wxml" />
+  <template is="version" data="{{version}}"></template>

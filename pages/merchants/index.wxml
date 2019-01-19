@@ -1,124 +1,114 @@
 <view class='container gray' style='padding:90rpx 0;'>
-    <view class='full-width fix-t bglinearyellow shadow flex-row pd20'>
-        <view class='font-sm black bolder'>我的商铺</view>
-    </view>
-    <view class='sq'></view>
-    <!-- StoreList is Empty -->
-    <import src="/template/nothing/item.wxml" />
-    <template is="nothing" data='{{datalist:storeList,Msg:"请注册商铺"}}'></template>
-    <!-- StoreList -->
-    <view class='merchants-item flex-col bgw bottomline shadow' wx:for='{{storeList}}' wx:key='store_id' wx:for-index="idx" wx:for-item="s">
-        <view class='flex-row pdc pdr20'>
-            <view class='flex' style='width:650rpx;'>
-                <view class='radius-l rel'>
-                    <image src='{{s.store_logo}}' class='img-lgp radius-l' mode='aspectFill'></image>
-                    <view class='jiaose flex flex-center {{s.uid===user.id?"bgprimary":"bggreen"}}'>管理者</view>
-                </view>
-                <view class='pdr20'>
-                    <view class='font-md bolder black pdc flex-row'>
-                        {{s.store_name}}
-                    </view>
-                    <view class='font-xs cgray pdc'>{{s.store_addr}}</view>
-                </view>
-            </view>
+  <view class='full-width fix-t bglinearyellow shadow flex-row pd20'>
+    <view class='font-sm black bolder'>我的商铺</view>
+  </view>
+  <view class='sq'></view>
+  <!-- StoreList -->
+  <view class='merchants-item flex-col bgw bottomline shadow' wx:for='{{storeList}}' wx:key='store_id' wx:for-index="idx" wx:for-item="s">
+    <view class='flex-row pdc pdr20'>
+      <view class='flex' style='width:650rpx;'>
+        <view class='radius-l rel'>
+          <image src='{{s.store_logo}}' class='img-lgp radius-l' mode='aspectFill'></image>
+          <view class='jiaose flex flex-center bdlinearskr wtcolor' wx:if='{s.userType==1}}'>创建人</view>
+          <view class='jiaose flex flex-center bglinearyellow black' wx:else>管理员</view>
         </view>
-        <view class='full-width flex flex-wrap font-xs topline'>
-            <navigator class='img-nav' url='storeqrcode?id={{s.id}}&title={{s.store_name}}&image={{s.store_logo}}&address={{s.store_addr}}'>
-                <view class='flex flex-center'>
-                    <image src='/resource/icon/qr.png' class='img-md'></image>
-                </view>
-                <view class='caption pdc'>二维码</view>
-            </navigator>
-            <navigator class='img-nav' url="/pages/merchants/groupbuymgr?storeId={{s.id}}&storeName={{s.store_name}}">
-                <view class='flex flex-center'>
-                    <image src='/resource/icon/productmg.png' class='img-md'></image>
-                </view>
-                <view class='caption pdc'>商品管理</view>
-            </navigator>
-            <!-- <navigator class='img-nav' url="/pages/merchants/posterlist?storeId={{s.id}}&storeName={{s.store_name}}">
-                <view class='flex flex-center'>
-                    <image src='/resource/icon/haibao.png' class='img-md'></image>
-                </view>
-                <view class='caption pdc'>活动海报</view>
-            </navigator> -->
-            <navigator class='img-nav' url="/pages/merchants/noticemgr?storeId={{s.id}}&storeName={{s.store_name}}">
-                <view class='flex flex-center'>
-                    <image src='/resource/icon/notice.svg' class='img-md'></image>
-                </view>
-                <view class='caption pdc'>公告管理</view>
-            </navigator>
-            <navigator class='img-nav' url="/pages/merchants/ordermgr?storeId={{s.id}}&storeName={{s.store_name}}">
-                <view class='flex flex-center'>
-                    <image src='/resource/icon/wait-od.png' class='img-md'></image>
-                </view>
-                <view class='caption pdc'>订单管理</view>
-            </navigator>
-            <navigator class='img-nav' url="/pages/merchants/noticemgr?storeId={{s.id}}&storeName={{s.store_name}}">
-                <view class='flex flex-center'>
-                    <image src='/resource/icon/comm.png' class='img-md'></image>
-                </view>
-                <view class='caption pdc'>评价管理</view>
-            </navigator>
-            <navigator class='img-nav' url="/pages/merchants/managermgr?id={{s.id}}&title={{s.store_name}}">
-                <view class='flex flex-center'>
-                    <image src='/resource/icon/rights.svg' class='img-md'></image>
-                </view>
-                <view class='caption pdc or'>权限管理</view>
-            </navigator>
-            <navigator class='img-nav' url="/pages/merchants/scanconsume?id={{s.id}}&title={{s.store_name}}">
-                <view class='flex flex-center'>
-                    <image src='/resource/icon/scanqr.svg' class='img-md'></image>
-                </view>
-                <view class='caption pdc cgreen'>扫码兑现</view>
-            </navigator>
+        <view class='pdr20'>
+          <view class='font-md bolder black pdc flex-row'>
+            {{s.store_name}}
+          </view>
+          <view class='font-xs cgray pdc'>{{s.store_addr}}</view>
         </view>
-        <view class='flex-row pd30'>
-            <view>
-                <view class='label warn-label' wx:if='{{s.store_check==0}}'>未审核</view>
-            </view>
-            <view class='flex'>
-                <view class='flex flex-center pdr20' bindtap='delStore' id='{{s.id}}'>
-                    <image src='/resource/icon/delete.svg' class='img-sm'></image>
-                </view>
-                <view class='flex flex-center pdr20' bindtap='editStore' id='{{s.id}}'>
-                    <image src='/resource/icon/edit.svg' class='img-sm'></image>
-                </view>
-                <view class='flex flex-center pdr20' bindtap='toStoreHome' id='{{s.id}}'>
-                    <image src='/resource/icon/home.svg' class='img-sm'></image>
-                </view>
-            </view>
+      </view>
+    </view>
+    <view class='full-width flex flex-wrap font-xs topline'>
+      <navigator class='img-nav' url='storeqrcode?id={{s.id}}&title={{s.store_name}}&image={{s.store_logo}}&address={{s.store_addr}}'>
+        <view class='flex flex-center'>
+          <image src='/resource/admin/QR-Code.png' class='img-md'></image>
         </view>
+        <view class='caption pdc'>二维码</view>
+      </navigator>
+      <navigator class='img-nav' url="/pages/merchants/groupbuymgr?storeId={{s.id}}&storeName={{s.store_name}}">
+        <view class='flex flex-center'>
+          <image src='/resource/admin/Big-Shopping.png' class='img-md'></image>
+        </view>
+        <view class='caption pdc'>商品管理</view>
+      </navigator>
+
+      <navigator class='img-nav' url="/pages/merchants/noticemgr?storeId={{s.id}}&storeName={{s.store_name}}">
+        <view class='flex flex-center'>
+          <image src='/resource/admin/notices.png' class='img-md'></image>
+        </view>
+        <view class='caption pdc'>公告管理</view>
+      </navigator>
+      <navigator class='img-nav' url="/pages/merchants/ordermgr?storeId={{s.id}}&storeName={{s.store_name}}">
+        <view class='flex flex-center'>
+          <image src='/resource/admin/Shopping-list.png' class='img-md'></image>
+        </view>
+        <view class='caption pdc'>订单管理</view>
+      </navigator>
+      <navigator class='img-nav' url="/pages/merchants/membermgr?storeId={{s.id}}&storeName={{s.store_name}}">
+        <view class='flex flex-center'>
+          <image src='/resource/admin/members.png' class='img-md'></image>
+        </view>
+        <view class='caption pdc'>会员系统</view>
+      </navigator>
+      <!-- <navigator class='img-nav vas' url="recommend?storeId={{s.id}}&storeName={{s.store_name}}"> -->
+      <view class='img-nav vas' bindtap='onNoVAS'>
+        <view class='flex flex-center'>
+          <image src='/resource/admin/Dollar-Bag.png' class='img-md'></image>
+        </view>
+        <view class='caption pdc'>推荐有奖</view>
+      </view>
+      <!-- </navigator> -->
+      <navigator class='img-nav' url="/pages/merchants/managermgr?storeId={{s.id}}&storeName={{s.store_name}}">
+        <view class='flex flex-center'>
+          <image src='/resource/icon/rights.svg' class='img-md'></image>
+        </view>
+        <view class='caption pdc or'>管理员管理</view>
+      </navigator>
+      <navigator class='img-nav' url="/pages/merchants/scanconsume?id={{s.id}}&title={{s.store_name}}">
+        <view class='flex flex-center'>
+          <image src='/resource/icon/scanqr.svg' class='img-md'></image>
+        </view>
+        <view class='caption pdc cgreen'>扫码兑现</view>
+      </navigator>
     </view>
-    <view class='sq'></view>
-    <view class='pd20 black bolder font-lg'>商家说明</view>
-    <view class='skr font-sm pd pdr20'>试用版申请商铺需要缴纳“商铺管理费”9.9元。</view>
-    <view class='bgw flex-col black pdr30 font-sm'>
-        <navigator class='flex full-width pdc30 bottomline arrow' url='/pages/proxy/info?tp=8'>
-            <view class='flex flex-center'>
-                <text class='pd'>“58免费购”的价值</text>
-            </view>
-        </navigator>
+    <view class='flex-row pd30'>
+      <view class='flex flex-center'>
+        <view class='label small violet-label' wx:if='{{s.on_line==1}}'>线上店铺</view>
+        <view class='label small red-label' wx:if='{{s.on_line==0}}'>线下店铺</view>
+        <view class='label small warn-label' wx:if='{{s.store_check==0}}'>未审核</view>
+        <view class='label small' wx:if='{{s.store_check==1}}'>{{s.addtime}}</view>
+      </view>
+      <view class='flex'>
+        <view class='flex flex-center pdr20' bindtap='delStore' id='{{s.id}}'>
+          <image src='/resource/icon/delete.svg' class='img-sm'></image>
+        </view>
+        <view class='flex flex-center pdr20' bindtap='editStore' id='{{s.id}}'>
+          <image src='/resource/icon/edit.svg' class='img-sm'></image>
+        </view>
+        <view class='flex flex-center pdr20' bindtap='toStoreHome' id='{{s.id}}'>
+          <image src='/resource/icon/home.svg' class='img-sm'></image>
+        </view>
+      </view>
     </view>
-    <view class='bgw flex-col black pdr30 font-sm'>
-        <navigator class='flex full-width pdc30 bottomline arrow' url='/pages/proxy/info?tp=9'>
-            <view class='flex flex-center'>
-                <text class='pd'>商铺的申请与设置(试用版不收保证金)</text>
-            </view>
-        </navigator>
+  </view>
+  <view class='full-width pd20'>
+    <view class='full-width flex flex-center black bolder font-md pdc20'>商铺入驻协议</view>
+    <text class='full-width lh-xs cgray font-xs'>{{know}}</text>
+    <view class='pd20 flex flex-center' bindtap='onCheckClick'>
+      <image src='/resource/icon/checkbox.png' wx:if='{{!knowok}}' class='img-xs'></image>
+      <image src='/resource/icon/checkbox2.png' wx:if='{{knowok}}' class='img-xs'></image>
+      <text class='pdr bolder'>我已仔细阅读并同意入驻协议</text>
     </view>
-    <!-- <view class='bgw flex-col black pdr30 font-sm'>
-        <navigator class='flex full-width pdc30 bottomline arrow' url='/pages/proxy/info?tp=10'>
-            <view class='flex flex-center'>
-                <text class='pd'>商铺业务费用</text>
-            </view>
-        </navigator>
-    </view> -->
-    <import src="/template/version/version.wxml" />
-    <template is="version" data="{{version}}"></template>
-</view>
-<view class='fix-b flex flex-center pd20' wx:if='{{showadd}}'>
-    <navigator url="/pages/merchants/info" class='btn-fix-b font-md'>
+    <view class='flex flex-center pd20' wx:if='{{knowok}}'>
+      <navigator url="/pages/merchants/info" class='btn-fix-b font-md'>
         <image src='/resource/icon/add.svg' class='addbtnimg radius-circle'></image>
-        注册新商铺
-    </navigator>
+        商铺入驻
+      </navigator>
+    </view>
+  </view>
+  <view class='sq'></view>
+  <import src="/template/version/version.wxml" />
+  <template is="version" data="{{version}}"></template>
 </view>

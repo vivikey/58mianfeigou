@@ -9,7 +9,20 @@ Page({
     orderList: [],
     showList: []
   },
-
+	/**提醒发货 */
+	onRemindShipment(e){
+		console.log('form发生了submit事件，携带数据为：', e.detail)
+		let formId = e.detail.formId
+		Order.RemindShipment({ ...e.detail.value, formId})
+		.then(r=>{
+			console.log('Order.RemindShipment => ',r)
+			if(r.code==200){
+				app.SUCCESS(r.message)
+			}else{
+				app.ERROR(r.message)
+			}
+		})
+	},
   onLoad: function(options) {
     this.data.version = app.VERSION()
     this.data.classNavActIdx = options.idx || 0
@@ -29,9 +42,10 @@ Page({
 	},
 	//-- 查看物流
 	showExpress(e){
-		Order.Express({user_id:app.USER_ID(),order_id:e.currentTarget.dataset.order})
-		.then(r=>{
-			console.log('Order.Express => ',r)
+		let user_id = e.currentTarget.dataset.user
+		let order_id = e.currentTarget.dataset.order
+		wx.navigateTo({
+			url: `expressdetail?user_id=${user_id}&order_id=${order_id}`,
 		})
 	},
 	onTakeDelivery(e){
@@ -58,6 +72,11 @@ Page({
             u.order_status_txt = app.getOrderStatusTxt(u.order_status)
             u.addtime = TimeConverter.ToLocal(u.addtime);
 						u.orderfrm = app.getOrderFrm(u.order_status)
+						if(u.order_status==0){
+							if (u.group_id>0){
+								u.orderfrm='拼购'
+							}
+						}
 						if(u.paytime){
 							u.paytime = TimeConverter.ToLocal(u.paytime);
 						}
@@ -153,7 +172,7 @@ Page({
 	//-- 去评价
 	gotoEvaluate(e) {
 		wx.navigateTo({
-			url: `/pages/usercenter/comment?stat=0&id=${e.currentTarget.dataset.goods}`,
+			url: `/pages/usercenter/comment?stat=0&id=${e.currentTarget.dataset.goods}&order_id=${e.currentTarget.dataset.order}`,
 		})
 	},
 })

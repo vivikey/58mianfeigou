@@ -1,4 +1,4 @@
-.container view{
+.container > view{
   padding: 30rpx;
   margin-top: 100rpx;
 }

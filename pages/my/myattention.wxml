@@ -1,31 +1,52 @@
-<view class='container gray full-width pd30'>
-    <view class='flex flex-left bolder full-width'>{{title}}</view>
-    <view class='sq'></view>
-    <!-- 1我的关注 -->
-    <navigator wx:for='{{storeList}}' wx:key='id' class='full-width bgw pd20 bottomline flex flex-spance' url='/pages/store/detail?id={{item.id}}'>
-        <view class='flex flex-left col-8'>
-            <image src='{{item.store_logo}}' class='img-lg radius-s'></image>
-            <view>
-                <view class='pdr20 font-md black'>{{item.store_name}}</view>
-                <view class='pdr20 font-xs cgray'>{{item.distance}}km</view>
-            </view>
-        </view>
-        <view class='flex flex-right arrow col-4 cprimary'>详情</view>
-    </navigator>
-    <!-- 1我的收藏 -->
-    <navigator wx:for='{{shopList}}' wx:key='id' class='full-width bgw pd20 bottomline flex flex-spance arrow' url='/pages/shop/details?id={{item.id}}'>
-        <view class='flex flex-left full-width'>
-            <image src='{{item.image}}' class='img-lg radius-s'></image>
-            <view class='pdr20 flex-col-auto'>
-                <text class='black font-sm'>{{item.title}}</text>
-                <text class='cgray font-xs'>{{item.integral}}积分</text>
-            </view>
-        </view>
-    </navigator>
-    <view wx:if='{{isempty}}' class='bgw full-width pd30'>
-    <import src="/template/emptyshow/emptyshow.wxml" />
-    <template is="empty" data='{{image:"/resource/icon/emp3.png",firstmsg:emptymsg,secmsg:"",times:[1,2,3]}}' wx:if='{{isempty}}'></template>
+<view class='container gray full-width'>
+  <view class='full-width' style='height:60px;'></view>
+  <view class='fix-t flex-row pd20 shadow bgw'>
+    <view class='flex flex-left'>
+      <view class='img-md bglightgray radius-circle'>
+        <image src='/resource/icon/list.png' class='img-md radius-circle'></image>
+      </view>
+      <view class='skr bolder font-sm pdr20'>{{title}}</view>
     </view>
+  </view>
+  <!-- 1我的关注 -->
+  <navigator wx:for='{{storeList}}' wx:key='id' class='flex-row bgw pd20 bottomline' url='/pages/store/detail?id={{item.id}}'>
+    <view class='flex flex-left pdr20'>
+      <image src='{{item.store_logo}}' class='img-lg radius-s'></image>
+      <view>
+        <view class='pdr20 font-sm black bolder'>{{item.store_name}}</view>
+        <view class='pdr20 font-xs cgray'>{{item.store_addr}}</view>
+      </view>
+    </view>
+    <view class='font-x arrow lightgray pdr20'></view>
+  </navigator>
+  <!-- 2我的收藏 -->
+  <navigator wx:for='{{shopList}}' wx:key='id' class='flex-row bgw pd20 bottomline' url='/pages/shop/details?id={{item.goods_id}}'>
+    <view class='flex flex-left pdr20'>
+      <image src='{{item.spec_img}}' class='img-lg radius-s'></image>
+      <view>
+        <view class='pdr20 font-sm black bolder'>{{item.goods_name}}</view>
+        <view class='pdr20 font-xs lightgray'>￥{{item.spec_price}}
+          <text class='pkcolor' wx:if='{{item.reduce_price>0}}'>比收藏时降低了{{item.reduce_price}}</text>
+        </view>
+      </view>
+    </view>
+    <view class='font-x arrow lightgray pdr20'></view>
+  </navigator>
+  <!-- 3我是会员的店铺 -->
+  <navigator wx:for='{{memberStores}}' wx:key='id' class='flex-row bgw pd20 bottomline' url='/pages/store/detail?id={{item.store.id}}'>
+    <view class='flex flex-left pdr20'>
+      <image src='{{item.store.store_logo}}' class='img-lg radius-s'></image>
+      <view>
+        <view class='pdr20 font-sm black bolder'>{{item.store.store_name}}</view>
+        <view class='pdr20'><text class='label pk-label small'>{{item.store_member.member_name}}</text></view>
+      </view>
+    </view>
+    <view class='font-x arrow lightgray pdr20'></view>
+  </navigator>
+  <view wx:if='{{isempty}}' class='bgw full-width pd30'>
+    <import src="/template/nothing/item.wxml" />
+    <template is="nothing" data='{{datalist:showList,Msg:"~空空如也~"}}'></template>
+  </view>
 </view>
-  <import src="/template/version/version.wxml" />
-  <template is="version" data="{{version}}"></template>
+<import src="/template/version/version.wxml" />
+<template is="version" data="{{version}}"></template>

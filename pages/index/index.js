@@ -1,37 +1,63 @@
 var app = getApp()
+import Login from '../../comm/Login.js'
+
 Page({
-    data: {
-        version: '',
-        networkType: ''
-    },
-    onLoad(options) {
-        console.log('index.options => ',options)
-        app.HIGHER_UP(options.higher_up || 0)
+  data: {
+		id:null,
+		higher_up:null,
+		spec:null,
+		store:null,
+    version: '',
+    networkType: '',
+    loginFaile: false
+  },
+  onLoad(options) {
+		console.dir('index.onload => ',options)
+		this.data.id = options.id || 0
+		this.data.higher_up = options.higher_up || 0
+		this.data.spec = options.spec || 0
+		this.data.store = options.store || 0
+
+    app.HIGHER_UP(options.higher_up || 0)
+  },
+  login() {
+    console.log('CurrPage => ', this.route)
+		app._init(this.data.store).then(r => {
+      console.log('index.login => ', r)
+      if (r.code == 200) {
+					if(this.data.id>0){
+						wx.redirectTo({
+							url: `/${app.globalData.bkPage}?id=${this.data.id}&higher_up=${this.data.higher_up}&spec=${this.data.spec}&store=${this.data.store}`,
+						})
+					}else{
+						wx.switchTab({
+							url: '/pages/shop/index',
+						}) 
+					}
+       
+      } else {
+        app.ERROR(`wxLogin Faile：${r.message}`, () => {
+          this.setData({
+            loginFaile: true
+          })
+        })
+      }
+    })
+  },
+	onReady(){
+		this.login()
+	},
+  onShow() {
+    //-- 获取当前网络状态
+    wx.getNetworkType({
+      success: res => {
         this.setData({
-            version: app.VERSION()
+          networkType: res.networkType.toUpperCase(),
+					version:app.VERSION()
         })
-        this.login()
-    },
-    login(){
-        app._init().then(r=>{
-            console.log('index.login => ',r)
-						r.data["user_id"]=r.data.id
-            app.globalData.user = r.data
-            wx.switchTab({
-                url: '/pages/shop/index',
-            })
-        })
-    },
-    onShow() {
-        //-- 获取当前网络状态
-        wx.getNetworkType({
-            success: res => {
-                this.setData({
-                    networkType: res.networkType.toUpperCase()
-                })
-            }
-        })
+      }
+    })
 
 
-    }
+  }
 })

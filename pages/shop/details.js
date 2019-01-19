@@ -7,6 +7,7 @@ import Evaluate from '../../comm/Evaluate.js'
 import TimeConverter from '../../comm/TimeConverter.js'
 Page({
   data: {
+    user: {},
     screenHeight: 0,
     scrollPosition: 0,
     version: '',
@@ -35,24 +36,108 @@ Page({
       sc: e.detail.current
     })
   },
-  onLoad: function(options) {
+  onLoad(options) {
+    /**老版本 */
     if (options.q) {
-      var link = decodeURIComponent(options.q);
+      let link = decodeURIComponent(options.q);
       console.log(link);
-      var params = link.split('?')[1]
-      var id = params.split('=')[1]
-      options['id'] = id
+      let params = link.split('?')[1].split('&') //-- id=1&idx=1&rd=1
+      let id = params[0].split('=')[1]
+      let spec = params[1].split('=')[1]
+      let rd = params[2].split('=')[1]
+      let store = params[3].split('=')[1]
+
+      options['id'] = id || 0
+      options['higher_up'] = rd || 0
+      options['spec'] = spec || 0
+      options['store'] = store || 0
     }
+    /**新版本 */
+    if (options.scene) {
+      let link = decodeURIComponent(options.scene);
+      let params = link.split('&')
+      let id = params[0].split('=')[1]
+      let spec = params[1].split('=')[1]
+      let rd = params[2].split('=')[1]
+      let store = params[3].split('=')[1]
+
+      options['id'] = id || 0
+      options['higher_up'] = rd || 0
+      options['spec'] = spec || 0
+      options['store'] = store || 0
+    }
+
+    this.data.higher_up = options.higher_up || 0
+    this.data.goods_id = options.id || 0
+    this.data.spec_id = options.spec || 0
+    this.data.share_store = options.store || 0
+    app.globalData.share_store = options.store || 0
     this.setData({
-      goods_id: options.id || 0,
-      spec_id: options.spec || 0,
       version: app.VERSION(),
-      screenHeight: app.SYSTEM_INFO().windowHeight
+      screenHeight: app.SYSTEM_INFO().windowHeight,
+      user: app.USER()
     })
 
     wx.showShareMenu({
       withShareTicket: true
     })
+  },
+  onShow() {
+    app.HIGHER_UP(this.data.higher_up)
+    if (!app.USER()) {
+      app.globalData.bkPage = this.route
+      wx.navigateTo({
+        url: `/pages/index/index?id=${this.data.goods_id}&higher_up=${this.data.higher_up}&spec=${this.data.spec_id}&store=${this.data.share_store}`,
+      })
+    } else {
+      FrontEndShop.Get({
+        goods_id: this.data.goods_id,
+        user_id: app.USER_ID()
+      }).then(r => {
+        console.log('FrontEndShop.Get => ', r)
+        if (r.code == 200) {
+          r.data.goods_banners = r.data.goods_banners.split(',')
+          r.data.goods_img = r.data.goods_img.split(',')
+          r.data.goods_spec = r.data.goods_spec.map(u => {
+            u.showT = `${u.spec_size} ${u.spec_color}`
+            let member_price = parseFloat(u.spec_price) - parseFloat(r.data.goods_brokerage)
+            let member_group_price = parseFloat(u.group_price) - parseFloat(r.data.goods_brokerage)
+            u.member_price = member_price.toFixed(2);
+            u.member_group_price = member_group_price.toFixed(2)
+            return u
+          })
+          r.data.goods_number = 1
+          r.data.goods_limit = r.data.goods_limit || 0
+          r.data.goods_spec.forEach((val, idx) => {
+            if (val.id == this.data.spec_id) {
+              this.setData({
+                spec_chosed: idx
+              })
+            }
+          })
+          this.setData({
+            goods: r.data
+          })
+        }
+      })
+      this.getEvaluate()
+
+      let chosedAddress = wx.getStorageSync("chosedAddress") || null
+      if (!chosedAddress) {
+        this.getUserAddress()
+      } else {
+        this.setData({
+          defaultAddress: chosedAddress
+        }, wx.removeStorage({
+          key: 'chosedAddress',
+          success: function(res) {},
+        }))
+      }
+      //-- 定时器
+      this.setData({
+        timerid: setInterval(this.udpGroupLessTime, 1000)
+      })
+    }
   },
   //-- 改变收藏状态
   changeCollectShop() {
@@ -131,51 +216,7 @@ Page({
       spec_chosed: e.currentTarget.dataset.idx
     })
   },
-  onShow: function() {
-    FrontEndShop.Get({
-      goods_id: this.data.goods_id,
-      user_id: app.USER_ID()
-    }).then(r => {
-      console.log('FrontEndShop.Get => ', r)
-      if (r.code == 200) {
-        r.data.goods_banners = r.data.goods_banners.split(',')
-        r.data.goods_img = r.data.goods_img.split(',')
-        r.data.goods_spec = r.data.goods_spec.map(u => {
-          u.showT = `${u.spec_size} ${u.spec_color}`
-          return u
-        })
-        r.data.goods_number = 1
-        r.data.goods_limit = r.data.goods_limit || 0
-        r.data.goods_spec.forEach((val, idx) => {
-          if (val.id == this.data.spec_id) {
-            this.setData({
-              spec_chosed: idx
-            })
-          }
-        })
-        this.setData({
-          goods: r.data
-        })
-      }
-    })
-    this.getEvaluate()
 
-    let chosedAddress = wx.getStorageSync("chosedAddress") || null
-    if (!chosedAddress) {
-      this.getUserAddress()
-    } else {
-      this.setData({
-        defaultAddress: chosedAddress
-      }, wx.removeStorage({
-        key: 'chosedAddress',
-        success: function(res) {},
-      }))
-    }
-    //-- 定时器
-    this.setData({
-      timerid: setInterval(this.udpGroupLessTime, 1000)
-    })
-  },
   //-- 获取商品评价
   getEvaluate() {
     Evaluate.ListForGoods({
@@ -247,20 +288,25 @@ Page({
     let goods = this.data.goods
     let spec_chosed = this.data.spec_chosed
     let spec = goods.goods_spec[spec_chosed]
-    Order.AcGift({
-        user_id: app.USER_ID(),
-        goods_id: spec.goods_id,
-        spec_id: spec.id,
-        spec_num: 1
-      })
-      .then(r => {
-        console.log('Order.AcGift => ', r)
-        if (r.code == 200) {
-          app.SUCCESS(r.message)
-        } else {
-          app.ERROR(r.message)
-        }
-      })
+    //-- 如果是免费赠品
+    if (goods.is_gift == 1 && spec.integral <= 0) {
+      Order.AcGift({
+          user_id: app.USER_ID(),
+          goods_id: spec.goods_id,
+          spec_id: spec.id,
+          spec_num: 1
+        })
+        .then(r => {
+          console.log('Order.AcGift => ', r)
+          if (r.code == 200) {
+            app.SUCCESS(r.message)
+          } else {
+            app.ERROR(r.message)
+          }
+        })
+    }else{ //-- 否则，则生成订单先
+			this.directOrder()
+		}
   },
   //-- 直接购买
   directOrder() {
@@ -300,11 +346,11 @@ Page({
     if (goods.group_purchase == 1) {
       title = `${app.USER().nick_name}邀您一起【拼购】：${goods.goods_name}只需￥${spec.group_price}`
     } else if (goods.is_gift == 1) {
-      title = `好礼免费领，还能赚佣金：${goods.goods_name}`
+      title = `好礼免费领，还能赚推广费：${goods.goods_name}`
     } else {
       title = `${app.USER().nick_name}向您推荐：${goods.goods_name}只需￥${spec.spec_price}`
     }
-    let path = `/pages/shop/details?id=${spec.goods_id}&spec=${spec.id}&higher_up=${app.USER_ID()}`
+    let path = `/pages/shop/details?id=${spec.goods_id}&spec=${spec.id}&higher_up=${app.USER_ID()}&store=${goods.store_id}`
     return {
       title,
       path,
@@ -328,26 +374,21 @@ Page({
       showShareWnd: false
     })
   },
-  //-- 分享到朋友圈
+  //-- 生成海报
   shareToPYQ: function() {
     let goods = this.data.goods
     let spec_chosed = this.data.spec_chosed
     let spec = goods.goods_spec[spec_chosed]
+    let small_title = `${spec.spec_size} ${spec.spec_color}`
+    let content = goods.is_gift == 1 ? "免费领取" : goods.group_purchase == 1 ? `￥${spec.group_price} - ${goods.group_num}人团` : `￥${spec.spec_price}`
     let shareData = {
-      img: spec.spec_img, //-- 规格图片
-      title: goods.goods_name, //-- 商品名称
-      spec_size: spec.spec_size, //-- 规格尺寸
-      spec_color: spec.spec_color, //-- 规格颜色
-      group_purchase: goods.group_purchase, //-- 是否是拼团
-      is_gift: goods.is_gift, //-- 是否是赠品 
-      tuan_num: goods.group_num, //-- 几人团
-      tuan_price: spec.group_price, //-- 拼团价
-      price: spec.spec_price, //-- 商品标价
-      url: `pages/shop/details`, //-- 页面地址
-      id: spec.goods_id, //-- 商品ID
-      choseIdx: spec_chosed, //-- 规格index
-      higher_up: app.USER_ID(), //-- 推荐人ID
-      qrMsg: '进入详情页',
+      img: spec.spec_img, //-- 图片
+      title: goods.goods_name, //-- 标题
+      small_title, //-- 小标题
+      content, //-- 内容
+      pageLoad: `pages/shop/details`, //-- 页面地址
+      pageScene: `id=${goods.id}&idx=${spec_chosed}&rd=${app.USER_ID()}&store=${goods.store_id}`, //-- 加载页面的参数
+      qrMsg: '查看详情',
       store_name: goods.store_info.store_name //-- 商铺名称
     }
 

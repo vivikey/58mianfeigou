@@ -1,27 +1,23 @@
 <template name='sharebox'>
-    <view class='share_box {{!showShareWnd?"hide":""}} full-width cgray font-xs'>
-        <view class='share_bg {{!showShareWnd?"hide":""}}' catchtap='hideShareBox' catchtouchmove='true'></view>
-        <view class='input_box {{!showShareWnd?"hide":""}}' catchtouchmove='true'>
-            <view class='bglightgray cgray flex-row pd20'>
-                <view>分享</view>
-                <view class='img-sm' catchtap='hideShareBox'>
-                    <image src='/resource/icon/close.svg' class='img-sm'></image>
-                </view>
-            </view>
-            <view class='bgw cgray flex flex-left flex-around pd30 opt black'>
-                <button class='flex-col-auto col-6 flex-center' type='default' plain='{{true}}' open-type='share'>
-                    <view>
-                        <image src='/resource/icon/wx.svg'></image>
-                    </view>
-                    <view class='pdc font-sm skr'>微信好友</view>
-                </button>
-                <view class='flex-col-auto col-6 flex-center leftline' bindtap='shareToPYQ'>
-                    <view>
-                        <image src='/resource/icon/pyq.png'></image>
-                    </view>
-                    <view class='pdc font-sm skr'>生成海报</view>
-                </view>
-            </view>
+  <view class='share_box {{!showShareWnd?"hide":""}} full-width cgray font-xs'>
+    <view class='share_bg {{!showShareWnd?"hide":""}}' catchtap='hideShareBox' catchtouchmove='true'></view>
+    <view class='input_box {{!showShareWnd?"hide":""}}' catchtouchmove='true'>
+      <view class='bglightgray cgray flex-row pd20'>
+        <view>分享</view>
+        <view class='img-sm' catchtap='hideShareBox'>
+          <image src='/resource/icon/close.svg' class='img-sm'></image>
         </view>
+      </view>
+      <view class='bgw cgray flex flex-left flex-around pd30 opt black' style='height:300rpx;'>
+        <button class='flex-col-auto col-6 flex-center' type='default' plain='{{true}}' open-type='share'>
+          <image src='/resource/icon/wx.png'></image>
+          <text class='font-sm black'>微信好友</text>
+        </button>
+        <view class='flex-col-auto col-6 flex-center leftline' style='height:240rpx;' bindtap='shareToPYQ'>
+          <image src='/resource/icon/pyq.png'></image>
+          <text class='pdc font-sm black'>生成海报</text>
+        </view>
+      </view>
     </view>
+  </view>
 </template>

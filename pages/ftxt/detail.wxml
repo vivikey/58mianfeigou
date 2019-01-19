@@ -1,0 +1,87 @@
+<view class='container gray font-xs cgray' id='container'>
+  <!-- 商品 -->
+  <view class='full-width pd20 label violet-label nord'>
+    <navigator url='/pages/shop/details?id={{goods.id}}' class='flex-row pdc20'>
+      <view class='flex flex-left' style='width:700rpx;'>
+        <view class='img-lgp'>
+          <image src='{{goods.goods_banners[0]}}' class='img-lgp'></image>
+        </view>
+        <view class='pdr' style='width:570rpx;'>
+          <view class='font-md bolder txtpt' style='width:100%;'>{{goods.goods_name}}({{goods.spec[0].spec_size}})</view>
+          <view class='pdc flex flex-left'>
+            <view class='flex-rlc' wx:if='{{goods.group_purchase ==0 && goods.is_gift ==0}}'>
+              <view class='pkcolor font-sm'>￥
+                <text class='bolder'>{{goods.spec[spec_chosed].spec_price}}</text>
+              </view>
+            </view>
+            <!-- 赠品 -->
+            <view class='flex-rlc' wx:if='{{goods.group_purchase ==0 && goods.is_gift ==1}}'>
+              <view class='pkcolor font-xs txtmidline'>￥
+                <text class='bolder'>{{goods.spec[spec_chosed].spec_price}}</text>
+              </view>
+              <view class='pdr'>
+                <text class='label yellow-label small bolder'>免费领取</text>
+              </view>
+            </view>
+            <!-- 拼团 -->
+            <view class='flex-rlc' wx:if='{{goods.group_purchase ==1 }}'>
+              <view class='pkcolor font-sm'>￥
+                <text class='bolder'>{{goods.spec[spec_chosed].group_price}}</text>
+              </view>
+              <view class='pdr'>
+                <text class='txtmidline font-xs'>{{goods.spec[spec_chosed].spec_price}}</text>
+              </view>
+              <view class=''>
+                <text class='label white-label small bolder'>{{goods.group_num}}人拼</text>
+              </view>
+            </view>
+            <view class='flex-rlc label warn-label small' wx:if='{{goods.goods_brokerage>0}}'>
+              <view class='font-x skr'>推广费{{goods.goods_brokerage}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class='arrow flex flex-around font-xs'></view>
+    </navigator>
+  </view>
+  <!-- 软文 -->
+  <view class='full-width pd20 bgw topline' id='contentbox'>
+    <view wx:for='{{ftxt.blog}}' wx:key='idx' class='pdr pdc20 flex-col'>
+      <text class='full-width flex flex-center flex-wrap lh-sm' wx:if='{{item.type=="text"}}' style='color:{{item.color}};font-size:{{item.fontSize}}px;font-weight: {{item.bolder?"bolder":"normal"}};font-style:{{item.italic?"italic":"normal"}};'>{{item.content}}</text>
+      <image wx:if='{{item.type=="image"}}' src='{{item.content}}' mode='widthFix' class='full-width'></image>
+    </view>
+		<view class='pd flex flex-right'>
+    <text class='skr bolder'>{{store.store_name}}</text>
+    <text class='pdr'>{{ftxt.addtime}}</text>
+  </view>
+  </view>
+  <view class='sq'></view>
+  <!-- 商铺 -->
+  <view class='full-width pd20 bgw  '>
+    <navigator url='/pages/store/detail?id={{store.id}}' class='flex-row pdc20'>
+      <view class='flex flex-center pdr20'>
+        <image src='{{store.store_logo}}' class='img-lg radius-l'></image>
+        <text class='font-lg black bolder pdr20'>{{store.store_name}}</text>
+      </view>
+      <view class='arrow flex flex-around cgray font-xs'>进入店铺</view>
+    </navigator>
+  </view>
+  <import src="/template/version/version.wxml" />
+  <template is="version" data="{{version}}"></template>
+</view>
+
+<!-- 开团菜单 -->
+<view class='fix-b optmenu font-sm bolder skr'>
+  <view class='bmenu-item pdc20 rightline' bindtap='toHome'>
+    <text class='pdr'>返回首页</text>
+  </view>
+  <view class='bmenu-item pdc20 rightline' bindtap='openShareWnd'>
+    <text class='pdr'>我要推广</text>
+  </view>
+  <view class='bmenu-item pdc20 rightline' bindtap='toShopDetail'>
+    <text class='pdr'>我要购买</text>
+  </view>
+</view>
+<!-- 分享窗口 -->
+<import src="/template/sharebox/sharebox.wxml" />
+<template is="sharebox" data="{{showShareWnd:showShareWnd}}"></template>

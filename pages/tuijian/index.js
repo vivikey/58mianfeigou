@@ -111,7 +111,5 @@ var pageObj ={
     }
 }
 import pageex from "../../utils/pageEx.js"
-import mainnav from "../../template/mainnavbox/mainnavbox.js"
 pageex(pageObj)
-mainnav(pageObj)
 Page(pageObj)

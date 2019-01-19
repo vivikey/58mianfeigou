@@ -34,6 +34,18 @@ let obj = {
 	GetFTxt() {
 		return '/api/addapi/showAdInfo'
 	},//-- 富文详情
+	DelFTxt() {
+		return '/api/Addapi/delAd'
+	},//-- 详情
+	SetAdmin() {
+		return '/api/Addapi/addOrModeStoreAdmin'
+	},//-- 设置管理员
+	ListAdmin() {
+		return '/api/Addapi/showStoreAdmin'
+	},//-- 管理员列表
+	DeleteAdmin() {
+		return '/api/Addapi/delStoreAdmin'
+	},//-- 移除管理员
   async Do(data) {
     return await new Promise((resolve, reject) => {
       $.Post(this.url, data, r => {

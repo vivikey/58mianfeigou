@@ -1,79 +1,97 @@
 <view class='container gray'>
   <view class='mybase full-width'>
-    <view class='full-width flex-row pd20'>
-      <view class='img-lgp'>
-        <image class='img-lgp radius-circle' src='{{user.user_img}}'></image>
+    <view class='full-width flex pdc20'>
+      <view class='pd20'>
+        <view class='img-lg user-img-box'>
+          <image class='radius-circle' src='{{user.user_img}}'></image>
+        </view>
       </view>
-      <view class='userinfo flex-row pd'>
-        <view class='wtcolor flex-col flex-left'>
-          <view class='full-width bolder font-lg'>{{user.nick_name}}</view>
-          <view class='flex-row flex-wrap font-xs'>
-            <view class='flex flex-left pd-t10 wtcolor full-width'>
-              <view class='flex flex-left label white-label small'>
-                <view class='img-xs'>
-                  <image src='/resource/icon/memoer.svg' class='img-xs'></image>
-                </view>
-                <view class='pdr'>{{user.member.member_name}}</view>
+      <view class='userinfo'>
+        <view class='wtcolor full-width'>
+          <view class='flex-row'>
+            <view class='flex pdr bolder font-lgp'>
+              <text>{{user.nick_name}}</text>
+            </view>
+            <view class='flex flex-left font-xs'>
+              <view class='flex flex-center pd' bindtap='toMyQR'>
+                <image src='/resource/icon/myqr2.png' class='img-sm'></image>
+              </view>
+              <view class='pdc pdr20' bindtap='toEditUserInfo'>
+                <image src='/resource/icon/set.png' class='img-sm'></image>
               </view>
             </view>
           </view>
-        </view>
-        <view class='flex flex-left font-xs'>
-          <view class='pd' bindtap='toEditUserInfo'>
-            <image src='/resource/icon/set.svg' class='img-md'></image>
-          </view>
-          <view class='pd'>
-            <image src='/resource/icon/msgbox.svg' class='img-md'></image>
+          <view class='flex-row rpl'>
+            <view class='flex flex-left vip-box'>
+              <view class='vip-img-box flex flex-center' wx:if='{{user.member.member_grade>0}}'>
+                <image src='/resource/icon/vip.png'></image>
+              </view>
+              <view class='pdr'>{{user.member.member_name}}</view>
+            </view>
+            <view class='ziqiang flex flex-center' bindtap='toBeMember'>
+              <image src='/resource/icon/vip.png' class='img-sm'></image>
+              <view class='pdr bolder'>自强联盟会员</view>
+            </view>
           </view>
         </view>
       </view>
     </view>
     <view class='myinfo bgw f'>
       <view class='flex flex-left black font-sm pd20'>
-        <view class='money-item flex flex-around rightline arrow pd' data-type='1' bindtap='toMyBalance'>
-					<view class='money-img'>
-						<image src='/resource/icon/self-m.png'></image>
-					</view>
-					<view class='flex-col-auto flex-center'>
-					<view class='cgray font-sm'>账户余额</view>
-					<view class='black font-lg bolder'>{{user.member.member_money}}</view>
-					</view>
-				</view>
-        <view class='money-item flex flex-around arrow pd'  data-type='2'  bindtap='toMyBalance'>
-					<view class='money-img'>
-						<image src='/resource/icon/get-m.png'></image>
-					</view>
-					<view class='flex-col-auto flex-center'>
-					<view class='cgray font-sm'>推广佣金</view>
-					<view class='black font-lg bolder'>{{user.member.task_award}}</view>
-					</view>
-				</view>
-
-      </view>
-      <view class='flex flex-left flex-around black font-sm topline'>
-        <view class='user flex-row flex-around font-sm'>
-          <navigator class='flex-col-auto flex-center' url='myqrcode'>
-            <image src='/resource/icon/myqr.png' class='img-md'></image>
-            <text class='cap'>名片</text>
-          </navigator>
-          <navigator class='flex-col-auto flex-center' url='mytuijian'>
-            <image src='/resource/icon/rm.png' class='img-md'></image>
-            <text class='cap'>人脉</text>
-          </navigator>
-          <navigator class='flex-col-auto flex-center message' url='/pages/my/myattention?type=1'>
-            <image src='/resource/icon/my-gz.png' class='img-md'></image>
-            <text class='cap'>关注</text>
-						<view class='point' wx:if='{{user.attentStore>0}}'>{{user.attentStore}}</view>
-          </navigator>
-          <navigator class='flex-col-auto flex-center message' url='/pages/my/myattention?type=2'>
-            <image src='/resource/icon/my-sc.png' class='img-md'></image>
-            <text class='cap'>收藏</text>
-						<view class='point' wx:if='{{user.collectGoods>0}}'>{{user.collectGoods}}</view>
-
-          </navigator>
+        <view class='money-item flex flex-around pd' data-type='1' bindtap='toMyBalance'>
+          <!-- <view class='money-img'>
+            <image src='/resource/icon/self-m.png'></image>
+          </view> -->
+          <view class='flex-col-auto flex-center'>
+            <view class='or bolder font-lgp'>{{user.member.member_money}}</view>
+            <view class='cap font-xs'>账户余额</view>
+          </view>
         </view>
-      </view>
+        <view class='money-item flex flex-around pd' data-type='2' bindtap='toMyBalance'>
+          <!-- <view class='money-img'>
+            <image src='/resource/icon/get-m.png'></image>
+          </view> -->
+          <view class='flex-col-auto flex-center'>
+            <view class='or bolder font-lgp'>{{user.member.task_award}}</view>
+            <view class='cap font-xs'>推广费</view>
+          </view>
+        </view>
+        <view class='money-item flex flex-around pd' data-type='2' bindtap='toMyBalance'>
+          <!-- <view class='money-img'>
+            <image src='/resource/icon/get-m.png'></image>
+          </view> -->
+          <view class='flex-col-auto flex-center'>
+            <view class='or bolder font-lgp'>{{user.member.member_points}}</view>
+            <view class='cap font-xs'>积分</view>
+          </view>
+        </view>
 
+      </view>
+      <view class='flex-row flex-around font-sm pd20 topline'>
+        <navigator class='money-item flex flex-around pd' url='mytuijian'>
+          <view class='flex-col-auto flex-center'>
+            <image src='/resource/icon/rm.png' class='img-mm'></image>
+            <text class='cap'>推广人脉</text>
+          </view>
+        </navigator>
+        <navigator class='money-item flex flex-around pd ' url='/pages/my/myattention?type=1'>
+          <view class='flex-col-auto flex-center message'>
+            <image src='/resource/icon/my-gz.png' class='img-mm'></image>
+            <text class='cap'>商铺关注</text>
+            <view class='point' wx:if='{{user.attentStore>0}}'>{{user.attentStore}}</view>
+          </view>
+
+        </navigator>
+        <navigator class='money-item flex flex-around pd ' url='/pages/my/myattention?type=2'>
+          <view class='flex-col-auto flex-center message'>
+            <image src='/resource/icon/my-sc.png' class='img-mm'></image>
+            <text class='cap'>商品收藏</text>
+            <view class='point' wx:if='{{user.collectGoods>0}}'>{{user.collectGoods}}</view>
+          </view>
+
+
+        </navigator>
+      </view>
     </view>
   </view>
   <view class='sq'></view>
@@ -83,32 +101,32 @@
         <view class='flex flex-left black font-sm pd20 bolder'>
           订单
         </view>
-        <navigator url='/pages/orders/index' class='arrow font-xs cgray'>全部订单</navigator>
+        <navigator url='/pages/orders/index' class='arrow font-xs cgray bolder'>全部订单</navigator>
       </view>
       <view class='user flex-row flex-around font-sm topline'>
         <navigator class='flex-col-auto flex-center message' url='/pages/orders/index?idx=1'>
-          <image src='/resource/icon/wait-pay.png' class='img-md'></image>
+          <image src='/resource/icon/wait-pay.png' class='img-mm'></image>
           <text class='cap'>待付款</text>
           <view class='point' wx:if='{{user.awaitPay>0}}'>{{user.awaitPay}}</view>
         </navigator>
         <navigator class='flex-col-auto flex-center message' url='/pages/orders/index?idx=2'>
-          <image src='/resource/icon/waitfh.png' class='img-md'></image>
+          <image src='/resource/icon/waitfh.png' class='img-mm'></image>
           <text class='cap'>待发货</text>
           <view class='point' wx:if='{{user.awaitShip>0}}'>{{user.awaitShip}}</view>
         </navigator>
         <navigator class='flex-col-auto flex-center message' url='/pages/orders/index?idx=3'>
-          <image src='/resource/icon/waitrec.png' class='img-md'></image>
+          <image src='/resource/icon/waitrec.png' class='img-mm'></image>
           <text class='cap'>待收货</text>
           <view class='point' wx:if='{{user.awaitTake>0}}'>{{user.awaitTake}}</view>
         </navigator>
         <navigator class='flex-col-auto flex-center message' url='/pages/orders/index?idx=4'>
-          <image src='/resource/icon/wait-qr.png' class='img-md'></image>
+          <image src='/resource/icon/wait-qr.png' class='img-mm'></image>
           <text class='cap'>待消费</text>
           <view class='point' wx:if='{{user.awaitAffirm>0}}'>{{user.awaitAffirm}}</view>
         </navigator>
         <navigator class='flex-col-auto flex-center message' url='/pages/orders/index?idx=5'>
-          <image src='/resource/icon/wait-pt.png' class='img-md'></image>
-          <text class='cap'>拼团中</text>
+          <image src='/resource/icon/wait-pt.png' class='img-mm'></image>
+          <text class='cap'>待成团</text>
           <view class='point' wx:if='{{user.awaitGroup>0}}'>{{user.awaitGroup}}</view>
         </navigator>
       </view>
@@ -122,20 +140,12 @@
       </view>
       <view class='user flex flex-left flex-wran font-sm topline'>
         <navigator class='col-3 flex-col-auto flex-center' url='/pages/merchants/index'>
-          <image src='/resource/icon/storemgr.png' class='img-md'></image>
+          <image src='/resource/icon/storemgr.png' class='img-mm'></image>
           <text class='cap'>商家后台</text>
         </navigator>
-        <!-- <navigator class='col-3 flex-col-auto flex-center' url='/pages/usercenter/mycontacts'>
-          <image src='/resource/icon/rm.png' class='img-md'></image>
-          <text class='cap'>人脉</text>
-        </navigator>
-        <navigator class='col-3 flex-col-auto flex-center' url='mytuijian'>
-          <image src='/resource/icon/jf.png' class='img-md'></image>
-          <text class='cap'>推广</text>
-        </navigator> -->
-        <navigator class='col-3 flex-col-auto flex-center' url='about'>
-          <image src='/resource/icon/help.png' class='img-md'></image>
-          <text class='cap'>帮助</text>
+        <navigator class='flex-col-auto flex-center' url='/pages/my/myattention?type=3'>
+          <image src='/resource/icon/store_2.png' class='img-mm'></image>
+          <text class='cap'>会员店铺</text>
         </navigator>
       </view>
     </view>

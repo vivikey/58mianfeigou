@@ -1,12 +1,15 @@
 <view class="container gray fullscreen">
-    <view class='flex-col-auto flex-center full-width' style='height:40%'>
-        <image src='/resource/icon/logo.png' class='userImg lg'></image>
-    </view>
-    <view class='full-width flex-col pd30 flex-center' style='height:10%'>
-        <view class='black font-md bolder pd30'>58免费购需要您授权并使用微信登录</view>
-        <view class='cgray font-xs pdr30'>▸获取您的公开信息(昵称、头像等)</view>
-    </view>
-    <view style='height:40%' class='full-width pd30 flex flex-center'>
-        <button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo"  class='mg-b10 pd authbtn'>授权登录</button>
-    </view>
+  <view class='flex-col-auto flex-center full-width' style='height:40%'>
+    <image src='/resource/icon/logo.png' class='userImg lg'></image>
+  </view>
+  <view class='full-width flex-col pd30 flex-center' style='height:10%'>
+    <view class='or font-lg bolder pd30'>热网需要您授权并使用微信登录</view>
+    <view class='black font-sm pdr30'>• 获取您的公开信息(昵称、头像等)</view>
+  </view>
+  <view style='height:40%' class='full-width pd30 flex flex-center'>
+    <button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" class='btn-fix-b green heighter pd authbtn'>
+			<image src='/resource/icon/auth.png' class='img-sm'></image>
+			<text>授权登录</text>
+		</button>
+  </view>
 </view>

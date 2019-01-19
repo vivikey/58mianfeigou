@@ -8,7 +8,7 @@ var pageObj = {
     group_info: {},
     spec_chosed: 0,
     timer: 0,
-		store_info:{}
+    store_info: {}
   },
   //-- 增加数量
   addcount: function(e) {
@@ -36,48 +36,56 @@ var pageObj = {
   },
   onLoad: function(options) {
     console.log('injoin.options => ', options)
-    app.HIGHER_UP(options.higher_up || 0)
-    this.data.group_id = options.group_id || 0
+		this.data.group_id = options.group_id || options.id || 0
+		this.data.spec_chosed = options.spec || 0
     this.setData({
       version: app.VERSION(),
-      spec_chosed: options.spec || 0
+			spec_chosed: this.data.spec_chosed
     })
   },
   onShow: function() {
     clearTimeout(this.data.timer)
-    Order.GetGroup({
-        user_id: app.USER_ID(),
-        group_id: this.data.group_id
+    app.HIGHER_UP(this.data.higher_up)
+    if (!app.USER()) {
+      app.globalData.bkPage = this.route
+      wx.navigateTo({
+				url: `/pages/index/index?id=${this.data.group_id}&higher_up=${this.data.higher_up}&spec=${this.data.spec_chosed}`,
       })
-      .then(r => {
-        console.log('Order.GetGroup => ', r)
-        if (r.code == 200) {
-					FrontEndStore.Get({
-						user_id: app.USER_ID(),
-						store_id:r.data.goods.store_id
-					}).then(res=>{
-						this.setData({
-							store_info: res.data
-						})
-					})
-          r.data.goods.goods_number = 1
-          let [less_h, less_m, less_s] = r.data.short_time.split(':').map(u => {
-            return parseInt(u)
-          })
+    } else {
+      Order.GetGroup({
+          user_id: app.USER_ID(),
+          group_id: this.data.group_id
+        })
+        .then(r => {
+          console.log('Order.GetGroup => ', r)
+          if (r.code == 200) {
+            FrontEndStore.Get({
+              user_id: app.USER_ID(),
+              store_id: r.data.goods.store_id
+            }).then(res => {
+              this.setData({
+                store_info: res.data
+              })
+            })
+            r.data.goods.goods_number = 1
+            let [less_h, less_m, less_s] = r.data.short_time.split(':').map(u => {
+              return parseInt(u)
+            })
 
-          r.data.less_h = less_h
-          r.data.less_m = less_m
-          r.data.less_s = less_s
-          r.data.hastime = this.hasLessTime(less_h, less_m, less_s)
-          r.data.user = r.data.user.map((u,idx) => {
-            u.is_first = idx == 0 ? 1 : 0
-            return u
-          })
-          this.setData({
-            group_info: r.data
-          }, this.checkTimeOut)
-        }
-      })
+            r.data.less_h = less_h
+            r.data.less_m = less_m
+            r.data.less_s = less_s
+            r.data.hastime = this.hasLessTime(less_h, less_m, less_s)
+            r.data.user = r.data.user.map((u, idx) => {
+              u.is_first = idx == 0 ? 1 : 0
+              return u
+            })
+            this.setData({
+              group_info: r.data
+            }, this.checkTimeOut)
+          }
+        })
+    }
   },
   //-- 时间减一秒
   timeSubOneSec() {
@@ -164,21 +172,21 @@ var pageObj = {
   },
   //-- 我要参团
   joinOrder() {
-		let chosedObj = {
-			...this.data.group_info.goods
-		}
-		chosedObj.goods_spec = {
-			...this.data.group_info.goods.spec[this.data.spec_chosed]
-		}
-		chosedObj.orderDirect = false
-		chosedObj.store_info = {
-			...this.data.store_info
-		}
-		chosedObj.group_id = this.data.group_info.group_id
-		wx.setStorageSync('chosedObj', chosedObj)
-		wx.navigateTo({
-			url: `/pages/groupbuy/grouporder`,
-		})
+    let chosedObj = {
+      ...this.data.group_info.goods
+    }
+    chosedObj.goods_spec = {
+      ...this.data.group_info.goods.spec[this.data.spec_chosed]
+    }
+    chosedObj.orderDirect = false
+    chosedObj.store_info = {
+      ...this.data.store_info
+    }
+    chosedObj.group_id = this.data.group_info.group_id
+    wx.setStorageSync('chosedObj', chosedObj)
+    wx.navigateTo({
+      url: `/pages/groupbuy/grouporder`,
+    })
 
   },
 }

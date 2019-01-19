@@ -2,10 +2,10 @@ var app = getApp()
 import Store from '../../comm/Store.js'
 Page({
   data: {
+		version:'',
     user: {},
     storeId: 0,
     title: "",
-    uid: 0,
     currGift: {
       startdate: '2018-08-01',
       date: '2018-09-01'
@@ -30,8 +30,8 @@ Page({
       storeId: options.id,
       title: options.title,
       currGift: currGift,
-      uid: options.uid,
       user: app.globalData.user,
+			version:app.VERSION()
     })
   },
   scanQR: function(e) {
@@ -52,7 +52,7 @@ Page({
 				}
 				
 
-				Store.ScanQr({ user_id, order_id, order_goods_num, order_goods_id}).then(r=>{
+				Store.ScanQr({ user_id:app.USER_ID(), order_id, order_goods_num, order_goods_id}).then(r=>{
 					console.log('Store.ScanQr => ',r)
 					if(r.code==200){
 						app.SUCCESS(r.message)

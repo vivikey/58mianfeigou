@@ -11,8 +11,8 @@
         <text class='pdr txtpt font-sm'>{{location}}</text>
       </view>
       <!-- SearchBar -->
-      <view class='flex-row label midd search' bindtap='inputFocus'>
-        <text class='pdr font-xs cgray'>搜索附近商铺...</text>
+      <view class='flex-row label midd search'>
+        <text class='pdr font-xs cgray'>搜索暂未开放...</text>
         <view class='flex flex-center'>
           <image src='/resource/icon/search.svg' class='img-sm'></image>
         </view>
@@ -39,8 +39,7 @@
             <view class='font-sm skr bolder mg-b10 txtpt'>{{item.store_name}}</view>
             <view>
               <text class='label small green-label'>{{item.start_time}}</text>
-
-              <text class='label small green-label'>{{item.start_time}}</text>
+							-
               <text class='label small chosed'>{{item.end_time}}</text>
             </view>
             <view class='txtpt font-x pdc lightgray'>{{item.store_addr.address}}</view>

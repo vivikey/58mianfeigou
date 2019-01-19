@@ -1,260 +1,91 @@
 var app = getApp()
+import RecomPlan from '../../comm/RecomPlan.js'
+import TimeConverter from '../../comm/TimeConverter.js'
+
 Page({
-    data: {
-        activet: 1,
-        storeId: 0,
-        storeName: '',
-        shopList: [],
-        schemeList: [],
-        giftList: [],
-        uid: 0,
-        isowner: 0
-    },
-    onLoad: function(options) {
-        this.setData({
-            storeId: options.storeId,
-            storeName: options.storeName,
-            uid: options.uid,
-            isowner: app.globalData.user.id == options.uid ? 1 : 0
-        })
-
-    },
-    onShow: function() {
-        this.getDataList()
-    },
-    //-- 删除方案
-    delScheme: function(e) {
-        if (this.data.isowner == 0) {
-            app.msgbox({
-                content: "管理者无此操作的权限！",
-                title: '警告',
-                showCancel: false,
-            })
-            return;
-        }
-
-        let id = e.currentTarget.dataset.id
-        let idx = e.currentTarget.dataset.idx
-        let schemeList = this.data.schemeList
-        console.log("id,idx,list:", id, idx, schemeList)
-        wx.showModal({
-            title: '警告',
-            content: '删除后将无法恢复，请三思！',
-            confirmColor: '#f00',
-            cancelColor: '#50d1fe',
-            cancelText: '我再想想',
-            confirmText: '坚决删除',
-            success: (r) => {
-                if (r.confirm) {
-                    let endtime_arr = schemeList[idx].end_time.split(" ");
-                    let endtime = `${endtime_arr[0]}T${endtime_arr[1]}.000Z`;
-                    let endT = new Date(endtime);
-                    let nowT = new Date()
-                    if (nowT - endT < 0) {
-                        app.msgbox({
-                            content: "活动有效期内不能删除！",
-                            title: "警告",
-                            showCancel: false
-                        })
-                        return;
-                    }
-
-                    app.post('https://m.58daiyan.com/StoreApi/del_recommend_action', {
-                        token: app.userInfo().token,
-                        action_id: e.currentTarget.dataset.id
-                    }, res => {
-                        console.log('delScheme:', res.data)
-                        app.msgbox({
-                            content: res.data.message,
-                            showCancel: false,
-                            success: d => {
-                                this.getDataList()
-                            }
-                        })
-                    })
-                }
-            }
-        })
-
-    },
-    //-- 删除产品：
-    deleteShop: function(e) {
-        if (this.data.isowner == 0) {
-            app.msgbox({
-                content: "管理者无此操作的权限！",
-                title: '警告',
-                showCancel: false,
-            })
-            return;
-        }
-        let id = e.currentTarget.dataset.id
-        let idx = e.currentTarget.dataset.idx
-        let shopList = this.data.shopList
-        wx.showModal({
-            title: '警告',
-            content: '删除后将无法恢复，请三思！',
-            confirmColor: '#f00',
-            cancelColor: '#50d1fe',
-            cancelText: '我再想想',
-            confirmText: '我意已决',
-            success: (res) => {
-                if (res.confirm) {
-                    app.post('https://m.58daiyan.com/StoreApi/del_shop', {
-                        token: app.userInfo().token,
-                        shop_id: e.currentTarget.dataset.id
-                    }, res => {
-
-                        app.msgbox({
-                            content: res.data.message,
-                            showCancle: false,
-                            success: (r)=> {
-                                if (res.data.status == 1)
-                                    this.setData({
-                                        shopList: shopList.splice(idx, 1)
-                                    })
-                            }
-                        })
-                    })
-                }
-            }
-        })
-    },
-    //--获取数据
-    getDataList: function() {
-        let t = this.data.activet
-        if (t == 1) {
-            this.getShopList()
-        }
-        if (t == 2) {
-            this.getSchemeList()
-        }
-        if (t == 3) {
-            this.getGiftList()
-        }
-    },
-    //--切换当前tabMenu
-    changemenu: function(e) {
-        console.log('changemenu:', e.currentTarget)
-        this.setData({
-            activet: e.currentTarget.dataset.tp
-        })
-        this.getDataList()
-    },
-    //-- 获取产品列表
-    getShopList: function() {
-        app.post('https://m.58daiyan.com/StoreApi/getShopList', {
-            tuanselect: 0,
-            store_id: this.data.storeId,
-            lastId: 0,
-            num: 99
-        }, res => {
-            console.log('getShopList:', res.data)
-            if (res.data.data.shop_list) {
-                this.setData({
-                    shop_list: res.data.data.shop_list.map(u => {
-                        u.gallery = !u.gallery ? [] : u.gallery.split(',')
-                        u.label = !u.label ? [] : u.label.split(' ')
-                        return u;
-                    })
-                })
-            } else {
-                this.setData({
-                    shop_list: []
-                })
-            }
-        })
-    },
-    //-- 获取方案列表
-    getSchemeList: function() {
-        app.post('https://m.58daiyan.com/StoreApi/getRecommendActionListByID/', {
-            token: app.userInfo().token,
-            store_id: this.data.storeId,
-            lastId: 0,
-            num: 99
-        }, res => {
-            console.log('getSchemeList:', res.data)
-            if (res.data.data.action_list)
-                this.setData({
-                    schemeList: res.data.data.action_list.map(u => {
-                        u.end_time = u.end_time.split(' ')[0]
-                        if (u.bd_shopids.length <= 0) {
-                            u.bd_shopids = []
-                        } else {
-                            u.bd_shopids = u.bd_shopids.split(',')
-                        }
-                        return u;
-                    })
-                })
-            else
-                this.setData({
-                    schemeList: []
-                })
-        })
-    },
-    //-- 获取赠品列表
-    getGiftList: function(id) {
-        app.post('https://m.58daiyan.com/StoreApi/getPresentListByID', {
-            store_id: this.data.storeId,
-            is_template: 0,
-            type: 2,
-            num: 999
-        }, res => {
-            console.log('获取推荐赠品列表：', res.data)
-            if (res.data.data.shop_list)
-                this.setData({
-                    giftList: res.data.data.shop_list.map(u => {
-                        if (u.gallery && u.gallery.length > 0) {
-                            u.image = u.gallery.split(',')[0]
-                        }
-                        return u;
-                    })
-                })
-            else
-                this.setData({
-                    giftList: []
-                })
-        })
-    },
-    //-- 删除推荐赠品
-    remove: function(e) {
-        if (this.data.isowner == 0) {
-            app.msgbox({
-                content: "管理者无此操作的权限！",
-                title: '警告',
-                showCancel: false,
-            })
-            return;
-        }
-        var id = e.currentTarget.dataset.id
-        var index = e.currentTarget.dataset.idx
-        wx.showModal({
-            title: '警告',
-            content: '删除后将无法恢复，确定吗？',
-            confirmColor: '#f00',
-            cancelColor: '#50d1fe',
-            cancelText: '我再想想',
-            confirmText: '我意已决',
-            success: (res) => {
-                if (res.confirm) {
-                    app.post('https://m.58daiyan.com/StoreApi/del_present', {
-                        present_id: id,
-                        token: app.userInfo().token,
-                        ishidden: 2
-                    }, res => {
-                        app.msgbox({
-                            content: res.data.message,
-                            showCancel: false
-                        })
-                        if (res.data.status == 1) {
-                            var giftList = this.data.giftList
-                            giftList.splice(index, 1)
-                            this.setData({
-                                giftList: giftList
-                            })
-                        }
-                    })
-                }
-            }
-        })
+  data: {
+    version: '',
+    storeId: 0,
+    storeName: '',
+    recomList:[]
+  },
+  onLoad(options) {
+    this.data.storeId = options.storeId
+    this.data.storeName = options.storeName
+    this.data.version = app.VERSION()
+  },
+  onShow() {
+    this.listRecommends()
+    this.setData({
+			storeId: this.data.storeId,
+      storeName: this.data.storeName,
+      version: this.data.version
+    })
+    
+  },
+  //-- 方案列表
+  listRecommends() {
+    RecomPlan.List({
+      user_id: app.USER_ID(),
+      store_id: this.data.storeId
+    }).then(r => {
+      console.log('RecomPlan.List => ', r)
+			let recomList = []
+      if(r.code==200 && r.data.length>0){
+          recomList=r.data.map(u=>{
+            u.addtime = TimeConverter.ToLocal(u.addtime)
+            return u
+          })
+      }
+			this.setData({
+				recomList: recomList
+			})
+    })
+  },
+  //-- 初始化一个空白方案
+  initRecommend() {
+    let today = new Date()
+    let recom = {
+      id: 0,
+      store_id: this.data.storeId,
+      recom_name: '初始化的推荐方案', //名称
+      recom_explain: '未设置方案描述', //说明
+      recom_goods: '', //方案中的商品
+      goods_limit: 0, //限购
+      recom_type: 0, //获得推荐资格的条件：0-无门槛 1-购买任一商品 2-消费满额 3-充值满额
+      assign_goods: '', //指定购买的商品
+      recom_consume: 0, //需要消费满金额的多少
+      recom_recharge: 0, //充值达到的金额
+      recom_consume_type: 1, //需要消费满金额的方式 1-一次性消费 2-累计消费
+      start_time: TimeConverter.GetToday(), //方案启动时间
+      end_time: TimeConverter.GetYearLatterToday(), //方案终止时间
     }
+    RecomPlan.SetRecom(recom).then(r => {
+      console.log('RecomPlan.SetRecom => ', r)
+      if(r.code==200){
+        app.msg(r.message)
+        this.listRecommends()
+      }else{
+        app.ERROR(r.message)
+      }
+    })
+  },
+	/**删除一个方案 */
+	onDeleteRecom(e){
+		app.CONFIME('确定删除此推荐方案吗？',()=>{
+			let id = e.currentTarget.dataset.id
+			RecomPlan.Delete({
+				user_id:app.USER_ID(),
+				recom_id:id
+			}).then(r=>{
+				console.log('RecomPlan.Delete => ',r)
+				if(r.code==200){
+					app.SUCCESS(r.message)
+					this.listRecommends()
+				}else{
+					app.ERROR(r.message)
+				}
+			})
+		})
+	}
 })

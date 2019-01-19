@@ -1,29 +1,30 @@
 <view class='font-xs cgray gray full-width'>
-    <view class='pd20 black bolder font-md '>我参与的推荐产品列表</view>
-    <view class='full-width topline'>
-        <view class='tj-item bgw full-width pd flex flex-left pdr20' wx:for='{{recommends}}' wx:key='id' data-id='{{item.shop_id}}' data-title='{{item.title}}' bindtap='toMyTuiJianDetail'>
-            <view class='col-2 bglightgray flex flex-center'>
-                <image class='img-lgp bdfull flex flex-center' src='{{item.shop_img}}' />
-            </view>
-            <view class='col-8 flex-col-auto flex-col-around pdr'>
-                <view class='black font-sm bolder'>{{item.title}} </view>
-                <view><text class='cprimary font-xs'>({{item.action_name}}@{{item.store_name}})</text></view>
-                <view class='font-xs'>{{item.start_time}} 开始</view>
-                <view class='font-xs'>{{item.end_time}} 结束</view>
-            </view>
-            <view class='arrow skr font-sm flex flex-right'>
-                <view class='flex-col-auto'>
-                    <view>推荐</view>
-                    <view>明细</view>
-                </view>
-            </view>
-        </view>
-        <view wx:if='{{recommends.length<=0}}' class='flex-col flex-center pdc30 bgw'>
-            <image src='/resource/icon/emp2.png' style='width:220rpx;height:220rpx;'></image>
-            <text class='cgray font-lg pdc30'>您还没有参加任何产品推荐</text>
-        </view>
+<!-- TopBar -->
+  <view class='full-width' style='height:60px;'></view>
+  <view class='fix-t flex-row pd20 shadow bgw'>
+    <view class='flex flex-left'>
+      <view class='img-md bglightgray radius-circle'>
+        <image src='{{currUser[level].img}}' class='img-md radius-circle'></image>
+      </view>
+      <view class='skr bolder font-sm pdr20'>{{currUser[level].name}}</view>
     </view>
+    <view class='cgray font-x pd' bindtap='onPreLevel' wx:if='{{level>0}}'>上一级</view>
+  </view>
+<!-- TopBar -->
+	  <import src="/template/nothing/item.wxml" />
+    <template is="nothing" data='{{datalist:list,Msg:"没有下一级了~~"}}'></template>
+  <view wx:for='{{list}}' wx:key='' class='bgw flex-row pd20 bottomline'>
+    <view class='flex flex-left'>
+      <view class='img-md bglightgray radius-circle'>
+				<image src='{{item.user_info.user_img}}' class='img-md radius-circle'></image>
+      </view>
+      <view>
+        <view class='black bolder font-sm pdr20'>{{item.user_info.nick_name}}</view>
+        <view class='cgray bolder font-x pdr20'>{{item.addtime}}</view>
+      </view>
+    </view>
+    <view class='arrow cgray font-x pd' data-idx='{{index}}' bindtap='onNextLevel'>下一级</view>
+  </view>
 </view>
-
-<import src="/template/smallmenu/smallmenu.wxml" />
-<template is="smallmenu" data="{{showsmallmenu:flase,smallmenuclosed:smallmenuclosed}}"></template>
+<import src="/template/version/version.wxml" />
+<template is="version" data="{{version}}"></template>

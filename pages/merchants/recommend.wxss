@@ -1,55 +1,40 @@
-.container{
-    padding-bottom:100rpx;
+.btn.remove{
+    background: #f00;
 }
-.menu{
-    padding:20rpx 0;
-    color:#fff;
+.specs-input{
+    width:650rpx;
+    margin-left: 100rpx;
+    padding: 5rpx 10rpx;
 }
-.menu.active{
-    background: #fff;
-    font-weight: bolder;
-    color:#50d1fe;
+button{
+    margin: 0;
+    width:100%;
 }
-.gift-item{
-  width: 100%;
-  background: #fff;
-  border:1rpx solid #e8e8e8;
-  padding: 10rpx;
-  margin-bottom: 20rpx;
-}
-.gift-item > image{
-  width:300rpx;
-  height: 300rpx;
-  padding: 20rpx;
-}
-.gift-item .info{
-  padding: 15rpx;
-  height: 300rpx;
-  }
-.skuimg{
+.img{
     width:100rpx;
     height: 100rpx;
-    background: #ccc;
+    border-radius: 50rpx;
+    border:1rpx solid #ccc;
+    overflow: hidden;
 }
-.skuimg image{
+.img image{
     width:100%;
     height: 100%;
-}
-.sku{
-    width:90%;
-    margin: 0 auto;
 }
 .opt{
     width:100rpx;
     height: 60rpx;
     background: #f00;
 }
-.skuinfo{
-    width:530rpx;
-    font-size:12px;
-}
-.skuinfo text{
-    margin: 0;
-    padding: 0;
-    margin-right:10rpx;
+.choseimg .removeimg{
+    position: absolute;
+    font-size:18px;
+    top:10rpx;
+    right:10rpx;
+    width:48rpx;
+    height:48rpx;
+    background: red;
+    color:#fff;
+    padding: 5rpx;
+    border-radius: 10rpx;
 }

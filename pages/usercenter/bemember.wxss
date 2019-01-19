@@ -1,0 +1,124 @@
+.mybase {
+  background: linear-gradient(to bottom, #d81e06, #f2f2f2);
+}
+
+.input-panel {
+  width: 100%;
+  margin: 0 autp;
+  padding-top: 30rpx;
+  background: #fff;
+}
+
+.input-panel .input-line {
+  font-size: 14px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 80rpx;
+  line-height: 80rpx;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input-panel .input-line .input-label {
+  box-sizing: border-box;
+  background: #f8f8d9;
+  color: #1296db;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1px 12rpx;
+  width: 190rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  border-left: 1rpx solid #ccc;
+  border-top: 1rpx solid #ccc;
+  border-bottom: 1rpx solid #ccc;
+}
+
+.input-panel .input-line .input-box {
+  height: 80rpx;
+  line-height: 80rpx;
+  padding: 1px 12rpx;
+  width: 500rpx;
+  box-sizing: border-box;
+  border: 1rpx solid #ccc;
+}
+
+.input-panel .input-line .input-box.idt {
+  height: 80rpx;
+  line-height: 80rpx;
+  padding: 1px 12rpx;
+  width: 436rpx;
+  box-sizing: border-box;
+  border: 1rpx solid #ccc;
+}
+
+.input-panel .input-line .input-label.must {
+  background: #efede7;
+  color: #515151;
+}
+
+button {
+  margin: 0;
+}
+
+button.bind {
+  width: 75%;
+}
+
+.btn-fix-b {
+  padding: 20rpx;
+  height: 80rpx;
+}
+
+.qqw {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: all 0.2s linear;
+  z-index: 6666;
+  overflow: hidden;
+}
+
+.qqw.hide {
+  height: 0;
+}
+
+.pwe-item-box {
+  width: 33%;
+  padding: 20rpx;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.pwe-content {
+  color: #515151;
+  font-size: 12px;
+  padding: 18rpx;
+  font-weight: bolder;
+  word-break: break-all; /*允许在单词内换行*/
+  height: 148rpx;
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+swiper {
+  width: 750rpx;
+  height: 960rpx;
+}
+
+swiper .swiper-navbox, swiper swiper-item image {
+  width: 100%;
+  height: 100%;
+}

@@ -1,6 +1,55 @@
+.input-panel{
+	width:100%;
+	padding: 30rpx;
+	background: #fff;
+}
+.input-panel .input-line{
+	font-size:14px;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	height: 80rpx;
+	line-height: 80rpx;
+	width:690rpx;
+	box-sizing: border-box;
+}
+.input-panel .input-line .input-label{
+	box-sizing: border-box;
+	background: #f8f8d9;
+	color:#1296db;
+	font-size:12px;
+	font-weight: 600;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 1px 12rpx;
+	width:190rpx;
+	height: 80rpx;
+	line-height: 80rpx;
+	border-left:1rpx solid #ccc;
+	border-top:1rpx solid #ccc;
+	border-bottom:1rpx solid #ccc;
+}
+.input-panel .input-line .input-box{
+	height: 80rpx;
+	line-height: 80rpx;
+	padding: 1px 12rpx;
+	width:500rpx;
+	box-sizing: border-box;
+	border:1rpx solid #ccc;
+}
+.input-panel .input-line .input-label.must {
+  background: #efede7;
+  color:#515151;
+}
+
 button{
     margin: 0;
 }
 button.bind{
     width:75%;
+}
+.btn-fix-b{
+	padding: 20rpx;
+	height: 80rpx;
 }

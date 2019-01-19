@@ -1,6 +1,6 @@
 <view class='container gray'>
   <view class='topblockbg'></view>
-  <view class='full-width fix-t bglinearyellow shadow flex-row pd20'>
+  <view class='fix-t bglinearyellow shadow flex-row pd20'>
     <view class='font-sm black bolder'>{{storeName}}</view>
   </view>
 
@@ -10,7 +10,7 @@
     <import src="/template/nothing/item.wxml" />
     <template is="nothing" data='{{datalist:orderList,Msg:"~空空的~"}}'></template>
 
-    <view class='posteritem box flex-col bottomline' wx:for='{{orderList}}' wx:key='id'>
+    <view class='box bgw pd flex-col bottomline' wx:for='{{orderList}}' wx:key='id'>
       <view class='flex-row'>
         <view class='font-sm black bolder'>{{item.order_sn}}</view>
         <view class='flex flex-center'>
@@ -19,7 +19,7 @@
       </view>
       <view class='full-width pd20'>
         <!-- Goods Info -->
-        <view class='full-width pd20 bottomline'>
+        <view class='full-width pd20'>
           <view class='pd flex-row' wx:for='{{item.goods}}' wx:key='id' wx:for-item='gd'>
             <navigator url='/pages/shop/details?id={{gd.goods_id}}' class='flex flex-center'>
               <image src='{{gd.spec_img}}' class='img-md'></image>
@@ -44,11 +44,11 @@
           <view class='label red-label small'>{{item.orderfrm}}</view>
           <!-- Options -->
           <view class='flex flex-right pd20'>
-            <!-- 确认收货 ：待收货-->
+            <!-- 修改金额-->
             <view class='zs-btn zs-red' data-idx='{{index}}' bindtap='modifyMonery' wx:if='{{item.order_status_txt=="待付款"}}'>修改金额</view>
             <!-- 确认收货 ：待收货-->
-            <view class='zs-btn' data-idx='{{index}}' wx:if='{{item.order_status_txt=="待收货"}}' bindtap='showExpress' data-order='{{item.id}}'>查看物流</view>
-            <!-- 确认收货 ：待收货-->
+            <view class='zs-btn' data-idx='{{index}}' wx:if='{{item.order_status_txt=="待收货"}}' bindtap='showExpress' data-user='{{item.user_id}}' data-order='{{item.id}}'>查看物流</view>
+            <!-- 设置发货-->
             <view class='zs-btn zs-green' data-idx='{{index}}' bindtap='setExpress' wx:if='{{item.order_status_txt=="待发货"}}'>设置发货</view>
           </view>
         </view>
@@ -58,7 +58,13 @@
   </view>
   <import src="/template/version/version.wxml" />
   <template is="version" data="{{version}}"></template>
+
+	<view class='fix-t-b bglinearyellow shadow flex-row pd20'>
+    <view class='font-sm black bolder'>{{storeName}}</view>
+  </view>
+	<view class='topblockbg'></view>
 </view>
+
 <!-- 修改金额弹窗-->
 <view class='modifyWnd {{!modifyShow?"hide":""}} full-width cgray font-xs'>
   <view class='share_bg {{!modifyShow?"hide":""}}' catchtap='hidemodifyWnd' catchtouchmove='true'></view>

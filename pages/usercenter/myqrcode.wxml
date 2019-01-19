@@ -6,13 +6,13 @@
                 <image src='{{user.user_img}}'></image>
             </view>
             <view class='pd flex-col-auto flex-around'>
-                <view class='black font-lg bolder'>{{user.nick_name}}</view>
-                <view class='cgray font-xs'>{{!user.user_phone?"":user.user_phone}}</view>
+                <view class='black font-lg bolder'>{{user.nick_name}}<text wx:if='{{user.member.member_grade>0}}'>({{user.member.member_name}})</text></view>
+                <view class='cgray font-xs'>{{!user.user_phone?"":user.user_phone}}<text wx:if='{{user.member.member_grade>0}}'>(会员编码：<text class='bolder'>{{user.member.member_code}}</text>)</text></view>
             </view>
         </view>
         <canvas canvas-id='qrCanvas' class='qrcode'></canvas>
         <view class='flex flex-center'>
-            <text class='cgray font-xs'>本二维码仅限58免费购小程序中使用</text>
+            <text class='cgray font-xs'>本二维码仅限热网小程序中使用</text>
         </view>
     </view>
     <view></view>

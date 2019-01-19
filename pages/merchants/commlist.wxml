@@ -1,0 +1,19 @@
+<view class='container gray'>
+  <view class='topblockbg'></view>
+  <view class='full-width fix-t bglinearyellow shadow flex-row pd20'>
+    <view class='font-sm black bolder'>{{goods_name}}</view>
+  </view>
+
+  <view class='sq'></view>
+  <!-- list -->
+  <view class='list'>
+    <import src="/template/nothing/item.wxml" />
+    <template is="nothing" data='{{datalist:commlist,Msg:"没有任何评价"}}'></template>
+
+    <import src="/template/commentitem/commentitem.wxml" />
+    <template is="commentitem" wx:for='{{evaluateList}}' wx:key='id' data="{{...item}}"></template>
+
+  </view>
+  <import src="/template/version/version.wxml" />
+  <template is="version" data="{{version}}"></template>
+</view>

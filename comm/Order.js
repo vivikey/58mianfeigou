@@ -7,6 +7,9 @@ let obj = {
   Submit() {
 		return '/api/Purchaseapi/submitOrder'
   }, //-- 生成直购订单
+	SubmitRecom() {
+		return '/api/recommend/submitOrderByRecom'
+	}, //-- 生成推荐有奖商品订单
 	PayOrder() {
 		return '/api/Purchaseapi/payOrder'
 	}, //-- 确认订单
@@ -55,6 +58,9 @@ let obj = {
 	Express() {
 		return '/api/showapi/showUserExpress'
 	}, //-- 订单物流
+	RemindShipment() {
+		return '/api/Purchaseapi/userRemindShipment'
+	}, //-- 提醒发货
 	TakeDelivery() {
 		return '/api/Purchaseapi/userOrderFinish'
 	}, //-- 确认收货

@@ -13,8 +13,8 @@
         <text class='pdr txtpt font-sm'>{{location}}</text>
       </view>
       <!-- SearchBar -->
-      <view class='flex-row label midd search mg-t10' bindtap='inputFocus'>
-        <text class='pdr20 font-sm cgray'>搜索商品...</text>
+      <view class='flex-row label midd search mg-t10'>
+        <text class='pdr20 font-sm cgray'>搜索功能暂未开放...</text>
         <view class='flex flex-center'>
           <image src='/resource/icon/search.svg' class='img-sm'></image>
         </view>
@@ -44,36 +44,42 @@
       </view>
     </view>
     <!-- main nav-->
-    <view class='full-width bgw pd20 flex flex-around bottomline'>
+    <view class='full-width bgw pdr20 pdc30 flex flex-around bottomline'>
       <view class='nav-item' bindtap='toGiftIndex'>
-        <view class='nav-img'>
+        <view class='nav-img lred'>
           <image src='/resource/icon/m-nav-1.png'></image>
         </view>
         <text class='nav-title'>赠品</text>
       </view>
       <view class='nav-item' bindtap='toGroupIndex'>
-        <view class='nav-img'>
+        <view class='nav-img lorange'>
           <image src='/resource/icon/m-nav-2.png'></image>
         </view>
         <text class='nav-title'>拼团</text>
       </view>
       <view class='nav-item' bindtap='toTaskIndex'>
-        <view class='nav-img'>
+        <view class='nav-img lbule'>
           <image src='/resource/icon/m-nav-3.png'></image>
         </view>
         <text class='nav-title'>推广</text>
       </view>
-      <view class='nav-item' bindtap='toMyBalance'>
-        <view class='nav-img'>
+      <view class='nav-item' bindtap='toJiFengPage'>
+        <view class='nav-img lgreen'>
           <image src='/resource/icon/m-nav-4.png'></image>
         </view>
-        <text class='nav-title'>账户</text>
+        <text class='nav-title'>积分</text>
+      </view>
+			<view class='nav-item' bindtap='toBeMember'>
+        <view class='nav-img lviolet'>
+          <image src='/resource/icon/m-nav-5.png'></image>
+        </view>
+        <text class='nav-title'>会员</text>
       </view>
     </view>
     <!-- dynamic notice -->
     <view class='pdr pdc20 bgw flex-row' wx:if='{{dynamic_list.length>0}}'>
       <view class='flex flex-center' style='width:200rpx;height:49rpx;'>
-        <text class='bolder pkcolor font-md'>今日头条</text>
+        <text class='bolder violet font-md'>今日头条</text>
       </view>
       <swiper class='dynamic flex flex-center midd black' indicator-dots="{{false}}" autoplay="{{true}}" circular="{{true}}" interval="{{3000}}" vertical='{{true}}' duration="{{500}}">
         <swiper-item wx:for='{{dynamic_list}}' wx:key='id' class='flex flex-center'>
@@ -96,21 +102,23 @@
           <text class='didi bgviolet'></text>
           <text class='didi bgpk half'></text>
           <text class='didi bgorange mix'></text>
-          <!-- <view class='tomore'>
-            <image src='/resource/icon/more.png' class='img-sm'></image>
-          </view> -->
         </view>
       </view>
     </view>
-    <view class='box bgw pd'>
-      <view wx:for='{{groupHotList}}' wx:key='id' class='full-width pd flex-row'>
-        <view class='store_shop_specimg rel' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}'>
+    <view class='box pd bglightgray'>
+      <import src="/template/nothing/item.wxml" />
+      <template is="nothing" data='{{datalist:groupHotList,Msg:"~空空如也~"}}'></template>
+      <view wx:for='{{groupHotList}}' wx:key='id' class='full-width pdc flex-row bgw bottomline'>
+        <view class='store_shop_specimg rel' bindtap='onShopClick' data-id='{{item.id}}' data-spec='{{item.goods_spec[0].id}}'>
           <image src='{{item.goods_spec[0].spec_img}}'></image>
-          <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0}}'>佣金{{item.goods_brokerage}}</view>
+          <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>推广费
+            <text>{{item.goods_brokerage}}</text>
+          </view>
         </view>
-        <view class='store_shop_info bottomline pdc'>
+        <view class='store_shop_info pdc'>
           <view>
-            <view class='skr bolder font-sm txtclamp txtclamp-2'>{{item.goods_name}}
+            <view class='black bolder font-sm txtclamp txtclamp-2'>
+              <text>{{item.goods_name}}</text>
               <text class='label white-label small'>{{item.goods_spec[0].spec_size}}</text>
               <text class='label white-label small'>{{item.goods_spec[0].spec_color}}</text>
             </view>
@@ -126,10 +134,10 @@
           </view>
           <view class='flex-row'>
             <view>
-              <text class='label small red-label'>{{item.group_num}}人团</text>
+              <text class='label small violet-label bolder'>{{item.group_num}}人团</text>
               <text class='label small'>{{item.sale_num}}已团</text>
             </view>
-            <view class='flex flex-center bdlinearskr wtcolor pdc pdr20 radius-m' bindtap='onShopClick' data-id='{{item.id}}' data-spec='{{item.goods_spec[0].id}}'>
+            <view class='btn-fix-b min-small' bindtap='onShopClick' data-id='{{item.id}}' data-spec='{{item.goods_spec[0].id}}'>
               <text>我要参团</text>
             </view>
           </view>
@@ -150,14 +158,18 @@
     </view>
     <view class='box'>
       <view class='full-witdh flex flex-wrap'>
+        <import src="/template/nothing/item.wxml" />
+        <template is="nothing" data='{{datalist:tuijian_list,Msg:"~空空如也~"}}'></template>
         <view class='tuijian-item' wx:for='{{tuijian_list}}' wx:key='' bindtap='onShopClick' data-id='{{item.id}}' data-spec='{{item.goods_spec[0].id}}'>
           <view class='content'>
             <view class='img flex flex-center rel'>
               <image src='{{item.goods_spec[0].spec_img}}'></image>
-              <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0}}'>佣金{{item.goods_brokerage}}</view>
+              <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>推广
+                <text>{{item.goods_brokerage}}</text>
+              </view>
             </view>
-            <view class='info'>
-              <view class='shop-name full-width skr font-sm txtclamp txtclamp-2'>
+            <view class='info pdr'>
+              <view class='shop-name full-width black font-sm txtclamp txtclamp-2'>
                 <text class='bolder'>{{item.goods_name}}</text>
                 <text class='font-xs pkcolor'>{{item.goods_spec[0].spec_size}} {{item.goods_spec[0].spec_color}}</text>
               </view>
@@ -187,10 +199,12 @@
         <view class='content'>
           <view class='img flex flex-center rel'>
             <image src='{{item.spec[0].spec_img}}'></image>
-            <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0}}'>佣金{{item.goods_brokerage}}</view>
+            <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>推广费
+              <text>{{item.goods_brokerage}}</text>
+            </view>
           </view>
           <view class='info'>
-            <view class='shop-name full-width skr bolder font-sm txtclamp txtclamp-2'>
+            <view class='shop-name full-width sblackkr bolder font-sm txtclamp txtclamp-2'>
               {{item.goods_name}} {{item.spec[0].spec_size}} {{item.spec[0].spec_color}}
             </view>
             <view class='flex-row'>

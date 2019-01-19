@@ -11,11 +11,26 @@ Page({
     })
 
   },
+	toMyQR(){
+		wx.navigateTo({
+			url: 'myqrcode',
+		})
+	},
+	toBeMember(){
+		wx.navigateTo({
+			url: 'bemember',
+		})
+	},
   onShow() {
 		UserCenter.Get({user_id:app.USER_ID()}).then(r=>{
 			console.log('UserCenter.Get => ',r)
 			if (r.code == 200 && r.data.user.user_img){
 				let user = r.data.user
+				if (r.data.higher){
+					user.higher = r.data.higher
+				}else{
+					user.higher = null
+				}
 				user.member = r.data.member
 				user.attentStore = r.data.attentStore
 				user.collectGoods = r.data.collectGoods

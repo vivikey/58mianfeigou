@@ -14,7 +14,7 @@
         <navigator class='full-width flex-row' url='/pages/index/bindphone'>
             <view class='flex flex-left flex-center'>
                 <view class='flex flex-center'>
-                    <image src='/resource/icon/mobile.svg' class='img-sm'></image>
+                    <image src='/resource/icon/bindphone.png' class='img-md'></image>
                 </view>
                 <view class='pdr20 flex flex-center'>
                     <text class='black font-sm'>绑定手机</text>
@@ -28,7 +28,7 @@
     <navigator class='full-width flex-row' url='/pages/usercenter/addressmgr'>
         <view class='flex flex-left flex-center'>
             <view class='flex flex-center'>
-                <image src='/resource/icon/addr.svg' class='img-sm'></image>
+                <image src='/resource/icon/addr.png' class='img-md'></image>
             </view>
             <view class='pdr20 flex flex-center'>
                 <text class='black font-sm'>收货地址</text>

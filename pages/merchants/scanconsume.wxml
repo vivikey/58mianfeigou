@@ -1,17 +1,16 @@
-<view class='container gray'>
-    <view class='scanQr bgw pd20 flex flex-around full-width'>
-        <view class='item-list-title flex flex-center'>{{title}}</view>
-        <!-- <view class='flex-col-auto flex-center pd pdr30 leftline' bindtap='scanQR'>
-            <image src='/resource/icon/scanqr.png' class='scanimg'></image>
-            <text>扫一扫兑现</text>
-        </view> -->
+<view class='container gray' style='padding:90rpx 0;'>
+    <view class='full-width fix-t bglinearyellow shadow flex-row pd20'>
+        <view class='font-sm black bolder'>{{title}}</view>
     </view>
+    <view class='sq'></view>
 		<view class='flex flex-center pd30'>
-			<view class='pd30 bdfull' bindtap='scanQR'>
+			<view class='pd30 bdfull flex-col-auto flex-center' bindtap='scanQR'>
 				<image src='/resource/icon/scanqr.svg' class='img-lgp'></image>
+				<text class='font-xs pdc20'>扫一扫消费(兑现)</text>
 			</view>
 		</view>
-    <view class='cgray full-width font-sm'>
+
+    <!-- <view class='cgray full-width font-sm'>
         <view class='black font-sm pd20'>兑现历史记录查询：</view>
     </view>
 
@@ -32,126 +31,7 @@
                 </view>
             </picker>
         </view>
-    </view>
-    <view class='sq'></view>
-    <view class='full-width pd20'>
-        <!-- 免费赠品 -->
-        <view wx:if='{{historyList.length>0}}' class='flex-row pd20'>
-            <text class='sl'></text> 免费赠品
-            <text class='sl'></text>
-        </view>
-        <view class='pd bottomline bgw' wx:for='{{historyList}}' wx:key='id'>
-            <!-- <view class='pimg'>
-                <image src='{{item.image}}'></image>
-                <text class='black bolder font-xs'>{{index+1}}.</text>
-            </view> -->
-            <view class='info pd black font-xs flex-col-auto flex-around'>
-                <view class='bolder'>{{item.title}}</view>
-                <!-- <view>{{item.oprice}}</view> -->
-                <view>
-                    <text class='cgray'>兑现：</text>
-                    <text class='skr bolder'>{{item.wx_name}}</text>
-                </view>
-                <view>
-                    <text class='cgray'>扫码：</text>
-                    <text class='cprimary bolder'>{{item.handle_name}}</text>
-                </view>
-                <view>
-                    <text class='cgray'>时间：</text>
-                    <text>{{item.usetime}}</text>
-                </view>
-            </view>
-        </view>
-        <!-- 拼团 -->
-        <view wx:if='{{tshop_list.length>0}}' class='flex-row pd20'>
-            <text class='sl'></text> 拼团产品
-            <text class='sl'></text>
-        </view>
-        <view class='flex pd bottomline bgw' wx:for='{{tshop_list}}' wx:key='id'>
-            <!-- <view class='pimg'>
-                <image src='{{item.shop_sku.sku_img}}'></image>
-                <text class='black bolder font-xs'>{{index+1}}.</text>
-            </view> -->
-            <view class='info pd black font-xs flex-col-auto flex-around'>
-                <view>
-                    <text class='bolder'>{{item.title}}<text class='pkcolor'>{{item.shop_sku.sku_spec}}</text></text>
-                </view>
-                <!-- <view>
-                    <text>￥{{item.shop_sku.sku_price}}</text>
-                </view> -->
-                <view>
-                    <text class='cgray'>兑现：</text>
-                    <text class='skr bolder'>{{item.buyer_name}}</text>
-                </view>
-                <view>
-                    <text class='cgray'>扫码：</text>
-                    <text class='cprimary bolder'>{{item.seller_name}}</text>
-                </view>
-                <view>
-                    <text class='cgray'>时间：</text>
-                    <text>{{item.expense_time}}</text>
-                </view>
-            </view>
-        </view>
-        <!-- 推荐有奖 -->
-        <view wx:if='{{shop_list.length>0}}' class='flex-row pd20'>
-            <text class='sl'></text> 推荐有奖产品
-            <text class='sl'></text>
-        </view>
-        <view class='flex pd bottomline bgw' wx:for='{{shop_list}}' wx:key='id'>
-            <!-- <view class='pimg'>
-                <image src='{{item.shop_sku.sku_img}}'></image>
-                <text class='black bolder font-xs'>{{index+1}}.</text>
-            </view> -->
-            <view class='info pd black font-xs flex-col-auto flex-around'>
-
-                <view>
-                    <text class='bolder'>{{item.title}}<text class='pkcolor'>{{item.shop_sku.sku_spec}}</text></text>
-                </view>
-                <!-- <view>
-                    <text>￥{{item.shop_sku.sku_price}}</text>
-                </view> -->
-                <view>
-                    <text class='cgray'>兑现：</text>
-                    <text class='skr bolder'>{{item.buyer_name}}</text>
-                </view>
-                <view>
-                    <text class='cgray'>扫码：</text>
-                    <text class='cprimary bolder'>{{item.seller_name}}</text>
-                </view>
-                <view>
-                    <text class='cgray'>时间：</text>
-                    <text>{{item.expense_time}}</text>
-                </view>
-            </view>
-        </view>
-        <!-- 免费赠品 -->
-        <view wx:if='{{thistoryList.length>0}}' class='flex-row pd20'>
-            <text class='sl'></text> 推荐赠品
-            <text class='sl'></text>
-        </view>
-        <view class='pd bottomline bgw' wx:for='{{thistoryList}}' wx:key='id'>
-            <view class='info pd black font-xs flex-col-auto flex-around'>
-                <view class='bolder'>{{item.title}}</view>
-                <!-- <view>{{item.oprice}}</view> -->
-                <view>
-                    <text class='cgray'>兑现：</text>
-                    <text class='skr bolder'>{{item.wx_name}}</text>
-                </view>
-                <view>
-                    <text class='cgray'>扫码：</text>
-                    <text class='cprimary bolder'>{{item.handle_name}}</text>
-                </view>
-                <view>
-                    <text class='cgray'>时间：</text>
-                    <text>{{item.usetime}}</text>
-                </view>
-            </view>
-        </view>
-        <import src="/template/emptyshow/emptyshow.wxml" />
-        <template is="empty" data='{{image:"/resource/icon/emp2.png",firstmsg:"当前日期区间内没有兑现记录",secmsg:"",times:2}}' wx:if='{{historyList.length<=0&&shop_list.length<=0&&tshop_list.length<=0&&thistoryList.length<=0}}'></template>
-
-    </view>
+    </view> -->
 </view>
-<import src="/template/smallmenu/smallmenu.wxml" />
-<template is="smallmenu" data="{{showsmallmenu:flase,smallmenuclosed:smallmenuclosed}}"></template>
+    <import src="/template/version/version.wxml" />
+    <template is="version" data="{{version}}"></template>

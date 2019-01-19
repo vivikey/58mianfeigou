@@ -72,6 +72,9 @@ swiper.dynamic{
 	border-radius: 80rpx;
 	transform:translate(15px,-15px);
 }
+.store-cart .opt-bar .cart-box.bgw{
+		background: #fff;
+}
 .store-cart .opt-bar .cart-box.empty{
 		background: #383838;
 }
@@ -79,3 +82,10 @@ swiper.dynamic{
 	height: 100rpx;
 	width:180rpx;
 }
+.sortbox{
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	padding-top: 20rpx;
+}
+@import "/template/sharebox/sharebox.wxss";

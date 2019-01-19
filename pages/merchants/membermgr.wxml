@@ -1,72 +1,59 @@
-<import src="/template/emptyshow/emptyshow.wxml" />
-<view class='container gray fullscreen flex-left'>
-    <view class='full-width bgw bottomline'>
-        <view class='font-lg pd20 bolder'>{{storeName}}</view>
+<view class='container gray' style='padding:90rpx 0;'>
+  <view class='full-width fix-t bglinearyellow shadow flex-row pd20'>
+    <view class='font-sm black bolder flex-row'>
+      <text>{{storeName}}</text>
+      <view></view>
     </view>
-    <view class='tab-body full-width'>
-        <view class='body-item' wx:if='{{tabValue==1}}'>
-            <template is="empty" data='{{image:"/resource/icon/emp1.png",firstmsg:"哦~消息是不是被清空了？",secmsg:"点击右下角发布消息",times:[1,2,3]}}' wx:if='{{message_list.length<=0}}'></template>
-            <view class='notice-item mg-t10 bgw pd30 full-width' wx:for='{{message_list}}' wx:key='id'>
-
-                <view class='item-title black bolder'>{{item.title}}</view>
-                <view class='item-time font-xs cgray'>{{item.addtime}}</view>
-                <view class='item-content pd30 bglightgray'>
-                    <text class='pkcolor' wx:for='{{item.label_id}}' wx:key='' wx:for-item='label'>@{{label.name}}</text> {{item.content}}
-                </view>
-                <view class='pd bglightgray' wx:if='{{item.image && item.image!="null"}}'>
-                    <image src='{{item.image}}' class='full-width radius-s'></image>
-                </view>
-                <view class='flex-row flex-right'>
-                    <view class='cprimary pd font-xs' data-id='{{item.id}}' bindtap='removeMessage'>删除</view>
-                </view>
-            </view>
-        </view>
-        <view class='body-item full-width' wx:if='{{tabValue==2}}'>
-            <view class='skr pd20 font-sm bolder'>发布公告说明：公告内容为纯文字，不多于70个字（包含标点）</view>
-            <template is="empty" data='{{image:"/resource/icon/emp1.png",firstmsg:"一条公告都没有吗？",secmsg:"点击右下发布公告",times:[1,2,3]}}' wx:if='{{notice_list.length<=0}}'></template>
-            <view class='notice-item mg-t10 mg-b10 bgw pd30' wx:for='{{notice_list}}' wx:key='id'>
-                <view class='bolder black'>{{item.title}}</view>
-                <view class='bglightgray pd30'>{{item.content}}</view>
-                <view class='cgray font-xs'>{{item.addtime}}</view>
-            </view>
-        </view>
-        <view class='body-item full-width' wx:if='{{tabValue==3}}'>
-            <view class='flex-row bgw pd30 bottomline' bindtap='toLabelMgr'>
-                <view class='flex flex-center'>
-                    <view class='icon'>
-                        <image src='/resource/icon/label.png' class='img-md'></image>
-                    </view>
-                    <view class='black bolder font-md pd-l20'>标签</view>
-                </view>
-                <view class='arrow'></view>
-            </view>
-            <view class='sq'></view>
-            <view class='flex-row bgw pd20 pdr30 bottomline' wx:for='{{user_list}}' wx:key='id' data-name='{{item.username}}' data-uid='{{item.user_id}}' bindtap='toSetLabel'>
-                <view class='flex flex-center'>
-                    <view class='icon'>
-                        <image src='{{item.user_pic}}' class='img-md radius-circle'></image>
-                    </view>
-                    <view class='black  font-md pd-l20 flex-col'>
-                        <view>{{item.username}}</view>
-                        <view class='cgray font-xs col-8 txtpt'>{{item.user_label.length
-                            <=0? "未设置标签":"标签："+item.user_label}}</view>
-                        </view>
-                    </view>
-                    <view class='arrow cgray font-xs'>设置标签</view>
-                </view>
-                <template is="empty" data='{{image:"/resource/icon/emp1.png",firstmsg:"啊！一个粉丝都没有啊",secmsg:"记得把商铺和赠品多多分享出去哟",times:[1,2,3]}}' wx:if='{{user_list.length<=0}}'></template>
-            </view>
-        </view>
-        <view class='footbar flex-row'>
-            <view class='tab-item flex flex-center {{tabValue==3?"active":""}}' data-value='3' bindtap='onTabChange'>粉丝管理</view>
-            <view class='tab-item flex flex-center {{tabValue==1?"active":""}}' data-value='1' bindtap='onTabChange'>消息管理</view>
-            <view class='tab-item flex flex-center {{tabValue==2?"active":""}}' data-value='2' bindtap='onTabChange'>公告管理</view>
-
-            <navigator wx:if='{{sendtype<3}}' class='tab-item  flex flex-center bgpk' url='posterinfo?type={{sendtype}}&&storeId={{storeId}}&storeName={{storeName}}'>
-                <text class='addbtn'>✚{{sendtype==1?"发布消息":"发布公告"}}</text>
-            </navigator>
-            <view wx:else class='tab-item  flex flex-center'>
-                <text class='skr bolder font-xs'>{{user_count}} 粉丝</text>
-            </view>
-        </view>
+  </view>
+  <view class='pd20 full-width'>
+    <view class='full-width label warn-label'>
+      注意：一个店铺只能有一套会员等级制度；一经确认使用后，会员等级制度不可更改与删除，只有在删除店铺时才能删除。
     </view>
+  </view>
+
+  <view class='sq'></view>
+  <view class='full-width bgw pd'>
+    <view wx:for='{{members}}' wx:key='id' class='bottomline pd20 full-width'>
+      <view class='full-width'>
+        <view class='flex'>
+          <text class='label or-label'>{{item.grade}}</text>
+          <text class='pdr black bolder font-sm'>{{item.grade_name}}</text>
+        </view>
+        <view class='flex pdc font-xs cgray'>
+          资格条件：
+          <text class='black' wx:if='{{item.member_type==1}}'>无门槛</text>
+          <text class='black' wx:if='{{item.member_type==2}}'>购买任一商品</text>
+          <text class='black' wx:if='{{item.member_type==3}}'>需消费满额</text>
+          <text class='black' wx:if='{{item.member_type==4}}'>需充值满额</text>
+          <text class='pdr bolder pkcolor' wx:if='{{item.member_type>2}}'>￥{{item.member_money}}</text>
+        </view>
+      </view>
+      <view class='full-width pd20 flex flex-right' style='border-bottom:1rpx dashed #eaeaea;' wx:if='{{!item.affirm}}'>
+        <view class='flex-col-auto flex-center pdr20' data-id='{{item.id}}' data-idx='{{index}}' catchtap='onDelete'>
+          <image src='/resource/icon/delete.svg' class='img-sm'></image>
+          <text class='font-x black'>删除</text>
+        </view>
+        <navigator url="/pages/merchants/memberinfo?storeId={{storeId}}&grade_id={{item.id}}" class='flex-col-auto flex-center pdr20'>
+          <image src='/resource/icon/edit.svg' class='img-sm'></image>
+          <text class='font-x black'>编辑</text>
+        </navigator>
+      </view>
+      <view class='full-width pd20 flex flex-right' style='border-bottom:1rpx dashed #eaeaea;' wx:if='{{item.affirm}}'>
+					<view class='label violet-label small'>会员系统已确认使用，不能再更改！</view>
+      </view>
+    </view>
+  </view>
+
+  <import src="/template/version/version.wxml" />
+  <template is="version" data="{{version}}"></template>
+</view>
+<view class='fix-b flex flex-center pd20'>
+  <navigator url="/pages/merchants/memberinfo?storeId={{storeId}}" class='btn-fix-b font-md'>
+    <image src='/resource/icon/add.svg' class='addbtnimg radius-circle'></image>
+    增加会员级别
+  </navigator>
+  <view class='btn-fix-b heighter green font-md' bindtap='onConfiem'>
+    <image src='/resource/icon/ok3.svg' class='addbtnimg radius-circle'></image>
+    确认会员级别
+  </view>
+</view>

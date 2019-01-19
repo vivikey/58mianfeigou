@@ -1,33 +1,43 @@
-.nav-item > view{
-    padding:10rpx;
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-.nav-1>view{
-    background:rgb(206, 255, 233);
+
+.nav-img {
+	background: #eee;
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 18rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
-.nav-2>view{
-    background:rgb(255, 233, 209);
+.nav-img.lbule{
+	background: #E5F1FF;
 }
-.nav-3>view{
-    background:rgb(255, 200, 200);
+.nav-img.lorange{
+	background: #FFE8CE;
 }
-.nav-4>view{
-    background:rgb(254, 220, 220);
+.nav-img.lviolet{
+	background: #FFE7FF;
 }
-.nav-5>view{
-    background:rgb(218, 233, 251);
+.nav-img.lgreen{
+	background: #DEFCFC;
 }
-.nav-item image{
-  width:64rpx;
+.nav-img.lred{
+	background: #FFE7EB;
+}
+.nav-img image {
+  width: 64rpx;
   height: 64rpx;
 }
 
-.box{
-  padding-left: 30rpx;
-  padding-right: 30rpx;
-
-}
-.box .nav-item text{
-  padding-top:10rpx;
+.nav-title {
+  font-size: 14px;
+  color: #333;
+  padding-top: 2px;
   font-weight: 500;
-  font-size:14px;
 }

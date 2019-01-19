@@ -9,7 +9,7 @@
                 </view>
                 <view class='hight-md black pd font-xs'>
                     <view class='cprimary bolder'>{{item.title}}</view>
-                    <view class='lightgray '>{{item.store_title?item.store_title:"58免费购"}}</view>
+                    <view class='lightgray '>{{item.store_title?item.store_title:"热网"}}</view>
                 </view>
             </view>
             <view class='pd20'>                

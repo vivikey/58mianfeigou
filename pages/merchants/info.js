@@ -12,14 +12,15 @@ Page({
       store_logo: '/resource/images/logo.png', //-- 商铺LOGO图片地址
       store_intro: '', //-- 商铺详情
       start_time: '08:00', //-- 营业开始时间
-      end_time: '22：00', //-- 营业结束时间
+      end_time: '22:00', //-- 营业结束时间
       store_img: [], //-- 商铺图片
       store_type: '', //-- 商铺类型
       store_phone: '', //-- 客服电话
       indentity_card: '', //-- 店主身份证ID
       business_license: [], //-- 商铺营业执照等
       indentity_card_img: [], //-- 店主身份证照,
-      on_line: 1 //--1:线上店铺；0：线下店铺
+      on_line: 1, //--1:线上店铺；0：线下店铺
+			transport_cost:0.0 //-- 运费
     }
   },
   onLoad(options) {
@@ -189,6 +190,9 @@ Page({
       store: store
     })
   },
+	onShow(){
+		
+	},
   //-- 执行操作
   onSubmit() {
     let store = Object.assign({}, this.data.store)

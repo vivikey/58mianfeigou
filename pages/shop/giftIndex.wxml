@@ -13,8 +13,8 @@
         <text class='pdr txtpt font-sm'>{{location}}</text>
       </view>
       <!-- SearchBar -->
-      <view class='flex-row label midd search mg-t10' bindtap='inputFocus'>
-        <text class='pdr20 font-sm cgray'>搜索商品...</text>
+      <view class='flex-row label midd search mg-t10'>
+        <text class='pdr20 font-sm cgray'>搜索功能暂未开放...</text>
         <view class='flex flex-center'>
           <image src='/resource/icon/search.svg' class='img-sm'></image>
         </view>
@@ -41,7 +41,7 @@
       </view>
     </view>
     <!-- main nav-->
-    <view class='full-width bgw pd20 flex flex-around bottomline'>
+    <view class='full-width bgw pdr20 pdc30 flex flex-around bottomline'>
       <view class='nav-item' bindtap='toHomeIndex'>
         <view class='nav-img'>
           <image src='/resource/icon/home.png'></image>
@@ -49,22 +49,28 @@
         <text class='nav-title'>首页</text>
       </view>
       <view class='nav-item' bindtap='toGroupIndex'>
-        <view class='nav-img'>
+        <view class='nav-img lorange'>
           <image src='/resource/icon/m-nav-2.png'></image>
         </view>
         <text class='nav-title'>拼团</text>
       </view>
       <view class='nav-item' bindtap='toTaskIndex'>
-        <view class='nav-img'>
+        <view class='nav-img lbule'>
           <image src='/resource/icon/m-nav-3.png'></image>
         </view>
         <text class='nav-title'>推广</text>
       </view>
-      <view class='nav-item' bindtap='toMyBalance'>
-        <view class='nav-img'>
+      <view class='nav-item' bindtap='toJiFengPage'>
+        <view class='nav-img lgreen'>
           <image src='/resource/icon/m-nav-4.png'></image>
         </view>
-        <text class='nav-title'>账户</text>
+        <text class='nav-title'>积分</text>
+      </view>
+      <view class='nav-item' bindtap='toBeMember'>
+        <view class='nav-img lviolet'>
+          <image src='/resource/icon/m-nav-5.png'></image>
+        </view>
+        <text class='nav-title'>会员</text>
       </view>
     </view>
     <view class='box sq'>
@@ -83,16 +89,19 @@
     <view class='box bgw pd'>
       <view class='full-witdh flex flex-wrap'>
         <view class='full-width pd20'>
-
+          <import src="/template/nothing/item.wxml" />
+          <template is="nothing" data='{{datalist:giftList,Msg:"~空空如也~"}}'></template>
           <!-- giftList -->
           <view wx:for='{{giftList}}' wx:key='id' class='full-width pd flex-row'>
             <view class='store_shop_specimg rel' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail'>
               <image src='{{item.spec[0].spec_img}}'></image>
-              <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0}}'>佣金{{item.goods_brokerage}}</view>
+              <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>推广费
+                <text>{{item.goods_brokerage}}</text>
+              </view>
             </view>
             <view class='store_shop_info bottomline pdc'>
               <view>
-                <view class='skr font-sm bolder'>{{item.goods_name}}
+                <view class='black font-sm bolder'>{{item.goods_name}}
                   <text class='label white-label'>{{item.spec.spec_size}}</text>
                   <text class='label white-label'>{{item.spec.spec_color}}</text>
                 </view>
@@ -100,12 +109,16 @@
                   <text class='label small'>{{item.goods_key}}</text>
                 </view>
               </view>
+              <view class='font-sm flex'>
+                <view class='cgray txtmidline font-xs'>¥{{item.spec[0].spec_price}}</view>                
+              </view>
               <view class='flex-row'>
-                <view>
+                <view class='flex flex-center'>
                   <text class='label small'>{{item.sale_num}}已领取</text>
+									<text class='label small yellow-label bolder'>{{item.distance}}km</text>
                 </view>
-                <view class='flex flex-center bdlinearskr wtcolor pdc pdr20 radius-m' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail'>
-                  <text class='wtcolor'>我要领取</text>
+                <view class='btn-fix-b min-small' data-goodsid='{{item.id}}' data-specid='{{item.spec[0].id}}' bindtap='goDetail'>
+                  <text class=''>免费领取</text>
                 </view>
               </view>
             </view>

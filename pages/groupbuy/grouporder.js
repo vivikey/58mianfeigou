@@ -74,7 +74,7 @@ Page({
       }
     })
   },
-  onShow: function() {
+  onShow() {
     let chosedAddress = wx.getStorageSync("chosedAddress") || null
     if (!chosedAddress) {
       this.getUserAddress()
@@ -133,6 +133,10 @@ Page({
   },
   //-- 确定订单并支付
   ConfirmOrderAndPay() {
+    if (this.data.order.store.on_line == 1 && !this.data.defaultAddress.addr_detail) {
+      app.ERROR('请配置收货地址')
+      return
+    }
     this.payOrder(this.data.order.order_sn, this.data.order.id)
   },
   //-- 增加数量
@@ -160,6 +164,9 @@ Page({
   },
   //-- 减少数量
   subcount: function(e) {
+    if (this.data.order.total_num < 2) {
+      return;
+    }
     let order_id = this.data.order.id
     let {
       goods_id,
@@ -197,7 +204,9 @@ Page({
             order_sn
           }).then(r => {
             console.log('Order.PayOrder => ', r)
-            if (r.code == 200) {
+            if (r.code == 0) {
+              this.onSuccess()
+            } else if (r.code == 200) {
               this.useWeChatPay(r.data)
             } else {
               app.ERROR(`确认订单失败！`)
@@ -214,7 +223,9 @@ Page({
         order_sn
       }).then(r => {
         console.log('Order.PayOrder => ', r)
-        if (r.code == 200) {
+        if (r.code == 0) {
+          this.onSuccess()
+        } else if (r.code == 200) {
           this.useWeChatPay(r.data)
         } else {
           app.ERROR(`确认订单失败！`)
@@ -232,23 +243,7 @@ Page({
       'package': obj.package,
       'signType': obj.signType,
       'paySign': obj.paySign,
-      'success': res => {
-        app.msgbox({
-          content: '支付成功',
-          showCancel: false,
-          success: d => {
-            if (!this.data.goods.orderDirect) { //-- 拼团
-              wx.redirectTo({
-                url: `/pages/groupbuy/injoin?group_id=${this.data.order.group_id}`,
-              })
-            } else {
-							wx.redirectTo({
-                url: `/pages/orders/orderdetail?id=${this.data.order.id}`
-              })
-            }
-          }
-        })
-      },
+      'success': this.onSuccess,
       'fail': res => {
         var msg = '支付失败:';
         if (res.err_desc) {
@@ -262,7 +257,7 @@ Page({
           showCancel: false,
           success: d => {
             //-- 跳转到未付款订单页
-						wx.redirectTo({
+            wx.redirectTo({
               url: `/pages/orders/index?idx=1`
             })
           }
@@ -270,4 +265,21 @@ Page({
       }
     })
   },
+  onSuccess(res) {
+    app.msgbox({
+      content: '支付成功',
+      showCancel: false,
+      success: d => {
+        if (!this.data.goods.orderDirect) { //-- 拼团
+          wx.redirectTo({
+            url: `/pages/groupbuy/injoin?group_id=${this.data.order.group_id}`,
+          })
+        } else {
+          wx.redirectTo({
+            url: `/pages/orders/orderdetail?id=${this.data.order.id}`
+          })
+        }
+      }
+    })
+  }
 })

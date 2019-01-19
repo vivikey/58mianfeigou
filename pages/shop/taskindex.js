@@ -13,7 +13,7 @@ var pageObj = {
       key: '上架时间',
       value: 2
     }, {
-      key: '佣金',
+      key: '推广费',
       value: 3
     }, {
       key: '销量',
@@ -58,6 +58,12 @@ var pageObj = {
       sc2: e.detail.current
     })
   },
+	//-- 转至会员页
+	toBeMember() {
+		wx.navigateTo({
+			url: '/pages/usercenter/bemember',
+		})
+	},
   //--进入到搜索页面
   inputFocus: function() {
     wx.navigateTo({
@@ -88,11 +94,30 @@ var pageObj = {
 		Index.TaskList(this.data.shopListWhere).then(r => {
 			console.log('Index.TaskList => ', r)
       if (r.code == 200 && r.data.length>0) {
+				let olist = []
+				let slist = r.data
+				slist.forEach(item => {
+					if (item.spec.length > 0) {
+						item.spec.forEach(sp => {
+							let obj = {
+								...item
+							}
+							obj.spec = {
+								...sp
+							}
+							obj.goods_key = obj.goods_key.split(/，|,/)
+							olist.push({
+								...obj
+							})
+						})
+					}
+				})
+
 				let taskList = this.data.taskList
 				if (this.data.shopListWhere.page > 1) {
-					taskList = [...taskList, ...r.data]
+					taskList = [...taskList, ...olist]
 				} else {
-					taskList = [...r.data]
+					taskList = [...olist]
 				}
         this.setData({
 					taskList: taskList
@@ -146,11 +171,16 @@ var pageObj = {
     })
   },
   //-- 赠品首页
-  toGiftIndex() {
-    wx.navigateTo({
-      url: '/pages/shop/giftIndex',
-    })
-  },
+	toGiftIndex() {
+		wx.navigateTo({
+			url: '/pages/shop/giftIndex',
+		})
+	},
+	toJiFengPage() {
+		wx.navigateTo({
+			url: '/pages/shop/jifengIndex',
+		})
+	},
   //-- 拼团首页
   toGroupIndex() {
     wx.navigateTo({

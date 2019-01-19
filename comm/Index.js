@@ -9,7 +9,7 @@ let obj = {
 	}, //-- 显示推荐的活动海报
 	GetGift() {
 		return '/api/showapi/showGiftRecommend'
-	}, //-- 显示推荐的实惠赠品
+	}, //-- 显示赠品
 	GetGroup() {
 		return '/api/showapi/showGroupRecommend'
 	}, //-- 显示推荐的热门团购
@@ -31,11 +31,14 @@ let obj = {
 	TypeList() {
 		return '/api/showapi/showShopClassAtView'
 	}, //-- 首页头条
+	IntegralGoods() {
+		return '/api/showapi/showIntegralGoods'
+	}, //-- 列表积分商品
   async Do(data) {
     return await new Promise((resolve, reject) => {
       $.Post(this.url, data, r => {
         resolve(r.data)
-      }, null, true)
+      }, null, false)
     })
   }
 }

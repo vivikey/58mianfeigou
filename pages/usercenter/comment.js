@@ -2,6 +2,8 @@ var app = getApp()
 import Evaluate from '../../comm/Evaluate.js'
 Page({
   data: {
+		version:'',
+		order_id:0,
     stat: 0, //-- 0:商品评价，1：商铺评价
    	id: 0,
     grade: 5,
@@ -9,9 +11,17 @@ Page({
     evaluate_img: []
   },
   onLoad: function(options) {
+		this.data.order_id = options.order_id
 		this.data.stat = options.stat
 		this.data.id = options.id
-  }, //-- 图片
+
+  },
+	onShow(){
+		this.setData({
+			version:app.VERSION()
+		})
+	}, 
+	//-- 图片
   choseImg: function() {
 		let evaluate_img = this.data.evaluate_img
 		wx.chooseImage({
@@ -58,7 +68,7 @@ Page({
   Save: function() {
 		if (this.data.stat ==0 ) //-- 商品评价
 		{
-			Evaluate.PostForGoods({ user_id: app.USER_ID(), goods_id: this.data.id, goods_grade: 5, evaluate: this.data.evaluate, evaluate_img: this.data.evaluate_img.join(',')}).then(r=>{
+			Evaluate.PostForGoods({ user_id: app.USER_ID(), order_id: this.data.order_id,goods_id: this.data.id, goods_grade: 5, evaluate: this.data.evaluate, evaluate_img: this.data.evaluate_img.join(',')}).then(r=>{
 				console.log('Evaluate.PostForGoods => ',r)
 				if(r.code == 200){
 					app.SUCCESS(r.message,()=>{

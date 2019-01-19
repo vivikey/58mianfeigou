@@ -26,7 +26,7 @@
   <view class='sq'></view>
   <view class='full-width bgw pdr20'>
     <view class='flex pdc20 bottomline'>
-      <image src='/resource/icon/store-pk.svg' class='img-sm'></image>
+      <image src='{{order.store.store_logo}}' class='img-sm radius-circle'></image>
       <view class='font-md bolder'>{{goods.store_info.store_name}} </view>
     </view>
     <view class='flex pd-t20'>
@@ -44,7 +44,7 @@
             <text class='label small red-label' wx:if='{{!goods.orderDirect}}'>{{goods.group_num}}人拼</text>
           </view>
           <view class='flex bdfull bgw fong-sm'>
-            <view class='pd pdr20 bolder {{goods.goods_number>1?"":"cgray"}}' bindtap='subcount'>━</view>
+            <view class='pd pdr20 bolder {{order.total_num>1?"":"cgray"}}' bindtap='subcount'>━</view>
             <view class='pd pdr20 leftline rightline black bolder'>{{order.total_num}}</view>
             <view class='pd pdr20 bolder' bindtap='addcount'>✚</view>
           </view>
@@ -71,19 +71,19 @@
   </view>
   <!-- 订单汇总 -->
   <view class='sq'></view>
-  <view class='full-width bgw '>
-    <view class='bottomline pdc30 bgw pdr20'>
-      <view class='flex-row'>
-        <view class='black linfo bolder'>商品金额</view>
-        <view class='redcolor flex flex-right font-sm bolder'>￥{{order.goods_price}}</view>
+  <view class='full-width bgw'>
+    <view class='bottomline pdc bgw pdr20'>
+      <view class='flex-row bolder pd bottomline'>
+        <view class='black linfo'>商品金额</view>
+        <view class='redcolor flex flex-right font-sm'>{{order.goods_price}}</view>
       </view>
-      <view class='flex-row'>
-        <view class='black linfo bolder'>运费</view>
-        <view class='skr flex flex-right font-sm'>+￥{{order.transport_price}}</view>
+      <view class='flex-row bolder pd bottomline'>
+        <view class='black linfo'>运费</view>
+        <view class='or flex flex-right font-sm'>+{{order.transport_price}}</view>
       </view>
-			<view class='flex-row'>
-        <view class='black linfo bolder'>抵扣</view>
-        <view class='skr flex flex-right font-sm'>-￥{{order.discount_money}}</view>
+      <view class='flex-row bolder pd'>
+        <view class='black linfo'>抵扣</view>
+        <view class='or flex flex-right font-sm'>-{{order.discount_money}}</view>
       </view>
     </view>
     <view class='bgw pd20'>
@@ -91,8 +91,14 @@
         实付金额：
         <text class='font-md redcolor bolder'>￥{{order.total_price}}</text>
       </view>
-      <!-- 支付方式 -->
-      <view class='bggreen wtcolor flex flex-center pd20 font-lgp' bindtap='ConfirmOrderAndPay'>确定支付</view>
+    </view>
+    <view class='sq'></view>
+    <!-- 支付方式 -->
+    <view class='full-width flex flex-center pd20'>
+      <view class='btn-fix-b green heighter font-md' bindtap='ConfirmOrderAndPay'>
+        <image src='/resource/icon/wxpay.png' class='img-sm'></image>
+        <text class='pd'>确定支付</text>
+      </view>
     </view>
   </view>
   <view class='sq'></view>

@@ -9,15 +9,15 @@
         <view class='item-title bolder txtclamp txtclamp-2'>
           {{group_info.goods.goods_name}}
         </view>
-        <view class='item-label flex flex-wrap'>
-          <text class='bgdanger wtcolor radius-s '>{{group_info.goods.spec[spec_chosed].spec_size}}</text>
-          <text class='bgdanger wtcolor radius-s '>{{group_info.goods.spec[spec_chosed].spec_color}}</text>
+        <view class='flex flex-wrap'>
+          <text class='label small cgray'>{{group_info.goods.spec[spec_chosed].spec_size}}</text>
+          <text class='label small cgray'>{{group_info.goods.spec[spec_chosed].spec_color}}</text>
         </view>
       </view>
       <view class='flex-row'>
         <view>
           <view class='title flex-row font-xs skr'>
-            <text class='bolder redcolor'>{{group_info.goods.group_num}}人拼</text>
+            <text class='label small violet-label'>{{group_info.goods.group_num}}人拼</text>
             <text class='bolder redcolor font-lg pdr'><text class='font-x'>￥</text>{{group_info.goods.spec[spec_chosed].group_price}}</text>
           </view>
           <view class='title flex font-xs cgray'>
@@ -37,16 +37,16 @@
         <view>还差
           <text class='black font-lg bolder'>{{group_info.short_num}}人</text> 成团
         </view>
-        <view class='label gold-label bolder' wx:if='{{group_info.hastime}}' >{{group_info.short_time}}</view>
-                <view class='label gold-label bolder' wx:if='{{!group_info.hastime}}'>已过期</view>
+        <view class='label gold-label bolder' wx:if='{{group_info.hastime}}'>{{group_info.short_time}}</view>
+        <view class='label gold-label bolder' wx:if='{{!group_info.hastime}}'>已过期</view>
         <view wx:if='{{group_info.hastime}}'>
-          <button open-type='share' plain='{{true}}'>
+          <button open-type='share' plain='{{true}}' class='flex-center'>
             <image src='/resource/icon/share3.png' class='img-sm'></image>
           </button>
         </view>
       </view>
     </view>
-      <view class='full-width flex-col flex-center bottomline' wx:if='{{group_info.short_num<=0}}'>
+    <view class='full-width flex-col flex-center bottomline' wx:if='{{group_info.short_num<=0}}'>
       <view class='flex-row pd20'>
         <view class='redcolor bolder'>
           拼购成功！
@@ -88,7 +88,7 @@
     <navigator class='full-width label green-label flex flex-center pdc20' open-type='switchTab' url='/pages/shop/index'>
       <text class='pd'>返回首页</text>
     </navigator>
-    <view class='full-width label orange-label flex flex-center pdc20' bindtap='toShopDetail'>重开一团</view>
+    <view class='full-width label or-label flex flex-center pdc20' bindtap='toShopDetail'>重开一团</view>
     <view class='full-width label pk-label flex flex-center pdc20' bindtap='joinOrder' wx:if='{{group_info.hastime && group_info.short_num>0}}'>我要参团</view>
   </view>
 </view>

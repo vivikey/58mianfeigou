@@ -1,16 +1,49 @@
+@import "/template/mainnavbox/mainnavbox.wxss";
 swiper image {
   width: 100%;
   height: 100%;
 }
-
+.task-item-box{
+	width:345rpx;
+	padding:0;
+	margin:10rpx;
+	background: #fff; 	
+}
+.task-item-box:nth-child(2n+1){
+	margin-left:20rpx;
+}
+.task-item-box:nth-child(2n){
+	margin-right:20rpx;
+}
 .task-img{
-	width:128rpx;
-	height: 96rpx;
+	width:345rpx;
+	height: 345rpx;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	border-radius: 6rpx;
+	position: relative;
+}
+.task-img image{
+	width:100%;
+	height: 100%;
+}
+.task-info{
+	width:345rpx;
+	height: 148rpx;
+}
+.task-bkm{
+	border:1rpx solid #8EDEFF;
+	color:#1296db;
+	font-size:12px;
+	font-weight: 500;
+	height: 48rpx;
+	border-radius: 24rpx;
+	text-align: center;
+	padding: 6rpx 12rpx;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 .label{
 	font-size:13px;

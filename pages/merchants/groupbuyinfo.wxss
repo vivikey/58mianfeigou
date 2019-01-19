@@ -1,3 +1,4 @@
+@import "/template/form.wxss";
 .btn.remove{
     background: #f00;
 }
@@ -25,16 +26,4 @@ button{
     width:100rpx;
     height: 60rpx;
     background: #f00;
-}
-.choseimg .removeimg{
-    position: absolute;
-    font-size:18px;
-    top:10rpx;
-    right:10rpx;
-    width:48rpx;
-    height:48rpx;
-    background: red;
-    color:#fff;
-    padding: 5rpx;
-    border-radius: 10rpx;
 }

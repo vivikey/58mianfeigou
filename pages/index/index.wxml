@@ -1,13 +1,21 @@
 <view class="container fullscreen">
-    <text class='mg-b10'></text>
-    <text class='mg-b10'></text>
-    <view class='flex-col flex-center'>
-        <image src='/resource/icon/logo.png' class='userImg lg'></image>
-    </view>
-    <view class='flex flex-center pd30 font-xs'>您正在使用：<text class='bolder skr'>{{networkType}}</text></view>
-    <button class='mg-b10 pkcolor pd' bindtap='payAnnualFee' plain='{{true}}' hover-class='button-hover' type="warn" wx:if='{{showButton}}'>立即支付</button>
-    <text class='mg-b10'></text>
-    <import src="/template/version/version.wxml" />
+  <text class='mg-b10'></text>
+  <text class='mg-b10'></text>
+  <view class='full-width flex flex-center'>
+    <image src='/resource/icon/logo.png' class='userImg lg'></image>
+  </view>
+	<text class='mg-b10'></text>
+  <view class='flex flex-center pd30 font-xs'>您正在使用：
+    <text class='bolder pkcolor font-md'>{{networkType}}</text>
+  </view>
+  <view class='btn-fix-b green heighter font-md' wx:if='{{loginFaile}}' bindtap='login'>
+    <image src='/resource/icon/WeChat.png' class='addbtnimg radius-circle'></image>
+    重新登录
+  </view>
+	<text class='mg-b10'></text>
+  <text class='mg-b10'></text>
+  <import src="/template/version/version.wxml" />
+  <view class='full-width'>
     <template is="version" data="{{version}}"></template>
-    <text class='mg-b10'></text>
+  </view>
 </view>

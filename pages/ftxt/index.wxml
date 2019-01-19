@@ -1,6 +1,19 @@
 <import src="/template/totop/totop.wxml" />
 <template is="totop" data="{{showToTop}}"></template>
-<view class='container gray font-xs hardgray'>
+<view class='container gray font-xs pd20'>
+  <import src="/template/nothing/item.wxml" />
+  <template is="nothing" data='{{datalist:ftxtList,Msg:"敬请期待"}}'></template>
+  <view wx:for='{{ftxtList}}' wx:key='id' class='ftxt-list-item shadow' id='{{item.id}}' bindtap='toFTxtDetail'>
+    <!-- img -->
+    <view class='full-width'>
+      <image src='{{item.ad_img}}' wx:if='{{item.ad_img}}' mode='widthFix' class='full-width'></image>
+    </view>
+    <!-- info -->
+    <view class='full-width pdc pdr20'>
+      <text class='full-width font-xs lh-xs txtclamp txtclamp-3'>{{item.ad_title}}</text>
+    </view>
+    <view class='full-width pd font-x cgray'>{{item.addtime}}</view>
+  </view>
   <import src="/template/version/version.wxml" />
   <template is="version" data="{{version}}"></template>
 </view>

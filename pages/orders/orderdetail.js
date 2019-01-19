@@ -6,155 +6,173 @@ import TimeConverter from '../../comm/TimeConverter.js'
 Page({
   data: {
     order_id: 0,
-		order:{},
-		waiting:false,
-		addressList: [],
-		defaultAddress: {
-			district: '请配置选择收货地址'
-		}
+    order: {},
+    waiting: false,
+    addressList: [],
+    defaultAddress: {
+      district: '请配置选择收货地址'
+    },
+    expressList: []
   },
-	//-- 获取用户收货地址
-	getUserAddress() {
-		Address.List({
-			user_id: app.USER_ID()
-		}).then(r => {
-			console.log('Address.List => ', r)
-			if (r.data.length > 0) {
-				let defaddr = r.data.find(item => item['default'] == 1)
-				defaddr = defaddr || r.data[0]
-				this.setData({
-					defaultAddress: defaddr
-				})
 
-			}
+  //-- 获取用户收货地址
+  getUserAddress() {
+    Address.List({
+      user_id: app.USER_ID()
+    }).then(r => {
+      console.log('Address.List => ', r)
+      if (r.data.length > 0) {
+        let defaddr = r.data.find(item => item['default'] == 1)
+        defaddr = defaddr || r.data[0]
+        this.setData({
+          defaultAddress: defaddr
+        })
 
+      }
+
+    })
+  },
+	//-- 查看物流
+	showExpress() {
+		wx.navigateTo({
+			url: `expressdetail?user_id=${this.data.order.user_id}&order_id=${this.data.order.id}`,
 		})
 	},
   onLoad: function(options) {
-		this.data.order_id = options.id || 0
+    this.data.order_id = options.id || 0
   },
   onShow: function() {
-		let chosedAddress = wx.getStorageSync("chosedAddress") || null
-		if (!chosedAddress) {
-			this.getUserAddress()
-		} else {
-			this.setData({
-				defaultAddress: chosedAddress
-			}, wx.removeStorage({
-				key: 'chosedAddress',
-				success: function (res) { },
-			}))
-		}
+    let chosedAddress = wx.getStorageSync("chosedAddress") || null
+    if (!chosedAddress) {
+      this.getUserAddress()
+    } else {
+      this.setData({
+        defaultAddress: chosedAddress
+      }, wx.removeStorage({
+        key: 'chosedAddress',
+        success: function(res) {},
+      }))
+    }
     this.loadOrderDetail()
   },
-	//-- 去商品详情
-	toShopDetail(e){
-		let url=`/pages/shop/details?id=${e.currentTarget.dataset.id}&spec=${e.currentTarget.dataset.spec}`
-		wx.navigateTo({
-			url
-		})
-	},
-	onTakeDelivery() {
-		Order.TakeDelivery({ user_id: app.USER_ID(), order_id: this.data.order_id })
-			.then(r => {
-				console.log('Order.TakeDelivery => ', r)
-				if (r.code == 200) {
-					app.msg(r.message)
-					this.loadOrderDetail()
-				} else {
-					app.ERROR(r.message)
-				}
-			})
-	},
-	//-- 转换订单状态
-	getOrderStatusTxt(order_status) {
-		switch (order_status) {
-			case 0:
-				return '待付款'
-			case 1001:
-			case 1021:
-				return '待发货'
-			case 1011:
-			case 2011:
-				return '拼团中'
-			case 1002:
-			case 1012:
-			case 1022:
-				return '待收货'
-			case 2003:
-			case 2013:
-			case 2023:
-				return '待消费'
-			default:
-				return '已完成'
-		}
-	},
-  loadOrderDetail: function() {
-		Order.Get({user_id:app.USER_ID(),order_id:this.data.order_id}).then(r=>{
-			console.log('Order.Get => ',r)
-			if(r.code===200){
-				r.data.statMsg = this.getOrderStatusTxt(r.data.order_status)
-				r.data.addtime = TimeConverter.ToLocal(r.data.addtime)
-				r.data.goods = r.data.goods.map(u=>{
-					u.use_chosed = u.spec_num
-					u.can_use = u.spec_num - u.use_num
-					return u;
-				})
-				this.setData({
-					order:r.data
-				})
-			}
-		})
+  //-- 去商品详情
+  toShopDetail(e) {
+    let url = `/pages/shop/details?id=${e.currentTarget.dataset.id}&spec=${e.currentTarget.dataset.spec}`
+    wx.navigateTo({
+      url
+    })
   },
-	//-- 增加消费数量
-	onAddUseNum(e){
-		let order = this.data.order		
-		let idx = e.currentTarget.dataset.idx
-		if(order.goods[idx].use_chosed<order.goods[idx].can_use){
-			order.goods[idx].use_chosed++
-			this.setData({
-				order:order
-			})
-		}
-	},
-	//-- 减少消费数量 
-	onSubUseNum(e){
-		let order = this.data.order
-		let idx = e.currentTarget.dataset.idx
-		if (order.goods[idx].use_chosed > 1) {
-			order.goods[idx].use_chosed--
-			this.setData({
-				order: order
-			})
-		}
-	},
-	//-- 去评价
-	gotoEvaluate(e){
-		wx.navigateTo({
-			url: `/pages/usercenter/comment?stat=0&id=${e.currentTarget.dataset.goods}`,
-		})
-	},
-  //-- 弹出消费二维码
-  showQR: function(e) {
+  onTakeDelivery() {
+    Order.TakeDelivery({
+        user_id: app.USER_ID(),
+        order_id: this.data.order_id
+      })
+      .then(r => {
+        console.log('Order.TakeDelivery => ', r)
+        if (r.code == 200) {
+          app.msg(r.message)
+          this.loadOrderDetail()
+        } else {
+          app.ERROR(r.message)
+        }
+      })
+  },
+  //-- 转换订单状态
+  getOrderStatusTxt(order_status) {
+    switch (order_status) {
+      case 0:
+        return '待付款'
+      case 1001:
+      case 1021:
+        return '待发货'
+      case 1011:
+      case 2011:
+        return '拼团中'
+      case 1002:
+      case 1012:
+      case 1022:
+        return '待收货'
+      case 2003:
+      case 2013:
+      case 2023:
+        return '待消费'
+      default:
+        return '已完成'
+    }
+  },
+  loadOrderDetail: function() {
+    Order.Get({
+      user_id: app.USER_ID(),
+      order_id: this.data.order_id
+    }).then(r => {
+      console.log('Order.Get => ', r)
+      if (r.code === 200) {
+        r.data.statMsg = this.getOrderStatusTxt(r.data.order_status)
+        r.data.addtime = TimeConverter.ToLocal(r.data.addtime)
+        r.data.goods = r.data.goods.map(u => {
+          u.use_chosed = u.spec_num
+          u.can_use = u.spec_num - u.use_num
+          return u;
+        })
+        this.setData({
+          order: r.data
+        })
+      }
+      if (r.data.store.on_line == 1) {
+        Order.Express({
+            user_id: r.data.user_id,
+            order_id: this.data.order_id
+          })
+          .then(rr => {
+            console.log('Order.Express => ', rr)
+            if (rr.code == 200) {
+              this.setData({
+                expressList: rr.data
+              })
+            }
+          })
+      }
+    })
+  },
+  //-- 增加消费数量
+  onAddUseNum(e) {
+    let order = this.data.order
     let idx = e.currentTarget.dataset.idx
+    if (order.goods[idx].use_chosed < order.goods[idx].can_use) {
+      order.goods[idx].use_chosed++
+        this.setData({
+          order: order
+        })
+    }
+  },
+  //-- 减少消费数量 
+  onSubUseNum(e) {
+    let order = this.data.order
+    let idx = e.currentTarget.dataset.idx
+    if (order.goods[idx].use_chosed > 1) {
+      order.goods[idx].use_chosed--
+        this.setData({
+          order: order
+        })
+    }
+  },
+  //-- 去评价
+  gotoEvaluate(e) {
+    wx.navigateTo({
+      url: `/pages/usercenter/comment?stat=0&id=${e.currentTarget.dataset.goods}`,
+    })
+  },
+  //-- 一键消费
+  onOneKeyshowQR() {
     let arr = this.data.order.goods
-    let item = arr[idx]
-		// let obj = {
-		// 	user_id:app.USER_ID(),
-		// 	order_id:this.data.order.id,
-		// 	order_goods_num:item.use_chosed,
-		// 	order_goods_id: item.id,
-		// 	store_id: this.data.order.store_id,
-		// 	order_goods_name: item.goods_name
-		// }
-		let data = [
-			app.USER_ID(),
-			this.data.order.id,
-			item.use_chosed,
-			item.id,
-			this.data.order.store_id,
-			item.goods_name
-		]
+    let data = [
+      app.USER_ID(),
+      this.data.order.id,
+      0,
+      0,
+      this.data.order.store_id,
+      this.data.order.order_sn
+    ]
     drawQrcode({
       width: 200,
       height: 200,
@@ -164,41 +182,76 @@ Page({
     })
     this.setData({
       showqrbox: true,
-			qr_msg: `${item.use_chosed}份 ${item.goods_name}(${item.spec_color}${item.spec_size})`,
-			waiting:true
-    },()=>{this.waitingScan(idx)})
+      qr_msg: `整单一键消费`,
+      waiting: true
+    }, () => {
+      this.waitingScan(0)
+    })
   },
-	waitingScan(idx){
-		let waitting = this.data.waiting
-		if(waitting){
-			Order.GetNoLoading({ user_id: app.USER_ID(), order_id: this.data.order_id }).then(r => {
-				console.log('Order.Get => ', r)
-				if (r.code === 200) {
-					let source = this.data.order.goods[idx]
-					let item = r.data.goods[idx]
-					if (item.use_num!=source.use_num){
-						app.SUCCESS('消费成功',()=>{
-							this.setData({
-								waiting:false
-							}, this.closeQrBox)
-						})
-					}else{
-						setTimeout(()=>{this.waitingScan(idx)},1000)
-					}
-				}
+  //-- 弹出消费二维码
+  showQR: function(e) {
+    let idx = e.currentTarget.dataset.idx
+    let arr = this.data.order.goods
+    let item = arr[idx]
+    let data = [
+      app.USER_ID(),
+      this.data.order.id,
+      item.use_chosed,
+      item.id,
+      this.data.order.store_id,
+      item.goods_name
+    ]
+    drawQrcode({
+      width: 200,
+      height: 200,
+      canvasId: 'qrcode',
+      foreground: '#2c2c2c',
+      text: data.join('-')
+    })
+    this.setData({
+      showqrbox: true,
+      qr_msg: `${item.use_chosed}份 ${item.goods_name}(${item.spec_color}${item.spec_size})`,
+      waiting: true
+    }, () => {
+      this.waitingScan(idx)
+    })
+  },
+  waitingScan(idx) {
+    let waitting = this.data.waiting
+    if (waitting) {
+      Order.GetNoLoading({
+        user_id: app.USER_ID(),
+        order_id: this.data.order_id
+      }).then(r => {
+        console.log('Order.Get => ', r)
+        if (r.code === 200) {
+          let source = this.data.order.goods[idx]
+          let item = r.data.goods[idx]
+          if (item.use_num != source.use_num) {
+            app.SUCCESS('消费成功', () => {
+              this.setData({
+                waiting: false
+              }, this.closeQrBox)
+            })
+          } else {
+            setTimeout(() => {
+              this.waitingScan(idx)
+            }, 1000)
+          }
+        }
 
-			})
-		}
-	},
+      })
+    }
+  },
   //-- 关闭消费二维码
   closeQrBox() {
     this.setData({
       showqrbox: false,
       qr_msg: '',
       xh: false,
-			waiting:false
+      waiting: false
     })
-		this.loadOrderDetail()
+    this.loadOrderDetail()
   },
   //-- 分享到用户或群
   onShareAppMessage: function(res) {
@@ -239,109 +292,122 @@ Page({
     }
     return resObj
   },
-	//-- 取消订单
-	cancelOrder(e) {
-		Order.Cancel({ user_id: app.USER_ID(), order_id: e.currentTarget.dataset.order }).then(r => {
-			console.log('Order.Cancel => ', r)
-			if (r.code == 200) {
-				app.SUCCESS(r.message, this.loadUserOrderList)
-			} else {
-				app.ERROR(r.message)
-			}
-		})
-	},
-	//-- 删除订单
-	delOrder(e) {
-		app.CONFIME("订单删除后不能恢复，确定删除该订单吗？", () => {
-			Order.Delete({ user_id: app.USER_ID(), order_id: e.currentTarget.dataset.order }).then(r => {
-				console.log('Order.Cancel => ', r)
-				if (r.code == 200) {
-					app.SUCCESS(r.message, this.loadUserOrderList)
-				} else {
-					app.ERROR(r.message)
-				}
-			})
-		})
-	},
-	//-- 确定订单并支付
-	ConfirmOrderAndPay() {
-		this.payOrder(this.data.order.order_sn, this.data.order.id)
-	},
-	/**
- * 确定订单
- */
-	payOrder(order_sn, order_id) {
-		if (this.data.order.store.on_line == 1) {
-			Order.OrderAddr({
-				user_id: app.USER_ID(),
-				order_id,
-				addr_id: this.data.defaultAddress.id
-			}).then(r => {
-				if (r.code == 200) {
-					Order.PayOrder({
-						user_id: app.USER_ID(),
-						order_sn
-					}).then(r => {
-						console.log('Order.PayOrder => ', r)
-						if (r.code == 200) {
-							this.useWeChatPay(r.data)
-						} else {
-							app.ERROR(`确认订单失败！`)
-
-						}
+  //-- 取消订单
+  cancelOrder(e) {
+    Order.Cancel({
+      user_id: app.USER_ID(),
+      order_id: e.currentTarget.dataset.order
+    }).then(r => {
+      console.log('Order.Cancel => ', r)
+      if (r.code == 200) {
+        app.SUCCESS(r.message, ()=>{
+					wx.navigateBack({
+						delta:1
 					})
-				} else {
-					app.ERROR("订单已生成，但地址配置失败！")
-				}
-			})
-		} else {
-			Order.PayOrder({
-				user_id: app.USER_ID(),
-				order_sn
-			}).then(r => {
-				console.log('Order.PayOrder => ', r)
-				if (r.code == 200) {
-					this.useWeChatPay(r.data)
-				} else {
-					app.ERROR(`确认订单失败！`)
-
-				}
-			})
-		}
-
-	},
-	/**微信支付 */
-	useWeChatPay(obj) {
-		wx.requestPayment({
-			'timeStamp': obj.timeStamp.toString(),
-			'nonceStr': obj.nonceStr,
-			'package': obj.package,
-			'signType': obj.signType,
-			'paySign': obj.paySign,
-			'success': res => {
-				app.msgbox({
-					content: '支付成功',
-					showCancel: false,
-					success: d => {
-						this.loadOrderDetail()
-					}
 				})
-			},
-			'fail': res => {
-				var msg = '支付失败:';
-				if (res.err_desc) {
-					msg = msg + res.err_desc
-				}
-				if (res.errMsg && res.errMsg.indexOf('cancel') > 0) {
-					msg = msg + '取消支付'
-				}
-				app.msgbox({
-					content: msg,
-					showCancel: false,
-					success: d => {
-					}
-				})
-			}
-		})
-	},
+      } else {
+        app.ERROR(r.message)
+      }
+    })
+  },
+  //-- 删除订单
+  delOrder(e) {
+    app.CONFIME("订单删除后不能恢复，确定删除该订单吗？", () => {
+      Order.Delete({
+        user_id: app.USER_ID(),
+        order_id: e.currentTarget.dataset.order
+      }).then(r => {
+        console.log('Order.Cancel => ', r)
+        if (r.code == 200) {
+          app.SUCCESS(r.message, this.loadUserOrderList)
+        } else {
+          app.ERROR(r.message)
+        }
+      })
+    })
+  },
+  //-- 确定订单并支付
+  ConfirmOrderAndPay() {
+    if (this.data.order.store.on_line == 1 && !this.data.defaultAddress.addr_detail) {
+      app.ERROR('请配置收货地址')
+      return
+    }
+    this.payOrder(this.data.order.order_sn, this.data.order.id)
+  },
+  /**
+   * 确定订单
+   */
+  payOrder(order_sn, order_id) {
+    if (this.data.order.store.on_line == 1) {
+      Order.OrderAddr({
+        user_id: app.USER_ID(),
+        order_id,
+        addr_id: this.data.defaultAddress.id
+      }).then(r => {
+        if (r.code == 200) {
+          Order.PayOrder({
+            user_id: app.USER_ID(),
+            order_sn
+          }).then(r => {
+            console.log('Order.PayOrder => ', r)
+            if (r.code == 200) {
+              this.useWeChatPay(r.data)
+            } else {
+              app.ERROR(`确认订单失败！`)
+
+            }
+          })
+        } else {
+          app.ERROR("订单已生成，但地址配置失败！")
+        }
+      })
+    } else {
+      Order.PayOrder({
+        user_id: app.USER_ID(),
+        order_sn
+      }).then(r => {
+        console.log('Order.PayOrder => ', r)
+        if (r.code == 200) {
+          this.useWeChatPay(r.data)
+        } else {
+          app.ERROR(`确认订单失败！`)
+
+        }
+      })
+    }
+
+  },
+  /**微信支付 */
+  useWeChatPay(obj) {
+    wx.requestPayment({
+      'timeStamp': obj.timeStamp.toString(),
+      'nonceStr': obj.nonceStr,
+      'package': obj.package,
+      'signType': obj.signType,
+      'paySign': obj.paySign,
+      'success': res => {
+        app.msgbox({
+          content: '支付成功',
+          showCancel: false,
+          success: d => {
+            this.loadOrderDetail()
+          }
+        })
+      },
+      'fail': res => {
+        var msg = '支付失败:';
+        if (res.err_desc) {
+          msg = msg + res.err_desc
+        }
+        if (res.errMsg && res.errMsg.indexOf('cancel') > 0) {
+          msg = msg + '取消支付'
+        }
+        app.msgbox({
+          content: msg,
+          showCancel: false,
+          success: d => {}
+        })
+      }
+    })
+  },
 })

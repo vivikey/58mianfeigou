@@ -1,3 +1,4 @@
-textarea{
-    height:600rpx;
+@import "/template/form.wxss";
+.info-item-row textarea{
+    height:500rpx;
 }

@@ -1,5 +1,5 @@
 @import "/template/mainbar.wxss";
-
+@import "/template/mainnavbox/mainnavbox.wxss";
 swiper.tj {
   width: 750rpx;
   height: 420rpx;
@@ -108,9 +108,9 @@ swiper image {
 .tuijian-item{
   width:50%;
   background: #fff;
-  padding: 12rpx;
+  padding: 0rpx;
 	border:6rpx solid #f2f2f2;
-	border-radius: 12rpx;
+	border-radius: 0rpx;
 }
 .tuijian-item .content{
   width:100%;

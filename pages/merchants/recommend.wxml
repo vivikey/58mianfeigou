@@ -1,162 +1,45 @@
 <view class='container gray'>
-    <view class='full-width flex flex-left bggray bottomline'>
-        <view class='menu col-4 flex flex-center {{activet==1?"active":""}}' data-tp='1' bindtap='changemenu'>推荐产品</view>
-        <view class='menu col-4 flex flex-center {{activet==3?"active":""}}' data-tp='3' bindtap='changemenu'>推荐赠品</view>
-        <view class='menu col-4 flex flex-center leftline rightline {{activet==2?"active":""}}' data-tp='2' bindtap='changemenu'>推荐方案</view>
+  <view class='topblockbg'></view>
+  <view class='full-width fix-t bglinearyellow shadow flex-row pd20'>
+    <view class='font-sm black bolder'>{{storeName}}</view>
+  </view>
+  <view class='sq'></view>
+  <!-- shopList is Empty -->
+  <import src="/template/nothing/item.wxml" />
+  <template is="nothing" data='{{datalist:recomList,Msg:"空空如也~~"}}'></template>
 
+  <view class='pd20 full-width bgw bottomline' wx:for='{{recomList}}' wx:key='id'>
+    <view class='flex-row pdc20 col-12'>
+      <view class='font-md black bolder txtclamp txtclamp-2'>
+        <view>{{item.recom_name}}</view>       
+      </view>
+      <view class='label warn-label' wx:if='{{item.recom_check==0}}'>未审核</view>
     </view>
-    <import src="/template/emptyshow/emptyshow.wxml" />
-    <!-- 产品列表 activet==1-->
-    <view class='full-width' wx:if='{{activet==1}}'>
-        <view class='addbtn flex flex-center'>
-            <navigator url="/pages/merchants/groupbuyinfo?storeId={{storeId}}&storeName={{storeName}}&notuan=1&isowner={{isowner}}" class='full-width pdc20 flex flex-center bolder'>
-                <image src='/resource/icon/add.svg' class='addbtnimg'></image> 推荐产品
-            </navigator>
-        </view>
-        <view class='sq'></view>
-        <view class='gift-item flex-row flex-wrap pd' wx:for='{{shop_list}}' wx:key='id'>
-            <view class='pd20 col-12  flex-row '>
-                <view>
-                    <view class='font-md black bolder txtclamp txtclamp-2'>{{item.title}}</view>
-                </view>
-                <view class='font-xs cprimary'>
-                    <view class='checkstate cprimary' wx:if='{{item.status==0}}'>待审核</view>
-                    <view class='checkstate skr' wx:if='{{item.status==2}}'>审核不通过</view>
-                    <view class='checkstate cgreen' wx:if='{{item.status==1}}'>审核已通过</view>
-                </view>
-            </view>
-            <view class='flex flex-center flex-around bgw sku bottomline' wx:for='{{item.shop_sku}}' wx:key='' wx:for-item='sku'>
-                <view class='flex flex-center'>
-                    <view class='skuimg flex flex-center'>
-                        <image src='{{sku.sku_img}}' mode='aspectFill'></image>
-                    </view>
-                    <view class='skuinfo pdr20'>
-                        <view class='cgray bolder font-xs'>{{sku.sku_spec}}</view>
-                        <view class='black'>
-                            <text>库存：{{sku.sku_stock}}</text>
-                            <text>价格：{{sku.sku_price}}</text>
-                        </view>
-                    </view>
-                </view>
-            </view>
-
-            <view class='full-width flex-row  pd pdr30'>
-                <view class='cprimary font-xs'>
-                    <text class='bolder'>{{item.start}}</text> ~
-                    <text class='bolder'>{{item.end}}</text>
-                </view>
-                <view class='flex flex-right'>
-                    <navigator url="/pages/merchants/groupbuyinfo?storeId={{storeId}}&storeName={{storeName}}&gid={{item.id}}&notuan=1&isowner={{isowner}}" class='delbtn'>
-                        <image src='/resource/icon/edit.svg'></image>
-                    </navigator>
-                    <view class='delbtn' data-id='{{item.id}}' data-idx='{{index}}' catchtap='deleteShop'>
-                        <image src='/resource/icon/delete.svg'></image>
-                    </view>
-                </view>
-            </view>
-        </view>
-        <template is="empty" data='{{image:"/resource/icon/emp3.png",firstmsg:"没任何发现！",secmsg:"点击下方按钮增加产品",times:[3]}}' wx:if='{{shop_list.length<=0}}'></template>
+    <view class='full-width flex pdc'>
+       <text class='label small'>{{item.recom_explain}}</text>
     </view>
-    <!-- 推荐方案 activet==2-->
-    <view class='full-width pdc20' wx:if='{{activet==2}}'>
-        <view wx:for='{{schemeList}}' wx:key='id' class='full-width bgw'>
-            <view class='full-width flex-row pd20 bottomline'>
-                <view class='col-8 bolder pd font-md {{item.status==1?"black":item.status==2?"skr":"cgray"}}'>{{item.action_name}}</view>
-                <view class='col-4 flex flex-right font-xs cgray pd'>
-                    <navigator url="/pages/merchants/schemeinfo?storeId={{storeId}}&scheme_id={{item.id}}&isowner={{isowner}}" class='delbtn'>
-                        <image src='/resource/icon/edit.svg'></image>
-                    </navigator>
-                    <view class='delbtn' bindtap='delScheme' data-id='{{item.id}}' data-idx='{{index}}'>
-                        <image src='/resource/icon/delete.svg' class='addbtnimg'></image>
-                    </view>
-                </view>
-            </view>
-            <view class='font-xs pd pdr20 cgray flex-row'>
-                <view>活动于
-                    <text class='cprimary bolder'>{{item.end_time}}</text> 结束</view>
-                <view>包含
-                    <text class='cprimary bolder'>{{item.bd_shopids.length}}</text> 产品</view>
-            </view>
-            <!-- 审核通过 -->
-            <view class='pd20 full-width flex-row'>
-                <!-- 审核未通过 -->
-                <view class='pd20 flex flex-right' wx:if='{{item.status==2}}'>
-                    <view class='font-sm'>
-                        <view class='checkstate skr'>未通过审核</view>
-                        <view class='cprimary font-xs bolder'>{{item.check_reason}}</view>
-                    </view>
-                </view>
-                <!-- 等待审核 -->
-                <view class='pd20 flex flex-right' wx:if='{{item.status==0}}'>
-                    <view class='font-sm'>
-                        <view class='cprimary checkstate'>等待审核中...</view>
-                    </view>
-                </view>
-                <!-- 等待审核 -->
-                <view class='pd20 flex flex-right' wx:if='{{item.status==1}}'>
-                    <view class='font-sm'>
-                        <view class='cgreen checkstate'>审核已通过</view>
-                    </view>
-                </view>
-                <view class='flex flex-right'>
-                    <navigator class='bdlinearskr wtcolor pd pdr20' url='recommendcustoms?store_id={{storeId}}&scheme_id={{item.id}}&scheme_name={{item.action_name}}&user_id=0&seclev=false' wx:if='{{item.status==1}}'>
-                        客户列表
-                    </navigator>
-                </view>
-            </view>
-
-            <view class='sq'></view>
+    <view class='flex-row pdc20'>
+      <view class='flex flex-left'>
+        <view class='label small yellow-label'>{{item.addtime}}</view>
+      </view>
+      <view class='flex flex-center'>
+        <view class='flex-col-auto flex-center pdr20' data-id='{{item.id}}' bindtap='onDeleteRecom'>
+          <image src='/resource/icon/delete.svg' class='img-sm'></image>
+          <text class='font-x black'>删除</text>
         </view>
-        <template is="empty" data='{{image:"/resource/icon/emp3.png",firstmsg:"没任何发现！",secmsg:"点击下方按钮增加方案",times:[3]}}' wx:if='{{schemeList.length<=0}}'></template>
-        <view class='addbtn flex flex-center'>
-            <navigator url="/pages/merchants/schemeinfo?storeId={{storeId}}&isowner={{isowner}}" class='full-width pdc20 flex bolder flex-center'>
-                <image src='/resource/icon/add.svg' class='addbtnimg'></image>增加方案
-            </navigator>
-        </view>
+        <navigator url="recommenddetail?store_id={{storeId}}&recom_id={{item.id}}" class='flex-col-auto flex-center pdr20'>
+          <image src='/resource/icon/edit.svg' class='img-sm'></image>
+          <text class='font-x black'>配置</text>
+        </navigator>
+      </view>
     </view>
-    <!-- 推荐赠品 activet==3-->
-    <view class='full-width pd20' wx:if='{{activet==3}}'>
-        <view class='addbtn flex flex-center'>
-            <navigator url="/pages/merchants/giftinfotj?storeId={{storeId}}&storeName={{storeName}}&free=true&isowner={{isowner}}" class='full-width pdc20 flex flex-center  bolder'>
-                <image src='/resource/icon/add.svg' class='addbtnimg'></image> 推荐赠品
-            </navigator>
-        </view>
-        <view class='full-width bgw cgray' wx:for='{{giftList}}' wx:key='id'>
-            <view class='flex-row'>
-                <view class='pd'>
-                    <image src='{{item.image}}' class='img-lgp'></image>
-                </view>
-                <view class='info full-width flex-col flex-around'>
-                    <view class='font-sm black bolder pd'>{{item.title}}</view>
-                    <view class='pd font-xs' wx:if='{{item.valid_time_type==1}}'>兑现时间：
-                        <text class='font-xs font-underline btn-color-danger bolder'>{{item.start}}</text> 至
-                        <text class='font-xs font-underline btn-color-danger bolder'>{{item.end}}</text>
-                    </view>
-                    <view class='pd font-xs' wx:if='{{item.valid_time_type==2}}'>兑现时间：
-                        <text class='font-xs font-underline btn-color-danger bolder'>从发放之日起</text>
-                        <text class='font-xs font-underline btn-color-danger bolder'>{{item.valid_time_days}}天</text>内
-                    </view>
-                </view>
-            </view>
-            <view class='topline pd30 flex-row full-width'>
-                <view class='font-xs cprimary'>
-                    <view class='checkstate cprimary' wx:if='{{item.check_status==0}}'>待审核</view>
-                    <view class='checkstate skr' wx:if='{{item.check_status==2}}'>审核不通过</view>
-                    <view class='checkstate cgreen' wx:if='{{item.check_status==1}}'>审核已通过</view>
-                </view>
-                <view class='flex flex-right'>
-                    <navigator url="/pages/merchants/giftinfotj?id={{item.id}}&storeId={{storeId}}&storeName={{storeName}}&isowner={{isowner}}" class='delbtn' data-id='{{item.id}}' data-hide='0' data-idx='{{index}}'>
-                        <image src='/resource/icon/edit.svg'></image>
-                    </navigator>
-                    <view class='delbtn' catchtap='remove' data-id='{{item.id}}' data-hide='0' data-idx='{{index}}'>
-                        <image src='/resource/icon/delete.svg'></image>
-                    </view>
-                </view>
-            </view>
-            <view class='sq'></view>
-        </view>
-        <template is="empty" data='{{image:"/resource/icon/emp3.png",firstmsg:"还没有任何赠品！",secmsg:"点击下方按钮增加赠品",times:[3]}}' wx:if='{{giftList.length<=0}}'></template>
-    </view>
-    <import src="/template/smallmenu/smallmenu.wxml" />
-    <template is="smallmenu" data="{{showsmallmenu:flase,smallmenuclosed:smallmenuclosed}}"></template>
+  </view>
+  <import src="/template/version/version.wxml" />
+  <template is="version" data="{{version}}"></template>
+</view>
+<view class='fix-b flex flex-center pd20'>
+  <view  class='btn-fix-b heighter font-md' bindtap='initRecommend'>
+      <image src='/resource/icon/add.svg' class='addbtnimg radius-circle'></image>
+    初始化方案
+  </view>
 </view>

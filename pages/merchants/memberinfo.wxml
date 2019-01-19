@@ -1,0 +1,64 @@
+<view class='container gray'>
+  <!-- 方案基本设置 -->
+  <view class='full-width flex flex-center pd20'>
+    <text class='label blue-label'>会员级别设置</text>
+  </view>
+  <view class='full-width shadow'>
+    <!-- <view class='info-item-row'>
+        <text class='mustbe'>级别等级</text>
+        <input type='number' placeholder='请输入级别等级(数字表示)' value='{{mGrade.grade}}' id='grade' bindinput='onInputChanged'></input>
+      </view> -->
+    <view class='info-item-row '>
+      <text class='mustbe'>级别名称</text>
+      <input type='text' placeholder='请输入级别名称' value='{{mGrade.grade_name}}' id='grade_name' bindinput='onInputChanged'></input>
+    </view>
+  </view>
+  <!-- 会员资格配置 -->
+  <view class='full-width flex flex-center pd20'>
+    <text class='label blue-label'>成为会员条件</text>
+  </view>
+  <view class='full-width bgw shadow'>
+    <view class='info-item-row'>
+      <text class='mustbe'>达到当前会员级别的条件</text>
+      <view class='bgw flex flex-around pdc20 bottomline'>
+        <view class="font-sm black flex flex-center" wx:for="{{memberTypes}}" wx:key='val' bindtap='onMemberTypeChanged' data-val='{{item.val}}'>
+          <image wx:if="{{item.val==mGrade.member_type}}" src='/resource/icon/chosed-ic.png' class='img-xs' />
+          <image wx:else src='/resource/icon/no-chosed-ic.png' class='img-xs' />
+          <text class='radio-cap black'>{{item.cap}}</text>
+        </view>
+      </view>
+      <!--消费满额-->
+      <view wx:if='{{mGrade.member_type>2}}' class='full-width'>
+        <view class='info-item-row'>
+          <text class='mustbe' wx:if='{{mGrade.member_type==3}}'>需要用户在本商铺消费金额</text>
+          <text class='mustbe' wx:if='{{mGrade.member_type==4}}'>需要用户在本商铺充值金额</text>
+          <input type='digit' placeholder='请输入额度' value='{{mGrade.member_money}}' id='member_money' bindinput='onInputChanged'></input>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 会员权益 -->
+  <view class='full-width flex flex-center pd20'>
+    <text class='label blue-label'>会员权益</text>
+  </view>
+  <view class='full-width bgw shadow'>
+    <view class='info-item-row'>
+      <text class='mustbe'>当前会员级别具有的权益</text>
+      <view class='bgw flex flex-around pdc20 bottomline'>
+        <view class="font-sm black flex flex-center" wx:for="{{memberPower}}" wx:key='val' bindtap='onMemberPowerClick' data-val='{{item.val}}' data-index='{{index}}'>
+          <image wx:if="{{item.chosed}}" src='/resource/icon/checkbox2.png' class='img-xs' />
+          <image wx:else src='/resource/icon/checkbox.png' class='img-xs' />
+          <text class='radio-cap black'>{{item.cap}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='info-item-row flex flex-center pd30'>
+    <view class='btn full' bindtap='onSubmit'>
+      <image src='/resource/icon/submit-w.png' class='addbtnimg radius-circle'></image>
+      <text class='pdr20 white'>保存提交</text>
+    </view>
+  </view>
+</view>
+<import src="/template/version/version.wxml" />
+<template is="version" data="{{version}}"></template>

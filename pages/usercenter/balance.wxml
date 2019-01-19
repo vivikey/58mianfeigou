@@ -1,23 +1,37 @@
 <view class='container'>
   <view class='' style='height:92px;'></view>
   <view class='fix-t full-width' style='height:92px;'>
-    <!-- <view class='big-top pd'>
-      <view class='full-width flex flex-center bolder pd'>0.00</view>
-      <view class='full-width flex flex-center font-xs'>我的总资产</view>
-    </view> -->
-		<view class='top-menu full-width flex flex-center font-xs'>注：余额包含了推广佣金</view>
+    <view class='top-menu full-width flex flex-center font-xs'>注：余额包含了推广费</view>
     <view class='top-menu bgw pd20 bottomline full-width flex flex-center'>
       <view class='flex flex-center top-menu-kk'>
-        <view class='top-menu-item {{type==1?"active":""}}' id='1' bindtap='onChangeType'>账户余额：0.00</view>
-        <view class='top-menu-item {{type==2?"active":""}}' id='2' bindtap='onChangeType'>推广佣金：0.00</view>
+        <view class='top-menu-item {{type==1?"active":""}}' id='1' bindtap='onChangeType'>账户余额：{{user.member.member_money}}</view>
+        <view class='top-menu-item {{type==2?"active":""}}' id='2' bindtap='onChangeType'>推广费：{{user.member.task_award}}</view>
       </view>
     </view>
   </view>
+
+  <!-- list is empty -->
+  <import src="/template/nothing/item.wxml" />
+  <template is="nothing" data='{{datalist:list,Msg:"~空空如也~"}}'></template>
+
+  <view wx:for='{{list}}' wx:key='id' class='flex-row bottomline pd20 '>
+    <view>
+			
+      <view class='black font-sm bolder pdc'>{{item.money_type_name}}</view>
+			<view class='font-xs skr'>来自：<text class='bolder'>{{item.off_line.nick_name}}</text></view>
+    </view>
+		<view>
+			<view class='font-md bolder redcolor pd'>{{item.money}}</view>
+		  <view class='lightgray font-x'>{{item.addtime}}</view>
+		</view>
+  </view>
 </view>
-<!-- giftList is empty -->
-<import src="/template/nothing/item.wxml" />
-<template is="nothing" data='{{datalist:giftList,Msg:"记录空空如也~~"}}'></template>
-<view class='fix-b' style='padding-bottom:20rpx;' wx:if='{{type==1}}'>
+
+<import src="/template/version/version.wxml" />
+<template is="version" data="{{version}}"></template>
+
+
+<view class='fix-b' style='padding-bottom:20rpx;' wx:if='{{type==1&&false}}'>
   <view class='full-width bglinearyellow shadow flex-row pd20'>
     <view class='font-sm black bolder'>可提现：0.00</view>
   </view>

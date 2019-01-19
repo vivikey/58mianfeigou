@@ -1,0 +1,18 @@
+<view class='font-xs cgray gray full-width'>
+<!-- TopBar -->
+  <view class='full-width' style='height:60px;'></view>
+  <view class='fix-t flex-row pd20 shadow bgw'>
+    <view class='flex flex-left'>
+      <view class='img-md bglightgray radius-circle'>
+        <image src='/resource/icon/notice.png' class='img-md radius-circle'></image>
+      </view>
+      <view class='skr bolder font-sm pdr20'>{{notice.notice_name}}</view>
+    </view>
+  </view>
+<!-- TopBar -->
+  <view class='bgw black font-sm flex-row pd20 bottomline lh-sm'>
+		{{notice.notice_content}}
+  </view>
+</view>
+<import src="/template/version/version.wxml" />
+<template is="version" data="{{version}}"></template>

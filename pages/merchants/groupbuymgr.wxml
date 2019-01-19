@@ -10,13 +10,13 @@
 
   <view class='pd20 full-width bgw bottomline' wx:for='{{shopList}}' wx:key='id'>
     <view class='flex-row pdc20 col-12'>
-      <view class='font-md black bolder txtclamp txtclamp-2'>
-        <view>{{item.goods_name}}</view>
-        <view class='label small yellow-label'>{{item.addtime}}</view>
-      </view>
+      <view class='font-sm black bolder txtclamp txtclamp-2'>
+        {{item.goods_name}}      
+      </view>			
       <view class='label warn-label' wx:if='{{item.goods_check==0}}'>未审核</view>
     </view>
-    <view class='full-width flex pdc'>
+		<view class=''><text class='label small'>{{item.addtime}}</text></view>
+    <view class='full-width flex pdc20'>
       <view wx:for='{{item.goods_banners}}' wx:key='{{index}}' wx:for-item='img' style='padding:2.5rpx;'>
         <image src='{{img}}' style='width:110rpx;height:100rpx;'></image>
       </view>
@@ -24,14 +24,18 @@
     <view class='flex-row pdc20'>
       <view class='flex flex-left'>
         <view class='label green-label small' wx:if='{{item.is_gift==1}}'>赠品</view>
-        <view class='label orange-label small' wx:if='{{item.group_purchase==1}}'>拼团</view>
-			<view class='label red-label small' wx:if='{{item.ad_id>0}}'>富文</view>
+        <view class='label or-label small' wx:if='{{item.group_purchase==1}}'>拼团</view>
+        <view class='label red-label small' wx:if='{{item.ad_id>0}}'>富文</view>
       </view>
 
       <view class='flex flex-center'>
+        <navigator url="/pages/merchants/commlist?storeId={{storeId}}&goods_name={{item.goods_name}}&goods_id={{item.id}}" class='flex-col-auto flex-center pdr20'>
+          <image src='/resource/icon/comm.svg' class='img-sm'></image>
+          <text class='font-x black'>评价管理</text>
+        </navigator>
         <navigator url="/pages/merchants/ftxtedit?storeId={{storeId}}&goods_id={{item.id}}&ad_id={{item.ad_id}}" class='flex-col-auto flex-center pdr20'>
           <image src='/resource/icon/ftxt.png' class='img-sm'></image>
-          <text class='font-x black'>富文</text>
+          <text class='font-x black'>富(软)文</text>
         </navigator>
         <view class='flex-col-auto flex-center pdr20' data-id='{{item.id}}' data-idx='{{index}}' catchtap='onDeleteShop'>
           <image src='/resource/icon/delete.svg' class='img-sm'></image>

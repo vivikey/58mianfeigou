@@ -2,9 +2,9 @@
     <view class='footer flex-col flex-center cgray font-xs pd20'>
         <view>
         <text>Copyright © </text>
-        <text class='bolder pdr label gold-label midd'>58daiyan.com</text>
+        <text class='bolder pdr label or-label small'>58daiyan.com</text>
         <text> Since 2018 </text>
         </view>
-        <view class='pdc'><text class='label lightblue-label bolder midd'>{{version}}</text> </view>
+        <view class='pdc'>VER <text class='label bolder'>{{version}}</text> </view>
     </view>
 </template>

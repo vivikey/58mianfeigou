@@ -3,6 +3,7 @@ import Shop from '../../comm/Shop.js'
 import Spec from '../../comm/Spec.js'
 Page({
   data: {
+		goods_id:0,
     shopTypeList: [
       [],
       [],
@@ -24,7 +25,7 @@ Page({
       goods_click: 1000, //-- 商品热度
       goods_limit: 0, //--限购：0不限
       goods_key: '', //-- 商品键
-      goods_brokerage: 0, //-- 推广佣金
+      goods_brokerage: 0, //-- 推广费
       goods_describe: '', //-- 商品详情
       goods_img: [], //-- 商品图片
       goods_banners: [] //-- 商品轮播图
@@ -35,42 +36,46 @@ Page({
       spec_num: 999, //-- 库存
       spec_size: '', //-- 尺寸
       spec_color: '', //-- 颜色
-      group_price: 1.9, //-- 拼团价
-      integral: 200, //-- 所需积分
+      group_price: 0, //-- 拼团价
+      integral: 0, //-- 所需积分
       spec_img: '', //-- 规格图片
-      spec_price: 9.9 //-- 标价
+      spec_price: 0, //-- 标价
+			service_charge:0 //-- 服务费
     },
     storeId: 0,
     version: ''
   },
   onLoad: function(options) {
-    let goods_id = options.goods_id || 0
-    let store_id = options.storeId
+    this.data.goods_id = options.goods_id || 0
     this.data.storeId = options.storeId
     this.setData({
-      version: app.VERSION()
-    })
-    if (goods_id > 0) {
-      Shop.Get({
-        user_id: app.USER_ID(),
-        goods_id
-      }).then(r => {
-        console.log('Shop.Get => ', r)
-        if (r.code == 200) {
-          let g = r.data
-          g.goods_img = g.goods_img.split(',')
-          g.goods_banners = g.goods_banners.split(',')
-          this.setData({
-            goods: g,
-            goods_spec: g.spec
-          })
-          this.initTypeList(r.data.class_one, r.data.class_two, r.data.class_three)
-        }
-      })
-    } else {
-      this.initTypeList(0, 0, 0)
-    }
+      version: app.VERSION(),
+			spec_item: this.initSpecItem()
+    },this.initData)
   },
+	initData(){
+		let goods_id = this.data.goods_id
+		if (goods_id > 0) {
+			Shop.Get({
+				user_id: app.USER_ID(),
+				goods_id
+			}).then(r => {
+				console.log('Shop.Get => ', r)
+				if (r.code == 200) {
+					let g = r.data
+					g.goods_img = g.goods_img.split(',')
+					g.goods_banners = g.goods_banners.split(',')
+					this.setData({
+						goods: g,
+						goods_spec: g.spec
+					})
+					this.initTypeList(r.data.class_one, r.data.class_two, r.data.class_three)
+				}
+			})
+		} else {
+			this.initTypeList(0, 0, 0)
+		}
+	},
   //-- 初始化商品类型列表数据
   initTypeList(pid1, pid2, pid3) {
     let next = 0
@@ -186,16 +191,29 @@ Page({
   onInputChanged(e) {
     let goods = this.data.goods
     goods[e.currentTarget.id] = e.detail.value
-    if (e.currentTarget.id == "is_gift" && e.detail.value == 1) {
-      goods.group_purchase = 0
-    }
-    if (e.currentTarget.id == "group_purchase" && e.detail.value == 1) {
-      goods.is_gift = 0
-    }
     this.setData({
       goods: goods
     })
   },
+	//-- 类型切换事件
+	onGoodsTypeChanged(e){
+		let spec_item = this.data.spec_item
+		let goods = this.data.goods
+		if (e.currentTarget.id == "is_gift") {
+			goods.group_purchase = 0
+			goods.is_gift = 1 - goods.is_gift
+			spec_item.group_price = 0
+		}
+		if (e.currentTarget.id == "group_purchase") {
+			goods.is_gift = 0
+			goods.group_purchase = 1 - goods.group_purchase
+			spec_item.integral = 0
+		}
+		this.setData({
+			goods: goods,
+			spec_item: spec_item
+		})
+	},
   //-- 规格信息输入事件
   specsItemInput(e) {
     let spec_item = this.data.spec_item
@@ -247,9 +265,12 @@ Page({
   //-- 选择商品图片
   choseImg(e) {
     let goods = this.data.goods
-
+		let maxpics = 6
+		if (e.currentTarget.id == "goods_img"){
+			maxpics = 12
+		}
     wx.chooseImage({
-      count: 6 - goods[e.currentTarget.id].length,
+			count: maxpics - goods[e.currentTarget.id].length,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: (res) => {
@@ -297,6 +318,15 @@ Page({
       })
     }
   },
+	//-- 编辑一个规格事件
+	editSpecsItem(e) {
+		let goods_spec = this.data.goods_spec
+		let idx = e.currentTarget.dataset.idx
+		this.data.spec_item = goods_spec[idx]
+		this.setData({
+			spec_item: this.data.spec_item
+		})
+	},
   validateSpec(spec_item) {
     if (spec_item.spec_size.length <= 0) {
       app.msg("请输入商品规格尺寸")
@@ -314,10 +344,10 @@ Page({
       app.msg("规格团购价格必须为有效非负数")
       return false;
     }
-    if (spec_item.integral.length <= 0 || spec_item.integral < 200) {
-      app.msg("规格兑换积分必须不小于200")
-      return false;
-    }
+    // if (spec_item.integral.length <= 0 || spec_item.integral < 200) {
+    //   app.msg("规格兑换积分必须不小于200")
+    //   return false;
+    // }
     if (!spec_item.spec_img || spec_item.spec_img.length <= 0) {
       app.msg("请上传规格图片")
       return false;
@@ -335,19 +365,33 @@ Page({
       spec_item.user_id = app.USER_ID()
       Spec.Post(spec_item).then(r => {
         if (r.code == 200) {
-          app.SUCCESS('规格添加成功！')
+          app.SUCCESS('规格确认成功！')
           let goods_spec = this.data.goods_spec
           spec_item.id = r.data
-          goods_spec.push(spec_item)
+          goods_spec.push({...spec_item})
           this.setData({
-            goods_spec: goods_spec
-          })
+            goods_spec: goods_spec,
+						spec_item: this.initSpecItem()
+					}, this.initData)
         } else {
-          app.ERROR("规格添加失败！")
+          app.ERROR("规格确认失败！")
         }
       })
     }
   },
+	initSpecItem(){
+		return {
+			id: 0,
+			spec_num: 999, //-- 库存
+			spec_size: '', //-- 尺寸
+			spec_color: '', //-- 颜色
+			group_price: 0, //-- 拼团价
+			integral: 0, //-- 所需积分
+			spec_img: '', //-- 规格图片
+			spec_price: 0, //-- 标价
+			service_charge:0 //-- 服务费
+		}
+	},
   //-- 执行操作
   onSubmit() {
     let goods = Object.assign({}, this.data.goods)
@@ -362,7 +406,7 @@ Page({
     if (goods.goods_limit.length <= 0 || goods.goods_limit < 0) {
       goods.goods_limit = 0
     }
-    // //-- 佣金检查
+    // //-- 推广费检查
     // if (goods.goods_brokerage.length <= 0 || goods.goods_brokerage < 0) {
     //   goods.goods_brokerage = 0
     // }

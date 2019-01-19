@@ -12,11 +12,14 @@ Page({
   },
   drawQrCode() {
     var text = `{"grade":"${this.data.user.member.member_grade}","uid":"${this.data.user.id}"}`
+    if (this.data.user.member.member_code) {
+      text = `{"grade":"${this.data.user.member.member_grade}","uid":"${this.data.user.id}","mc":"${this.data.user.member.member_code}"}`
+    }
     var qrctx = drawQrcode({
       width: 200,
       height: 200,
       canvasId: 'qrCanvas',
-      foreground: '#d81e06',
+      foreground: '#e97f23',
       text: text
     })
   }

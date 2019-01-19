@@ -58,6 +58,12 @@ var pageObj = {
       sc2: e.detail.current
     })
   },
+	//-- 转至会员页
+	toBeMember() {
+		wx.navigateTo({
+			url: '/pages/usercenter/bemember',
+		})
+	},
   //--进入到搜索页面
   inputFocus: function() {
     wx.navigateTo({
@@ -151,15 +157,20 @@ var pageObj = {
 					shopListWhere: this.data.shopListWhere
         })
       }
-      this.loadRecommendData()
+			this.loadRecommendData()
     })
   },
   //-- 赠品首页
-  toGiftIndex() {
-    wx.navigateTo({
-      url: '/pages/shop/giftIndex',
-    })
-  },
+	toGiftIndex() {
+		wx.navigateTo({
+			url: '/pages/shop/giftIndex',
+		})
+	},
+	toJiFengPage() {
+		wx.navigateTo({
+			url: '/pages/shop/jifengIndex',
+		})
+	},
   //-- 拼团首页
   toGroupIndex() {
     wx.navigateTo({

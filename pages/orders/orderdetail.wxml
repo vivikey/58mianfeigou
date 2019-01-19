@@ -17,30 +17,34 @@
     </navigator>
     <view class='flex'>
       <view class='flex' wx:for='{{10}}' wx:key=''>
-        <view class='bgdanger add-side'></view>
+        <view class='bgprimary add-side'></view>
         <view class='bgpk add-side'></view>
       </view>
     </view>
   </view>
+  <view class='sq'></view>
   <view class='full-width bgw pd20'>
-    <view class='flex pdc20 bottomline'>
-      <image src='{{order.store.store_logo}}' class='img-sm'></image>
-      <view class='font-sm cgray bolder'>{{order.store.store_name}}</view>
+    <view class='flex-row'>
+      <view class='flex pdc20'>
+        <image src='{{order.store.store_logo}}' class='img-sm'></image>
+        <view class='font-sm cgray bolder pdr'>{{order.store.store_name}}</view>
+      </view>
+      <view class='label green-label' wx:if='{{order.goods.length>1 && order.store.on_line == 0 && order.statMsg=="待消费"}}' bindtap='onOneKeyshowQR'>一键消费</view>
     </view>
     <!-- 商品列表 -->
     <view class='info font-xs'>
-      <view wx:for='{{order.goods}}' wx:key='id' wx:for-item='gds' class='full-width bglightgray mg-t10 shadow'>
+      <view wx:for='{{order.goods}}' wx:key='id' wx:for-item='gds' class='full-width bglightgray mg-t20 shadow'>
         <!-- 商品简简信息 -->
         <view class='full-width flex-row pd20 bgw'>
-          <view class='flex flex-left' style='width:540rpx;' bindtap='toShopDetail' data-id='{{gds.goods_id}}' data-spec='{{gds.spec_id}}'>
+          <view class='flex flex-left' style='width:640rpx;' bindtap='toShopDetail' data-id='{{gds.goods_id}}' data-spec='{{gds.spec_id}}'>
             <view class='pdr'>
               <image src='{{gds.spec_img}}' class='item-image'></image>
             </view>
-            <view class='full-width pdr bottomline'>
+            <view class='full-width pdr pdc'>
               <view class='black font-md bolder'>{{gds.goods_name}}</view>
-              <view class='pkcolor'>
-                <text class='label small blue-label'>{{gds.spec_size}}</text>
-                <text class='label small red-label'>{{gds.spec_color}}</text>
+              <view class='pkcolor pdc'>
+                <text class='label small'>{{gds.spec_size}}</text>
+                <text class='label small'>{{gds.spec_color}}</text>
                 <text class='black bolder pdr30'>￥{{order.order_type==1?gds.goods_price:gds.spec_price}} x{{gds.spec_num}}</text>
               </view>
             </view>
@@ -67,8 +71,10 @@
               </view>
             </view>
             <view class='flex-col-auto flex-center bdfull pd0' style='width:150rpx;' bindtap='showQR' data-idx='{{index}}'>
-              <view><image src='/resource/icon/consume_qr.png' class='img-md'></image></view>
-              <view class='font-x redcolor bolder'>消费</view>
+              <view>
+                <image src='/resource/icon/consume_qr.png' class='img-md'></image>
+              </view>
+              <view class='font-x redcolor bolder'>单品消费</view>
             </view>
           </view>
         </view>
@@ -76,6 +82,15 @@
     </view>
   </view>
   <view class='sq'></view>
+  <view wx:if='{{order.store.on_line == 1}}' class='full-width'>
+    <view wx:if='{{expressList.Traces}}' class='bgw full-width pd20 arrow' bindtap='showExpress'>
+      <view class='flex-col'>
+        <text class='black font-xs lh-xs'>{{expressList.Traces[0].AcceptStation}}</text>
+        <text class='font-x lightgray'>{{expressList.Traces[0].AcceptTime}}</text>
+      </view>
+    </view>
+    <view class='sq'></view>
+  </view>
   <view class='full-width bgw pd20 rel'>
     <view class='pd'>
       <text class='cgray'>订单状态：</text>
@@ -107,20 +122,20 @@
       <text class='skr bolder'>￥{{order_info.pay_amount}}</text>
     </view>
   </view>
-	<!-- 操作 -->
+  <!-- 操作 -->
   <view class='opt-box bgw pd20 flex flex-right full-width topline'>
-		<!-- 取消订单 -->
-    <view data-order='{{order.id}}' catchtap='cancelOrder' class='opt pd pdr20 radius-s bglightgray' wx:if='{{order.statMsg=="待付款"}}'>取消订单</view>
-		<!-- 删除订单 -->
-    <view data-order='{{order.id}}' catchtap='delOrder' class='opt pd pdr20 radius-s bglightgray' wx:if='{{order.statMsg=="已完成"}}'>删除订单</view>
-		<!-- 去评价 -->
-    <view data-goods='{{order.goods[0].goods_id}}' catchtap='gotoEvaluate' class='opt pd pdr20 radius-s bglightgray' wx:if='{{order.statMsg=="已完成"}}'>去评价</view>
-		<!-- 立即支付 -->
-    <view bindtap='ConfirmOrderAndPay' class='opt pd pdr20 radius-s bdlinearskr wtcolor' wx:if='{{order.statMsg=="待付款"}}'>立即支付</view>
-		<!-- 确认收货 -->
-    <view bindtap='onTakeDelivery' class='opt pd pdr20 radius-s bdlinearskr wtcolor' wx:if='{{order.statMsg == "待收货" }}'>确认收货</view>
-		<!-- 查看拼团 -->
-    <navigator url='/pages/groupbuy/injoin?group_id={{order.group_id}}' class='opt pd pdr20 radius-s bdlinearskr wtcolor' wx:if='{{order.statMsg == "拼团中"}}'>查看拼团</navigator>
+    <!-- 取消订单 -->
+    <view data-order='{{order.id}}' catchtap='cancelOrder' class='zs-btn' wx:if='{{order.statMsg=="待付款"}}'>取消订单</view>
+    <!-- 删除订单 -->
+    <view data-order='{{order.id}}' catchtap='delOrder' class='zs-btn' wx:if='{{order.statMsg=="已完成"}}'>删除订单</view>
+    <!-- 去评价 -->
+    <view data-goods='{{order.goods[0].goods_id}}' data-order='{{order.id}}' catchtap='gotoEvaluate' class='zs-btn' wx:if='{{order.statMsg=="已完成" && order.evaluate!=1}}'>去评价</view>
+    <!-- 立即支付 -->
+    <view bindtap='ConfirmOrderAndPay' class='zs-btn zs-red' wx:if='{{order.statMsg=="待付款"}}'>立即支付</view>
+    <!-- 确认收货 -->
+    <view bindtap='onTakeDelivery' class='zs-btn' wx:if='{{order.statMsg == "待收货" }}'>确认收货</view>
+    <!-- 查看拼团 -->
+    <navigator url='/pages/groupbuy/injoin?group_id={{order.group_id}}' class='zs-btn' wx:if='{{order.statMsg == "拼团中"}}'>查看拼团</navigator>
   </view>
 </view>
 <!-- 消费二维码 -->

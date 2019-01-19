@@ -1,4 +1,3 @@
-@import "/template/storeitem/storeitem.wxss";
 @import "/template/mainbar.wxss";
 .location{
     width:400rpx;

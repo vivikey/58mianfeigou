@@ -48,7 +48,7 @@ text.mgr{
     left:0;
     bottom:0;
     right:0;
-    color:#fff;
+		border-radius: 18rpx;
 }
 .imp{
     background: linear-gradient(to right, #50d1fe,#fff);
@@ -67,6 +67,21 @@ text.mgr{
     border-bottom:1rpx solid #f0f0f0;
 		box-sizing: border-box;
 		border-left:1rpx solid #f0f0f0;
+}
+.img-nav.vas{
+	position: relative;
+	overflow: hidden;
+}
+.img-nav.vas::before{
+	content: '增值服务';
+	position: absolute;
+	left:-24rpx;
+	top:12rpx;
+	background:red;
+	color:#fff;
+	font-size:10px;
+	padding: 0 15rpx;
+	transform:rotateZ(-45deg);
 }
 .img-nav:nth-child(4n){
     border-left:1rpx solid #f0f0f0;

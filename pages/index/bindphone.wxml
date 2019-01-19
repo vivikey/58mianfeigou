@@ -1,35 +1,58 @@
-<view class="container gray pd30 font-sm" wx:if='{{user.user_phone}}'>
-    <view class='full-width bgw flex-col pd20'>
-        <text class='bolder'>手机号：</text>
-        <view class='flex-row'>
-            <input type='number' placeholder='请输入11位手机号' class='bottomline font-md full-width' bindinput='endinput' value='{{phone}}'></input>
-        </view>
+<view class="container gray font-sm" wx:if='{{user.user_phone}}'>
+  <!-- TopBar -->
+  <view class='full-width' style='height:60px;'></view>
+  <view class='fix-t flex-row pd20 shadow bgw'>
+    <view class='flex flex-left'>
+      <view class='img-md bglightgray radius-circle'>
+        <image src='/resource/icon/bindphone.png' class='img-md radius-circle'></image>
+      </view>
+      <view class='skr bolder font-sm pdr20'>绑定手机</view>
     </view>
-    <view class='full-width bgw flex-col pd20'>
-        <text class='bolder'>验证码：</text>
-        <view class='flex-row'>
-            <input type='number' placeholder='请输入验证码' class='bottomline font-md full-width' bindinput='codeinput'></input>
-            <button type='default' disabled='{{!canGetcode}}' bindtap='getCode'>{{getTitle}}</button>
-        </view>
+  </view>
+  <!-- TopBar -->
+  <view class='full-width flex-center pd20'>
+    <view class='pdc30 flex flex-center'>
+      <text class='pkcolor font-sm bolder'>{{msg}}</text>
     </view>
-    <view class='full-width bgw flex-center pd20'>
-        <view class='pdc30 flex flex-center'>
-            <text class='skr font-md bolder'>{{msg}}</text>
-        </view>
+  </view>
+  <view class='input-panel'>
+    <view class='input-line'>
+			<text class='input-label'>手机号</text>
+      <input type='number' placeholder='请输入11位手机号' class='input-box' bindinput='endinput' value='{{phone}}'></input>
     </view>
-    <view class='full-width bgw flex flex-center pd30'>
-        <button type='primary' bindtap='bindingPhone' class='bind font-lg'>更新绑定</button>
+  </view>
+  <view class='input-panel'>    
+    <view class='input-line'>
+			<text class='input-label'>验证码</text>
+      <input type='number' placeholder='请输入验证码' class='input-box' bindinput='codeinput'></input>
     </view>
+		<view class='full-width flex flex-right pdc font-sm black'>
+			<text wx:if='{{canGetcode}}' bindtap='getCode' class='label green-label'>{{getTitle}}</text>
+			<text wx:else class='label'>{{getTitle}}</text>
+		</view>
+  </view>
+  <view class='full-width flex flex-center bgw pd30'>
+    <view class='btn-fix-b font-md' bindtap='bindingPhone'>
+      <image src='/resource/icon/btn-bindphone.png' class='addbtnimg radius-circle'></image>
+      更新绑定手机
+    </view>
+  </view>
 </view>
 <view class="container gray fullscreen" wx:if='{{!user.user_phone}}'>
-    <view class='flex-col-auto flex-center full-width' style='height:40%'>
-        <image src='/resource/icon/logo.png' class='userImg lg'></image>
-    </view>
-    <view class='full-width flex-col pd30 flex-center' style='height:20%'>
-        <view class='black bolder pd30'>58免费购需要绑定微信手机号</view>
-        <view class='cgray font-xs pdr30'>▸基于国家法规要求实名认证，获取您的手机号</view>
-    </view>
-    <view style='height:40%' class='full-width pd30 flex flex-center'>
-        <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" class='bind font-lg pd authbtn'>绑定微信手机号</button>
-    </view>
+  <view class='flex-col-auto flex-center full-width' style='height:40%'>
+    <image src='/resource/icon/logo.png' class='userImg lg'></image>
+  </view>
+  <view class='full-width flex-col pd30 flex-center' style='height:20%'>
+    <view class='or font-lg bolder pd30'>热网需要您授权绑定微信手机号</view>
+    <view class='black font-sm pdr30'>• 基于国家法规实名认证要求</view>
+		<view class='black font-sm pdr30'>• 获取您微信绑定的手机号</view>
+  </view>
+  <view style='height:40%' class='full-width pd30 flex flex-center'>
+		    <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" class='btn-fix-b green heighter pd authbtn'>
+			<image src='/resource/icon/auth.png' class='img-sm'></image>
+			<text>授权绑定</text>
+		</button>
+  </view>
 </view>
+<import src="/template/version/version.wxml" />
+<template is="version" data="{{version}}"></template>

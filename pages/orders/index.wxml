@@ -1,7 +1,7 @@
 <view class='container gray font-xs hardgray'>
   <view class='topblockbg' style='height:40px;'></view>
   <!-- Location / SearchBar / NavBar -->
-  <view class='fix-t full-width bgw ' style='height:40px;'>
+  <view class='fix-t full-width bgw shadow' style='height:40px;'>
     <scroll-view class="scroll-view_H" scroll-x>
       <view class='scroll-view-item_H {{classNavActIdx==index?"active":""}} pdc flex flex-center' wx:for='{{classNavList}}' wx:key='index' id='{{index}}' bindtap='onClassNavClick'>{{item}}</view>
     </scroll-view>
@@ -15,9 +15,9 @@
       <view class='flex-row'>
         <view class='flex flex-left flex-center'>
           <view>
-            <image src='{{item.store.store_logo}}' class='img-sm'></image>
+            <image src='{{item.store.store_logo}}' class='img-sm radius-circle'></image>
           </view>
-          <view class='flex flex-center pd font-md black'>{{item.store.store_name}}</view>
+          <view class='flex flex-center pd font-md skr'>{{item.store.store_name}}</view>
         </view>
         <view class='flex flex-center'>
           <view class='flex flex-center bolder pdr20 cgray'>{{item.order_status_txt}}</view>
@@ -27,46 +27,59 @@
         </view>
       </view>
       <!-- Goods Info -->
-      <view class='full-width pd20 bottomline'>
-        <view class='pd flex-row' wx:for='{{item.goods}}' wx:key='id' wx:for-item='gd'>
-          <navigator url='/pages/shop/details?id={{gd.goods_id}}' class='flex flex-center'>
-            <image src='{{gd.spec_img}}' class='img-md'></image>
-            <view class='font-sm black bolder pd'>{{gd.goods_name}}</view>
+      <view class='full-width pdc20 bottomline'>
+        <view class='full-width shadow' wx:for='{{item.goods}}' wx:key='id' wx:for-item='gd'>
+          <navigator url='/pages/shop/details?id={{gd.goods_id}}' class='full-width flex flex-center'>
+            <image src='{{gd.spec_img}}' class='img-lg'></image>
+            <view class='font-sm black bolder pd' style='width:550rpx;'>{{gd.goods_name}}
+              <text class='label small'>{{gd.spec_size}}</text>
+              <text class='label small'>{{gd.spec_color}}</text>
+            </view>
           </navigator>
-          <view>
-            <text class='lightgray font-xs'>{{gd.spec_size}} {{gd.spec_color}}</text>
-          </view>
         </view>
         <view class='flex pd20' catchtap='goOrderDeatil' data-order='{{item.id}}'>
-          <view class='font-x lightgray'>
-						<view>编号：{{item.order_sn}}</view>
-            <view>下单：{{item.addtime}}</view>
-            <view wx:if='{{item.paytime}}'>付款：{{item.paytime}}</view>
+          <view class='font-xs black'>
+            <view class='mg-b10'>编号：
+              <text class='bolder'>{{item.order_sn}}</text>
+            </view>
+            <view class='mg-b10'>下单：
+              <text class='bolder'>{{item.addtime}}</text>
+            </view>
+            <view class='mg-b10' wx:if='{{item.paytime}}'>付款：
+              <text class='bolder'>{{item.paytime}}</text>
+            </view>
           </view>
         </view>
-        <view class='flex flex-right lightgray font-sm pdc pdr'>实付金额：
-          <text class='pkcolor font-md'>￥{{item.order_price}}</text>
+        <view class='flex flex-right black bolder font-sm pdc pdr' wx:if='{{item.order_status==0}}'>待付金额：
+          <text class='redcolor font-lg'>{{item.total_price}}</text>
         </view>
-
+        <view class='flex flex-right black bolder font-sm pdc pdr' wx:if='{{item.order_status>0}}'>实付金额：
+          <text class='redcolor font-lg'>{{item.order_price}}</text>
+        </view>
       </view>
       <view class='flex-row'>
-        <view class='label red-label small'>{{item.orderfrm}}</view>
+        <view class='label red-label small' wx:if='{{item.orderfrm}}'>{{item.orderfrm}}</view>
+        <view class='' wx:if='{{!item.orderfrm}}'></view>
         <!-- Options -->
         <view class='flex flex-right pd20'>
           <!-- 取消订单：待付款 cancelOrder-->
           <view bindtap='cancelOrder' data-order='{{item.id}}' class='zs-btn' wx:if='{{item.order_status==0}}'>取消订单</view>
           <!-- 去付款 ：待付款 toPayOrder-->
-          <view bindtap='toPayOrder' data-order='{{item.id}}' class='zs-btn' wx:if='{{item.order_status==0}}'>去付款</view>
+          <view bindtap='toPayOrder' data-order='{{item.id}}' class='' wx:if='{{item.order_status==0}}'><button form-type="submit" class='zs-btn zs-red'>去付款</button></view>
           <!-- 去评价：已完成 -->
-          <view data-goods='{{item.goods[0].goods_id}}' catchtap='gotoEvaluate' class='zs-btn' wx:if='{{item.order_status_txt=="已完成"}}'>去评价</view>
+          <view data-goods='{{item.goods[0].goods_id}}' data-order='{{item.id}}' catchtap='gotoEvaluate' class='zs-btn' wx:if='{{item.order_status_txt=="已完成" && item.evaluate!=1}}'>去评价</view>
           <!-- 去消费 ：待消费 toConsumeOrder-->
           <view bindtap='toConsumeOrder' data-order='{{item.id}}' class='zs-btn zs-green' wx:if='{{item.order_status_txt=="待消费"}}'>去消费</view>
-					<!-- 确认收货 ：待收货-->
-          <view class='zs-btn' wx:if='{{item.order_status_txt=="待收货"}}' bindtap='showExpress' data-order='{{item.id}}'>查看物流</view>
           <!-- 确认收货 ：待收货-->
-          <view class='zs-btn zs-red' wx:if='{{item.order_status_txt=="待收货"}}'  bindtap='onTakeDelivery' data-order='{{item.id}}'>确认收货</view>
-					<!-- 确认收货 ：待收货-->
-          <view class='zs-btn zs-orange' wx:if='{{item.order_status_txt=="待发货"}}'>提醒发货</view>
+          <view class='zs-btn' wx:if='{{item.order_status_txt=="待收货"}}' bindtap='showExpress' data-user='{{item.user_id}}' data-order='{{item.id}}'>查看物流</view>
+          <!-- 确认收货 ：待收货-->
+          <view class='zs-btn zs-red' wx:if='{{item.order_status_txt=="待收货"}}' bindtap='onTakeDelivery' data-order='{{item.id}}'>确认收货</view>
+          <!-- 确认收货 ：待收货-->
+          <form bindsubmit='onRemindShipment' report-submit='{{true}}' wx:if='{{item.order_status_txt=="待发货"}}'>
+						<input type='hidden' hidden='{{true}}' name='user_id' value='{{item.user_id}}'></input>
+						<input type='hidden' hidden='{{true}}' name='order_id' value='{{item.id}}'></input>
+            <button form-type="submit" class='zs-btn zs-orange'>提醒发货</button>
+          </form>
           <!-- 查看拼团 -->
           <navigator url='/pages/groupbuy/injoin?group_id={{item.group_id}}' class='zs-btn' wx:if='{{item.order_status_txt == "拼团中"}}'>查看拼团</navigator>
         </view>

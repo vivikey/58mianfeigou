@@ -13,8 +13,8 @@
         <text class='pdr txtpt font-sm'>{{location}}</text>
       </view>
       <!-- SearchBar -->
-      <view class='flex-row label midd search mg-t10' bindtap='inputFocus'>
-        <text class='pdr20 font-sm cgray'>搜索商品...</text>
+      <view class='flex-row label midd search mg-t10'>
+        <text class='pdr20 font-sm cgray'>搜索功能暂未开放...</text>
         <view class='flex flex-center'>
           <image src='/resource/icon/search.svg' class='img-sm'></image>
         </view>
@@ -41,7 +41,7 @@
       </view>
     </view>
     <!-- main nav-->
-    <view class='full-width bgw pd20 flex flex-around bottomline'>
+    <view class='full-width bgw pdr20 pdc30 flex flex-around bottomline'>
       <view class='nav-item' bindtap='toHomeIndex'>
         <view class='nav-img'>
           <image src='/resource/icon/home.png'></image>
@@ -49,23 +49,29 @@
         <text class='nav-title'>首页</text>
       </view>
       <view class='nav-item' bindtap='toGiftIndex'>
-        <view class='nav-img'>
+        <view class='nav-img lred'>
           <image src='/resource/icon/m-nav-1.png'></image>
         </view>
         <text class='nav-title'>赠品</text>
       </view>
 
       <view class='nav-item' bindtap='toTaskIndex'>
-        <view class='nav-img'>
+        <view class='nav-img lbule'>
           <image src='/resource/icon/m-nav-3.png'></image>
         </view>
         <text class='nav-title'>推广</text>
       </view>
-      <view class='nav-item' bindtap='toMyBalance'>
-        <view class='nav-img'>
+      <view class='nav-item' bindtap='toJiFengPage'>
+        <view class='nav-img lgreen'>
           <image src='/resource/icon/m-nav-4.png'></image>
         </view>
-        <text class='nav-title'>账户</text>
+        <text class='nav-title'>积分</text>
+      </view>
+						<view class='nav-item' bindtap='toBeMember'>
+        <view class='nav-img lviolet'>
+          <image src='/resource/icon/m-nav-5.png'></image>
+        </view>
+        <text class='nav-title'>会员</text>
       </view>
     </view>
     <view class='box'>
@@ -81,15 +87,19 @@
         </view>
       </view>
     </view>
-    <view class='box bgw pd'>
-      <view wx:for='{{groupHotList}}' wx:key='id' class='full-width pd flex-row'>
+    <view class='box pd bgorange'>
+      <import src="/template/nothing/item.wxml" />
+      <template is="nothing" data='{{datalist:groupHotList,Msg:"~空空如也~"}}'></template>
+      <view wx:for='{{groupHotList}}' wx:key='id' class='full-width flex-row bgw mg-b10'>
         <view class='store_shop_specimg rel' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}'>
           <image src='{{item.spec[0].spec_img}}'></image>
-          <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0}}'>佣金{{item.goods_brokerage}}</view>
+          <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>推广费
+            <text>{{item.goods_brokerage}}</text>
+          </view>
         </view>
-        <view class='store_shop_info bottomline pdc'>
+        <view class='store_shop_info pdc'>
           <view>
-            <view class='skr bolder font-sm txtclamp txtclamp-2'>{{item.goods_name}}
+            <view class='black bolder font-sm txtclamp txtclamp-2'>{{item.goods_name}}
               <text class='label white-label small'>{{item.spec[0].spec_size}}</text>
               <text class='label white-label small'>{{item.spec[0].spec_color}}</text>
             </view>
@@ -102,14 +112,14 @@
               <text class='font-md'>{{item.spec[0].group_price}}</text>
             </view>
             <view class='cgray txtmidline font-xs'>¥{{item.spec[0].spec_price}}</view>
-						<view class='label small yellow-label'>{{item.distance}}km</view>
+            <view class='label small yellow-label'>{{item.distance}}km</view>
           </view>
           <view class='flex-row'>
             <view>
               <text class='label small red-label'>{{item.group_num}}人团</text>
               <text class='label small'>{{item.sale_num}}已团</text>
             </view>
-            <view class='flex flex-center bdlinearskr wtcolor pdc pdr20 radius-m' bindtap='onShopClick' data-id='{{item.id}}' data-spec='{{item.goods_spec[0].id}}'>
+            <view class='btn-fix-b min-small' bindtap='onShopClick' data-id='{{item.id}}' data-spec='{{item.goods_spec[0].id}}'>
               <text>我要参团</text>
             </view>
           </view>

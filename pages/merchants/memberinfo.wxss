@@ -1,0 +1,6 @@
+@import "/template/form.wxss";
+.info-item-row text.radio-cap{
+	padding-left:6rpx;
+	padding-right:0rpx;
+	font-weight: 600;
+}

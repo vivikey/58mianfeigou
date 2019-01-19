@@ -1,6 +1,6 @@
 <view class='container gray flex-left'>
     <view class='version flex-col flex-center pd30'>
-        <image src='/resource/icon/logo.png'></image>
+        <image src='/resource/icon/logo.png' class='radius-circle'></image>
         <view class='sq'></view>
         <view class='pd font-sm bolder'>{{appname}}</view>
         <view class='pd cgray font-xs'>{{version}}</view>

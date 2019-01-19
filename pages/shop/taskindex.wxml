@@ -13,8 +13,8 @@
         <text class='pdr txtpt font-sm'>{{location}}</text>
       </view>
       <!-- SearchBar -->
-      <view class='flex-row label midd search mg-t10' bindtap='inputFocus'>
-        <text class='pdr20 font-sm cgray'>搜索商品...</text>
+      <view class='flex-row label midd search mg-t10'>
+        <text class='pdr20 font-sm cgray'>搜索功能暂未开放...</text>
         <view class='flex flex-center'>
           <image src='/resource/icon/search.svg' class='img-sm'></image>
         </view>
@@ -41,7 +41,7 @@
       </view>
     </view>
     <!-- main nav-->
-    <view class='full-width bgw pd20 flex flex-around bottomline'>
+    <view class='full-width bgw pdr20 pdc30 flex flex-around bottomline'>
       <view class='nav-item' bindtap='toHomeIndex'>
         <view class='nav-img'>
           <image src='/resource/icon/home.png'></image>
@@ -49,22 +49,28 @@
         <text class='nav-title'>首页</text>
       </view>
       <view class='nav-item' bindtap='toGiftIndex'>
-        <view class='nav-img'>
+        <view class='nav-img lred'>
           <image src='/resource/icon/m-nav-1.png'></image>
         </view>
         <text class='nav-title'>赠品</text>
       </view>
       <view class='nav-item' bindtap='toGroupIndex'>
-        <view class='nav-img'>
+        <view class='nav-img lorange'>
           <image src='/resource/icon/m-nav-2.png'></image>
         </view>
         <text class='nav-title'>拼团</text>
       </view>
-      <view class='nav-item' bindtap='toMyBalance'>
-        <view class='nav-img'>
+      <view class='nav-item' bindtap='toJiFengPage'>
+        <view class='nav-img lgreen'>
           <image src='/resource/icon/m-nav-4.png'></image>
         </view>
-        <text class='nav-title'>账户</text>
+        <text class='nav-title'>积分</text>
+      </view>
+      <view class='nav-item' bindtap='toBeMember'>
+        <view class='nav-img lviolet'>
+          <image src='/resource/icon/m-nav-5.png'></image>
+        </view>
+        <text class='nav-title'>会员</text>
       </view>
     </view>
     <view class='box'>
@@ -80,26 +86,37 @@
         </view>
       </view>
     </view>
-    <view class='box bgw pd'>
+    <view class='box bgblue pdc'>
       <view class='full-witdh flex flex-wrap'>
-        <view class='full-width pd20'>
+        <view class='full-width flex flex-left flex-wrap'>
+          <import src="/template/nothing/item.wxml" />
+          <template is="nothing" data='{{datalist:taskList,Msg:"~空空如也~"}}'></template>
           <!-- giftList -->
-          <view wx:for='{{taskList}}' wx:key='' class='pd flex-row' data-id='{{item.id}}' data-spec='{{item.spec[0].id}}' bindtap='onShopClick'>
-            <view class='flex flex-left pdc bottomline' style='width:520rpx;'>
-              <view class='task-img'>
-                <view class=''>
-                  <image src='/resource/icon/ss.png' class='img-sm'></image>
-                </view>
-                <view class='font-xs bolder pkcolor'>{{item.goods_brokerage}}</view>
-              </view>
-              <view class='pd20'>
-                <view class='skr font-sm bolder'>{{item.goods_name}}
-                </view>
+          <view wx:for='{{taskList}}' wx:key='' class='task-item-box' data-id='{{item.id}}' data-spec='{{item.spec.id}}' bindtap='onShopClick'>
+            <view class='task-img'>
+              <image src='{{item.spec.spec_img}}'></image>
+              <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>推广费
+                <text>{{item.goods_brokerage}}</text>
               </view>
             </view>
-            <view class='flex flex-center bdlinearskr wtcolor pdc pdr20 radius-m' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}'>
-              <text class='wtcolor'>我要推广</text>
+            <view class='task-info pd'>
+              <view class='black bolder font-sm txtclamp txtclamp-2'>{{item.goods_name}}
+                <text class='label small white-label'>{{item.spec.spec_color}}</text>
+                <text class='label small white-label'>{{item.spec.spec_size}}</text>
+              </view>
+              <view class='flex-row'>
+                <view wx:if='{{item.group_purchase == 1}}' class='pkcolor'>
+                  <text class='font-x'>￥</text>
+                  <text class='font-lg bolder'>{{item.spec.group_price}}</text>
+                </view>
+                <view wx:if='{{item.group_purchase == 0}}' class='pkcolor'>
+                  <text class='font-x'>￥</text>
+                  <text class='font-lg bolder'>{{item.spec.spec_price}}</text>
+                </view>
+								<text class='label small yellow-label bolder'>{{item.distance}}km</text>
+              </view>
             </view>
+						<view class='full-width pd'><view class='full-width btn-fix-b'>去推广</view></view>
           </view>
         </view>
       </view>

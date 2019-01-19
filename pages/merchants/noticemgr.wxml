@@ -10,7 +10,7 @@
         <import src="/template/nothing/item.wxml" />
         <template is="nothing" data='{{datalist:noticeList,Msg:"请发布公告"}}'></template>
         
-        <view class='posteritem box flex-col bottomline' wx:for='{{noticeList}}' wx:key='id'>
+        <view class='bgw pd box flex-col bottomline' wx:for='{{noticeList}}' wx:key='id'>
             <view class='full-width'>
                 <view class='font-sm black bolder'>{{item.notice_name}}</view>
             </view>

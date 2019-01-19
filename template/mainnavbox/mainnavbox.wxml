@@ -1,12 +1,28 @@
 <template name="mainvav">
-    <view class='box flex-row flex-around bottomline'>
-        <navigator url='/pages/poster/index' class='item-list-title'>
-            <view class='flex-col flex-center nav-item nav-1'>
-                <view class='radius-circle flex flex-center'>
-                    <image src='/resource/icon/m-nav-1.svg'></image>
-                </view>
-                <text>活动海报</text>
-            </view>
-        </navigator>
+    <view class='full-width bgw pd20 flex flex-around bottomline'>
+      <view class='nav-item' bindtap='toGiftIndex'>
+        <view class='nav-img '>
+          <image src='/resource/icon/m-nav-1.png'></image>
+        </view>
+        <text class='nav-title'>赠品</text>
+      </view>
+      <view class='nav-item' bindtap='toGroupIndex'>
+        <view class='nav-img'>
+          <image src='/resource/icon/m-nav-2.png'></image>
+        </view>
+        <text class='nav-title'>拼团</text>
+      </view>
+      <view class='nav-item' bindtap='toTaskIndex'>
+        <view class='nav-img'>
+          <image src='/resource/icon/m-nav-3.png'></image>
+        </view>
+        <text class='nav-title'>推广</text>
+      </view>
+      <view class='nav-item' bindtap='toMyBalance'>
+        <view class='nav-img'>
+          <image src='/resource/icon/m-nav-4.png'></image>
+        </view>
+        <text class='nav-title'>账户</text>
+      </view>
     </view>
 </template>

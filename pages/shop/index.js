@@ -5,7 +5,6 @@ var pageObj = {
   data: {
     version: '',
     user: {},
-    userInfo: {},
     sortTypeList: [{
       key: '距离',
       value: 1
@@ -37,40 +36,27 @@ var pageObj = {
       num: 20
     },
     index_banner: [],
-    indicatorDots: true,
-    vertical: true,
-    autoplay: true,
-    circular: true,
-    interval: 3000,
-    duration: 500,
-    previousMargin: 0,
-    nextMargin: 0,
     location: '',
     sortType: 2,
     shop_list: [],
-    posterHotList: [],
     tuijian_list: [],
-    giftHotList: [],
     groupHotList: [],
     dynamic_list: [],
     classNavList: [],
     classNavActIdx: 0,
-    msgC: 0,
-    timer: 0,
-    showbload: 0,
     sc: 0,
-    sc2: 0
   },
   swiperChange: function(e) {
     this.setData({
       sc: e.detail.current
     })
   },
-  swiperChange2: function(e) {
-    this.setData({
-      sc2: e.detail.current
-    })
-  },
+	//-- 转至会员页
+	toBeMember() {
+		wx.navigateTo({
+			url: '/pages/usercenter/bemember',
+		})
+	},
   //--进入到搜索页面  
   inputFocus: function() {
     wx.navigateTo({
@@ -78,7 +64,7 @@ var pageObj = {
     })
   },
   //-- 初始化头条数据
-  initDynamicList() {
+  initDynamicList(fn) {
     Index.TouTiao({
         user_id: app.USER_ID()
       })
@@ -87,10 +73,13 @@ var pageObj = {
         let dynamic_list = []
         if (r.code == 200) {
           dynamic_list = r.data.map(u => {
+						if(!u.nick_name){
+							u.nick_name = ""
+						}
             return {
               user: `**${u.nick_name.substr(u.nick_name.length-1)}`,
               value: u.brokerage,
-              type: "佣金"
+              type: "推广费"
             }
           })
         } else {
@@ -98,13 +87,14 @@ var pageObj = {
             dynamic_list.push({
               user: "L**V",
               value: (Math.random() * 10).toFixed(1),
-              type: "佣金"
+              type: "推广费"
             })
           }
         }
-        this.setData({
-          dynamic_list: dynamic_list
-        })
+        this.data.dynamic_list= dynamic_list
+				if(typeof fn === 'function'){
+					fn()
+				}
       })
 
   },
@@ -120,18 +110,17 @@ var pageObj = {
     Index.TypeList({
       class_id: 0
     }).then(r => {
-			console.log('Index.TypeList => ', r)
+      console.log('Index.TypeList => ', r)
       r.data.forEach(item => {
         classNavList.push({
           id: item.id,
           categoryName: item.categoryName
         })
       })
-      this.setData({
-        classNavList: classNavList
-      }, () => {
-        this.loadIndexData(this.data.classNavActIdx)
-      })
+			this.setData({
+				classNavList : classNavList
+			})
+      this.loadIndexData(this.data.classNavActIdx)
     })
   },
   //-- 排序点击事件
@@ -141,27 +130,22 @@ var pageObj = {
     this.data.shopListWhere.sort_type = e.currentTarget.id
     this.data.shopListWhere.page_num = 1
     this.data.shopListWhere.user_location = long_lat
-    this.setData({
-      shopListWhere: this.data.shopListWhere
-    })
     this.loadIndexData(this.data.classNavActIdx)
   },
   //-- 分类导航点击事件
   onClassNavClick(e) {
     this.data.classNavActIdx = e.currentTarget.id
-		this.data.tuiJianWhere.page = 1
-		this.data.shopListWhere.page_num = 1
-    this.setData({
-      classNavActIdx: this.data.classNavActIdx,
-			shop_list:[],
-			tuijian_list:[] // 索引
-    })
+    this.data.tuiJianWhere.page = 1
+    this.data.shopListWhere.page_num = 1
+    this.data.classNavActIdx = this.data.classNavActIdx
+    this.data.shop_list = []
+    this.data.tuijian_list = [] // 索引
     this.loadIndexData(e.currentTarget.id)
   },
   /**加载首页数据事件 */
   loadIndexData(classNavActIdx) {
     let id = this.data.classNavList[classNavActIdx].id
-		this.data.shopListWhere.page_num = 1
+    this.data.shopListWhere.page_num = 1
     if (id == -1) { //-- 推荐
       this.loadRecommendData()
     } else {
@@ -175,28 +159,31 @@ var pageObj = {
     let data = { ...shopListWhere,
       user_id: app.USER_ID(),
       elect_type: id == 0 ? 3 : 4,
-			class:id
+      class: id
     }
     let local = app.LOCATION()
     data.user_location = `${local.longitude},${local.latitude}`
     Index.ListShop(data).then(r => {
       console.log('Index.ListShop => ', r)
-      if (r.code == 200 && r.data.length>0) {
+			wx.hideLoading()
+      if (r.code == 200 && r.data.length > 0) {
         let shop_list = this.data.shop_list
-				if (this.data.shopListWhere.page_num > 1) {
+        if (this.data.shopListWhere.page_num > 1) {
           shop_list = [...shop_list, ...r.data]
         } else {
           shop_list = [...r.data]
         }
         this.setData({
-          shop_list: shop_list
+          shop_list: shop_list,
+					classNavActIdx: this.data.classNavActIdx,
+					shopListWhere: this.data.shopListWhere
         })
-      }else{
-				if (this.data.shopListWhere.page_num > 1) {
-					this.data.shopListWhere.page_num--
-					app.msg("没有更多了~~")
-				}
-			}
+      } else {
+        if (this.data.shopListWhere.page_num > 1) {
+          this.data.shopListWhere.page_num--
+            app.msg("没有更多了~~")
+        }
+      }
     })
   },
   //-- 商品点击事件:跳转至详情页
@@ -212,95 +199,99 @@ var pageObj = {
   loadRecommendData() {
     //-- 获取轮番图数据  V1.X
     app.getBanner(res => {
-      if (res.data.data.index_banner) {
-        this.setData({
-          index_banner: res.data.data.index_banner.map(u => {
+      if (res.data.data.index_banner) {				
+          this.data.index_banner= res.data.data.index_banner.map(u => {
             u.UpFilePathInfo = app.joinPath(app.globalData.baseUrl, u.UpFilePathInfo)
             return u;
           })
-        })
+					this.setData({
+						index_banner: this.data.index_banner
+					})
       }
+			this.initDynamicList(()=>{
+				//-- 拼团
+				Index.GetGroup({
+					user_id: app.USER_ID(),
+					page: 1,
+					num: 10
+				}).then(r => {
+					console.log('Index.GetGroup => ', r)
+					if (r.code == 200) {
+						this.setData({
+							groupHotList:r.data
+						})
+					}
+					this.getTuiJianList()
+				})
+			})
     })
-    //-- 海报
-    Index.GetPoster({
-      user_id: app.USER_ID(),
-      page: 1,
-      num: 6
-    }).then(r => {
-      console.log('Index.GetPoster => ', r)
-      if (r.code == 200) {
-        this.setData({
-          posterHotList: r.data.map(u => {
-            u.poster_imgs = u.poster_imgs.split(',')[0]
-            return u;
-          })
-        })
-      }
-    })
-    //-- 拼团
-    Index.GetGroup({
-      user_id: app.USER_ID(),
-      page: 1,
-      num: 10
-    }).then(r => {
-      console.log('Index.GetGroup => ', r)
-      if (r.code == 200) {
-        this.setData({
-          groupHotList: r.data
-        })
-      }
-    })
-    this.getTuiJianList()
   },
   //-- 加载推荐商品列表
-  getTuiJianList() {
+  getTuiJianList(render) {
     //-- 推荐
     Index.GetShop(this.data.tuiJianWhere).then(r => {
       console.log('Index.GetShop => ', r)
-      if (r.code == 200 && r.data.length>0) {
+			wx.hideLoading()
+      if (r.code == 200 && r.data.length > 0) {
         let tuijian_list = this.data.tuijian_list
         if (this.data.tuiJianWhere.page > 1) {
           tuijian_list = [...tuijian_list, ...r.data]
         } else {
           tuijian_list = [...r.data]
         }
-        this.setData({
-          tuijian_list: tuijian_list
-        })
-			} else {
-				if (this.data.tuiJianWhere.page > 1) {
-					this.data.tuiJianWhere.page--
-					app.msg("没有更多了~~")
+        this.data.tuijian_list = tuijian_list
+				if(render){
+					this.setData({
+						tuijian_list: this.data.tuijian_list	
+					})
+				}else{
+					this.setData({
+						shop_list: this.data.shop_list,
+						tuijian_list: this.data.tuijian_list,
+						groupHotList: this.data.groupHotList,
+						dynamic_list: this.data.dynamic_list,
+						classNavList: this.data.classNavList,
+						classNavActIdx: this.data.classNavActIdx,
+					})
 				}
-			}
+      } else {
+        if (this.data.tuiJianWhere.page > 1) {
+          this.data.tuiJianWhere.page--
+            app.msg("没有更多了~~")
+        }
+      }
     })
   },
   //-- 页面加载事件
   onLoad: function(options) {
     app.HIGHER_UP(options.higher_up || 0)
-		this.data.tuiJianWhere.user_id = app.USER_ID()
-		this.data.shopListWhere.user_id = app.USER_ID()
-		this.data.tuiJianWhere.page = 1
-		this.data.shopListWhere.page_num = 1
-    this.setData({
-      version: app.VERSION(),
-      user: app.USER(),
-    })
-    this.initDynamicList()
+    this.data.tuiJianWhere.user_id = app.USER_ID()
+    this.data.shopListWhere.user_id = app.USER_ID()
+    this.data.tuiJianWhere.page = 1
+    this.data.shopListWhere.page_num = 1
+    this.data.version = app.VERSION()
+    this.data.user = app.USER()
   },
   //-- 每次进入页面触发
   onShow() {
+		this.setData({
+			version:this.data.version,
+			user: this.data.user
+		})
+		wx.showLoading({
+			title: '加载中...',
+		})
     //-- 刷新当前位置 V2.X
     app._localAddress().then(r => {
       console.log('_localAddress => ', r)
       if (r.area && r.area.length > 0) {
         let len = r.area.length - 1
-        this.setData({
-          location: r.area[len]
-        })
+				this.setData({
+					location : r.area[len]
+				})
       }
+      this.initClassNavList()
     })
-    this.initClassNavList()
   },
   //-- 分享转发时触发
   onShareAppMessage: function() {
@@ -314,6 +305,11 @@ var pageObj = {
       url: '/pages/shop/giftIndex',
     })
   },
+	toJiFengPage(){
+		wx.navigateTo({
+			url: '/pages/shop/jifengIndex',
+		})
+	},
   //-- 拼团首页
   toGroupIndex() {
     wx.navigateTo({
@@ -332,21 +328,20 @@ var pageObj = {
       url: '/pages/usercenter/balance',
     })
   },
-	onReachBottom() {
-		console.log('============= 上拉事件发生了 =============')
-		if (this.data.classNavActIdx>0){
-			let id = this.data.classNavList[this.data.classNavActIdx].id
-			this.data.shopListWhere.page_num ++
-			this.loadConditionData(id)
-		}else{
-			this.data.tuiJianWhere.page++
-			this.getTuiJianList()
-		}
+  onReachBottom() {
+    console.log('============= 上拉事件发生了 =============')
+    if (this.data.classNavActIdx > 0) {
+      let id = this.data.classNavList[this.data.classNavActIdx].id
+      this.data.shopListWhere.page_num++
+        this.loadConditionData(id)
+    } else {
+      this.data.tuiJianWhere.page++
+        this.getTuiJianList()
+    }
 
-	}
+  }
 }
 import pageex from "../../utils/pageEx.js"
-
 pageex(pageObj)
 
 Page(pageObj)

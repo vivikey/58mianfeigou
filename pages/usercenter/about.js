@@ -1,7 +1,7 @@
 var app=getApp()
 Page({
   data: {
-      appname: '58免费购小程序',
+      appname: '热网小程序',
       version: 'V2.2.1',
       type:1,
       content:''

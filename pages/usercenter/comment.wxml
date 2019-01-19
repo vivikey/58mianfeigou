@@ -1,21 +1,33 @@
-<view class='container'>
-    <view class='container gray full-width'>
-        <text class='mg-t10'>评价内容</text>
-        <view class='info-item-row'>
-            <textarea placeholder='请输入评价内容' id='evaluate' bindinput='inputBlur'></textarea>
+<view class='container gray full-width'>
+  <view class='info-item-row pdr20'>
+    <text class='black'>评价内容</text>
+  </view>
+  <view class='info-item-row pd20'>
+    <textarea placeholder='请输入评价内容' id='evaluate' bindinput='inputBlur' class='bdfull'></textarea>
+  </view>
+  <view class='info-item-row pdr20'>
+    <text class='black'>上传图片(最多6张)</text>
+  </view>
+  <view class='info-item-row pd20'>
+    <view class='full-width bdfull flex-row flex-wrap flex-left'>
+      <view class='choseimg col-4' wx:for='{{evaluate_img}}' wx:key=''>
+        <image src='{{item}}'></image>
+        <view data-idx='{{index}}' class='removeimg flex flex-center' bindtap='removeImg'>
+          <image src='/resource/icon/remove_circle.png' class='img-sm'></image>
         </view>
-        <view class='flex-row flex-wrap flex-left'>
-            <view class='choseimg col-4' wx:for='{{evaluate_img}}' wx:key=''>
-                <image src='{{item}}'></image>
-                <text data-idx='{{index}}' class='removeimg flex-row flex-center' bindtap='removeImg'> ✖</text>
-            </view>
-            <view class='choseimg col-4' bindtap='choseImg'>
-                <view>✛</view>
-            </view>
-        </view>
-
-        <view class='info-item-row flex flex-center'>
-            <view class='btn' bindtap='Save' wx:if='{{evaluate.length>0 || evaluate_img.length>0}}'>发布</view>
-        </view>
+      </view>
+      <view class='choseimg wait col-4' bindtap='choseImg'>
+        <view><image src='/resource/icon/append.png' class='img-md'></image></view>
+      </view>
     </view>
+  </view>
+
+  <view class='info-item-row flex flex-center pd20'>
+    <view class='btn full' bindtap='Save' wx:if='{{evaluate.length>0 || evaluate_img.length>0}}'>
+      <image src='/resource/icon/submit-w.png' class='img-sm'></image>
+      <text class='pdr20 white'>提交评价</text>
+    </view>
+  </view>
 </view>
+<import src="/template/version/version.wxml" />
+<template is="version" data="{{version}}"></template>

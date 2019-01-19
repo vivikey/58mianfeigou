@@ -1,11 +1,11 @@
 .user{
   padding: 40rpx 0rpx;
 }
-.user .cap{
-	font-size:13px;
-  color:#515151;
-	font-weight: 400;
-	margin-top:15rpx;
+.cap{
+	font-size:12px;
+  color:#333;
+	font-weight: 500;
+	margin-top:18rpx;
 }
 .mybase{
     background: linear-gradient(to bottom,#d81e06,#f2f2f2);
@@ -19,12 +19,51 @@
 	border-top-right-radius: 60rpx;
 }
 .userinfo{
-  width:580rpx;
+  width:614rpx;
   overflow: hidden;
 }
 .position-img{
   width:36rpx;
   height: 36rpx;
+}
+.user-img-box{
+	border:6rpx solid #fff;
+	border-radius: 50%;
+	margin-left: 20rpx;
+}
+.user-img-box image{
+	width:100%;
+	height: 100%;
+}
+.vip-box{
+	background: #e97f23;
+	color:#fff;
+	font-size:12px;
+	height: 36rpx;
+	padding: 1px 3px;
+	border-radius: 18rpx;
+	border:1rpx solid #fff;
+	align-self:flex-start;
+}
+.vip-img-box{
+	padding: 0rpx;
+	border-radius: 24rpx;
+	width:36rpx;
+	height: 36rpx;
+
+}
+.vip-img-box image{
+	width:100%;
+	height: 100%;
+}
+
+.ziqiang{
+	background:#e97f23;
+	font-size:14px;
+	padding: 10rpx 20rpx;
+	color:#fff;
+	border-top-left-radius: 48rpx;
+	border-bottom-left-radius: 48rpx;
 }
 
 .userImg.lg{
@@ -70,7 +109,7 @@
     border:none;
 }
 .money-item{
-	width:50%;
+	width:33.333333%;
 }
 .money-item .money-img{
 	width:64rpx;
