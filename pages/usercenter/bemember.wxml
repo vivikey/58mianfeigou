@@ -1,49 +1,142 @@
-<view class='container gray mybase pdc20'>
-  <view class='full-width bglightred pdc30'>
+<import src="/template/tohome/tohome.wxml" />
+<template is="tohome"></template>
+<view class='container'>
+  <view class='full-width pdc30'>
     <view class='full-width flex flex-center'>
       <image src='/resource/icon/m-nav-5.png' class='img-md'></image>
     </view>
     <view class='full-width flex flex-center'>
-      <text class='font-lg pdc bolder or'>自强联盟会员 享受以下特权</text>
+      <text class='font-lg pdc bolder or'>自强联盟会员 尊享以下特权</text>
     </view>
   </view>
-  <view class='full-width bgw flex flex-wrap'>
-    <view wx:for='{{memberpwe}}' wx:key='id' class='pwe-item-box'>
-      <view class=''>
-        <image src='/resource/icon/vip-p.png' class='img-md'></image>
+  <!-- 会员级别名称 金牌会员-->
+  <view class='panel pd20' wx:for='{{memberMetric}}' wx:key='id'>
+    <view class='pdc bottomline-or'>
+      <view class='full-width flex flex-center'>
+        <view class='col-8'>
+          <view class='or font-md bolder'>{{item.member_name}}会员</view>
+        </view>
+        <view class='flex flex-right col-4'>
+          <view class='btn-fix-b hsmall' data-index='{{index}}' bindtap='onToPayHandle' wx:if='{{item.start_use==1}}'>
+            <text class='font-x'>￥</text>
+            <text class='font-md bolder'>{{item.pay_money}}</text>
+          </view>
+          <view class='btn-fix-b orb hsmall' wx:else>
+            <text class='font-xs'>通道关闭</text>
+          </view>
+        </view>
       </view>
-      <text class='pwe-content'>{{item.content}}</text>
+      <text class='lv-detail'><text class='redcolor font-sm bolder'></text>{{item.member_qualification}}</text>
     </view>
+    <!-- 自用省钱 -->
+    <view class='bottomline-or-light pdc20 flex flex-left'>
+      <view class='pwe-img-bk'>
+        <image src='/resource/icon/rzhz.png'></image>
+      </view>
+      <view class='pdr20'>
+        <view class='black bolder font-sm'>自用省钱</view>
+        <view class='pwe-detail'>{{item.buy_oneself}}</view>
+      </view>
+    </view>
+    <!-- 招商业务管理 -->
+    <view class='bottomline-or-light pdc20 flex flex-left'>
+      <view class='pwe-img-bk'>
+        <image src='/resource/icon/rzhz.png'></image>
+      </view>
+      <view class='pdr20 font-xs'>
+        <view class='black bolder font-sm'>招商业务奖</view>
+        <view class='pwe-detail'>{{item.attract_one}}</view>
+        <view class='pwe-detail'>{{item.attract_two}}</view>
+        <view class='pwe-detail' wx:if='{{item.attract_over}}'>{{item.attract_over}}</view>
+      </view>
+    </view>
+    <!-- 销售业务管理 -->
+    <view class='bottomline-or-light pdc20 flex flex-left'>
+      <view class='pwe-img-bk'>
+        <image src='/resource/icon/rzhz.png'></image>
+      </view>
+      <view class='pdr20 font-xs'>
+        <view class='black bolder font-sm'>销售业务奖</view>
+        <view class='pwe-detail'>{{item.sell_one}}</view>
+        <view class='pwe-detail'>{{item.sell_two}}</view>
+        <view class='pwe-detail' wx:if='{{item.sell_over}}'>{{item.sell_over}}</view>
+      </view>
+    </view>
+    <!-- 会员推荐管理 -->
+    <view class='bottomline-or-light pdc20 flex flex-left'>
+      <view class='pwe-img-bk'>
+        <image src='/resource/icon/rzhz.png'></image>
+      </view>
+      <view class='pdr20 font-xs'>
+        <view class='black bolder font-sm'>会员推荐奖</view>
+        <view class='pwe-detail'>{{item.member_one}}</view>
+        <view class='pwe-detail'>{{item.member_two}}</view>
+        <view class='pwe-detail' wx:if='{{item.member_over}}'>{{item.member_over}}</view>
+      </view>
+    </view>
+    <!-- 总监推荐管理 -->
+    <!-- <view class='pdc20 flex flex-left'>
+      <view class='pwe-img-bk'>
+        <image src='/resource/icon/rzhz.png'></image>
+      </view>
+      <view class='pdr20 font-xs'>
+        <view class='black bolder font-sm'>总监推荐奖</view>
+        <view class='or'>一级推荐奖：
+          <text class='bolder'>200</text>元</view>
+        <view class='or'>二级管理奖：
+          <text class='bolder'>50</text>元</view>
+      </view>
+    </view> -->
   </view>
 
-  <view class='full-width bgbreath pdc30'>
+  <view class='full-width pdc30' wx:if='{{false}}'>
     <view class='full-width flex flex-center'>
       <image src='/resource/icon/m-nav-5.png' class='img-md'></image>
     </view>
     <view class='full-width flex flex-center'>
-      <text class='font-lg pdc bolder or'>各级会员资格与权益</text>
+      <text class='font-lg pdc bolder or'>具体制度与说明</text>
     </view>
-  </view>
 
-  <view class='bgb-opacity pd flex flex-center full-width' wx:for='{{memberMetric}}' wx:key=''>
-    <view class='btn-fix-b full-width heighter' data-index='{{index}}' bindtap='onToPayHandle' wx:if='{{userinfo.member.member_grade < item.member_grade}}'>
-      <text class='font-md bolder'>（续费）{{ty}}{{item.member_name}}</text>
-      <text class='font-x'>￥</text>
-      <text class='font-lg bolder'>{{item.pay_money}}</text>
-      <text class='txtmidline font-xs black'>￥{{item.grade_pay}}</text>
-      <text class='font-xs'>/年</text>
+    <view class='panel pd20'>
+      <view class='full-width'>
+        <text class='cgray font-xs'><text class='black bolder font-sm'>1、年费制度：</text>必须缴纳会员年费才能成为“自强联盟”会员，享受联盟会员的权益。联盟会员在积分商城享有积分兑换产品的权益，通过推荐会员、推荐商家、推广产品、辅导团队来获得收益，并在满足条件的情况下可以不断晋升至经理、总监、高级总监，具体晋升条件见相应资格。
+
+        <text class='black bolder font-sm'>2、推荐会员：</text>会员A推荐新会员B可以获得40元作为推荐奖励，第二级会员推荐新会员C时，会员B获得40元推荐奖励，同时会员A获得团队管理奖是10元。经理、总监和高级总监推荐新会员除了获得上述奖励之外，另外还可以获得超额奖励分别为5元、10元、15元。超额奖的计算方法见Q&A。
+
+        <text class='black bolder font-sm'>3、推荐商家：</text>会员推荐商家入驻“58热网”平台享有推荐奖励，会员、经理、总监和高级总监推荐商家分别享有50元、60元、70元、80元的奖励，各自的二级分佣分别为：10元、20元、30元、40元。超额奖分别为：10元、15元、20元。
+
+        <text class='black bolder font-sm'>4、推荐产品：</text>“业务佣金”是指会员推广“带有佣金的产品或者服务”而获得的佣金。假设，某详情页产品有推广佣金，如果其佣金基价1元，则普通会员推广成功获得业务佣金1元，经理推广成功获得业务佣金1.2元，总监推广成功获得业务佣金1.4元，总裁推广成功获得业务佣金1.6元。
+
+        <text class='black bolder font-sm'>5、自用省钱：</text>各级会员一方面可以在积分商城可以通过积分来兑换商城中的商品；另外一方面，会员购买带有佣金的产品或者服务享受会员价（售价-业务佣金）。并且，会员购买带有佣金的产品或者服务时，会员的上级与上上级同样享有相应的两级业务管理奖。
+
+        <text class='black bolder font-sm'>6、管理佣金：</text>“管理佣金”是指自己发展的团队人员完成“推荐产品”的任务从而让自己间接获得的分佣。比如“一级：基价40%”是指可以获得自己的“第一级团队成员”推广佣金对应基价的40%；比如“二级：基价60%”是指可以获得自己的“第二级团队成员”推广佣金对应基价的60%；比如“超额奖：基价30%”是指可以获得自己团队超额人员的“推荐产品”所带来的奖励，其提成比例是各相关成员直推佣金对应任务基数30%。 （系统设置基本成员为30名，超额奖的具体计算方法见超额奖示意图及说明）
+
+        <text class='black bolder font-sm'>7、续交年费：</text>如果不按时缴纳会员年费将视为自动脱离联盟，系统给予1个月后悔期，保留上下级关系；如果还没有按时缴纳年费，其所有下级关系将会自动归平台。（可以替别人代付年费）
+
+        <text class='black bolder font-sm'>8、15天粉丝：</text>会员A推荐新人B进入“58热网”平台，新人B将自动成为会员A的粉丝，粉丝B在15天内在“58热网”平台购买任何带有推广标识的产品，会员A都将获得相应的佣金。如果粉丝B没有缴纳会费，15后将与会员A脱离关系，不再是他的下级粉丝，之后这位新人B可以被别的会员吸纳为ta的粉丝或者ta的团队会员。
+
+        <text class='black bolder font-sm'>9、粉丝之间：</text>非会员推荐的新人没有上下级关系，非会员推荐的新人或者自己通过其他渠道进入“58热网”平台加入联盟的会员，不隶属其他人而直接隶属“58热网”平台（发起人）。
+
+        <text class='black bolder font-sm'>10、会员之间：</text>会员推荐产品给另一个会员，推荐者不享有分佣或者业绩奖励，而是当做“会员自购”相应产品来处理。
+
+        <text class='black bolder font-sm'>11、任务基价：</text>58热网平台的后台设定某一产品的“任务基价”是商家“推广价”的20%。这个20%数值可以调整。商家的后台可以设置具体产品“推广价”。
+
+        <text class='black bolder font-sm'>12、超越等待期：</text>经理A团队直接成员B如果比A优先升为总监，则A将拿不到B及其团队产生的分佣。并且，如果A没有在45天内晋升总监，则45天后B将永久隶属于距离A上级的总监或者更高级别的人。 如果是金牌会员或者经理级会员推荐总监级会员，则总监级会员的隶属关系归与总监级会员同级或者更高级别的人，所给予的佣金为一次性买断型奖励。
+        </text>
+      </view>
     </view>
-    <view class='btn-fix-b orb full-width heighter' wx:if='{{userinfo.member.member_grade == item.member_grade}}'>
-      <text class='font-md bolder'>您已经是{{item.member_name}}</text>
-    </view>
+
+
   </view>
+  <import src="/template/version/version.wxml" />
+  <template is="version" data="{{version}}"></template>
 </view>
 
 <!-- 弹出 -->
-<view class='qqw flex-col flex-center bgb-opacity {{!inputWndShow?"hide":""}}' bindtap=''>
+<view class='qqw flex-col flex-center bgb-opacity {{!inputWndShow?"hide":""}}' bindtap='' catchtouchmove="ture">
   <view class='full-width pd30'>
-    <view class='radius-s shadow full-width' catchtap='onAreaClick'>
-      <view class='bglightgray cgray flex-row pd20'>
+    <view class='input-box' catchtap='onAreaClick'>
+      <view class='bglightgray font-md black bolder flex-row pd20'>
         <view>开通{{obj.member_name}}</view>
         <view class='img-sm' catchtap='hideInputWnd'>
           <image src='/resource/icon/close.svg' class='img-sm'></image>
@@ -65,7 +158,7 @@
           <input type='text' placeholder='请输入推荐人会员编码或扫码' class='input-box idt' bindinput='onCodeChange' value='{{memberObj.higher_member_code}}'>
           </input>
           <view class='pd flex flex-center' bindtap='onScanCode'>
-            <image src='/resource/icon/scanqr.svg' class='img-sm'></image>
+            <image src='/resource/icon/scan.png' class='img-sm'></image>
           </view>
         </view>
         <view class='input-line' wx:else>
@@ -79,7 +172,7 @@
         <view class='input-line' wx:if='{{!userinfo.member.member_district}}'>
           <text class='input-label'>选择区域</text>
           <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}" class='input-box'>
-            {{region[0]}}，{{region[1]}}，{{region[2]}}
+            {{memberObj.member_province}}，{{memberObj.member_city}}，{{memberObj.member_district}}
           </picker>
         </view>
         <view class='input-line' wx:else>
@@ -93,14 +186,12 @@
         <text class='label blder small white-label'>真实姓名将做为实名验证信息，与实名身份不符时，实名验证失败</text>
         <text class='label blder small white-label'>区域信息为会员体系所使用，与实名验证无关，一旦确定不能更改</text>
       </view>
-      <view class='full-width flex flex-center pd20'>
-        <view class='btn-fix-b green font-md pd20' style='height:80rpx;' bindtap='payChosed'>
+      <view class='full-width flex flex-center pdc20'>
+        <view class='btn-fix-b white font-md pd20' style='height:80rpx;' bindtap='payChosed'>
           <image src='/resource/icon/wxpay.png' class='addbtnimg'></image>
-          支付{{obj.pay_money}}马上开通</view>
+          <view class='cgreen'>支付<text class='bolder font-lg'>{{obj.pay_money}}</text>马上开通</view>
+				</view>
       </view>
     </view>
   </view>
 </view>
-
-<import src="/template/version/version.wxml" />
-<template is="version" data="{{version}}"></template>

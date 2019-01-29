@@ -27,7 +27,7 @@
   <view class='full-width'>
     <!-- Swiper -->
     <view class='swiper full-width'>
-      <swiper autoplay="{{true}}" circular="{{true}}" interval="{{3000}}" duration="{{500}}" class='mg-b10' bindchange='swiperChange'>
+      <swiper autoplay="{{true}}" circular="{{true}}" interval="{{3000}}" duration="{{500}}" bindchange='swiperChange'>
         <swiper-item wx:for='{{index_banner}}' wx:key=''>
           <navigator url='{{item.ad_link}}' class='swiper-navbox flex flex-center'>
             <image src='{{item.UpFilePathInfo}}' width="375" height="150"></image>
@@ -77,23 +77,23 @@
     <view class='box'>
       <view class='flex-row'>
         <view class='title full-width'>
-          <text class='didi bgorange mix'></text>
+          <text class='didi bgprimary mix'></text>
           <text class='didi bgpk half'></text>
           <text class='didi bgviolet'></text>
           <text class='pdr black'>全部拼团</text>
           <text class='didi bgviolet'></text>
           <text class='didi bgpk half'></text>
-          <text class='didi bgorange mix'></text>
+          <text class='didi bgprimary mix'></text>
         </view>
       </view>
     </view>
-    <view class='box pd bgorange'>
+    <view class='box pd bglist'>
       <import src="/template/nothing/item.wxml" />
       <template is="nothing" data='{{datalist:groupHotList,Msg:"~空空如也~"}}'></template>
       <view wx:for='{{groupHotList}}' wx:key='id' class='full-width flex-row bgw mg-b10'>
         <view class='store_shop_specimg rel' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}'>
           <image src='{{item.spec[0].spec_img}}'></image>
-          <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>推广费
+          <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>销售佣金
             <text>{{item.goods_brokerage}}</text>
           </view>
         </view>

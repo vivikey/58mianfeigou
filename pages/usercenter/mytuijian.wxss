@@ -1,3 +1,73 @@
 .tj-item{
     margin-bottom:20rpx;
 }
+.vip-box{
+	background: #e97f23;
+	color:#fff;
+	font-size:10px;
+	height: 28rpx;
+	padding: 3rpx 6rpx;
+	border-radius: 18rpx;
+	border:1rpx solid #fff;
+}
+.vip-img-box{
+	padding: 0rpx;
+	border-radius: 12rpx;
+	width:24rpx;
+	height: 24rpx;
+
+}
+.vip-img-box image{
+	width:100%;
+	height: 100%;
+}
+.number{
+	height: 18rpx;
+	min-width: 18rpx;
+	padding: 0 6rpx;
+	background: #fff;
+	border-radius: 9rpx;
+	margin-left:6rpx;
+}
+.number.red{
+	color:#f62004;
+}
+.number.green{
+	color:#00b642;
+}
+.member_name{
+	max-width: 200rpx;
+}
+
+.top-menu {
+	width:100%;
+	height: 46px;
+	padding: 20rpx;
+}
+.top-menu .top-menu-kk{
+	border:1rpx solid #e97f23;
+	border-radius: 64rpx;
+	width:60%;
+}
+.top-menu-item {
+  width: 50%;
+  font-size: 12px;
+  height: 64rpx;
+  display: flex;
+  justify-content: center;
+	align-items: center;
+	border-radius: 64rpx;
+	transition: all .3s linear;
+}
+.top-menu-item.active {
+  background: #e97f23;
+  color: #fff;
+}
+.sort{
+	width:36%;
+	border:1px solid #e97f23;
+	color:#e97f23;
+	border-radius: 5px;
+	height: 64rpx;
+	
+}

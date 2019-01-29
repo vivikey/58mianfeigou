@@ -1,17 +1,17 @@
 import FrontEndStore from '../../comm/FrontEndStore.js'
 import Cart from '../../comm/Cart.js'
 import Notice from '../../comm/Notice.js'
-
+import UserCenter from '../../comm/UserCenter.js'
 var app = getApp()
 var pageObj = {
   data: {
-		user:{},
+    user: {},
     store_id: 0,
     store: {},
     showCartList: false,
-		showRecomCartList: false,
+    showRecomCartList: false,
     version: '',
-		share_store:0,
+    share_store: 0,
     noticeList: [{
       id: -1,
       notice_name: '欢迎光临本商铺',
@@ -34,7 +34,7 @@ var pageObj = {
         val: '商品'
       },
       {
-        key: -3,
+        key: 3,
         val: '推荐有奖'
       },
       {
@@ -73,12 +73,12 @@ var pageObj = {
       total_price: 0,
       transport_cost: 0
     },
-		recomCart: {
-			cart_list: [],
-			total_num: 0,
-			total_price: 0,
-			transport_cost: 0
-		},
+    recomCart: {
+      cart_list: [],
+      total_num: 0,
+      total_price: 0,
+      transport_cost: 0
+    },
     showShareWnd: false,
   },
   onSortTypeClick(e) {
@@ -102,56 +102,86 @@ var pageObj = {
       showCartList: !this.data.showCartList
     })
   },
-	onShowRecomCartListClick() {
-		this.setData({
-			showRecomCartList: !this.data.showRecomCartList
-		})
-	},
+  onShowRecomCartListClick() {
+    this.setData({
+      showRecomCartList: !this.data.showRecomCartList
+    })
+  },
   toHome() {
     wx.switchTab({
       url: '/pages/shop/index',
     })
+
   },
+	toMyDaiBi(){
+		wx.navigateTo({
+			url: '/pages/my/mydaibi',
+		})
+	},
   //--页面加载时
   onLoad: function(options) {
-		console.log('pages/store/detail.options => ', options)
-		/**老版本 */
-		if (options.q) {
-			let link = decodeURIComponent(options.q);
-			console.log(link);
-			let params = link.split('?')[1].split('&') //-- id=1&idx=1&rd=1
-			let id = params[0].split('=')[1]
-			let rd = params[1]?params[1].split('=')[1]:0
-			let store = params[2]?params[2].split('=')[1]:0
+    console.log('pages/store/detail.options => ', options)
+    /**老版本 */
+    if (options.q) {
+      let link = decodeURIComponent(options.q);
+      console.log(link);
+      let params = link.split('?')[1].split('&') //-- id=1&idx=1&rd=1
+      let id = params[0].split('=')[1]
+      let rd = params[1] ? params[1].split('=')[1] : 0
+      let store = params[2] ? params[2].split('=')[1] : 0
 
-			options['id'] = id || 0
-			options['higher_up'] = rd || 0
-			options['store'] = store || 0
-		}
-		/**新版本 */
-		if (options.scene) {
-			let link = decodeURIComponent(options.scene);
-			let params = link.split('&') 
+      options['id'] = id || 0
+      options['higher_up'] = rd || 0
+      options['store'] = store || 0
+    }
+    /**新版本 */
+    if (options.scene) {
+      let link = decodeURIComponent(options.scene);
+      let params = link.split('&')
 
-			let id = params[0].split('=')[1]
-			let rd = params[1].split('=')[1]
-			let store = params[2].split('=')[1]
+      let id = params[0].split('=')[1]
+      let rd = params[1].split('=')[1]
+      let store = params[2].split('=')[1]
 
-			options['id'] = id || 0
-			options['higher_up'] = rd || 0
-			options['store'] = store || 0
-		}
+      options['id'] = id || 0
+      options['higher_up'] = rd || 0
+      options['store'] = store || 0
+    }
 
     this.data.store_id = options.id || 0
     this.data.higher_up = options.higher_up || 0
-		this.data.share_store = options.store || 0
+    this.data.share_store = options.store || 0
+    if (options.id == 51) {
+      this.data.classNavActIdx = 0
+    } else {
+      this.data.classNavActIdx = 2
+    }
     this.setData({
       version: app.VERSION(),
-			user:app.USER()
+      user: app.USER(),
+      classNavActIdx: this.data.classNavActIdx
     })
     wx.showShareMenu({
       withShareTicket: true
     })
+  },
+  onReady() {
+    if (this.data.store_id == 51) {
+      wx.setNavigationBarTitle({
+        title: '积分商城'
+      })
+      this.setData({
+        noticeList: [{
+          id: -1,
+          notice_name: '欢迎光临积分商城',
+          notice_content: '欢迎光临积分商城'
+        }, {
+          id: -2,
+          notice_name: '开通会员免积分赠送洗衣液正在进行中',
+          notice_content: '开通会员免积分赠送洗衣液正在进行中'
+        }]
+      })
+    }
   },
   //-- 页面加载完成时
   onShow() {
@@ -159,7 +189,7 @@ var pageObj = {
     if (!app.USER()) {
       app.globalData.bkPage = this.route
       wx.navigateTo({
-				url: `/pages/index/index?id=${this.data.store_id}&higher_up=${this.data.higher_up}&store=${this.data.share_store}`,
+        url: `/pages/index/index?id=${this.data.store_id}&higher_up=${this.data.higher_up}&store=${this.data.share_store}`,
       })
     } else {
       this.loadStoreInfo(this.data.store_id, false, () => {
@@ -175,6 +205,26 @@ var pageObj = {
             this.getShopOrCommList()
           })
       })
+			UserCenter.Get({ user_id: app.USER_ID() }, false).then(r => {
+				console.log('UserCenter.Get => ', r)
+				if (r.code == 200 && r.data.user.user_img) {
+					let user = r.data.user
+					if (r.data.higher) {
+						user.higher = r.data.higher
+					} else {
+						user.higher = null
+					}
+					user.member = r.data.member
+					app.USER(user)
+					this.setData({
+						user: user,
+					})
+				} else {
+					wx.navigateTo({
+						url: '/pages/index/auth',
+					})
+				}
+			})
     }
   },
   //-- 显示公告详情
@@ -340,13 +390,13 @@ var pageObj = {
       FrontEndStore.RecomShopList({
         user_id: app.USER_ID(),
         show_type: this.data.sortTypeId,
-				store_id: this.data.store_id,
+        store_id: this.data.store_id,
         page: 1,
         num: 50,
         user_location: long_lat
       }).then(r => {
         console.log('FrontEndStore.RecomShopList =>', r)
-				let shopList = []
+        let shopList = []
         if (r.code == 200 && r.data.length > 0) {
           let temparr = r.data.filter(item => item.spec && item.spec.length > 0)
           temparr.forEach(item => {
@@ -357,16 +407,16 @@ var pageObj = {
               obj.spec = {
                 ...sp
               }
-							shopList.push({
+              shopList.push({
                 ...obj,
                 cart: 0
               })
             })
           })
         }
-				this.setData({
-					recomShopList: shopList
-				}, this.loadRecomCartList)
+        this.setData({
+          recomShopList: shopList
+        }, this.loadRecomCartList)
       })
     }
 
@@ -391,30 +441,30 @@ var pageObj = {
       shopList: shopList
     })
   },
-	//-- 同步推荐有奖购物车数据
-	syncRecomCartData() {
-		console.log('============ syncRecomCartData ============')
-		let recomShopList = this.data.recomShopList
-		let cartList = this.data.recomCart.cart_list
-		recomShopList.forEach(item => {
-			if (cartList) {
-				let obj = cartList.find(u => u.spec_id == item.spec.id)
-				if (obj) {
-					item.cart = obj.spec_num
-				} else {
-					item.cart = 0
-				}
-			}
-		})
+  //-- 同步推荐有奖购物车数据
+  syncRecomCartData() {
+    console.log('============ syncRecomCartData ============')
+    let recomShopList = this.data.recomShopList
+    let cartList = this.data.recomCart.cart_list
+    recomShopList.forEach(item => {
+      if (cartList) {
+        let obj = cartList.find(u => u.spec_id == item.spec.id)
+        if (obj) {
+          item.cart = obj.spec_num
+        } else {
+          item.cart = 0
+        }
+      }
+    })
 
-		this.setData({
-			recomCart: this.data.recomCart,
-			recomShopList: recomShopList
-		})
-	},
+    this.setData({
+      recomCart: this.data.recomCart,
+      recomShopList: recomShopList
+    })
+  },
   //-- 去详情页
   goDetail(e) {
-		console.log('......e..... ',e)
+    console.log('......e..... ', e)
     let goods_id = e.currentTarget.dataset.goodsid
     let spec_id = e.currentTarget.dataset.specid
 
@@ -451,11 +501,11 @@ var pageObj = {
   shareToPYQ: function() {
     let shareData = {
       img: this.data.store.store_logo, //-- 图片
-			title: this.data.store.store_name, //-- 标题
+      title: this.data.store.store_name, //-- 标题
       small_title: this.data.store.store_addr, //-- 小标题
       content: this.data.store.store_type, //-- 内容
       pageLoad: `pages/store/detail`, //-- 页面地址
-			pageScene: `id=${this.data.store.id}&rd=${app.USER_ID()}&store=${this.data.store.id}`, //-- 加载页面的参数
+      pageScene: `id=${this.data.store.id}&rd=${app.USER_ID()}&store=${this.data.store.id}`, //-- 加载页面的参数
       qrMsg: '查看详情',
       store_name: this.data.store.store_name //-- 商铺名称
     }
@@ -490,40 +540,40 @@ var pageObj = {
       }
     })
   },
-	//-- 加入到购物车
-	importToRecomCart2(e) {
-		let idx = e.currentTarget.dataset.idx
-		let goods = this.data.recomCart.cart_list[idx]
-		Cart.AddToRecom({
-			user_id: app.USER_ID(),
-			recom_id: goods.recom_id,
-			spec_id: goods.spec_id,
-			spec_num: 1
-		}).then(r => {
-			console.log('Cart.AddToRecom => ', r)
-			if (r.code == 200) {
-				if (!r.data.cart_list) {
-					r.data.cart_list = []
-					r.data.total_num = 0
-					r.data.total_price = 0
-					r.data.transport_cost = 0
-				}
-				this.renderRecomCart(r.data)
-			} else {
-				app.msg(`操作失败:${r.message}`)
-			}
-		})
-	},
+  //-- 加入到购物车
+  importToRecomCart2(e) {
+    let idx = e.currentTarget.dataset.idx
+    let goods = this.data.recomCart.cart_list[idx]
+    Cart.AddToRecom({
+      user_id: app.USER_ID(),
+      recom_id: goods.recom_id,
+      spec_id: goods.spec_id,
+      spec_num: 1
+    }).then(r => {
+      console.log('Cart.AddToRecom => ', r)
+      if (r.code == 200) {
+        if (!r.data.cart_list) {
+          r.data.cart_list = []
+          r.data.total_num = 0
+          r.data.total_price = 0
+          r.data.transport_cost = 0
+        }
+        this.renderRecomCart(r.data)
+      } else {
+        app.msg(`操作失败:${r.message}`)
+      }
+    })
+  },
   //-- 渲染购物车数据
   renderCart(storeCart) {
     this.data.storeCart = storeCart
     this.syncCartData()
   },
-	//-- 渲染推荐有奖购物车数据
-	renderRecomCart(recomCart) {
-		this.data.recomCart = recomCart
-		this.syncRecomCartData()
-	},
+  //-- 渲染推荐有奖购物车数据
+  renderRecomCart(recomCart) {
+    this.data.recomCart = recomCart
+    this.syncRecomCartData()
+  },
   //-- 从购物车移出
   exportFromCart(e) {
     let idx = e.currentTarget.dataset.idx
@@ -542,48 +592,48 @@ var pageObj = {
       }
     })
   },
-	//-- 加入到推荐有奖购物车
-	importToRecomCart(e) {
-		let idx = e.currentTarget.dataset.idx
-		let goods = this.data.recomShopList[idx]
-		Cart.AddToRecom({
-			user_id: app.USER_ID(),
-			recom_id: goods.recommend.id,
-			spec_id: goods.spec.id,
-			spec_num: 1
-		}).then(r => {
-			console.log('Cart.AddToRecom => ', r)
-			if (r.code == 200) {
-				if (!r.data.cart_list) {
-					r.data.cart_list = []
-					r.data.total_num = 0
-					r.data.total_price = 0
-					r.data.transport_cost = 0
-				}
-				this.renderRecomCart(r.data)
-			} else {
-				app.msg(`操作失败:${r.message}`)
-			}
-		})
-	},
-	//-- 从推荐有奖购物车移出
-	exportFromRecomCart(e) {
-		let idx = e.currentTarget.dataset.idx
-		let goods = this.data.recomShopList[idx]
-		Cart.SubFromRecom({
-			user_id: app.USER_ID(),
-			recom_id: goods.recommend.id,
-			spec_id: goods.spec.id,
-			spec_num: 1
-		}).then(r => {
-			console.log('Cart.SubFromRecom => ', r)
-			if (r.code == 200) {
-				this.renderRecomCart(r.data)
-			} else {
-				app.msg("操作失败")
-			}
-		})
-	},
+  //-- 加入到推荐有奖购物车
+  importToRecomCart(e) {
+    let idx = e.currentTarget.dataset.idx
+    let goods = this.data.recomShopList[idx]
+    Cart.AddToRecom({
+      user_id: app.USER_ID(),
+      recom_id: goods.recommend.id,
+      spec_id: goods.spec.id,
+      spec_num: 1
+    }).then(r => {
+      console.log('Cart.AddToRecom => ', r)
+      if (r.code == 200) {
+        if (!r.data.cart_list) {
+          r.data.cart_list = []
+          r.data.total_num = 0
+          r.data.total_price = 0
+          r.data.transport_cost = 0
+        }
+        this.renderRecomCart(r.data)
+      } else {
+        app.msg(`操作失败:${r.message}`)
+      }
+    })
+  },
+  //-- 从推荐有奖购物车移出
+  exportFromRecomCart(e) {
+    let idx = e.currentTarget.dataset.idx
+    let goods = this.data.recomShopList[idx]
+    Cart.SubFromRecom({
+      user_id: app.USER_ID(),
+      recom_id: goods.recommend.id,
+      spec_id: goods.spec.id,
+      spec_num: 1
+    }).then(r => {
+      console.log('Cart.SubFromRecom => ', r)
+      if (r.code == 200) {
+        this.renderRecomCart(r.data)
+      } else {
+        app.msg("操作失败")
+      }
+    })
+  },
   //-- 从购物车移出
   exportFromCart2(e) {
     let idx = e.currentTarget.dataset.idx
@@ -602,24 +652,24 @@ var pageObj = {
       }
     })
   },
-	//-- 从推荐有奖购物车移出
-	exportFromRecomCart2(e) {
-		let idx = e.currentTarget.dataset.idx
-		let goods = this.data.recomCart.cart_list[idx]
-		Cart.SubFromRecom({
-			user_id: app.USER_ID(),
-			recom_id: goods.recom_id,
-			spec_id: goods.spec_id,
-			spec_num: 1
-		}).then(r => {
-			console.log('Cart.SubFromRecom => ', r)
-			if (r.code == 200) {
-				this.renderRecomCart(r.data)
-			} else {
-				app.msg("操作失败")
-			}
-		})
-	},
+  //-- 从推荐有奖购物车移出
+  exportFromRecomCart2(e) {
+    let idx = e.currentTarget.dataset.idx
+    let goods = this.data.recomCart.cart_list[idx]
+    Cart.SubFromRecom({
+      user_id: app.USER_ID(),
+      recom_id: goods.recom_id,
+      spec_id: goods.spec_id,
+      spec_num: 1
+    }).then(r => {
+      console.log('Cart.SubFromRecom => ', r)
+      if (r.code == 200) {
+        this.renderRecomCart(r.data)
+      } else {
+        app.msg("操作失败")
+      }
+    })
+  },
   //-- 加载购物车列表
   loadCartList() {
     Cart.List({
@@ -635,37 +685,37 @@ var pageObj = {
       }
     })
   },
-	//-- 加载推荐有奖购物车列表
-	loadRecomCartList() {
-		Cart.Recom({
-			user_id: app.USER_ID(),
-			store_id: this.data.store_id
-		}).then(r => {
-			console.log('Cart.List => ', r)
-			if (r.code == 200) {
-				this.renderRecomCart(r.data)
-			} else {
-				app.ERROR(`获取推荐有奖购物车失败：${r.message}`)
+  //-- 加载推荐有奖购物车列表
+  loadRecomCartList() {
+    Cart.Recom({
+      user_id: app.USER_ID(),
+      store_id: this.data.store_id
+    }).then(r => {
+      console.log('Cart.List => ', r)
+      if (r.code == 200) {
+        this.renderRecomCart(r.data)
+      } else {
+        app.ERROR(`获取推荐有奖购物车失败：${r.message}`)
 
-			}
-		})
-	},
+      }
+    })
+  },
   //-- 去结算
   toCartOrder() {
     wx.navigateTo({
       url: `/pages/store/cartorder?store_id=${this.data.store_id}`,
     })
   },
-	//-- 去结算
-	toRecomCartOrder() {
-		wx.navigateTo({
-			url: `/pages/store/recomtoorder?store_id=${this.data.store_id}`,
-		})
-	},
+  //-- 去结算
+  toRecomCartOrder() {
+    wx.navigateTo({
+      url: `/pages/store/recomtoorder?store_id=${this.data.store_id}`,
+    })
+  },
   onShareAppMessage() {
     return {
       title: this.data.store.store_name,
-			path: `/pages/store/detail?id=${this.data.store.id}&higher_up=${app.USER_ID()}&store=${this.data.store.id}`,
+      path: `/pages/store/detail?id=${this.data.store.id}&higher_up=${app.USER_ID()}&store=${this.data.store.id}`,
       imageUrl: this.data.store.store_logo,
       success: res => {
         console.log('onShareAppMessage.success => ', res)

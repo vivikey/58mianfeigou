@@ -24,7 +24,16 @@
     </view>
   </view>
   <!-- 价格 -->
-  <view class='full-width pdr20 pdc bdlinearskr price-box'>
+  <view class='full-width pdc bdlinearskr price-box'>
+    <view class='flex flex-left vip-box' wx:if='{{goods.goods_spec[spec_chosed].member_grade>0}}'>
+      <view class='vip-img-box flex flex-center'>
+        <image src='/resource/icon/vip.png'></image>
+      </view>
+      <view class='pdr'>{{goods.goods_spec[spec_chosed].member_grade_name}}</view>
+    </view>
+    <view class='' wx:if='{{goods.group_purchase ==1 }}'>
+      <text class='label white-label small'>{{goods.group_num}}人拼</text>
+    </view>
     <!-- 一般商品 -->
     <view class='flex-rlc' wx:if='{{goods.group_purchase ==0 && goods.is_gift ==0}}'>
       <view class='wtcolor font-xp'>￥
@@ -37,10 +46,10 @@
         <text class='font-lgpp bolder'>{{goods.goods_spec[spec_chosed].integral}}</text>积分
       </view>
       <view class='wtcolor font-xp' wx:if='{{goods.goods_spec[spec_chosed].integral<=0}}'>
-        <text class='font-lgpp bolder'>免费领取</text>
+        <text class='font-lgp bolder'>免费领取</text>
       </view>
-      <view class='wtcolor font-xp txtmidline'>￥
-        <text class='font-lgpp bolder'>{{goods.goods_spec[spec_chosed].spec_price}}</text>
+      <view class='wtcolor font-xp txtmidline'>
+        <text class='font-lg'>￥{{goods.goods_spec[spec_chosed].spec_price}}</text>
       </view>
     </view>
     <!-- 拼团 -->
@@ -51,43 +60,72 @@
       <view class='pdr'>
         <text class='txtmidline font-xs'>￥{{goods.goods_spec[spec_chosed].spec_price}}</text>
       </view>
-      <view class=''>
-        <text class='label white-label small'>{{goods.group_num}}人拼</text>
-      </view>
     </view>
-    <view class='flex-rlc label warn-label' wx:if='{{goods.goods_brokerage>0 && user.member.member_grade>0}}'>
-      <view class='font-x skr'>推广费
-        <text class='font-xs'>{{goods.goods_brokerage}}</text>
+
+		<view class='yongjing flex flex-center' wx:if='{{goods.goods_brokerage>0 && user.member.member_grade>0}}'>
+      <view class='font-x'>销售佣金
+        <text class=''>{{goods.goods_brokerage}}</text>
       </view>
     </view>
   </view>
   <!-- 会员价 -->
   <view class='full-width pdr20 pdc bglinearyellow price-box' wx:if='{{user.member.member_grade>0 && goods.is_gift ==0}}'>
     <view class='flex-rlc'>
-      <view class='or bolder font-xs'>会员直购价：￥
-        <text class='font-lgp pkcolor bolder'>{{goods.goods_spec[spec_chosed].member_price}}</text>
+      <view class='or font-xs pdr' wx:if='{{goods.group_purchase ==1}}'>会员拼团价：￥
+        <text class='font-lg bolder'>{{goods.goods_spec[spec_chosed].member_group_price}}</text>
       </view>
-      <view class='skr bolder font-xs pdr20' wx:if='{{goods.group_purchase ==1}}'>会员拼团价：￥
-        <text class='font-lgp bolder'>{{goods.goods_spec[spec_chosed].member_group_price}}</text>
+      <view class='black font-xs'>会员直购价：￥
+        <text class='font-lg bolder'>{{goods.goods_spec[spec_chosed].member_price}}</text>
       </view>
+
     </view>
   </view>
   <!-- 名称等信息 -->
-  <view class='pdr20 pdc flex-row black bgw'>
+  <view class='pdr20 pdc full-width black bgw'>
     <view class='goods-name bolder'>{{goods.goods_name}}
       <text class='label white-label'>{{goods.goods_spec[spec_chosed].spec_size}}</text>
       <text class='label white-label'>{{goods.goods_spec[spec_chosed].spec_color}}</text>
     </view>
-    <view class='cgray sc pd20 flex-col flex-center' bindtap='changeCollectShop' wx:if='{{goods.goods_collect==0}}'>
-      <image src='/resource/icon/sc.png' class='img-sm'></image>
-    </view>
-    <view class='cgray sc pd20 flex-col flex-center' bindtap='changeCollectShop' wx:if='{{goods.goods_collect==1}}'>
-      <image src='/resource/icon/sc2.png' class='img-sm'></image>
-    </view>
+
   </view>
+  <view class='flex flex-left flex-center full-width cgray pdc bgw'>
+    <text class='font-x pdr'>运  费</text>
+    <text class='font-sm pkcolor' wx:if='{{goods.store_info.transport_cost>0}}'><text class='font-x'>￥</text>{{goods.store_info.transport_cost}}</text>
+    <text class='label small chosed' wx:if='{{goods.store_info.transport_cost<=0}}'>免运费</text>
+    <text class='pdr20' wx:if='{{goods.goods_spec[spec_chosed].integral>0}}'>
+		    <text class='font-x pdr'>服务费</text>
+    <text class='font-sm black'><text class='font-x'>￥</text>{{goods.goods_spec[spec_chosed].service_charge}}</text>
+    </text>
+  </view>
+
   <view class='full-width bglinearyellow pd' wx:if='{{goods.goods_limit>0}}'>
-    <text class='black bolder font-xs'>本商品限购{{goods.goods_limit}}份/人</text>
+    <view class='pkcolor bolder font-xs flex flex-left'>本商品限购
+      <view class='flex flex-left vip-box' wx:if='{{goods.goods_spec[spec_chosed].member_grade>0}}'>
+        <view class='vip-img-box flex flex-center'>
+          <image src='/resource/icon/vip.png'></image>
+        </view>
+        <view class='pdr'>{{goods.goods_spec[spec_chosed].member_grade_name}}</view>
+      </view>
+      {{goods.goods_limit}}份/人</view>
   </view>
+  <!-- 推荐有奖 -->
+  <view class='full-width' wx:if='{{goods.recommend_info}}'>
+    <view class='sq'></view>
+    <view class='full-width bgw pd20'>
+      <view class='pdc flex-row bottomline'>
+        <view class='flex flex-center bolder font-sm'>
+          <image src='/resource/icon/twodots.png' class='img-xs pdr'></image>
+          <text class='skr pdr20'>推荐有奖</text>
+        </view>
+        <view wx:if='{{goods.recommend_qualification == 1}}' class='label gold-label small bolder'>您已获得推荐资格</view>
+      </view>
+      <view class='pd30 full-width black font-xs bolder'>
+        <text decode='{{true}}'>{{goods.recommend_info.recom_explain}}</text>
+      </view>
+
+    </view>
+  </view>
+
   <view class='sq'></view>
   <!-- 选择规格 -->
   <view class='full-width bgw pd20'>
@@ -98,7 +136,7 @@
     <view class='full-width pdc20 '>
       <text class='black bolder pdr20'>规格</text>
       <view class='full-width flex flex-left flex-wrap pd20'>
-        <view wx:for='{{goods.goods_spec}}' wx:key='' data-idx='{{index}}' class='label mg10 {{index==spec_chosed?"chosed":""}}' bindtap='bindPickerChange'>{{item.showT}}</view>
+        <view wx:for='{{goods.goods_spec}}' wx:key='' data-idx='{{index}}' class='label spec mg10 {{index==spec_chosed?"chosed":""}}' bindtap='bindPickerChange'>{{item.showT}}</view>
       </view>
     </view>
     <view class='full-width flex flex-left flex-wrap black'>
@@ -117,26 +155,22 @@
   <!-- 收货地址 -->
   <view class='full-width bgw pd20' wx:if='{{goods.store_info.on_line == 1}}'>
     <navigator url='/pages/usercenter/addressmgr?fromShop={{true}}' class='flex-row'>
-      <view class='flex flex-left flex-center full-width'>
+      <view class='flex flex-left flex-center full-width arrow'>
         <text class='cgray font-x pdr'>送  至</text>
-        <text class='black font-xs bolder'>{{defaultAddress.province}} {{defaultAddress.city}} {{defaultAddress.district}}</text>
+        <text class='black font-xs bolder' wx:if='{{defaultAddress.province}}'>{{defaultAddress.province}} {{defaultAddress.city}} {{defaultAddress.district}}</text>
+        <text class='redcolor font-xs bolder' wx:else>{{defaultAddress.district}}</text>
       </view>
       <view class=''></view>
     </navigator>
-    <view class='flex flex-left flex-center full-width cgray pdc'>
-      <text class='font-x pdr'>运  费</text>
-      <text class='pkcolor font-sm bolder' wx:if='{{goods.store_info.transport_cost>0}}'><text class='font-x'>￥</text>{{goods.store_info.transport_cost}}</text>
-      <text class='pkcolor font-sm bolder' wx:else>免运费</text>
-    </view>
   </view>
   <view class='sq'></view>
   <!-- 已开团信息 -->
   <view class='full-width pd20 bgw mt-b20 font-sm' wx:if='{{goods.goods_group.length>0}}'>
     <view class='cgray bolder font-sm pdc flex flex-left flex-center bottomline'>
       <image src='/resource/icon/twodots.png' class='img-xs pdr'></image>
-      <text class='skr pdr20'>已开拼团</text>
+      <text class='black pdr20'>已开拼团</text>
     </view>
-    <view wx:for='{{goods.goods_group}}' wx:key='group_id' class='flex-row mg-t20 bdfull radius-s pdc pdr20'>
+    <view wx:for='{{goods.goods_group}}' wx:key='group_id' class='flex-row pdc bottomline '>
       <view class='flex flex-center'>
         <view class='radius-circle'>
           <image src='{{item.user_img}}' class='img-sm radius-circle'></image>
@@ -147,7 +181,7 @@
         <text>差{{item.short_num}}人成团</text>
         <text class='skr'>{{item.short_time}}</text>
       </view>
-      <navigator url='/pages/groupbuy/injoin?group_id={{item.group_id}}' class='bdlinearskr wtcolor radius-s pdc font-xs bolder flex flex-center' style='width:180rpx;'>我要参团</navigator>
+      <navigator url='/pages/groupbuy/injoin?group_id={{item.group_id}}' class='btn-fix-b min-small' style='width:180rpx;'>我要参团</navigator>
     </view>
   </view>
   <view class='sq' wx:if='{{goods.goods_group.length>0}}'></view>
@@ -155,7 +189,7 @@
   <view class='full-width pd20 bgw'>
     <view class='cgray bolder font-sm pdc flex flex-left flex-center bottomline'>
       <image src='/resource/icon/twodots.png' class='img-xs pdr'></image>
-      <text class='skr pdr20'>商铺信息</text>
+      <text class='black pdr20'>商铺信息</text>
     </view>
     <navigator url='/pages/store/detail?id={{goods.store_info.id}}' class='flex-row pdc20'>
       <view class='flex flex-center pdr20'>
@@ -171,9 +205,9 @@
     <view class='flex-row bottomline'>
       <view class='cgray bolder font-sm pdc flex flex-left flex-center'>
         <image src='/resource/icon/twodots.png' class='img-xs pdr'></image>
-        <text class='skr pdr20'>最新评价</text>
+        <text class='black pdr20'>最新评价</text>
       </view>
-      <view class='arrow flex flex-around' bindtap='goAllEva'>更多</view>
+      <view class='arrow flex flex-around' bindtap='goAllEva' wx:if='{{evaluateList.length>0}}'>更多</view>
     </view>
     <import src="/template/commentitem/commentitem.wxml" />
     <template is="commentitem" wx:for='{{evaluateList}}' wx:key='id' data="{{...item}}" bindtap='goAllEva'></template>
@@ -181,16 +215,50 @@
   <view class='sq'></view>
   <!-- 商品详情 -->
   <view class='full-width pdc20 bgw' id='contentbox'>
-    <view class='cgray bolder font-sm pdc flex flex-left flex-center bottomline'>
+    <view class='cgray bolder font-sm pdc pdr20 flex flex-left flex-center bottomline'>
       <image src='/resource/icon/twodots.png' class='img-xs pdr'></image>
-      <text class='skr pdr20'>商品详情</text>
+      <text class='black pdr20'>商品详情</text>
     </view>
-    <view class='full-width pdr20 font-sm black'>
-      <text decode>{{goods.goods_describe}}</text>
+    <view class='full-width pd20 font-sm black'>
+      <text decode='{{true}}' selectable='{{true}}'>{{goods.goods_describe}}</text>
     </view>
     <view class='full-width pdr'>
       <view style='margin:0;padding:0;width:730rpx;'>
-        <cover-image src='{{item}}' wx:for='{{goods.goods_img}}' wx:key='index' mode='widthFix' style='margin:0;width:730rpx;'></cover-image>
+        <image src='{{item}}' wx:for='{{goods.goods_img}}' wx:key='index' mode='widthFix' style='margin:0;width:730rpx;'></image>
+      </view>
+    </view>
+  </view>
+  <view class='sq'></view>
+  <!-- 价格说明 -->
+  <view class='full-width pdc20 bgw' id='contentbox'>
+    <view class='cgray bolder font-sm pdc pdr20 flex flex-left flex-center bottomline'>
+      <image src='/resource/icon/twodots.png' class='img-xs pdr'></image>
+      <text class='skr pdr20'>价格说明</text>
+    </view>
+    <view class='full-width pdr20 font-sm black'>
+      <view class='cgray font-xs pdc'>
+        <view class='black bolder font-sm'>划线价：</view>
+        <text>该价格是指商品的专柜标价、吊牌价或由品牌供应商提供的正品零售价（如厂商指导价、建议零售价等）；由于地区、时间的差异性和市场行情波动，商品专柜标价、吊牌价、零售价等可能会与您购物时展示的不一致，该价格并非原价，仅供参考。</text>
+      </view>
+      <view class='cgray font-xs pdc'>
+        <view class='black bolder font-sm'>直接购买价：</view>
+        <text>是指商品的实时销售标价，具体成交价格可能会因参加参加店铺活动有所变动，如使用优惠券、积分抵扣、优惠折扣等。最终以订单结算页价格为准。</text>
+      </view>
+      <view class='cgray font-xs pdc'>
+        <view class='black bolder font-sm'>拼团价：</view>
+        <text>是指比单独购买更便宜的价格，享受的前提是该笔订单必须满足完成店铺设置的2人或2人以上的拼团活动。</text>
+      </view>
+      <view class='cgray font-xs pdc'>
+        <view class='black bolder font-sm'>会员直购价：</view>
+        <text>是指用户成为会员后，根据会员的等级享受的比划线价低的单品购买价。</text>
+      </view>
+      <view class='cgray font-xs pdc'>
+        <view class='black bolder font-sm'>会员拼团价：</view>
+        <text>是指已经成为会员的用户，可以在自身会员等级优惠的情况下享有的低于非会员的一个拼团价格。</text>
+      </view>
+      <view class='cgray font-xs pdc'>
+        <view class='black bolder font-sm'>销售佣金：</view>
+        <text>是指会员将商品分享给其他用户并交易成功后获得的推广收益。如您发现活动商品售价或促销信息有异常，建议购买前先咨询销售商。</text>
       </view>
     </view>
   </view>
@@ -200,26 +268,37 @@
 
 <!-- 开团菜单 -->
 <view class='fix-b optmenu font-sm'>
-  <view class='mitem1 bgw pkcolor flex flex-center flex-around'>
+  <view class='mitem1 bgw cgray flex flex-center flex-around pdr'>
     <view class='flex-col-around' bindtap='toHome'>
       <image src='/resource/icon/index-atv.png' class='img-sm'></image>
-      <text class=''>首页</text>
+      <text class='font-xs'>首页</text>
     </view>
-    <view class='flex-col-around' bindtap='openShareWnd'>
-      <image src='/resource/icon/share3.png' class='img-sm'></image>
-      <text class=''>推广</text>
+    <view class='flex-col-around' bindtap='changeCollectShop' wx:if='{{goods.goods_collect==0}}'>
+      <image src='/resource/icon/sc.png' class='img-sm'></image>
+      <text class='font-xs'>收藏</text>
+    </view>
+    <view class='flex-col-around' bindtap='changeCollectShop' wx:if='{{goods.goods_collect==1}}'>
+      <image src='/resource/icon/sc2.png' class='img-sm'></image>
+      <text class='font-xs'>取消</text>
+    </view>
+    <!-- <view class='cgray sc pd20 flex-col flex-center' wx:if='{{goods.goods_collect==0}}'>
+      <image src='/resource/icon/sc.png' class='img-sm'></image>
+    </view> -->
+    <view class='flex-col-around' bindtap='toFtxt' wx:if='{{goods.goods_ad>0}}'>
+      <image src='/resource/icon/doc.png' class='img-sm'></image>
+      <text class='font-xs'>软文</text>
     </view>
   </view>
-  <view class='mitem2 flex-col-center bgor wtcolor' wx:if='{{goods.group_purchase ==1 || goods.is_gift ==1}}' bindtap='directOrder'>
+  <view class='mitem2 left flex-col-center bgor wtcolor' wx:if='{{goods.group_purchase ==1 || goods.is_gift ==1}}' bindtap='directOrder'>
     <text class='font-xs bolder'>{{goods.goods_spec[spec_chosed].member_price}}</text>
     <text class=''>直接购买</text>
   </view>
-  <view class='mitem2 flex-col-center bgdanger wtcolor' wx:if='{{goods.group_purchase ==1 }}' bindtap='tuanOrder'>
+  <view class='mitem2 right flex-col-center bgdanger wtcolor' wx:if='{{goods.group_purchase ==1 }}' bindtap='tuanOrder'>
     <text class='font-xs bolder'>{{goods.goods_spec[spec_chosed].member_group_price}}</text>
     <text class=''>我要开团</text>
   </view>
-  <view class='mitem2 flex-col-center bgdanger wtcolor' wx:if='{{goods.group_purchase ==0 && goods.is_gift ==1}}' bindtap='onGetGift'>
-		<text class='font-xs bolder' wx:if='{{goods.goods_spec[spec_chosed].integral>0}}'>{{goods.goods_spec[spec_chosed].integral}}</text>
+  <view class='mitem2 right flex-col-center bgdanger wtcolor' wx:if='{{goods.group_purchase ==0 && goods.is_gift ==1}}' bindtap='onGetGift'>
+    <text class='font-xs bolder' wx:if='{{goods.goods_spec[spec_chosed].integral>0}}'>{{goods.goods_spec[spec_chosed].integral}}</text>
     <text class='' wx:if='{{goods.goods_spec[spec_chosed].integral>0}}'>积分兑换</text>
     <text class='' wx:if='{{goods.goods_spec[spec_chosed].integral<=0}}'>免费领取</text>
   </view>
@@ -228,6 +307,13 @@
     <text class='font-sm'>立即购买</text>
   </view>
 </view>
+
+<view class='toTop pk flex flex-center pd' bindtap='openShareWnd'>
+  <image src='/resource/icon/getmoney.png' class='img-md'></image>
+</view>
 <!-- 分享窗口 -->
 <import src="/template/sharebox/sharebox.wxml" />
 <template is="sharebox" data="{{showShareWnd:showShareWnd}}"></template>
+
+<import src="/template/totop/totop.wxml" />
+<template is="totop" data="{{showToTop}}"></template>

@@ -1,13 +1,16 @@
 var app = getApp()
+import ToTop from "../../utils/ToTop.js"
 import UserCenter from '../../comm/UserCenter.js'
 import TimeConverter from '../../comm/TimeConverter.js'
 Page({
   data: {
+		...ToTop.data,
     version: '',
     type: 1,
     user: {},
     list: []
   },
+	...ToTop.methods,
   onLoad(options) {
     this.setData({
       type: options.type || 1
@@ -54,19 +57,25 @@ Page({
       if (type == 2) {
         this.loadMemberAwardList()
       }
+
+			if (type > 2) {
+				this.setData({
+					list:[]
+				})
+			}
+
     })
   },
   /**加载余额明细 */
   loadMemberMoneyList() {
+		let list = []
     UserCenter.MemberMoneyList({
       user_id: this.data.user.id
     }).then(r => {
-      console.log('UserCenter.MemberMoneyList => ', r)
-			let list = []
+      console.log('UserCenter.MemberMoneyList => ', r)			
 			if(r.code==200){
 				list = r.data.map(u=>{
-					u.addtime = TimeConverter.ToLocal(u.addtime)
-					u["money_type_name"] = u.money_type == 1 ? "推广费" : "充值"
+					u.addtime = TimeConverter.ToLocal(u.addtime)					
 					return u
 				})
 			}
@@ -75,7 +84,7 @@ Page({
 			})
     })
   },
-  /**加载推广费明细 */
+  /**加载佣金明细 */
   loadMemberAwardList() {
     UserCenter.MemberAwardList({
       user_id: this.data.user.id
@@ -85,9 +94,9 @@ Page({
 			if (r.code == 200) {
 				list = r.data.map(u => {
 					u.addtime = TimeConverter.ToLocal(u.addtime)
-					u["money_type_name"] = u.award_type==1?"推广费":"充值"
+					u["money_type_name"] = u.award_type_name || '***'
 					u.money = u.award_money
-
+					u.money_type = u.award_type
 					return u
 				})
 			}

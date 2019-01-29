@@ -7,13 +7,13 @@ let obj = {
 	Login() {
 		return '/api/Wxapi/wxLogin'
 	},//-- 平台登录
-  async Do(data) {
-    return await new Promise((resolve, reject) => {
-      $.Post(this.url, data, r => {
-        resolve(r.data)
-      }, null, false)
-    })
-  }
+	async Do(data, showLoadding = true) {
+		return await new Promise((resolve, reject) => {
+			$.Post(this.url, data, r => {
+				resolve(r.data)
+			}, null, showLoadding)
+		})
+	}
 }
 
 const Login = new Proxy(obj, {

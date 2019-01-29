@@ -31,11 +31,11 @@ let obj = {
 	AfterPayMemberSuccess() {
 		return '/api/Purchaseapi/addMemberDistrictAndName'
 	},//-- 续费/开通会员付费成功后调用
-  async Do(data) {
+  async Do(data,showLoadding=true) {
     return await new Promise((resolve, reject) => {
       $.Post(this.url, data, r => {
         resolve(r.data)
-      }, null, true)
+			}, null, showLoadding)
     })
   }
 }

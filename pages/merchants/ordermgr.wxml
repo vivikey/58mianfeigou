@@ -58,11 +58,6 @@
   </view>
   <import src="/template/version/version.wxml" />
   <template is="version" data="{{version}}"></template>
-
-	<view class='fix-t-b bglinearyellow shadow flex-row pd20'>
-    <view class='font-sm black bolder'>{{storeName}}</view>
-  </view>
-	<view class='topblockbg'></view>
 </view>
 
 <!-- 修改金额弹窗-->

@@ -11,10 +11,13 @@ Page({
     timer: null,
     countrec: 59,
     code: null,
-    user: {}
+    user: {},
+		needtoback:false,
+		prePage:{}
   },
-  onLoad(options) {
+  onLoad(options) {		
     let user = app.USER()
+		this.data.needtoback = options.needtoback || false
     let msg = '';
     if (!user.user_phone || user.user_phone.length < 11) {
       msg = '您未绑定手机号'
@@ -27,6 +30,11 @@ Page({
 			version:app.VERSION()
     })
   },
+	onShow(){
+		let routePages = getCurrentPages()
+		let prePage = routePages[routePages.length - 2]
+		this.data.prePage = prePage
+	},
   bindingPhone() {
     let phone = this.data.phone
     let code = this.data.code

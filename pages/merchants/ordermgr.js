@@ -41,7 +41,7 @@ Page({
 		let user_id = e.currentTarget.dataset.user
 		let order_id = e.currentTarget.dataset.order
 		wx.navigateTo({
-			url: `expressdetail?user_id=${user_id}&order_id=${order_id}`,
+			url: `/pages/orders/expressdetail?user_id=${user_id}&order_id=${order_id}`,
 		})
 	},
 	onInputChange(e){

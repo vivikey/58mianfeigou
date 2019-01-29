@@ -10,7 +10,7 @@ Page({
     access_token: null,
     shareData: {},
     sysinfo: null,
-    imgTitle: '我在热网发现一个好商品',
+    imgTitle: '我在58热网发现一个好商品',
     qrcodeimg: null, //-- 转换后的小程序码临时图片
     qrradius: 144,
     shopimg: null, //-- 转换后的产品临时图片
@@ -26,7 +26,7 @@ Page({
       size: 14,
       align: 'left',
       baseline: 'top',
-      text: `热网小程序`,
+      text: `58热网小程序`,
       bold: true,
       enddot: true
     }
@@ -72,8 +72,22 @@ Page({
                     showCancel: false
                   })
                 }
+              },
+              fail: res => {
+                app.ERROR(`下载小程序码失败`, () => {
+                  wx.navigateBack({
+                    delta: 1
+                  })
+                })
               }
             });
+          } else {
+            r.message = r.message || '出错了'
+            app.ERROR(`微信获取小程序码：${r.message}`, () => {
+              wx.navigateBack({
+                delta: 1
+              })
+            })
           }
         })
     })
@@ -201,14 +215,18 @@ Page({
     ctx.beginPath()
     ctx.setTextAlign('center')
     let ix = (this.data.canvasWidth - r) / 2
-		let iy1 = arcy - 20
-		let iy2 = arcy + 10
-    ctx.setFontSize(20)
-    ctx.setFillStyle('black')
-    ctx.fillText('热网小程序', ix, iy1)
-    ctx.setFontSize(16)
+    let iy1 = arcy - 20
+    let iy2 = arcy + 4
+		let iy3 = arcy + 38
+    ctx.setFontSize(18)
+		ctx.setFillStyle('#e97f23')
+		ctx.fillText('你的好产品＋我的好团队', ix, iy1)
+		ctx.setFillStyle('#e97f23')
+		ctx.fillText('－－新一代社交电商', ix, iy2)
+		ctx.beginPath()
+    ctx.setFontSize(14)
     ctx.setFillStyle('gray')
-    ctx.fillText('长按/扫描识别小程序码', ix, iy2)
+    ctx.fillText('长按/扫描识别小程序码', ix, iy3)
 
 
 
@@ -223,17 +241,17 @@ Page({
     let obj = this.data.txtObj
     let wB = this.data.wB
     let hB = this.data.hB
-		if(spaceT < 30){
-			spaceT = 30
-		}
+    if (spaceT < 30) {
+      spaceT = 30
+    }
     //-- 绘制标题
     obj.x = 9.5
     obj.y = vH + 0.5
     obj.text = this.data.shareData.title
-		obj.height = spaceT
+    obj.height = spaceT
     obj.color = '#000'
     obj.line = 2
-    obj.bold = true
+    obj.bold = false
     obj.size = 24.5
     obj.width = this.data.canvasWidth - 20
     obj.enddot = true
@@ -243,7 +261,7 @@ Page({
     obj.x = 9.5
     obj.y = vH + spaceT * 2 + 0.5
     obj.text = this.data.shareData.small_title
-		obj.height = spaceT
+    obj.height = spaceT
     obj.color = '#515151'
     obj.line = 1
     obj.size = 20.5
@@ -254,11 +272,11 @@ Page({
     obj.x = 9.5
     obj.y = vH + spaceT * 3 + 0.5
     obj.text = this.data.shareData.content
-		obj.height = spaceT
+    obj.height = spaceT
     obj.color = 'red'
     obj.line = 1
     obj.size = 24.5
-    obj.bold = true
+    obj.bold = false
     obj.enddot = false
     this.textWrap(ctx, obj)
 

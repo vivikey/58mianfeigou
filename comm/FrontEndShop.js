@@ -16,13 +16,13 @@ let obj = {
   RemoveCollect() { //-- 取消收藏
     return '/api/addapi/userCancelCollectShop'
   },
-  async Do(data) {
-    return await new Promise((resolve, reject) => {
-      $.Post(this.url, data, r => {
-        resolve(r.data)
-      }, null, true)
-    })
-  }
+	async Do(data, showLoadding = true) {
+		return await new Promise((resolve, reject) => {
+			$.Post(this.url, data, r => {
+				resolve(r.data)
+			}, null, showLoadding)
+		})
+	}
 }
 
 const FrontEndShop = new Proxy(obj, {

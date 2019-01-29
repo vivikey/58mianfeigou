@@ -1,8 +1,13 @@
 var app = getApp()
+import ToTop from "../../utils/ToTop.js"
+import YuSell from "../../template/yusell/index.js"
 import Shop from '../../comm/Shop.js'
 import Index from '../../comm/Index.js'
-var pageObj = {
+Page({
   data: {
+    ...ToTop.data,
+		...YuSell.data,
+    higher_up: 0,
     version: '',
     user: {},
     sortTypeList: [{
@@ -46,17 +51,19 @@ var pageObj = {
     classNavActIdx: 0,
     sc: 0,
   },
+  ...ToTop.methods,
+	...YuSell.methods,
   swiperChange: function(e) {
     this.setData({
       sc: e.detail.current
     })
   },
-	//-- 转至会员页
-	toBeMember() {
-		wx.navigateTo({
-			url: '/pages/usercenter/bemember',
-		})
-	},
+  //-- 转至会员页
+  toBeMember() {
+    wx.navigateTo({
+      url: '/pages/usercenter/bemember',
+    })
+  },
   //--进入到搜索页面  
   inputFocus: function() {
     wx.navigateTo({
@@ -67,19 +74,19 @@ var pageObj = {
   initDynamicList(fn) {
     Index.TouTiao({
         user_id: app.USER_ID()
-      })
+      }, false)
       .then(r => {
         console.log('Index.TouTiao => ', r)
         let dynamic_list = []
         if (r.code == 200) {
           dynamic_list = r.data.map(u => {
-						if(!u.nick_name){
-							u.nick_name = ""
-						}
+            if (!u.nick_name) {
+              u.nick_name = ""
+            }
             return {
               user: `**${u.nick_name.substr(u.nick_name.length-1)}`,
               value: u.brokerage,
-              type: "推广费"
+              type: "佣金"
             }
           })
         } else {
@@ -87,14 +94,14 @@ var pageObj = {
             dynamic_list.push({
               user: "L**V",
               value: (Math.random() * 10).toFixed(1),
-              type: "推广费"
+              type: "佣金"
             })
           }
         }
-        this.data.dynamic_list= dynamic_list
-				if(typeof fn === 'function'){
-					fn()
-				}
+        this.data.dynamic_list = dynamic_list
+        if (typeof fn === 'function') {
+          fn()
+        }
       })
 
   },
@@ -109,7 +116,7 @@ var pageObj = {
     }]
     Index.TypeList({
       class_id: 0
-    }).then(r => {
+    }, false).then(r => {
       console.log('Index.TypeList => ', r)
       r.data.forEach(item => {
         classNavList.push({
@@ -117,10 +124,12 @@ var pageObj = {
           categoryName: item.categoryName
         })
       })
-			this.setData({
-				classNavList : classNavList
-			})
-      this.loadIndexData(this.data.classNavActIdx)
+			this.data.classNavList = classNavList
+			this.loadIndexData(this.data.classNavActIdx)
+      this.setData({
+				classNavList: this.data.classNavList
+      })
+      
     })
   },
   //-- 排序点击事件
@@ -165,7 +174,7 @@ var pageObj = {
     data.user_location = `${local.longitude},${local.latitude}`
     Index.ListShop(data).then(r => {
       console.log('Index.ListShop => ', r)
-			wx.hideLoading()
+      wx.hideLoading()
       if (r.code == 200 && r.data.length > 0) {
         let shop_list = this.data.shop_list
         if (this.data.shopListWhere.page_num > 1) {
@@ -175,8 +184,8 @@ var pageObj = {
         }
         this.setData({
           shop_list: shop_list,
-					classNavActIdx: this.data.classNavActIdx,
-					shopListWhere: this.data.shopListWhere
+          classNavActIdx: this.data.classNavActIdx,
+          shopListWhere: this.data.shopListWhere
         })
       } else {
         if (this.data.shopListWhere.page_num > 1) {
@@ -197,41 +206,29 @@ var pageObj = {
   },
   //-- 加载推荐数据
   loadRecommendData() {
-    //-- 获取轮番图数据  V1.X
-    app.getBanner(res => {
-      if (res.data.data.index_banner) {				
-          this.data.index_banner= res.data.data.index_banner.map(u => {
-            u.UpFilePathInfo = app.joinPath(app.globalData.baseUrl, u.UpFilePathInfo)
-            return u;
-          })
+		this.initDynamicList(() => {
+			//-- 拼团
+			Index.GetGroup({
+				user_id: app.USER_ID(),
+				page: 1,
+				num: 10
+			}).then(r => {
+				console.log('Index.GetGroup => ', r)
+				if (r.code == 200) {
 					this.setData({
-						index_banner: this.data.index_banner
+						groupHotList: r.data
 					})
-      }
-			this.initDynamicList(()=>{
-				//-- 拼团
-				Index.GetGroup({
-					user_id: app.USER_ID(),
-					page: 1,
-					num: 10
-				}).then(r => {
-					console.log('Index.GetGroup => ', r)
-					if (r.code == 200) {
-						this.setData({
-							groupHotList:r.data
-						})
-					}
-					this.getTuiJianList()
-				})
+				}
+				this.getTuiJianList()
 			})
-    })
+		})
   },
   //-- 加载推荐商品列表
   getTuiJianList(render) {
     //-- 推荐
-    Index.GetShop(this.data.tuiJianWhere).then(r => {
+    Index.GetShop({...this.data.tuiJianWhere,user_id:app.USER_ID()}).then(r => {
       console.log('Index.GetShop => ', r)
-			wx.hideLoading()
+      wx.hideLoading()
       if (r.code == 200 && r.data.length > 0) {
         let tuijian_list = this.data.tuijian_list
         if (this.data.tuiJianWhere.page > 1) {
@@ -240,20 +237,20 @@ var pageObj = {
           tuijian_list = [...r.data]
         }
         this.data.tuijian_list = tuijian_list
-				if(render){
-					this.setData({
-						tuijian_list: this.data.tuijian_list	
-					})
-				}else{
-					this.setData({
-						shop_list: this.data.shop_list,
-						tuijian_list: this.data.tuijian_list,
-						groupHotList: this.data.groupHotList,
-						dynamic_list: this.data.dynamic_list,
-						classNavList: this.data.classNavList,
-						classNavActIdx: this.data.classNavActIdx,
-					})
-				}
+        if (render) {
+          this.setData({
+            tuijian_list: this.data.tuijian_list
+          })
+        } else {
+          this.setData({
+            shop_list: this.data.shop_list,
+            tuijian_list: this.data.tuijian_list,
+            groupHotList: this.data.groupHotList,
+            dynamic_list: this.data.dynamic_list,
+            classNavList: this.data.classNavList,
+            classNavActIdx: this.data.classNavActIdx,
+          })
+        }
       } else {
         if (this.data.tuiJianWhere.page > 1) {
           this.data.tuiJianWhere.page--
@@ -263,39 +260,48 @@ var pageObj = {
     })
   },
   //-- 页面加载事件
-  onLoad: function(options) {
-    app.HIGHER_UP(options.higher_up || 0)
+  onLoad(options) {
+
     this.data.tuiJianWhere.user_id = app.USER_ID()
     this.data.shopListWhere.user_id = app.USER_ID()
     this.data.tuiJianWhere.page = 1
     this.data.shopListWhere.page_num = 1
     this.data.version = app.VERSION()
     this.data.user = app.USER()
+		this.setData({
+			version: this.data.version,
+			user: this.data.user
+		})
   },
   //-- 每次进入页面触发
   onShow() {
-		this.setData({
-			version:this.data.version,
-			user: this.data.user
-		})
-		wx.showLoading({
-			title: '加载中...',
-		})
-    //-- 刷新当前位置 V2.X
-    app._localAddress().then(r => {
-      console.log('_localAddress => ', r)
-      if (r.area && r.area.length > 0) {
-        let len = r.area.length - 1
-				this.setData({
-					location : r.area[len]
-				})
-      }
-      this.initClassNavList()
-    })
+    // if (!app.USER()) {
+    //   app.globalData.bkPage = this.route
+    //   wx.redirectTo({
+    //     url: `/pages/index/index?id=0&higher_up=${this.data.higher_up}`,
+    //   })
+    // } else {
+      wx.showLoading({
+        title: '加载中...',
+      })
+      //-- 刷新当前位置 V2.X
+      app._localAddress().then(r => {
+        console.log('_localAddress => ', r)
+        if (r.area && r.area.length > 0) {
+          let len = r.area.length - 1
+          this.setData({
+            location: r.area[len]
+          })
+        }
+      })
+
+		this.initClassNavList()
+
+    // }
   },
   //-- 分享转发时触发
   onShareAppMessage: function() {
-    return app.SHARE_DEFAULT(1, r => {
+    return app.SHARE_DEFAULT(0, r => {
       console.log('SHARE_SUCCESS => ', r)
     })
   },
@@ -305,11 +311,11 @@ var pageObj = {
       url: '/pages/shop/giftIndex',
     })
   },
-	toJiFengPage(){
-		wx.navigateTo({
-			url: '/pages/shop/jifengIndex',
-		})
-	},
+  toJiFengPage() {
+    wx.navigateTo({
+      url: '/pages/store/detail?id=51',
+    })
+  },
   //-- 拼团首页
   toGroupIndex() {
     wx.navigateTo({
@@ -339,9 +345,60 @@ var pageObj = {
         this.getTuiJianList()
     }
 
-  }
-}
-import pageex from "../../utils/pageEx.js"
-pageex(pageObj)
+  },
+  onReady() {
+    const updateManager = wx.getUpdateManager()
+    updateManager.onCheckForUpdate(res => {
+      // 请求完新版本信息的回调 res.hasUpdate
+    })
+		
+    updateManager.onUpdateReady(function() {
+      app.msgbox({
+        title: '更新提示',
+        content: '新版本已就绪，点击确定应用新版本',
+        cancelText: '取消',
+        confirmText: '确定',
+        showCancle: true,
+        success: res => {
+          if (res.confirm) {
+            updateManager.applyUpdate()
+          }
+        }
+      })
+    })
 
-Page(pageObj)
+    updateManager.onUpdateFailed(function() {
+      // 新版本下载失败
+      app.ERROR('新版本下载失败!')
+    })
+
+		Index.ShowYuSell({
+			user_id:app.USER_ID()
+		},false).then(r=>{
+			console.log('Index.ShowYuSell => ',r)
+			if(r.data){
+				this.setData({
+					yusell:r.data
+				},this.openYuSell)
+			}
+		})
+
+		//-- 获取轮番图数据  V2.X
+		Index.ShowBanners({
+			user_id: app.USER_ID()
+		},false).then(res => {
+			console.log('Index.ShowBanners => ', res)
+			if (res.code == 200) {
+				this.data.index_banner = res.data.map(u => {
+					u.UpFilePathInfo = app.joinPath(app.globalData.xcxUrl, u.img_url)
+					u.img_skip_url = u.img_skip_url || 'pages/shop/index'
+					u.ad_link = '/' + u.img_skip_url
+					return u;
+				})
+				this.setData({
+					index_banner: this.data.index_banner
+				})
+			}
+		})
+  }
+})

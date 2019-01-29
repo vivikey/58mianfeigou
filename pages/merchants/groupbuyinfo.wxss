@@ -12,9 +12,9 @@ button{
     width:100%;
 }
 .img{
-    width:100rpx;
-    height: 100rpx;
-    border-radius: 50rpx;
+    width:80rpx;
+    height: 80rpx;
+    border-radius: 50%;
     border:1rpx solid #ccc;
     overflow: hidden;
 }
@@ -26,4 +26,8 @@ button{
     width:100rpx;
     height: 60rpx;
     background: #f00;
+}
+.spec-li text{
+	color:lightgoldenrodyellow;
+	font-weight: bolder;
 }

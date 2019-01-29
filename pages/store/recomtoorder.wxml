@@ -1,4 +1,4 @@
-<view class='container gray font-xs'>
+<view class='container gray font-xs' style='padding-bottom:90rpx;'>
   <!-- 线下消费 -->
   <view wx:if='{{store.on_line == 0}}' class='label gold-label small full-width flex flex-center'>
     <text class='pd20 bolder'>本商品不提供发货服务，购买后请至线下实体店扫码消费</text>
@@ -41,9 +41,7 @@
           <view class='redcolor bolder font-sm'>￥
             <text>{{item.spec_price}}</text>
           </view>
-          <view class='flex bdfull bgw fong-sm'>
-            <view class='pd pdr20 leftline rightline black bolder'>{{item.spec_num}}</view>
-          </view>
+          <view class='pd pdr20 black bolder radius-circle '>{{item.spec_num}}件</view>
         </view>
       </view>
     </view>
@@ -53,47 +51,79 @@
   <view class='bottomline pdc30 flex-row bgw pdr20'>
     <view class='black bolder linfo'>配送服务</view>
     <view class='cgray rinfo flex flex-row-rev' wx:if='{{store.on_line == 0}}'>请凭订单二维码在有效时间内去实体店消费</view>
-		<view class='cgray rinfo flex flex-row-rev' wx:if='{{store.on_line == 1}}'>快递发货</view>
+    <view class='cgray rinfo flex flex-row-rev' wx:if='{{store.on_line == 1}}'>快递发货</view>
   </view>
   <view class='pdc30 flex-row bgw pdr20'>
     <view class='black bolder linfo'>订单备注</view>
     <input type='text' placeholder='选填，给商家留言，45字(含符号)以内' class='font-sm rinfo' maxlength='45' bindinput='leaveMsg'></input>
   </view>
   <!-- 发票信息 -->
-  <view class='sq'></view>
+  <!-- <view class='sq'></view>
   <view class='bottomline pdc30 flex-row bgw pdr20'>
     <view class='black bolder linfo'>发票信息</view>
     <view class='cgray rinfo flex flex-row-rev'>请在实体店消费时，向商家索要发票</view>
-  </view>
+  </view> -->
   <!-- 订单汇总 -->
   <view class='sq'></view>
   <view class='full-width bgw '>
-    <view class='bottomline pdc30 bgw pdr20'>
-      <view class='flex-row'>
+    <view class='bgw pdr20'>
+      <view class='flex-row bottomline pdc'>
         <view class='black linfo bolder'>商品数量</view>
         <view class='prise-show'>{{storeCart.total_num}}</view>
       </view>
-      <view class='flex-row'>
+      <view class='flex-row bottomline pdc'>
         <view class='black linfo bolder'>商品金额</view>
         <view class='prise-show'>{{storeCart.goods_price}}</view>
       </view>
-      <view class='flex-row'>
+      <view class='flex-row bottomline pdc'>
         <view class='black linfo bolder'>运费</view>
         <view class='prise-show'>+{{storeCart.transport_cost}}</view>
       </view>
-			<view class='flex-row'>
-        <view class='black linfo bolder'>会员优惠</view>
+      <view class='flex-row pdc'>
+        <view class='black linfo bolder pdc'>会员优惠</view>
         <view class='prise-show'>-{{storeCart.discount_money}}</view>
       </view>
     </view>
   </view>
   <view class='sq'></view>
-  <view class='bgw pdr20 topline full-width'>
+  <!-- 支付方式 -->
+  <view class='full-width pd20 bgw'>
+    <view class='flex-row font-md pd bottomline' data-pid='1' bindtap='onChosedPayType'>
+      <view class='flex flex-left'>
+        <image src='/resource/icon/wxpay.png' class='img-sm'></image>
+        <text class='pd'>微信支付</text>
+      </view>
+      <view wx:if='{{paytype==1}}' class='pd flex flex-center'>
+        <image src='/resource/icon/chosed3.png' class='img-sm'></image>
+      </view>
+    </view>
+    <view class='flex-row font-md pd' data-pid='2' bindtap='onChosedPayType'>
+      <view class='flex flex-left'>
+        <image src='/resource/icon/yepay.png' class='img-sm'></image>
+        <text class='pd'>余额支付</text>
+        <text class='pdr20 cgray font-xs'>可用余额：{{storeCart.member_money}}</text>
+      </view>
+      <view wx:if='{{paytype==2}}' class='pd flex flex-center'>
+        <image src='/resource/icon/chosed3.png' class='img-sm'></image>
+      </view>
+    </view>
+  </view>
+  <!-- <view class='bgw pdr20 topline full-width'>
     <view class='flex flex-right bolder' style='padding-bottom:20rpx;'>
       总金额：
       <text class='font-md redcolor bolder'>￥{{storeCart.total_price + storeCart.transport_cost}}</text>
     </view>
     <view class='bgdanger wtcolor font-md flex flex-center pdc20' bindtap='submitOrder'>确认付款</view>
-  </view>
+  </view> -->
   <view class='sq'></view>
+</view>
+
+<view class='fix-b flex flex-center bgw topline'>
+  <view class='flex flex-center font-sm col-8' style='height:90rpx;'>
+    订单金额：
+    <text class='font-lg redcolor bolder'>￥{{storeCart.total_price}}</text>
+  </view>
+  <view class='col-4 wtcolor bgpk flex flex-center font-md' style='height:90rpx;' bindtap='submitOrder'>
+    立即支付
+  </view>
 </view>

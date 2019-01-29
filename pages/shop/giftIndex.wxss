@@ -1,20 +1,8 @@
 @import "/template/mainnavbox/mainnavbox.wxss";
-swiper.tj {
-  width: 750rpx;
-  height: 420rpx;
-}
-
-swiper.dynamic {
-  height: 49rpx;
-}
-
+@import "/template/swiper.wxss";
+@import "/template/mainbar.wxss";
 .bg-gray {
   background: #ccc;
-}
-
-swiper image {
-  width: 100%;
-  height: 100%;
 }
 
 .pd-t30 {

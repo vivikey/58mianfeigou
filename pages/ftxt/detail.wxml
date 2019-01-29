@@ -36,7 +36,7 @@
               </view>
             </view>
             <view class='flex-rlc label warn-label small' wx:if='{{goods.goods_brokerage>0}}'>
-              <view class='font-x skr'>推广费{{goods.goods_brokerage}}</view>
+              <view class='font-x skr'>佣金{{goods.goods_brokerage}}</view>
             </view>
           </view>
         </view>

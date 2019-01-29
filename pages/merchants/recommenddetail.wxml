@@ -228,7 +228,7 @@
               保存
             </view>
             <view class='btn-fix-b heighter white font-sm' data-index='{{index}}' bindtap='onRemoveAward'>
-              <image src='/resource/icon/delete.svg' class='addbtnimg radius-circle'></image>
+              <image src='/resource/icon/delete.png' class='addbtnimg radius-circle'></image>
               删除
             </view>
           </view>

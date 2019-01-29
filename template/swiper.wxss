@@ -1,0 +1,46 @@
+.swiper {
+  position: relative;
+  height: auto;
+}
+swiper {
+  width: 100%;
+  height: 318rpx;
+}
+
+.swiper-navbox {
+  width: 750rpx;
+  height: 318rpx;
+}
+swiper.tj {
+  width: 750rpx;
+  height: 420rpx;
+}
+
+swiper.dynamic {
+  height: 49rpx;
+}
+swiper image {
+  width: 100%;
+  height: 100%;
+}
+
+.dots {
+  position: absolute;
+  bottom: 20rpx;
+}
+
+.dot-box {
+  padding: 0 10rpx;
+}
+
+.dot {
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 10rpx;
+  transition: all 0.3s linear;
+}
+
+.dot.active {
+  width: 20rpx;
+}
+

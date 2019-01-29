@@ -4,7 +4,7 @@
 		<image src='{{tempFile}}' style='width:{{canvasWidth}}px;height:{{canvasHeight}}px;' class='img-show-box'></image>
   </view>
   <view class='full-width flex flex-center pd30'>
-    <view class='full-width font-md bggreen wtcolor flex flex-center savebtn' bindtap='saveShareImage'>
+    <view class='flex flex-center savebtn' style='width:{{canvasWidth*0.76}}px;'  bindtap='saveShareImage'>
       <view class='pd20 flex flex-center'>
         <image src='/resource/icon/saveimg.png' class='img-sm'></image>
       </view>

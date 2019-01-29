@@ -178,7 +178,7 @@ var pageObj = {
     chosedObj.goods_spec = {
       ...this.data.group_info.goods.spec[this.data.spec_chosed]
     }
-    chosedObj.orderDirect = false
+    chosedObj.orderDirect = 1
     chosedObj.store_info = {
       ...this.data.store_info
     }

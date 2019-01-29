@@ -1,6 +1,13 @@
 .ftxt-list-item{
   width:100%;
-  border-radius: 12rpx;
   background: #fff;
+	position:relative;
+	padding: 20rpx;
+	overflow: hidden;
+	border-radius: 5px;
+}
 
+.ftxt-img image{
+	width:100%;
+	height: 350rpx;
 }

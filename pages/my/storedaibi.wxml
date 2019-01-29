@@ -1,0 +1,41 @@
+<view class='container gray' style='padding:90rpx 0;'>
+  <view class='full-width fix-t bglinearyellow shadow flex-row pd20'>
+    <view class='font-sm black bolder'>{{store_name}}</view>
+  </view>
+  <view class='full-width pd'>
+    <import src="/template/nothing/item.wxml" />
+    <template is="nothing" data='{{datalist:imgList,Msg:"~空空如也~"}}'></template>
+    <view class='full-width flex flex-wrap'>
+      <view wx:for='{{imgList}}' wx:key='index' class='tuijian-item shadow'>
+        <view class='img rel' bindtap='showBigImg' data-src='{{item.imgPath}}'>
+          <image src='{{item.imgPath}}'></image>
+          <view class='goods_brokerage'>
+            <text class='font-xp'>{{item.addtime}}</text>
+          </view>
+        </view>
+        <view class='full-width flex flex-center font-md pd'>
+          <view class='black' wx:if='{{item.check_status==0}}'>
+            <text>待审核</text>
+          </view>
+          <view class='cgreen' wx:if='{{item.check_status==1}}'>
+            <text>审核通过</text>
+          </view>
+          <view class='pkcolor' wx:if='{{item.check_status==2}}'>
+            <text>审核未通过</text>
+          </view>
+        </view>
+        <view class='full-width flex flex-center pd topline'>
+          <view class='flex flex-center pdr20' bindtap='onDeleteJiFenImg' data-id='{{item.id}}' wx:if='{{item.check_status>0}}'>
+            <image src='/resource/icon/delete.png' class='img-sm'></image>
+          </view>
+          <view class='flex flex-center pdr20' bindtap='onCheckJiFenImgNo' data-id='{{item.id}}' wx:if='{{item.check_status==0}}'>
+            <image src='/resource/icon/checkno.png' class='img-sm'></image>
+          </view>
+          <view class='flex flex-center pdr20' bindtap='onCheckJiFenImgYes' data-id='{{item.id}}' wx:if='{{item.check_status!=1}}'>
+            <image src='/resource/icon/checkok.png' class='img-sm'></image>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

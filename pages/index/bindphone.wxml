@@ -43,7 +43,7 @@
     <image src='/resource/icon/logo.png' class='userImg lg'></image>
   </view>
   <view class='full-width flex-col pd30 flex-center' style='height:20%'>
-    <view class='or font-lg bolder pd30'>热网需要您授权绑定微信手机号</view>
+    <view class='or font-lg bolder pd30'>58热网需要您授权绑定微信手机号</view>
     <view class='black font-sm pdr30'>• 基于国家法规实名认证要求</view>
 		<view class='black font-sm pdr30'>• 获取您微信绑定的手机号</view>
   </view>

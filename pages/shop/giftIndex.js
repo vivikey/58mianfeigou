@@ -1,11 +1,14 @@
 var app = getApp()
+import ToTop from "../../utils/ToTop.js"
 import Shop from '../../comm/Shop.js'
 import Index from '../../comm/Index.js'
-var pageObj = {
+Page({
   data: {
+		...ToTop.data,
     version: '',
     user: {},
     userInfo: {},
+		higher_up:0,
     sortTypeList: [{
       key: '距离',
       value: 1
@@ -31,23 +34,12 @@ var pageObj = {
 			num: 50
     },
     index_banner: [],
-    indicatorDots: true,
-    vertical: true,
-    autoplay: true,
-    circular: true,
-    interval: 3000,
-    duration: 500,
-    previousMargin: 0,
-    nextMargin: 0,
     location: '',
     sortType: 2,
     giftList: [],
-    msgC: 0,
-    timer: 0,
-    showbload: 0,
     sc: 0,
-    sc2: 0,
   },
+	...ToTop.methods,
   swiperChange: function(e) {
     this.setData({
       sc: e.detail.current
@@ -128,22 +120,19 @@ var pageObj = {
       version: app.VERSION(),
       user: app.USER(),
       shop_list: [],
+			higher_up:options.higher_up || 0,
 			shopListWhere: this.data.shopListWhere
     })
-    //-- 获取轮番图数据  V1.X
-    app.getBanner(res => {
-      if (res.data.data.index_banner) {
-        this.setData({
-          index_banner: res.data.data.index_banner.map(u => {
-            u.UpFilePathInfo = app.joinPath(app.globalData.baseUrl, u.UpFilePathInfo)
-            return u;
-          })
-        })
-      }
-    })
+
   },
   //-- 每次进入页面触发
   onShow() {
+		if (!app.USER()) {
+			app.globalData.bkPage = this.route
+			wx.navigateTo({
+				url: `/pages/index/index?id=0&higher_up=${this.data.higher_up}`,
+			})
+		}
     //-- 刷新当前位置 V2.X
     app._localAddress().then(r => {
       console.log('_localAddress => ', r)
@@ -159,6 +148,21 @@ var pageObj = {
       }
 			this.loadRecommendData()
     })
+		//-- 获取轮番图数据  V2.X
+		Index.ShowBanners({ user_id: app.USER_ID() }).then(res => {
+			console.log('Index.ShowBanners => ', res)
+			if (res.code == 200) {
+				this.data.index_banner = res.data.map(u => {
+					u.UpFilePathInfo = app.joinPath(app.globalData.xcxUrl, u.img_url)
+					u.img_skip_url = u.img_skip_url || 'pages/shop/index'
+					u.ad_link = '/' + u.img_skip_url
+					return u;
+				})
+				this.setData({
+					index_banner: this.data.index_banner
+				})
+			}
+		})
   },
   //-- 赠品首页
 	toGiftIndex() {
@@ -168,7 +172,7 @@ var pageObj = {
 	},
 	toJiFengPage() {
 		wx.navigateTo({
-			url: '/pages/shop/jifengIndex',
+			url: '/pages/store/detail?id=51',
 		})
 	},
   //-- 拼团首页
@@ -199,10 +203,12 @@ var pageObj = {
 		console.log('============= 上拉事件发生了 =============')
 		this.data.shopListWhere.page++
 		this.loadRecommendData()
-	}
-}
-import pageex from "../../utils/pageEx.js"
+	},
+	//-- 分享转发时触发
+	onShareAppMessage: function () {
+		return app.SHARE_DEFAULT(0, r => {
+			console.log('SHARE_SUCCESS => ', r)
+		})
+	},
+})
 
-pageex(pageObj)
-
-Page(pageObj)

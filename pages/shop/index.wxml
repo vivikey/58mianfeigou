@@ -1,5 +1,9 @@
 <import src="/template/totop/totop.wxml" />
 <template is="totop" data="{{showToTop}}"></template>
+
+<import src="/template/yusell/index.wxml" />
+<template is="yusell" data="{{showyusell,yusell}}"></template>
+
 <view class='container gray font-xs hardgray'>
   <view class='topblockbg' style='height:{{classNavActIdx>0?105:70}}px;'></view>
   <!-- Location / SearchBar / NavBar -->
@@ -13,7 +17,7 @@
         <text class='pdr txtpt font-sm'>{{location}}</text>
       </view>
       <!-- SearchBar -->
-      <view class='flex-row label midd search mg-t10'>
+      <view class='flex-row label midd search mg-t10 greyscale'>
         <text class='pdr20 font-sm cgray'>搜索功能暂未开放...</text>
         <view class='flex flex-center'>
           <image src='/resource/icon/search.svg' class='img-sm'></image>
@@ -30,7 +34,7 @@
   <view class='full-width' wx:if='{{classNavActIdx == 0}}'>
     <!-- Swiper -->
     <view class='swiper full-width'>
-      <swiper autoplay="{{true}}" circular="{{true}}" interval="{{3000}}" duration="{{500}}" class='mg-b10' bindchange='swiperChange'>
+      <swiper autoplay="{{true}}" circular="{{true}}" interval="{{3000}}" duration="{{500}}" bindchange='swiperChange'>
         <swiper-item wx:for='{{index_banner}}' wx:key=''>
           <navigator url='{{item.ad_link}}' class='swiper-navbox flex flex-center'>
             <image src='{{item.UpFilePathInfo}}' width="375" height="150"></image>
@@ -91,27 +95,26 @@
         </swiper-item>
       </swiper>
     </view>
-
     <view class='box'>
       <view class='flex-row'>
         <view class='title full-width'>
-          <text class='didi bgorange mix'></text>
+          <text class='didi bgprimary mix'></text>
           <text class='didi bgpk half'></text>
           <text class='didi bgviolet'></text>
           <text class='pdr black'>热门拼团</text>
           <text class='didi bgviolet'></text>
           <text class='didi bgpk half'></text>
-          <text class='didi bgorange mix'></text>
+          <text class='didi bgprimary mix'></text>
         </view>
       </view>
     </view>
-    <view class='box pd bglightgray'>
+    <view class='box pd bglist'>
       <import src="/template/nothing/item.wxml" />
       <template is="nothing" data='{{datalist:groupHotList,Msg:"~空空如也~"}}'></template>
-      <view wx:for='{{groupHotList}}' wx:key='id' class='full-width pdc flex-row bgw bottomline'>
+      <view wx:for='{{groupHotList}}' wx:key='id' class='full-width flex-row mg-b10 bgw'>
         <view class='store_shop_specimg rel' bindtap='onShopClick' data-id='{{item.id}}' data-spec='{{item.goods_spec[0].id}}'>
           <image src='{{item.goods_spec[0].spec_img}}'></image>
-          <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>推广费
+          <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>销售佣金
             <text>{{item.goods_brokerage}}</text>
           </view>
         </view>
@@ -135,7 +138,7 @@
           <view class='flex-row'>
             <view>
               <text class='label small violet-label bolder'>{{item.group_num}}人团</text>
-              <text class='label small'>{{item.sale_num}}已团</text>
+              <text class='label small'>已团{{item.sale_num}}件</text>
             </view>
             <view class='btn-fix-b min-small' bindtap='onShopClick' data-id='{{item.id}}' data-spec='{{item.goods_spec[0].id}}'>
               <text>我要参团</text>
@@ -147,24 +150,24 @@
     <!-- 推荐商品 -->
     <view class='box'>
       <view class='title'>
-        <text class='didi bgorange mix'></text>
+        <text class='didi bgprimary mix'></text>
         <text class='didi bgpk half'></text>
         <text class='didi bgviolet'></text>
         <text class='pdr black'>推荐商品</text>
         <text class='didi bgviolet'></text>
         <text class='didi bgpk half'></text>
-        <text class='didi bgorange mix'></text>
+        <text class='didi bgprimary mix'></text>
       </view>
     </view>
     <view class='box'>
-      <view class='full-witdh flex flex-wrap'>
+      <view class='flex-row flex-wrap bglist pdc'>
         <import src="/template/nothing/item.wxml" />
         <template is="nothing" data='{{datalist:tuijian_list,Msg:"~空空如也~"}}'></template>
         <view class='tuijian-item' wx:for='{{tuijian_list}}' wx:key='' bindtap='onShopClick' data-id='{{item.id}}' data-spec='{{item.goods_spec[0].id}}'>
           <view class='content'>
             <view class='img flex flex-center rel'>
               <image src='{{item.goods_spec[0].spec_img}}'></image>
-              <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>推广
+              <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>销售佣金
                 <text>{{item.goods_brokerage}}</text>
               </view>
             </view>
@@ -174,12 +177,12 @@
                 <text class='font-xs pkcolor'>{{item.goods_spec[0].spec_size}} {{item.goods_spec[0].spec_color}}</text>
               </view>
               <view class='flex-row'>
-                <view class='pkcolor font-md pdc'>
+                <view class='redcolor font-md pdc'>
                   <text class='font-x'>￥</text>
                   <text class='bolder'>{{item.goods_spec[0].spec_price}}</text>
                 </view>
                 <view class='cgray font-x'>
-                  <text class='black'>{{item.sale_num}}</text>已售
+                  已售<text class='black'>{{item.sale_num}}</text>件
                 </view>
               </view>
             </view>
@@ -191,7 +194,7 @@
 
   <!-- 分类商品 -->
   <view class='box' wx:if='{{classNavActIdx>0}}'>
-    <view class='full-witdh flex flex-wrap'>
+    <view class='full-witdh flex flex-wrap bglist'>
       <import src="/template/nothing/item.wxml" />
       <template is="nothing" data='{{datalist:shop_list,Msg:"商品空空如也~~"}}'></template>
 
@@ -199,7 +202,7 @@
         <view class='content'>
           <view class='img flex flex-center rel'>
             <image src='{{item.spec[0].spec_img}}'></image>
-            <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>推广费
+            <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>销售佣金
               <text>{{item.goods_brokerage}}</text>
             </view>
           </view>

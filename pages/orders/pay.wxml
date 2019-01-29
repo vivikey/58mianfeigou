@@ -1,21 +1,27 @@
 <view class='container gray font-xs pd30'>
-		<view class='pd30 bgw'>
-			<view class='pd30 bgw'>
-				<view>订单编号：<text class='label small yellow-label bolder'>{{order_sn}}</text></view>
-			</view>
-			<view class='pd30'></view>
-			<view class='pd30'></view>
-			<view class='pd30 bgw flex flex-center'>
-				<view class='redcolor font-md'>￥<text class='bolder' style='font-size:36px;'>{{money}}</text></view>
-			</view>
-			<view class='pd30'></view>
-			<view class='pd30'></view>
-		</view>
-		<view class='pd30 full-width'>
-			<view class='pd30 bggreen flex flex-center ' bindtap='payOrder'>
-				<view class='wtcolor font-md'>微信支付</view>
-			</view>
-			</view>
+  <view class='pd30 bgw'>
+    <view class='pd30 bgw'>
+      <view>订单编号：
+        <text class='label small yellow-label bolder'>{{order_sn}}</text>
+      </view>
+    </view>
+    <view class='pd30'></view>
+    <view class='pd30'></view>
+    <view class='pd30 bgw flex flex-center'>
+      <view class='redcolor font-md'>￥
+        <text class='bolder' style='font-size:36px;'>{{money}}</text>
+      </view>
+    </view>
+    <view class='pd30'></view>
+    <view class='pd30'></view>
+  </view>
+  <!-- 支付方式 -->
+  <view class='full-width flex flex-center pd20'>
+    <view class='btn-fix-b green heighter font-md' bindtap='payOrder'>
+      <image src='/resource/icon/wxpay.png' class='img-sm'></image>
+      <text class='pd'>确定支付</text>
+    </view>
+  </view>
 </view>
-    <import src="/template/version/version.wxml" />
-    <template is="version" data="{{version}}"></template>
+<import src="/template/version/version.wxml" />
+<template is="version" data="{{version}}"></template>

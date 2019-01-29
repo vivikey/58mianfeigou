@@ -30,11 +30,11 @@
       </view>
       <view class='full-width pd20 flex flex-right' style='border-bottom:1rpx dashed #eaeaea;' wx:if='{{!item.affirm}}'>
         <view class='flex-col-auto flex-center pdr20' data-id='{{item.id}}' data-idx='{{index}}' catchtap='onDelete'>
-          <image src='/resource/icon/delete.svg' class='img-sm'></image>
+          <image src='/resource/icon/delete.png' class='img-sm'></image>
           <text class='font-x black'>删除</text>
         </view>
         <navigator url="/pages/merchants/memberinfo?storeId={{storeId}}&grade_id={{item.id}}" class='flex-col-auto flex-center pdr20'>
-          <image src='/resource/icon/edit.svg' class='img-sm'></image>
+          <image src='/resource/icon/edit.png' class='img-sm'></image>
           <text class='font-x black'>编辑</text>
         </navigator>
       </view>

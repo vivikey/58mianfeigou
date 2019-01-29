@@ -12,13 +12,29 @@ Page({
     loginFaile: false
   },
   onLoad(options) {
-		console.dir('index.onload => ',options)
+		/**老版本 */
+		if (options.q) {
+			let link = decodeURIComponent(options.q);
+			console.log(link);
+			let params = link.split('?')[1].split('&') //-- id=1&idx=1&rd=1
+			let rd = params[0].split('=')[1]
+			options['higher_up'] = rd || 0
+		}
+
+		/**新版本 */
+		if (options.scene) {
+			let link = decodeURIComponent(options.scene);
+			let params = link.split('&')
+			let rd = params[0].split('=')[1]
+			options['higher_up'] = rd || 0
+		}
+		console.log('Page.index.index Did Load => ',options)
 		this.data.id = options.id || 0
 		this.data.higher_up = options.higher_up || 0
 		this.data.spec = options.spec || 0
 		this.data.store = options.store || 0
-
     app.HIGHER_UP(options.higher_up || 0)
+		
   },
   login() {
     console.log('CurrPage => ', this.route)
@@ -57,7 +73,6 @@ Page({
         })
       }
     })
-
 
   }
 })

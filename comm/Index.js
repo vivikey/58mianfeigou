@@ -34,13 +34,19 @@ let obj = {
 	IntegralGoods() {
 		return '/api/showapi/showIntegralGoods'
 	}, //-- 列表积分商品
-  async Do(data) {
-    return await new Promise((resolve, reject) => {
-      $.Post(this.url, data, r => {
-        resolve(r.data)
-      }, null, false)
-    })
-  }
+	ShowBanners() {
+		return '/api/showapi/showBanners'
+	}, //-- 列表积分商品
+	ShowYuSell() {
+		return '/api/showapi/showNotice'
+	}, //-- 显示预销售内容
+	async Do(data, showLoadding = true) {
+		return await new Promise((resolve, reject) => {
+			$.Post(this.url, data, r => {
+				resolve(r.data)
+			}, null, showLoadding)
+		})
+	}
 }
 
 const Address = new Proxy(obj, {

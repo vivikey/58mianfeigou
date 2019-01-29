@@ -25,13 +25,13 @@ let obj = {
 	MemberAwardList() {
 		return '/api/showapi/personalCenterShowMemberAward'
 	}, //-- 显示用户的余额列表
-  async Do(data) {
-    return await new Promise((resolve, reject) => {
-      $.Post(this.url, data, r => {
-        resolve(r.data)
-      }, null, true)
-    })
-  }
+	async Do(data, showLoadding = true) {
+		return await new Promise((resolve, reject) => {
+			$.Post(this.url, data, r => {
+				resolve(r.data)
+			}, null, showLoadding)
+		})
+	}
 }
 
 const UserCenter = new Proxy(obj, {

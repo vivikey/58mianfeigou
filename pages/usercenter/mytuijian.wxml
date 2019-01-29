@@ -1,30 +1,96 @@
 <view class='font-xs cgray gray full-width'>
-<!-- TopBar -->
-  <view class='full-width' style='height:60px;'></view>
-  <view class='fix-t flex-row pd20 shadow bgw'>
-    <view class='flex flex-left'>
-      <view class='img-md bglightgray radius-circle'>
-        <image src='{{currUser[level].img}}' class='img-md radius-circle'></image>
+  <!-- TopBar -->
+  <view class='full-width' style='height:106px;'></view>
+  <view class='fix-t shadow bgw'>
+    <view class='flex-row pd20'>
+      <view class='flex flex-left'>
+        <view class='img-md bglightgray radius-circle'>
+          <image src='{{currUser[level].img}}' class='img-md radius-circle'></image>
+        </view>
+        <view class='skr bolder font-sm pdr20'>{{currUser[level].name}}</view>
+        <view class='label small pk-label'>总数
+          <text class='number red'>{{off_line_total_num}}</text>
+        </view>
+        <view class='label small green-label'>一级数
+          <text class='number green'>{{off_line_direct_num}}</text>
+        </view>
       </view>
-      <view class='skr bolder font-sm pdr20'>{{currUser[level].name}}</view>
+      <view class='cgray font-x pd' bindtap='onPreLevel' wx:if='{{level>0}}'>
+        <image src='/resource/icon/uplevel.png' class='img-sm'></image>
+      </view>
     </view>
-    <view class='cgray font-x pd' bindtap='onPreLevel' wx:if='{{level>0}}'>上一级</view>
+    <view class='top-menu flex-row'>
+      <view class='full-width flex flex-around top-menu-kk'>
+        <view class='top-menu-item {{member_grade==1?"active":""}}' id='1' bindtap='onChangeType'>会员</view>
+        <view class='top-menu-item {{member_grade==0?"active":""}}' id='0' bindtap='onChangeType'>粉丝</view>
+      </view>
+			<view class='sort pdr20 arrow-down' bindtap='onChangeSort'><text class=''><text class='bolder black'>{{sort1[sortIdx]}}</text></text></view>
+    </view>
   </view>
-<!-- TopBar -->
-	  <import src="/template/nothing/item.wxml" />
-    <template is="nothing" data='{{datalist:list,Msg:"没有下一级了~~"}}'></template>
-  <view wx:for='{{list}}' wx:key='' class='bgw flex-row pd20 bottomline'>
+
+  <!-- 会员 -->
+	  <!-- TopBar -->
+  <import src="/template/nothing/item.wxml" />
+  <template is="nothing" data='{{datalist:list1,Msg:"没有下一级会员了~~"}}' wx:if='{{member_grade==1}}'></template>
+  <template is="nothing" data='{{datalist:list0,Msg:"没有下一级粉丝了~~"}}' wx:if='{{member_grade==0}}'></template>
+
+  <view wx:for='{{list1}}' wx:key='' class='bgw flex-row pd20 bottomline' wx:if='{{member_grade==1}}'>
     <view class='flex flex-left'>
-      <view class='img-md bglightgray radius-circle'>
-				<image src='{{item.user_info.user_img}}' class='img-md radius-circle'></image>
+      <view class='pd flex flex-right lightgray'>{{index+1}}</view>
+      <view class='img-md bglightgray radius-circle message flex-col-auto'>
+        <view class='flex flex-center'>
+          <image src='{{item.user_info.user_img}}' class='img-md radius-circle'></image>
+        </view>
       </view>
       <view>
-        <view class='black bolder font-sm pdr20'>{{item.user_info.nick_name}}</view>
-        <view class='cgray bolder font-x pdr20'>{{item.addtime}}</view>
+        <view class='font-sm pdr20 flex flex-left'>
+          <view class='flex flex-left vip-box'>
+            <view class='vip-img-box flex flex-center'>
+              <image src='/resource/icon/vip.png'></image>
+            </view>
+            <view class='flex flex-center'>{{item.user_info.member_name}}</view>
+          </view>
+          <view class='{{item.higher_type==1?"skr":"black"}} member_name txtpt'>{{item.user_info.nick_name}}</view>
+
+        </view>
+        <view class='lightgray font-x pdr20'>{{item.addtimeLocal}}</view>
       </view>
     </view>
-    <view class='arrow cgray font-x pd' data-idx='{{index}}' bindtap='onNextLevel'>下一级</view>
+    <view class='flex flex-col-auto flex-center cgray font-xs' data-idx='{{index}}' bindtap='onNextLevel'>
+      <image src='/resource/icon/downlevel.png' class='img-sm'></image>
+      <view class='pkcolor bolder'>{{item.off_line_total_num}}</view>
+    </view>
+  </view>
+  <!-- 粉丝 -->
+  <view wx:for='{{list0}}' wx:key='' class='bgw flex-row pd20 bottomline' wx:if='{{member_grade==0}}'>
+    <view class='flex flex-left'>
+      <view class='pd flex flex-right lightgray'>{{index+1}}</view>
+      <view class='img-md bglightgray radius-circle message flex-col-auto'>
+        <view class='flex flex-center'>
+          <image src='{{item.user_info.user_img}}' class='img-md radius-circle'></image>
+        </view>
+      </view>
+      <view>
+        <view class='font-sm pdr20 flex flex-left'>
+          <view class='flex flex-left vip-box greyscale'>
+            <view class='vip-img-box flex flex-center'>
+              <image src='/resource/icon/vip.png'></image>
+            </view>
+            <view class='flex flex-center'>{{item.user_info.member_name}}</view>
+          </view>
+          <view class='pink member_name txtpt'>{{item.user_info.nick_name}}</view>
+
+        </view>
+        <view class='lightgray font-x pdr20'>{{item.addtimeLocal}}</view>
+      </view>
+    </view>
+    <view class='flex flex-col-auto flex-center cgray font-xs' data-idx='{{index}}' bindtap='onNextLevel'>
+      <image src='/resource/icon/downlevel.png' class='img-sm'></image>
+      <view class='pkcolor bolder'>{{item.off_line_total_num}}</view>
+    </view>
   </view>
 </view>
+<import src="/template/tohome/tohome.wxml" />
+<template is="tohome"></template>
 <import src="/template/version/version.wxml" />
 <template is="version" data="{{version}}"></template>

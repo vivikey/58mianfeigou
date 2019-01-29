@@ -1,22 +1,11 @@
 @import "/template/mainbar.wxss";
+@import "/template/swiper.wxss";
 @import "/template/mainnavbox/mainnavbox.wxss";
-swiper.tj {
-  width: 750rpx;
-  height: 420rpx;
-}
-
-swiper.dynamic {
-  height: 49rpx;
-}
-
+@import "/template/yusell/index.wxss";
 .bg-gray {
   background: #ccc;
 }
 
-swiper image {
-  width: 100%;
-  height: 100%;
-}
 
 .moreimg {
 	width:224rpx;
@@ -95,7 +84,7 @@ swiper image {
     height: 100%;
 }
 .store_shop_info{
-    width:430rpx;
+    width:460rpx;
     height: 260rpx;
     padding:0 10rpx;
     padding-bottom:10rpx;
@@ -106,11 +95,19 @@ swiper image {
 }
 
 .tuijian-item{
-  width:50%;
+  width:360rpx;
   background: #fff;
   padding: 0rpx;
-	border:6rpx solid #f2f2f2;
 	border-radius: 0rpx;
+	margin-bottom:10rpx;
+}
+.tuijian-item:nth-child(2n+1){
+	margin-left: 10rpx;
+	margin-right: 5rpx;
+}
+.tuijian-item:nth-child(2n){
+	margin-left: 5rpx;
+	margin-right: 10rpx;
 }
 .tuijian-item .content{
   width:100%;

@@ -73,7 +73,7 @@ Page({
         var tempFilePaths = res.tempFilePaths
         var store = this.data.store;
         var image = tempFilePaths[0]
-        app._uploadImage(image).then(r => {
+				app._uploadImage(image, { file_type: 2, file_name: '' }).then(r => {
           var resd = JSON.parse(r.data)
           if (resd.code == 200) {
             store.store_logo = app.joinPath(app.globalData.xcxUrl, resd.data);
@@ -98,7 +98,7 @@ Page({
         var store = this.data.store;
         for (var i = 0; i < tempFilePaths.length; i++) {
           var image = tempFilePaths[i]
-          app._uploadImage(image).then(r => {
+					app._uploadImage(image, { file_type: 2, file_name: '' }).then(r => {
             var resd = JSON.parse(r.data)
             if (resd.code == 200) {
               store.indentity_card_img.push(app.joinPath(app.globalData.xcxUrl, resd.data));
@@ -125,7 +125,7 @@ Page({
         for (var i = 0; i < tempFilePaths.length; i++) {
           var image = tempFilePaths[i]
 
-          app._uploadImage(image).then(r => {
+					app._uploadImage(image, { file_type: 2, file_name: '' }).then(r => {
             var resd = JSON.parse(r.data)
             if (resd.code == 200) {
               store.store_img.push(app.joinPath(app.globalData.xcxUrl, resd.data));
@@ -151,7 +151,7 @@ Page({
         var store = this.data.store;
         for (var i = 0; i < tempFilePaths.length; i++) {
           var image = tempFilePaths[i]
-          app._uploadImage(image).then(r => {
+					app._uploadImage(image, { file_type: 2, file_name: '' }).then(r => {
             var resd = JSON.parse(r.data)
             if (resd.code == 200) {
               store.business_license.push(app.joinPath(app.globalData.xcxUrl, resd.data));

@@ -1,10 +1,12 @@
 <template name="version">
-    <view class='footer flex-col flex-center cgray font-xs pd20'>
-        <view>
-        <text>Copyright © </text>
-        <text class='bolder pdr label or-label small'>58daiyan.com</text>
-        <text> Since 2018 </text>
-        </view>
-        <view class='pdc'>VER <text class='label bolder'>{{version}}</text> </view>
+  <view class='footer flex-col flex-center cgray font-xs'>
+    <view class='full-width'>
+      <official-account></official-account>
     </view>
+    <view class='pdc black'>
+      <text class='pdr cgray'>关注公众号了解更多资讯，会员佣金实时通知</text> 
+			<text class=''>V-</text>
+      <text class='bolder'>{{version}}</text> 
+		</view>
+  </view>
 </template>

@@ -3,7 +3,7 @@
     <image src='/resource/icon/logo.png' class='userImg lg'></image>
   </view>
   <view class='full-width flex-col pd30 flex-center' style='height:10%'>
-    <view class='or font-lg bolder pd30'>热网需要您授权并使用微信登录</view>
+    <view class='or font-lg bolder pd30'>58热网需要您授权并使用微信登录</view>
     <view class='black font-sm pdr30'>• 获取您的公开信息(昵称、头像等)</view>
   </view>
   <view style='height:40%' class='full-width pd30 flex flex-center'>

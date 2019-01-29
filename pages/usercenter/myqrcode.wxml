@@ -11,9 +11,13 @@
             </view>
         </view>
         <canvas canvas-id='qrCanvas' class='qrcode'></canvas>
-        <view class='flex flex-center'>
-            <text class='cgray font-xs'>本二维码仅限热网小程序中使用</text>
+				<view class='flex flex-center'>
+            <text class='black font-sm bolder'>扫一扫直接进入小程序</text>
         </view>
+        <view class='flex flex-center'>
+            <text class='cgray font-xs'>本二维码仅限58热网小程序中使用</text>
+        </view>
+				
     </view>
     <view></view>
 </view>

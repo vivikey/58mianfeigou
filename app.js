@@ -1,12 +1,12 @@
-const regeneratorRuntime = require('./comm/regenerator-runtime') //-- v2.X
+const regeneratorRuntime = require('./comm/regenerator-runtime') 
 import $ from './comm/request.js'
 App({
   globalData: {
-    version: '2.6.0', //-- v2.X
-    appname: '热网小程序',
+    version: '1.09.1901298', 
+    appname: '58热网小程序',
     login: false,
     baseUrl: 'https://m.58daiyan.com',
-    xcxUrl: 'https://xcx.58daiyan.com', //-- v2.X
+    xcxUrl: 'https://xcx.58daiyan.com', 
     userInfo: {
       code: null,
       nickName: null,
@@ -26,8 +26,8 @@ App({
     user: null, //-- 当前用户 v2.X
     member: null,
     authed: null,
-    shareImg: ['https://m.58daiyan.com/static/game/game_share.jpg', 'https://m.58daiyan.com/static/game/mall_share.jpg'],
-    shareTB: '免费好产品，人人都有份!',
+    shareImg: ['https://m.58daiyan.com/static/game/mall_share.jpg'],
+		shareTB: '做更高效率的新零售！',
     showPage: '/pages/index/index',
     currGift: null
   },
@@ -41,23 +41,27 @@ App({
 				return '待付款'
 			case 1001:
 			case 1021:
+			case 1031:
 				return '待发货'
 			case 1011:
 			case 2011:
-				return '拼团中'
+				return '待成团'
 			case 1002:
 			case 1012:
 			case 1022:
 			case 1043:
+			case 1032:
 				return '待收货'
 			case 2003:
 			case 2013:
 			case 2023:
 			case 2043:
+			case 2033:
 				return '待消费'
 			default:
 				return '已完成'
 		}
+
 	},
 	//-- 订单来源
 	getOrderFrm(order_status) {
@@ -113,13 +117,14 @@ App({
     })
   },
   //--上传图片 
-  async _uploadImage(path) {
+	async _uploadImage(path, formData={file_type:0,file_name:''}) {
+		console.log('formData => ',formData)
     return await new Promise((resolve, reject) => {
       wx.uploadFile({
         url: `${this.globalData.xcxUrl}/api/addapi/uploadImg`,
         filePath: path,
         name: 'file',
-        formData: {},
+				formData: formData,
         success: r => {
           resolve(r)
         }
@@ -185,7 +190,7 @@ App({
     let obj = {
       path: `${this.globalData.showPage}?higher_up=${this.USER_ID()}`,
       title: this.globalData.shareTB,
-      imageUrl: this.globalData.shareImg[imgidx],
+      // imageUrl: this.globalData.shareImg[imgidx],
       success: success
     }
     return obj;
@@ -234,7 +239,7 @@ App({
     wx.showModal({
       title: 'ERROR',
       content: err_msg,
-      confirmColor: '#f00',
+			confirmColor: '#d81e06',
       confirmText: '确定',
       showCancel: false,
       success: fn
@@ -244,7 +249,7 @@ App({
     wx.showModal({
       title: 'SUCCESS',
       content: ok_msg,
-      confirmColor: '#0f0',
+			confirmColor: '#00b642',
       confirmText: '确定',
       showCancel: false,
       success: fn
@@ -253,6 +258,8 @@ App({
   CONFIME(msg, okhandle) {
     wx.showModal({
       title: '确认提醒',
+			confirmColor: '#00b642',
+			cancelColor: '#d81e06',
       content: msg,
       success: res => {
         if (res.confirm) {
@@ -262,8 +269,12 @@ App({
     })
   },
   onLaunch() {
-		
-  },  
+		console.log('App Did Launch...');
+  },
+	onShow(){
+		console.log('App Did Show...');
+
+	},
   //-- 拼接图片路径
   joinPath(p1, p2) {
     var pa = p1,
@@ -359,8 +370,8 @@ App({
     wx.showModal({
       title: obj.title || '提示',
       content: obj.content || '未设置内容',
-      confirmColor: '#f00',
-      cancelColor: '#50d1fe',
+      confirmColor: '#00b642',
+			cancelColor: '#d81e06',
       cancelText: obj.cancelText || '取消',
       confirmText: obj.confirmText || '确定',
       showCancel: obj.showCancel,

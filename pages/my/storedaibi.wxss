@@ -1,0 +1,33 @@
+.tuijian-item{
+  width:50%;
+  background: #fff;
+  padding: 0rpx;
+	border:6rpx solid #f2f2f2;
+	border-radius: 0rpx;
+}
+.tuijian-item .img{
+  width:100%;
+	border-radius:12rpx;
+}
+.tuijian-item .img image{
+	width:100%;
+  height: 300rpx;
+}
+
+.goods_brokerage {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  background: #ec9104;
+  color: #fff;
+  font-size: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6rpx;
+}
+
+.goods_brokerage text {
+  font-weight: 500;
+}

@@ -9,8 +9,8 @@
       <view class='userinfo'>
         <view class='wtcolor full-width'>
           <view class='flex-row'>
-            <view class='flex pdr bolder font-lgp'>
-              <text>{{user.nick_name}}</text>
+            <view class='flex pdr bolder font-lgp' style='width:400rpx;'>
+              <text class='txtpt'>{{user.nick_name}}</text>
             </view>
             <view class='flex flex-left font-xs'>
               <view class='flex flex-center pd' bindtap='toMyQR'>
@@ -28,50 +28,52 @@
               </view>
               <view class='pdr'>{{user.member.member_name}}</view>
             </view>
-            <view class='ziqiang flex flex-center' bindtap='toBeMember'>
+            <view class='ziqiang flex flex-center shadow' bindtap='toBeMember'>
               <image src='/resource/icon/vip.png' class='img-sm'></image>
-              <view class='pdr bolder'>自强联盟会员</view>
+              <view class='pdr bolder'>{{user.member.member_grade>0?"自强联盟":"开通"}}会员</view>
             </view>
           </view>
         </view>
       </view>
+
     </view>
-    <view class='myinfo bgw f'>
-      <view class='flex flex-left black font-sm pd20'>
-        <view class='money-item flex flex-around pd' data-type='1' bindtap='toMyBalance'>
-          <!-- <view class='money-img'>
-            <image src='/resource/icon/self-m.png'></image>
-          </view> -->
-          <view class='flex-col-auto flex-center'>
-            <view class='or bolder font-lgp'>{{user.member.member_money}}</view>
-            <view class='cap font-xs'>账户余额</view>
-          </view>
-        </view>
-        <view class='money-item flex flex-around pd' data-type='2' bindtap='toMyBalance'>
-          <!-- <view class='money-img'>
-            <image src='/resource/icon/get-m.png'></image>
-          </view> -->
-          <view class='flex-col-auto flex-center'>
-            <view class='or bolder font-lgp'>{{user.member.task_award}}</view>
-            <view class='cap font-xs'>推广费</view>
-          </view>
-        </view>
-        <view class='money-item flex flex-around pd' data-type='2' bindtap='toMyBalance'>
-          <!-- <view class='money-img'>
-            <image src='/resource/icon/get-m.png'></image>
-          </view> -->
-          <view class='flex-col-auto flex-center'>
-            <view class='or bolder font-lgp'>{{user.member.member_points}}</view>
-            <view class='cap font-xs'>积分</view>
-          </view>
+
+    <view class='full-width pdr30'>
+      <view class='flex-row font-sm wtcolor pdr20'>
+        <view class='flex-col-auto flex-center' data-type='1' bindtap='toMyBalance'>
+          <view class='font-sm'>{{user.member.member_money}}</view>
+          <view class='font-xs'>账户余额</view>
         </view>
 
+        <view class='flex-col-auto flex-center' data-type='2' bindtap='toMyBalance'>
+          <view class='font-sm'>{{user.member.task_award}}</view>
+          <view class='font-xs'>我的佣金</view>
+        </view>
+
+				<view class='flex-col-auto flex-center' data-type='5' bindtap='toMyBalance'>
+          <view class='font-sm'>0.00</view>
+          <view class='font-xs'>推荐有奖</view>
+        </view>
+        <view class='flex flex-center'>
+          <view class='btn-fix-b min-small white g font-xs greyscale' bindtap='onDeposit'>
+            <image src='/resource/icon/money_in2.png' class='img-sm radius-circle '></image>
+            充值
+          </view>
+          <view class='pd'></view>
+          <view class='btn-fix-b min-small white font-xs greyscale' bindtap='onWithdrawDeposit'>
+            <image src='/resource/icon/money_out2.png' class='img-sm radius-circle'></image>
+            提现
+          </view>
+        </view>
       </view>
+    </view>
+    <view class='pd'></view>
+    <view class='myinfo bgw f'>
       <view class='flex-row flex-around font-sm pd20 topline'>
         <navigator class='money-item flex flex-around pd' url='mytuijian'>
           <view class='flex-col-auto flex-center'>
-            <image src='/resource/icon/rm.png' class='img-mm'></image>
-            <text class='cap'>推广人脉</text>
+            <image src='/resource/icon/my-rm.png' class='img-mm'></image>
+            <text class='cap'>我的人脉</text>
           </view>
         </navigator>
         <navigator class='money-item flex flex-around pd ' url='/pages/my/myattention?type=1'>
@@ -88,9 +90,15 @@
             <text class='cap'>商品收藏</text>
             <view class='point' wx:if='{{user.collectGoods>0}}'>{{user.collectGoods}}</view>
           </view>
-
-
         </navigator>
+
+
+        <view class='money-item flex flex-around pd' bindtap='toMyJiFen'>
+          <view class='flex-col-auto flex-center'>
+            <view class='or bolder font-lgp'>{{user.member.member_integral}}</view>
+            <view class='cap font-xs'>我的积分</view>
+          </view>
+        </view>
       </view>
     </view>
   </view>
@@ -105,27 +113,27 @@
       </view>
       <view class='user flex-row flex-around font-sm topline'>
         <navigator class='flex-col-auto flex-center message' url='/pages/orders/index?idx=1'>
-          <image src='/resource/icon/wait-pay.png' class='img-mm'></image>
+          <image src='/resource/icon/order-icon1.png' class='img-mm'></image>
           <text class='cap'>待付款</text>
           <view class='point' wx:if='{{user.awaitPay>0}}'>{{user.awaitPay}}</view>
         </navigator>
         <navigator class='flex-col-auto flex-center message' url='/pages/orders/index?idx=2'>
-          <image src='/resource/icon/waitfh.png' class='img-mm'></image>
+          <image src='/resource/icon/order-icon2.png' class='img-mm'></image>
           <text class='cap'>待发货</text>
           <view class='point' wx:if='{{user.awaitShip>0}}'>{{user.awaitShip}}</view>
         </navigator>
         <navigator class='flex-col-auto flex-center message' url='/pages/orders/index?idx=3'>
-          <image src='/resource/icon/waitrec.png' class='img-mm'></image>
+          <image src='/resource/icon/order-icon3.png' class='img-mm'></image>
           <text class='cap'>待收货</text>
           <view class='point' wx:if='{{user.awaitTake>0}}'>{{user.awaitTake}}</view>
         </navigator>
         <navigator class='flex-col-auto flex-center message' url='/pages/orders/index?idx=4'>
-          <image src='/resource/icon/wait-qr.png' class='img-mm'></image>
+          <image src='/resource/icon/order-icon4.png' class='img-mm'></image>
           <text class='cap'>待消费</text>
           <view class='point' wx:if='{{user.awaitAffirm>0}}'>{{user.awaitAffirm}}</view>
         </navigator>
         <navigator class='flex-col-auto flex-center message' url='/pages/orders/index?idx=5'>
-          <image src='/resource/icon/wait-pt.png' class='img-mm'></image>
+          <image src='/resource/icon/order-icon5.png' class='img-mm'></image>
           <text class='cap'>待成团</text>
           <view class='point' wx:if='{{user.awaitGroup>0}}'>{{user.awaitGroup}}</view>
         </navigator>

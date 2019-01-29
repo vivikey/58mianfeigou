@@ -2,12 +2,11 @@
   <view class='full-width fix-t bglinearyellow shadow flex-row pd20'>
     <view class='font-sm black bolder'>{{storeName}}</view>
   </view>
-  <view class='sq'></view>
   <!-- 设置管理员 -->
-  <view class='flex flex-center pd30'>
-    <view class='pd30 bdfull flex-col-auto flex-center' bindtap='scanQR'>
-      <image src='/resource/icon/scanqr2.png' class='img-lgp'></image>
-      <text class='font-xs pdc20'>扫一扫授权</text>
+  <view class='flex flex-center bgw full-width pd30'>
+    <view class='pd30 flex-col-auto flex-center' bindtap='scanQR'>
+      <image src='/resource/icon/scanqr2.png' class='img-lgp shadow radius-circle'></image>
+      <text class='font-sm cgreen pdc20'>扫一扫授权</text>
     </view>
   </view>
 
@@ -24,7 +23,9 @@
         </view>
       </view>
       <view>
-        <view class='scanimg bgdanger wtcolor pd flex flex-center' data-uid='{{item.user_id}}' bindtap='removeOneMgr'>移除</view>
+        <view class='pd flex flex-center' data-uid='{{item.user_id}}' bindtap='removeOneMgr'>
+					<image src='/resource/icon/delete.png' class='img-sm'></image>
+				</view>
       </view>
     </view>
   </view>

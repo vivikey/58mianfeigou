@@ -19,18 +19,16 @@ let obj = {
   TypeList() { //-- 类型列表
     return '/api/showapi/showShopClass'
   },
-
-  async Do(data) {
-    let b = true;
-    if (this.url.includes('showShopClass')) {
-      b = false;
-    }
-    return await new Promise((resolve, reject) => {
-      $.Post(this.url, data, r => {
-        resolve(r.data)
-      }, null, b)
-    })
-  }
+	SpecList() { //-- 规格列表
+		return '/api/showapi/showShopSpecList'
+	},
+	async Do(data, showLoadding = true) {
+		return await new Promise((resolve, reject) => {
+			$.Post(this.url, data, r => {
+				resolve(r.data)
+			}, null, showLoadding)
+		})
+	}
 }
 
 const Shop = new Proxy(obj, {

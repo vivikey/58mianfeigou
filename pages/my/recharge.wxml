@@ -1,7 +1,7 @@
 <view class="container gray fullscreen pd30 font-sm">
     <view class='content'>
         <view>
-            <text class='skr bolder font-lgp'>热网充值缴费中心</text>
+            <text class='skr bolder font-lgp'>58热网充值缴费中心</text>
         </view>
         <!-- type 1.交年费 -->
         <view wx:if='{{type==1}}'>

@@ -1,15 +1,53 @@
-<view class="container gray pd30 font-sm">
-    <view class='content'>
-        <view class='pd30'>
-            <image src='/resource/icon/daibi.png' class='img-lgp'></image>
-            <text class='pd30'>我的代币</text>
-            <text class='pd30 skr font-lgpp bolder'>{{member.token}}</text>
-            <text class='pd'></text>
-            <navigator url='/pages/my/recharge?type=4&money=0' class='bgpk wtcolor'>充值</navigator>
-            <text class='pd20'></text>
-            <navigator class='font-sm cprimary bdfull' url='payhistory'>明细</navigator>
-        </view>
+<view class="container gray">
+  <view class='full-width radius-m shadow'>
+    <view class='top-menu flex flex-center pdc20 font-md bolder'>我的积分：{{user.member.member_integral}}</view>
+    <view class='top-menu bgw bottomline pd20 flex-row'>
+      <view class='flex flex-around top-menu-kk'>
+        <view class='top-menu-item {{type==1?"active":""}}' id='1' bindtap='onChangeType'>获取积分记录</view>
+        <view class='top-menu-item {{type==2?"active":""}}' id='2' bindtap='onChangeType'>使用积分记录</view>
+      </view>
+      <view class='btn-uploadimg' bindtap='choseImg'>
+        <image src='/resource/icon/saveimg.png'></image>
+        <text>上传截图</text>
+      </view>
     </view>
+  </view>
+
+  <view class='full-width pd20' wx:if='{{type==1}}'>
+    <view class='sq'></view>
+    <import src="/template/nothing/item.wxml" />
+    <template is="nothing" data='{{datalist:imgList,Msg:"~空空如也~"}}'></template>
+    <view class='full-width flex flex-wrap'>
+      <view wx:for='{{imgList}}' wx:key='index' class='tuijian-item shadow'>
+        <view class='img rel'>
+          <image src='{{item.imgPath}}' bindtap='showBigImg' data-src='{{item.imgPath}}'></image>
+          <view class='goods_brokerage'>
+            <text>{{item.addtime}}</text>
+          </view>
+        </view>
+        <view class='full-width flex flex-center font-md pd'>
+          <view class='black' wx:if='{{item.check_status==0}}'>
+            <text class='label'>待审核</text>
+          </view>
+          <view class='cgreen' wx:if='{{item.check_status==1}}'>
+            <text class='label green-label'>审核通过</text>
+            <text class='pdr pkcolor bolder font-md'>+10</text>
+          </view>
+          <view class='pkcolor flex-row' wx:if='{{item.check_status==2}}'>
+            <text class='label or-label'>审核未通过</text>
+            <text class='font-xs pkcolor' bindtap='reUpload' data-img='{{item.check_img}}' data-id='{{item.id}}'>重新上传</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+
+  <view class='full-width pd20' wx:if='{{type==2}}'>
+    <import src="/template/nothing/item.wxml" />
+    <template is="nothing" data='{{datalist:usedList,Msg:"~空空如也~"}}'></template>
+  </view>
 </view>
-<import src="/template/smallmenu/smallmenu.wxml" />
-<template is="smallmenu" data="{{showsmallmenu:flase,smallmenuclosed:smallmenuclosed}}"></template>
+
+<import src="/template/tohome/tohome.wxml" />
+<template is="tohome"></template>

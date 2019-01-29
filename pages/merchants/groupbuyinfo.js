@@ -25,7 +25,7 @@ Page({
       goods_click: 1000, //-- 商品热度
       goods_limit: 0, //--限购：0不限
       goods_key: '', //-- 商品键
-      goods_brokerage: 0, //-- 推广费
+      goods_brokerage: 0, //-- 佣金
       goods_describe: '', //-- 商品详情
       goods_img: [], //-- 商品图片
       goods_banners: [] //-- 商品轮播图
@@ -75,6 +75,20 @@ Page({
 		} else {
 			this.initTypeList(0, 0, 0)
 		}
+	},
+	//-- 获取商品规格列表
+	getSpecList(){
+		Shop.SpecList({
+			user_id:app.USER_ID(),
+			goods_id: this.data.goods_id
+		}).then(r=>{
+			console.log('Shop.SpecList => ',r)
+			if(r.code==200){
+				this.setData({
+					goods_spec: r.data.filter(u => u.is_delete==0)
+				})
+			}
+		})
 	},
   //-- 初始化商品类型列表数据
   initTypeList(pid1, pid2, pid3) {
@@ -239,7 +253,7 @@ Page({
       sourceType: ['album', 'camera'],
       success: (res) => {
         let image = res.tempFilePaths[0]
-        app._uploadImage(image).then(r => {
+				app._uploadImage(image, { file_type: 3, file_name: '' }).then(r => {
           var resd = JSON.parse(r.data)
           if (resd.code == 200) {
             spec_item.spec_img = app.joinPath(app.globalData.xcxUrl, resd.data);
@@ -278,7 +292,7 @@ Page({
         for (var i = 0; i < tempFilePaths.length; i++) {
           var image = tempFilePaths[i]
 
-          app._uploadImage(image).then(r => {
+					app._uploadImage(image, { file_type: 3, file_name: '' }).then(r => {
             var resd = JSON.parse(r.data)
             if (resd.code == 200) {
               goods[e.currentTarget.id].push(app.joinPath(app.globalData.xcxUrl, resd.data));
@@ -295,28 +309,28 @@ Page({
   },
   //-- 删除一个规格事件
   removeSpecsItem(e) {
-    let goods_spec = this.data.goods_spec
-    let idx = e.currentTarget.dataset.idx
-    if (goods_spec[idx].id > 0) {
-      Spec.Delete({
-        user_id: app.USER_ID(),
-        spec_id: goods_spec[idx].id
-      }).then(r => {
-        if (r.code == 200) {
-          goods_spec.splice(idx, 1);
-          this.setData({
-            goods_spec: goods_spec
-          })
-        } else {
-          app.ERROR("删除已有规格失败!")
-        }
-      })
-    } else {
-      goods_spec.splice(idx, 1);
-      this.setData({
-        goods_spec: goods_spec
-      })
-    }
+		app.CONFIME('确定要删除该规格吗？',()=>{
+			let goods_spec = this.data.goods_spec
+			let idx = e.currentTarget.dataset.idx
+			if (goods_spec[idx].id > 0) {
+				Spec.Delete({
+					user_id: app.USER_ID(),
+					spec_id: goods_spec[idx].id
+				}).then(r => {
+					if (r.code == 200) {
+						app.msg('删除成功')
+						this.getSpecList()
+					} else {
+						app.ERROR("删除已有规格失败!")
+					}
+				})
+			} else {
+				goods_spec.splice(idx, 1);
+				this.setData({
+					goods_spec: goods_spec
+				})
+			}
+		})    
   },
 	//-- 编辑一个规格事件
 	editSpecsItem(e) {
@@ -366,13 +380,14 @@ Page({
       Spec.Post(spec_item).then(r => {
         if (r.code == 200) {
           app.SUCCESS('规格确认成功！')
-          let goods_spec = this.data.goods_spec
-          spec_item.id = r.data
-          goods_spec.push({...spec_item})
-          this.setData({
-            goods_spec: goods_spec,
-						spec_item: this.initSpecItem()
-					}, this.initData)
+					this.getSpecList()
+          // let goods_spec = this.data.goods_spec
+          // spec_item.id = r.data
+          // goods_spec.push({...spec_item})
+          // this.setData({
+          //   goods_spec: goods_spec,
+					// 	spec_item: this.initSpecItem()
+					// }, this.getSpecList)
         } else {
           app.ERROR("规格确认失败！")
         }
@@ -406,7 +421,7 @@ Page({
     if (goods.goods_limit.length <= 0 || goods.goods_limit < 0) {
       goods.goods_limit = 0
     }
-    // //-- 推广费检查
+    // //-- 佣金检查
     // if (goods.goods_brokerage.length <= 0 || goods.goods_brokerage < 0) {
     //   goods.goods_brokerage = 0
     // }

@@ -46,13 +46,19 @@ let obj = {
 	DeleteAdmin() {
 		return '/api/Addapi/delStoreAdmin'
 	},//-- 移除管理员
-  async Do(data) {
-    return await new Promise((resolve, reject) => {
-      $.Post(this.url, data, r => {
-        resolve(r.data)
-      }, null, true)
-    })
-  }
+	ShowStoreCashPledge() {
+		return '/api/Purchaseapi/showStoreCashPledge'
+	},//-- 显示店铺保证金的费用
+	PayStoreCashPledge() {
+		return '/api/Purchaseapi/payStoreCashPledge'
+	},//-- 选择对应的保证金费用进行支付
+	async Do(data, showLoadding = true) {
+		return await new Promise((resolve, reject) => {
+			$.Post(this.url, data, r => {
+				resolve(r.data)
+			}, null, showLoadding)
+		})
+	}
 }
 
 const Store = new Proxy(obj, {

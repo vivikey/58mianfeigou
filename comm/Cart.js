@@ -22,12 +22,12 @@ let obj = {
 	Recom() {
 		return '/api/recommend/StoreCartInfoByRecom'
 	}, //-- 推荐有奖购物车列表
-  async Do(data) {
-    return await new Promise((resolve, reject) => {
-      $.Post(this.url, data, r => {
-        resolve(r.data)
-      }, null, true)
-    })
+	async Do(data, showLoadding = true) {
+		return await new Promise((resolve, reject) => {
+			$.Post(this.url, data, r => {
+				resolve(r.data)
+			}, null, showLoadding)
+		})
 	},
 	async DoNoLoading(data) {
 		return await new Promise((resolve, reject) => {

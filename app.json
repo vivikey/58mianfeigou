@@ -33,10 +33,10 @@
 		"pages/my/recharge",
 		"pages/my/payhistory",
 		"pages/my/mydaibi",
+		"pages/my/storedaibi",
 		"pages/shop/customer",
 		"pages/usercenter/userdesc",
 		"pages/groupbuy/index",
-		"pages/groupbuy/detail",
 		"pages/merchants/groupbuymgr",
 		"pages/merchants/groupbuyinfo",
 		"pages/groupbuy/injoin",
@@ -52,13 +52,10 @@
 		"pages/merchants/recommend",
 		"pages/poster/publishcomm",
 		"pages/merchants/schemeinfo",
-		"pages/tuijian/index",
-		"pages/tuijian/detail",
 		"pages/usercenter/mytuijian",
 		"pages/usercenter/mytjdetail",
 		"pages/usercenter/balance",
 		"pages/store/balance",
-		"pages/tuijian/fangan",
 		"pages/merchants/giftinfotj",
 		"pages/merchants/customs",
 		"pages/merchants/importgiftlist",
@@ -93,7 +90,7 @@
 	},
 	"window": {
 		"navigationBarBackgroundColor": "#d81e06",
-		"navigationBarTitleText": "热网小程序",
+		"navigationBarTitleText": "58热网小程序",
 		"navigationBarTextStyle": "white",
 		"backgroundColor": "#f2f2f2",
 		"backgroundTextStyle": "light",
@@ -126,7 +123,7 @@
 			},
 			{
 				"pagePath": "pages/usercenter/index",
-				"text": "我的",
+				"text": "个人中心",
 				"iconPath": "/resource/icon/user.png",
 				"selectedIconPath": "/resource/icon/user-atv.png"
 			}

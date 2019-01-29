@@ -1,70 +1,78 @@
-<view class='container font-xs btn-color-gray'>
-  <!-- StoreInfo -->
-  <view class='bgw flex-row pd20'>
-    <!-- StoreName -->
-    <view class='store-info'>
-      <view class='black bolder font-lg'>{{store.store_name}}</view>
-      <view class='pdc flex flex-center'>
-        <text class='label small green-label'>{{store.start_time}}</text>
-        <text class='label small orange-label'>{{store.end_time}}</text>
+<view class='container bgw font-xs'>
+  <!-- 普通商铺 -->
+  <view wx:if='{{store.id!=51}}' class=''>
+    <!-- StoreInfo -->
+    <view class='bgw flex-row pd20'>
+      <!-- StoreName -->
+      <view class='store-info'>
+        <view class='black bolder font-lg'>{{store.store_name}}</view>
+        <view class='pdc flex flex-center'>
+          <text class='label small green-label'>{{store.start_time}}</text>
+          <text class='label small orange-label'>{{store.end_time}}</text>
+        </view>
+        <view class='flex-row pdc'>
+          <view class='flex flex-center' bindtap='callPhone'>
+            <image src='/resource/icon/tel.png' class='img-xs'></image>
+            <text class='pdr pkcolor'>{{store.store_phone}}</text>
+          </view>
+          <view class='pdr20 flex'>
+            <view class='flex flex-center pdr20' bindtap='openShareWnd'>
+              <image src='/resource/icon/share3.png' class='img-sm'></image>
+            </view>
+            <view class='flex flex-center pdr20' bindtap='onAttent'>
+              <image src='{{store.attent_img}}' class='img-sm'></image>
+            </view>
+          </view>
+        </view>
       </view>
-      <view class='flex-row pdc'>
-        <view class='flex flex-center' bindtap='callPhone'>
-          <image src='/resource/icon/tel.png' class='img-xs'></image>
-          <text class='pdr pkcolor'>{{store.store_phone}}</text>
-        </view>
-        <view class='pdr20 flex'>
-          <view class='flex flex-center pdr20' bindtap='openShareWnd'>
-            <image src='/resource/icon/share3.png' class='img-sm'></image>
-          </view>
-          <view class='flex flex-center pdr20' bindtap='onAttent'>
-            <image src='{{store.attent_img}}' class='img-sm'></image>
-          </view>
-        </view>
+      <!-- StoreLogo -->
+      <view class='store-logo'>
+        <image src='{{store.store_logo}}'></image>
       </view>
     </view>
-    <!-- StoreLogo -->
-    <view class='store-logo'>
-      <image src='{{store.store_logo}}'></image>
+    <view class='flex-row bottomline topline arrow pd20' bindtap='openMap'>
+      <view class='flex flex-center'>
+        <image src='/resource/icon/position.png' class='img-xs'></image>
+        <text class='pdr txtpt black'>{{store.store_addr}}</text>
+      </view>
     </view>
   </view>
-  <view class='flex-row bottomline topline arrow pd20' bindtap='openMap'>
-    <view class='flex flex-center'>
-      <image src='/resource/icon/position.png' class='img-xs'></image>
-      <text class='pdr txtpt black'>{{store.store_addr}}</text>
-    </view>
+  <!-- 积分商城 -->
+  <view wx:if='{{store.id==51}}' class='bgw flex flex-center' style='width:750rpx;height:280rpx;'>
+    <image src='/resource/images/jf.jpg' mode='aspectFill' style='width:750rpx;height:280rpx;'></image>
   </view>
   <!-- Notice -->
-  <view class='full-width pd20 bglightgray'>
+  <view class='pd20 {{store.id!=51?"bglightgray":"bg-notice-jifeng"}}'>
     <swiper class='dynamic flex flex-center midd black' indicator-dots="{{false}}" autoplay="{{true}}" circular="{{true}}" interval="{{3000}}" vertical='{{true}}' duration="{{500}}">
       <swiper-item wx:for='{{noticeList}}' wx:key='id' class='flex flex-center'>
         <view class='full-width font-sm bolder flex flex-center' data-idx='{{index}}' bindtap='onShowNotice'>
-          <text class='redcolor txtpt font-underline'>{{item.notice_name}}</text>
+          <text class='{{store.id!=51?"redcolor":"wtcolor"}} txtpt'>{{item.notice_name}}</text>
         </view>
       </swiper-item>
     </swiper>
   </view>
   <!-- NavList -->
-  <view class='pdr20 pdc full-width bottomline'>
+  <view class='pdr20 pdc bgw bottomline' wx:if='{{store.id!=51}}'>
     <scroll-view class="scroll-view_H" scroll-x>
       <view class='scroll-view-item_H {{classNavActIdx==item.key?"active":""}} bolder pdc' wx:for='{{classNavList}}' wx:key='' id='{{item.key}}' bindtap='onClassNavClick' wx:if='{{item.key>=0}}'>{{item.val}}</view>
     </scroll-view>
     <view class='sortbox' wx:if='{{classNavActIdx<4}}'>
-      <view class='label small {{sortTypeId==item.key?"red-label":""}} ' wx:for='{{sortType}}' wx:key='' id='{{item.key}}' bindtap='onSortTypeClick'>{{item.val}}</view>
+      <view class='label small {{sortTypeId==item.key?"or-label":""}} ' wx:for='{{sortType}}' wx:key='' id='{{item.key}}' bindtap='onSortTypeClick'>{{item.val}}</view>
     </view>
   </view>
   <!-- 赠品 -->
-  <view class='full-width pd20' wx:if='{{classNavActIdx==0}}'>
+  <view class='pd' wx:if='{{classNavActIdx==0}}'>
     <!-- giftList is empty -->
     <import src="/template/nothing/item.wxml" />
-    <template is="nothing" data='{{datalist:giftList,Msg:"该商铺未发布免费赠品"}}'></template>
+    <template is="nothing" data='{{datalist:giftList,Msg:"该商铺未发布免费赠品"}}' wx:if='{{store.id!=51}}'></template>
+    <template is="nothing" data='{{datalist:giftList,Msg:"暂未发布积分商品，敬请期待！"}}' wx:if='{{store.id==51}}'></template>
     <!-- giftList -->
     <view wx:for='{{giftList}}' wx:key='' class='full-width pd flex-row'>
       <view class='store_shop_specimg rel' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail'>
         <image src='{{item.spec.spec_img}}'></image>
-				<view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>推广费
-            <text>{{item.goods_brokerage}}</text>
-          </view>
+        <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>销售佣金
+          <text>{{item.goods_brokerage}}</text>
+        </view>
       </view>
       <view class='store_shop_info bottomline pdc'>
         <view>
@@ -77,26 +85,35 @@
           </view>
         </view>
         <view class='flex-row'>
-          <view>
-            <!-- <text class='label small yellow-label'>{{item.spec.integral}}积分</text> -->
+          <view class='font-sm flex'>
+            <view class='redcolor font-md bolder' wx:if='{{item.spec.member_grade==0}}'>
+              <text class='font-lg'>{{item.spec.integral}}<text class='font-x'>积分</text></text>
+            </view>
+            <view class='redcolor font-md bolder' wx:if='{{item.spec.member_grade>0}}'>
+              <image src='/resource/icon/m-nav-5.png' class='img-sm'></image>
+            </view>
+            <view class='cgray txtmidline'>￥{{item.spec.spec_price}}</view>
           </view>
-          <view class='btn-fix-b green min-small' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail'>
-            <text class='wtcolor'>我要领取</text>
+          <view class='btn-fix-b green min-small' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail' wx:if='{{item.spec.member_grade==0}}'>
+            <text class='wtcolor'>我要兑换</text>
+          </view>
+          <view class='btn-fix-b min-small' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail' wx:if='{{item.spec.member_grade>0}}'>
+            <text class='wtcolor'>会员限免</text>
           </view>
         </view>
       </view>
     </view>
   </view>
   <!-- 拼团 -->
-  <view class='full-width pd20' wx:if='{{classNavActIdx==1}}'>
+  <view class='pd' wx:if='{{classNavActIdx==1}}'>
     <import src="/template/nothing/item.wxml" />
     <template is="nothing" data='{{datalist:tuanList,Msg:"该商铺未发布拼团活动"}}'></template>
     <view wx:for='{{tuanList}}' wx:key='index' class='full-width pd flex-row'>
       <view class='store_shop_specimg rel' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail'>
         <image src='{{item.spec.spec_img}}'></image>
-        <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>推广费
-            <text>{{item.goods_brokerage}}</text>
-          </view>
+        <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>销售佣金
+          <text>{{item.goods_brokerage}}</text>
+        </view>
       </view>
       <view class='store_shop_info bottomline pdc'>
         <view>
@@ -127,15 +144,15 @@
     </view>
   </view>
   <!-- 商品列表 -->
-  <view class='full-width pd20' wx:if='{{classNavActIdx==2}}'>
+  <view class='pd' wx:if='{{classNavActIdx==2}}'>
     <import src="/template/nothing/item.wxml" />
     <template is="nothing" data='{{datalist:shopList,Msg:"该商铺未发布商品信息"}}'></template>
     <view wx:for='{{shopList}}' wx:key='index' class='full-width pd flex-row'>
       <view class='store_shop_specimg rel' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail'>
         <image src='{{item.spec.spec_img}}'></image>
-        <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>推广费
-            <text>{{item.goods_brokerage}}</text>
-          </view>
+        <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>销售佣金
+          <text>{{item.goods_brokerage}}</text>
+        </view>
       </view>
       <view class='store_shop_info bottomline pdc'>
         <view>
@@ -172,16 +189,16 @@
 
   </view>
   <!-- 推荐有奖 -->
-  <view class='full-width pd20' wx:if='{{classNavActIdx==3}}'>
+  <view class='pd' wx:if='{{classNavActIdx==3}}'>
     <!-- userCommList is empty -->
     <import src="/template/nothing/item.wxml" />
     <template is="nothing" data='{{datalist:recomShopList,Msg:"没有参加推荐有奖的商品"}}'></template>
     <view wx:for='{{recomShopList}}' wx:key='index' class='full-width pd flex-row'>
       <view class='store_shop_specimg rel' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail'>
         <image src='{{item.spec.spec_img}}'></image>
-        <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>推广费
-            <text>{{item.goods_brokerage}}</text>
-          </view>
+        <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>销售佣金
+          <text>{{item.goods_brokerage}}</text>
+        </view>
       </view>
       <view class='store_shop_info bottomline pdc'>
         <view>
@@ -217,7 +234,7 @@
     </view>
   </view>
   <!-- business_license-->
-  <view class='full-width pd20' wx:if='{{classNavActIdx==4}}'>
+  <view class='pd' wx:if='{{classNavActIdx==4}}'>
     <view class='pdc30'>
       <view class='full-width ' wx:for='{{store.business_license}}' wx:key='index'>
         <image src='{{item}}' class='full-width' mode='widthFix'></image>
@@ -225,7 +242,7 @@
     </view>
   </view>
   <!-- Content-->
-  <view class='full-width pd20' wx:if='{{classNavActIdx==5}}'>
+  <view class='pd' wx:if='{{classNavActIdx==5}}'>
     <view class=''>
       <text>{{store.store_intro}}</text>
     </view>
@@ -235,115 +252,149 @@
       </view>
     </view>
   </view>
-  <import src="/template/version/version.wxml" />
-  <template is="version" data="{{version}}"></template>
+	<view class='bglightgray'>
+		<import src="/template/version/version.wxml" />
+		<template is="version" data="{{version}}"></template>
+</view>
+</view>
+<!-- 以下是购物车-->
+<view wx:if='{{store.id!=51}}'>
+  <!-- 商铺购物车 -->
+  <view class='fix-b store-cart font-sm {{showCartList?"full":""}}' catchtouchmove='true' wx:if='{{classNavActIdx!=3}}'>
+    <!-- shop list -->
+    <view class='shop-list bgw mg-b20' wx:if='{{showCartList}}'>
+      <view class='full-width bglinearyellow shadow flex-row pd20'>
+        <view class='font-sm black bolder'>已选商品</view>
+      </view>
+      <view class='itemList'>
+        <view wx:for='{{storeCart.cart_list}}' wx:key='cart_id' class='items flex-row pd20 bottomline'>
+          <view class='font-sx black title'>
+            <view class='full-width txtpt'>{{item.goods_name}}</view>
+            <view class='font-x cgray'>{{item.spec_size}} {{item.spec_color}}</view>
+          </view>
+          <view class='label small white-label'>￥{{item.spec_price}}</view>
+          <view class='flex flex-center'>
+            <view class='pdr flex flex-center' data-idx='{{index}}' bindtap='exportFromCart2'>
+              <image src='/resource/icon/sub.png' class='img-sm'></image>
+            </view>
+            <view class='pdr flex flex-center font-sm bolder black'>
+              <text>{{item.spec_num}}</text>
+            </view>
+            <view class='pdr flex flex-center' data-idx='{{index}}' bindtap='importToCart2'>
+              <image src='/resource/icon/add.png' class='img-sm'></image>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <!-- opt bar -->
+    <view class='opt-bar flex-row'>
+      <view class='cart flex flex-center'>
+        <view class='cart-box bgw flex flex-center' bindtap='toHome'>
+          <image src='/resource/icon/index-atv.png' class='img-sm'></image>
+        </view>
+        <view class='cart-box flex flex-center message {{storeCart.total_num>0?"":"empty"}}' bindtap='onShowCartListClick'>
+          <text class='point flex flex-center' wx:if='{{storeCart.total_num>0}}'>{{storeCart.total_num}}</text>
+          <image src='{{storeCart.total_num>0?"/resource/icon/cart3.png":"/resource/icon/cart.png"}}' class='img-sm'></image>
+        </view>
+        <view class='font-md cgray pdr20'></view>
+        <view class='pdr20'>
+          <view class='font-sm wtcolor ' wx:if='{{storeCart.total_num>0}}'>￥{{storeCart.total_price}}</view>
+          <view class='font-sm lightgray ' wx:if='{{storeCart.total_num<=0}}'>未选购商品</view>
+          <view class='font-xs wtcolor ' wx:if='{{storeCart.total_num>0}}'>
+            <text>运费：+{{storeCart.transport_cost}}</text>，
+            <text>抵扣：-{{storeCart.discount_money}}</text>
+          </view>
+          <view class='font-xs lightgray ' wx:if='{{storeCart.total_num<=0}}'></view>
+        </view>
+      </view>
+      <view class='go flex flex-center bggreen bolder' wx:if='{{storeCart.total_num>0}}' bindtap='toCartOrder'>去结算</view>
+      <view class='go flex flex-center bggray txtmidline' wx:if='{{storeCart.total_num<=0}}'>去结算</view>
+    </view>
+  </view>
+
+  <!-- 推荐有奖购物车 -->
+  <view class='fix-b store-cart font-sm {{showRecomCartList?"full":""}}' catchtouchmove='true' wx:if='{{classNavActIdx==3}}'>
+    <!-- shop list -->
+    <view class='shop-list bgw mg-b20' wx:if='{{showRecomCartList}}'>
+      <view class='full-width bglinearyellow shadow flex-row pd20'>
+        <view class='font-sm black bolder'>已选推荐有奖商品</view>
+      </view>
+      <view class='itemList'>
+        <view wx:for='{{recomCart.cart_list}}' wx:key='cart_id' class='items flex-row pd20 bottomline'>
+          <view class='font-sx black title'>
+            <view class='full-width txtpt'>{{item.goods_name}}</view>
+            <view class='font-x cgray'>{{item.spec_size}} {{item.spec_color}}</view>
+          </view>
+          <view class='label small white-label'>￥{{item.spec_price}}</view>
+          <view class='flex flex-center'>
+            <view class='pdr flex flex-center' data-idx='{{index}}' bindtap='exportFromRecomCart2'>
+              <image src='/resource/icon/sub.png' class='img-sm'></image>
+            </view>
+            <view class='pdr flex flex-center font-sm bolder black'>
+              <text>{{item.spec_num}}</text>
+            </view>
+            <view class='pdr flex flex-center' data-idx='{{index}}' bindtap='importToRecomCart2'>
+              <image src='/resource/icon/add.png' class='img-sm'></image>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <!-- opt bar -->
+    <view class='opt-bar flex-row'>
+      <view class='cart flex flex-center'>
+        <view class='cart-box bgw flex flex-center' bindtap='toHome'>
+          <image src='/resource/icon/index-atv.png' class='img-sm'></image>
+        </view>
+        <view class='cart-box or flex flex-center message {{recomCart.total_num>0?"":"empty"}}' bindtap='onShowRecomCartListClick'>
+          <text class='point flex flex-center' wx:if='{{recomCart.total_num>0}}'>{{recomCart.total_num}}</text>
+          <image src='{{recomCart.total_num>0?"/resource/icon/cart3.png":"/resource/icon/cart.png"}}' class='img-sm'></image>
+        </view>
+        <view class='font-md cgray pdr20'></view>
+        <view class='pdr20'>
+          <view class='font-sm wtcolor ' wx:if='{{recomCart.total_num>0}}'>￥{{recomCart.total_price}}</view>
+          <view class='font-sm lightgray ' wx:if='{{recomCart.total_num<=0}}'>未选购推荐有奖商品</view>
+          <view class='font-xs wtcolor ' wx:if='{{recomCart.total_num>0}}'>
+            <text>运费：+{{recomCart.transport_cost}}</text>，
+            <text>抵扣：-{{recomCart.discount_money}}</text>
+          </view>
+          <view class='font-xs lightgray ' wx:if='{{recomCart.total_num<=0}}'></view>
+        </view>
+      </view>
+      <view class='go flex flex-center bgor bolder' wx:if='{{recomCart.total_num>0}}' bindtap='toRecomCartOrder'>去结算</view>
+      <view class='go flex flex-center bggray txtmidline' wx:if='{{recomCart.total_num<=0}}'>去结算</view>
+    </view>
+  </view>
 </view>
 
-<!-- 商铺购物车 -->
-<view class='fix-b store-cart font-sm {{showCartList?"full":""}}' catchtouchmove='true' wx:if='{{classNavActIdx!=3}}'>
-  <!-- shop list -->
-  <view class='shop-list bgw mg-b20' wx:if='{{showCartList}}'>
-    <view class='full-width bglinearyellow shadow flex-row pd20'>
-      <view class='font-sm black bolder'>已选商品</view>
-    </view>
-    <view class='itemList'>
-      <view wx:for='{{storeCart.cart_list}}' wx:key='cart_id' class='items flex-row pd20 bottomline'>
-        <view class='font-sx black title'>
-          <view class='full-width txtpt'>{{item.goods_name}}</view>
-          <view class='font-x cgray'>{{item.spec_size}} {{item.spec_color}}</view>
+<!-- 积分商城 -->
+<view wx:if='{{store.id == 51}}'>
+  <view class='fix-b store-cart font-sm {{showCartList?"full":""}}' catchtouchmove='true'>
+    <!-- opt bar -->
+    <view class='opt-bar flex-row'>
+      <view class='cart flex flex-center'>
+        <view class='cart-box bgw flex flex-center' bindtap='toHome'>
+          <image src='/resource/icon/index-atv.png' class='img-sm'></image>
         </view>
-        <view class='label small white-label'>￥{{item.spec_price}}</view>
-        <view class='flex flex-center'>
-          <view class='pdr flex flex-center' data-idx='{{index}}' bindtap='exportFromCart2'>
-            <image src='/resource/icon/sub.png' class='img-sm'></image>
-          </view>
-          <view class='pdr flex flex-center font-sm bolder black'>
-            <text>{{item.spec_num}}</text>
-          </view>
-          <view class='pdr flex flex-center' data-idx='{{index}}' bindtap='importToCart2'>
-            <image src='/resource/icon/add.png' class='img-sm'></image>
-          </view>
+        <view class='cart-box bgw flex flex-center message'>
+          <image src='{{user.user_img}}' class='img-md radius-circle'></image>
         </view>
-      </view>
-    </view>
-  </view>
-  <!-- opt bar -->
-  <view class='opt-bar flex-row'>
-    <view class='cart flex flex-center'>
-      <view class='cart-box bgw flex flex-center' bindtap='toHome'>
-        <image src='/resource/icon/index-atv.png' class='img-sm'></image>
-      </view>
-      <view class='cart-box flex flex-center message {{storeCart.total_num>0?"":"empty"}}' bindtap='onShowCartListClick'>
-        <text class='point flex flex-center' wx:if='{{storeCart.total_num>0}}'>{{storeCart.total_num}}</text>
-        <image src='{{storeCart.total_num>0?"/resource/icon/cart3.png":"/resource/icon/cart.png"}}' class='img-sm'></image>
-      </view>
-      <view class='font-md cgray pdr20'></view>
-      <view class='pdr20'>
-        <view class='font-sm wtcolor ' wx:if='{{storeCart.total_num>0}}'>￥{{storeCart.total_price}}</view>
-        <view class='font-sm lightgray ' wx:if='{{storeCart.total_num<=0}}'>未选购商品</view>
-        <view class='font-xs wtcolor ' wx:if='{{storeCart.total_num>0}}'>
-          <text>运费：+{{storeCart.transport_cost}}</text>，
-          <text>抵扣：-{{storeCart.discount_money}}</text>
-        </view>
-        <view class='font-xs lightgray ' wx:if='{{storeCart.total_num<=0}}'></view>
-      </view>
-    </view>
-    <view class='go flex flex-center bggreen bolder' wx:if='{{storeCart.total_num>0}}' bindtap='toCartOrder'>去结算</view>
-    <view class='go flex flex-center bggray txtmidline' wx:if='{{storeCart.total_num<=0}}'>去结算</view>
-  </view>
-</view>
-
-<!-- 推荐有奖购物车 -->
-<view class='fix-b store-cart font-sm {{showRecomCartList?"full":""}}' catchtouchmove='true' wx:if='{{classNavActIdx==3}}'>
-  <!-- shop list -->
-  <view class='shop-list bgw mg-b20' wx:if='{{showRecomCartList}}'>
-    <view class='full-width bglinearyellow shadow flex-row pd20'>
-      <view class='font-sm black bolder'>已选推荐有奖商品</view>
-    </view>
-    <view class='itemList'>
-      <view wx:for='{{recomCart.cart_list}}' wx:key='cart_id' class='items flex-row pd20 bottomline'>
-        <view class='font-sx black title'>
-          <view class='full-width txtpt'>{{item.goods_name}}</view>
-          <view class='font-x cgray'>{{item.spec_size}} {{item.spec_color}}</view>
-        </view>
-        <view class='label small white-label'>￥{{item.spec_price}}</view>
-        <view class='flex flex-center'>
-          <view class='pdr flex flex-center' data-idx='{{index}}' bindtap='exportFromRecomCart2'>
-            <image src='/resource/icon/sub.png' class='img-sm'></image>
+        <view class='pdr30'>
+          <view class='flex flex-left vip-box'>
+            <view class='vip-img-box flex flex-center' wx:if='{{user.member.member_grade>0}}'>
+              <image src='/resource/icon/vip.png'></image>
+            </view>
+            <view class='pdr'>{{user.member.member_name}}</view>
           </view>
-          <view class='pdr flex flex-center font-sm bolder black'>
-            <text>{{item.spec_num}}</text>
-          </view>
-          <view class='pdr flex flex-center' data-idx='{{index}}' bindtap='importToRecomCart2'>
-            <image src='/resource/icon/add.png' class='img-sm'></image>
+          <view class='flex flex-right'>
+            <view class='cap font-xs'>我的积分</view>
+            <view class='or bolder font-lgp'>{{user.member.member_integral}}</view>
           </view>
         </view>
       </view>
+      <view class='go flex flex-center bgor bolder' bindtap='toMyDaiBi'>赚积分</view>
     </view>
-  </view>
-  <!-- opt bar -->
-  <view class='opt-bar flex-row'>
-    <view class='cart flex flex-center'>
-      <view class='cart-box bgw flex flex-center' bindtap='toHome'>
-        <image src='/resource/icon/index-atv.png' class='img-sm'></image>
-      </view>
-      <view class='cart-box flex flex-center message {{recomCart.total_num>0?"":"empty"}}' bindtap='onShowRecomCartListClick'>
-        <text class='point flex flex-center' wx:if='{{recomCart.total_num>0}}'>{{recomCart.total_num}}</text>
-        <image src='{{storeCart.total_num>0?"/resource/icon/cart3.png":"/resource/icon/cart.png"}}' class='img-sm'></image>
-      </view>
-      <view class='font-md cgray pdr20'></view>
-      <view class='pdr20'>
-        <view class='font-sm wtcolor ' wx:if='{{recomCart.total_num>0}}'>￥{{recomCart.total_price}}</view>
-        <view class='font-sm lightgray ' wx:if='{{recomCart.total_num<=0}}'>未选购推荐有奖商品</view>
-        <view class='font-xs wtcolor ' wx:if='{{recomCart.total_num>0}}'>
-          <text>运费：+{{recomCart.transport_cost}}</text>，
-          <text>抵扣：-{{recomCart.discount_money}}</text>
-        </view>
-        <view class='font-xs lightgray ' wx:if='{{recomCart.total_num<=0}}'></view>
-      </view>
-    </view>
-    <view class='go flex flex-center bggreen bolder' wx:if='{{recomCart.total_num>0}}' bindtap='toRecomCartOrder'>去结算</view>
-    <view class='go flex flex-center bggray txtmidline' wx:if='{{recomCart.total_num<=0}}'>去结算</view>
   </view>
 </view>
 <!-- 分享窗口 -->

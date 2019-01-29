@@ -1,8 +1,6 @@
 @import "/template/mainnavbox/mainnavbox.wxss";
-swiper image {
-  width: 100%;
-  height: 100%;
-}
+@import "/template/swiper.wxss";
+@import "/template/mainbar.wxss";
 .task-item-box{
 	width:345rpx;
 	padding:0;
@@ -31,6 +29,9 @@ swiper image {
 .task-info{
 	width:345rpx;
 	height: 148rpx;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 }
 .task-bkm{
 	border:1rpx solid #8EDEFF;

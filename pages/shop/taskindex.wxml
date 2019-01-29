@@ -27,7 +27,7 @@
   <view class='full-width'>
     <!-- Swiper -->
     <view class='swiper full-width'>
-      <swiper autoplay="{{true}}" circular="{{true}}" interval="{{3000}}" duration="{{500}}" class='mg-b10' bindchange='swiperChange'>
+      <swiper autoplay="{{true}}" circular="{{true}}" interval="{{3000}}" duration="{{500}}" bindchange='swiperChange'>
         <swiper-item wx:for='{{index_banner}}' wx:key=''>
           <navigator url='{{item.ad_link}}' class='swiper-navbox flex flex-center'>
             <image src='{{item.UpFilePathInfo}}' width="375" height="150"></image>
@@ -76,17 +76,17 @@
     <view class='box'>
       <view class='flex-row'>
         <view class='title full-width'>
-          <text class='didi bgorange mix'></text>
+          <text class='didi bgprimary mix'></text>
           <text class='didi bgpk half'></text>
           <text class='didi bgviolet'></text>
           <text class='pdr black'>全部推广</text>
           <text class='didi bgviolet'></text>
           <text class='didi bgpk half'></text>
-          <text class='didi bgorange mix'></text>
+          <text class='didi bgprimary mix'></text>
         </view>
       </view>
     </view>
-    <view class='box bgblue pdc'>
+    <view class='box bglist pdc'>
       <view class='full-witdh flex flex-wrap'>
         <view class='full-width flex flex-left flex-wrap'>
           <import src="/template/nothing/item.wxml" />
@@ -95,12 +95,13 @@
           <view wx:for='{{taskList}}' wx:key='' class='task-item-box' data-id='{{item.id}}' data-spec='{{item.spec.id}}' bindtap='onShopClick'>
             <view class='task-img'>
               <image src='{{item.spec.spec_img}}'></image>
-              <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>推广费
+              <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>销售佣金
                 <text>{{item.goods_brokerage}}</text>
               </view>
             </view>
             <view class='task-info pd'>
-              <view class='black bolder font-sm txtclamp txtclamp-2'>{{item.goods_name}}
+              <view class='black bolder flex flex-left font-sm txtclamp txtclamp-2'>
+								<text>{{item.goods_name}}</text>
                 <text class='label small white-label'>{{item.spec.spec_color}}</text>
                 <text class='label small white-label'>{{item.spec.spec_size}}</text>
               </view>
@@ -116,7 +117,7 @@
 								<text class='label small yellow-label bolder'>{{item.distance}}km</text>
               </view>
             </view>
-						<view class='full-width pd'><view class='full-width btn-fix-b'>去推广</view></view>
+						<!-- <view class='full-width pd'><view class='full-width btn-fix-b'>去推广</view></view> -->
           </view>
         </view>
       </view>

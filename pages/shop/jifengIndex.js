@@ -5,7 +5,6 @@ var pageObj = {
   data: {
     version: '',
     user: {},
-    userInfo: {},
     sortTypeList: [{
       key: '距离',
       value: 1
@@ -31,22 +30,9 @@ var pageObj = {
 			num: 50
     },
     index_banner: [],
-    indicatorDots: true,
-    vertical: true,
-    autoplay: true,
-    circular: true,
-    interval: 3000,
-    duration: 500,
-    previousMargin: 0,
-    nextMargin: 0,
     location: '',
-    sortType: 2,
     giftList: [],
-    msgC: 0,
-    timer: 0,
-    showbload: 0,
     sc: 0,
-    sc2: 0,
   },
   swiperChange: function(e) {
     this.setData({

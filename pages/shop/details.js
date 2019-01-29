@@ -1,4 +1,5 @@
 var app = getApp()
+import ToTop from "../../utils/ToTop.js"
 import FrontEndShop from '../../comm/FrontEndShop.js'
 import Address from '../../comm/Address.js'
 import Cart from '../../comm/Cart.js'
@@ -7,6 +8,7 @@ import Evaluate from '../../comm/Evaluate.js'
 import TimeConverter from '../../comm/TimeConverter.js'
 Page({
   data: {
+		...ToTop.data,
     user: {},
     screenHeight: 0,
     scrollPosition: 0,
@@ -26,6 +28,7 @@ Page({
     showShareWnd: false,
     timerid: 0
   },
+	...ToTop.methods,
   toCartOrder() {
     wx.navigateTo({
       url: `/pages/store/cartorder?store_id=${this.data.goods.store_id}`,
@@ -101,6 +104,7 @@ Page({
           r.data.goods_spec = r.data.goods_spec.map(u => {
             u.showT = `${u.spec_size} ${u.spec_color}`
             let member_price = parseFloat(u.spec_price) - parseFloat(r.data.goods_brokerage)
+            member_price = member_price < 0 ? 0 : member_price
             let member_group_price = parseFloat(u.group_price) - parseFloat(r.data.goods_brokerage)
             u.member_price = member_price.toFixed(2);
             u.member_group_price = member_group_price.toFixed(2)
@@ -189,12 +193,16 @@ Page({
         })
 
       }
-
     })
   },
   //-- 增加数量
   addcount: function(e) {
     let goods = this.data.goods
+
+    if (goods.group_purchase == 0 && goods.is_gift == 1 && goods.goods_spec[this.data.spec_chosed].integral > 0) {
+      app.msg('积分兑换商品一次只能兑换一个')
+      return;
+    }
     goods.goods_number++
       this.setData({
         goods: goods
@@ -283,42 +291,122 @@ Page({
       })
     }
   },
+  //-- 检测是否需要付钱
+  payMoneyChecked() {
+    //--1. 就否为线下商铺
+    let goods = this.data.goods
+    if (goods.store_info.on_line == 0) {
+      return false
+    } else {
+      let {
+        service_charge
+      } = goods.goods_spec[this.data.spec_chosed]
+      let transport_cost = goods.store_info.transport_cost
+      if (service_charge > 0 || transport_cost > 0) {
+        return true
+      } else {
+        return false
+      }
+    }
+
+  },
+  checkedAddress() {
+    if (this.data.goods.store_info.on_line == 0) {
+      return true;
+    }
+    return !this.data.defaultAddress.province == false
+  },
   //-- 领取赠品
   onGetGift(e) {
-    let goods = this.data.goods
-    let spec_chosed = this.data.spec_chosed
-    let spec = goods.goods_spec[spec_chosed]
-    //-- 如果是免费赠品
-    if (goods.is_gift == 1 && spec.integral <= 0) {
-      Order.AcGift({
-          user_id: app.USER_ID(),
-          goods_id: spec.goods_id,
-          spec_id: spec.id,
-          spec_num: 1
-        })
-        .then(r => {
-          console.log('Order.AcGift => ', r)
-          if (r.code == 200) {
-            app.SUCCESS(r.message)
-          } else {
-            app.ERROR(r.message)
-          }
-        })
-    }else{ //-- 否则，则生成订单先
-			this.directOrder()
-		}
+    if (this.checkedAddress()) {
+      let goods = this.data.goods
+      let spec_chosed = this.data.spec_chosed
+      let spec = goods.goods_spec[spec_chosed]
+      //-- 如果是赠品
+      if (goods.is_gift == 1) {
+        if (!this.payMoneyChecked()) {
+          //-- 没有服务费或运费时，直接领取
+          Order.AcGift({
+              user_id: app.USER_ID(),
+              goods_id: spec.goods_id,
+              spec_id: spec.id,
+              spec_num: 1
+            })
+            .then(r => {
+              console.log('Order.AcGift => ', r)
+              if (r.code == 200) {
+								if (r.data.order_type == 3){
+								Order.AfterIntegralPay({
+									user_id:app.USER_ID(),
+									order_id:r.data.id
+								}).then(rr=>{
+									console.log('Order.AfterIntegralPay => ',rr)
+									if(rr.code==200){
+										app.CONFIME(`领取成功，是否立即查看详情?`, () => {
+											wx.navigateTo({
+												url: `/pages/orders/orderdetail?id=${r.data.id}`
+											})
+										})
+									}else{
+										app.ERROR(rr.message)
+									}
+								}) 
+								} else{
+									app.CONFIME(`领取成功，是否立即查看详情?`, () => {
+										wx.navigateTo({
+											url: `/pages/orders/orderdetail?id=${r.data.id}`
+										})
+									})
+								}              
+              } else {
+                app.ERROR(r.message)
+              }
+            })
+        } else {
+          //-- 有服务费或运费时，去生成订单
+          this.jifengOrder()
+        }
+      } else { //-- 否则，则生成订单先
+        this.directOrder()
+      }
+    } else {
+      wx.navigateTo({
+        url: `/pages/usercenter/addressmgr?fromShop=${true}`,
+      })
+    }
   },
+  jifengOrder() {
+    this.order(2)
+  },
+	//-- 查看软文
+	toFtxt(){
+		wx.navigateTo({
+			url: `/pages/ftxt/detail?id=${this.data.goods.goods_ad}`,
+		})
+	},
   //-- 直接购买
   directOrder() {
-    this.order(true)
+    if (this.checkedAddress()) {
+      this.order(0)
+    } else {
+      wx.navigateTo({
+        url: `/pages/usercenter/addressmgr?fromShop=${true}`,
+      })
+    }
   },
   //-- 开团
   tuanOrder() {
-    this.order(false)
+    if (this.checkedAddress()) {
+      this.order(1)
+    } else {
+      wx.navigateTo({
+        url: `/pages/usercenter/addressmgr?fromShop=${true}`,
+      })
+    }
   },
   //-- 下单
   order(direct) {
-    direct = direct || false //-- true 表示直接购买
+    direct = direct || 0 //-- true 表示直接购买
     let chosedObj = { ...this.data.goods
     }
     chosedObj.goods_spec = { ...this.data.goods.goods_spec[this.data.spec_chosed]
@@ -346,7 +434,7 @@ Page({
     if (goods.group_purchase == 1) {
       title = `${app.USER().nick_name}邀您一起【拼购】：${goods.goods_name}只需￥${spec.group_price}`
     } else if (goods.is_gift == 1) {
-      title = `好礼免费领，还能赚推广费：${goods.goods_name}`
+      title = `好礼免费领，还能赚佣金：${goods.goods_name}`
     } else {
       title = `${app.USER().nick_name}向您推荐：${goods.goods_name}只需￥${spec.spec_price}`
     }
@@ -399,6 +487,16 @@ Page({
     })
   },
   onPageScroll(e) {
+		if (e.scrollTop >= 1000 && !this.data.showToTop) {
+			this.setData({
+				showToTop: true
+			})
+		}
+		if (e.scrollTop < 1000 && this.data.showToTop) {
+			this.setData({
+				showToTop: false
+			})
+		}
     this.data.scrollPosition = e.scrollTop
     wx.createSelectorQuery().select('#commbox').boundingClientRect().exec(res => {
       let r = res[0]

@@ -1,0 +1,25 @@
+<template name="yusell">
+  <!-- 弹出 -->
+  <view class='yusell flex-col flex-center bgb-opacity {{!showyusell?"hide":""}}' catchtouchmove="ture">
+    <view class='full-width pd30'>
+      <view class='content-box'>
+        <view class='bglightgray font-md pkcolor bolder pd20 flex flex-left'>
+          <view class='flex flex-center'>
+            <image src='/resource/icon/msg.png' class='img-sm'></image>
+          </view>
+          <view class='pd'>{{yusell.title}}</view>
+        </view>
+        <scroll-view class='content-txt' scroll-y>
+          <view class='pd20 full-width'>
+            <text decode='{{true}}' class='font-md black bolder full-width lh-sm'>{{yusell.content}}</text>
+          </view>
+        </scroll-view>
+        <view class='full-width flex flex-center pdc20 bglightgray'>
+          <view class='btn-fix-b min-small font-md pd20' bindtap='onCloseYuSell'>
+            <view class='wtcolor'>确定</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>

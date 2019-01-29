@@ -26,10 +26,10 @@
                 <view class='label small yellow-label'>{{item.addtime}}</view>
                 <view class='flex pdr30'>
                     <view class='flex flex-center pdr20' bindtap='deletePoster' data-id='{{item.id}}' data-idx='{{index}}'>
-                        <image src='/resource/icon/delete.svg' class='img-sm'></image>
+                        <image src='/resource/icon/delete.png' class='img-sm'></image>
                     </view>
                     <view class='flex flex-center pdr20' bindtap='editPoster' data-id='{{item.id}}' data-idx='{{index}}'>
-                        <image src='/resource/icon/edit.svg' class='img-sm'></image>
+                        <image src='/resource/icon/edit.png' class='img-sm'></image>
                     </view>
                 </view>
             </view>

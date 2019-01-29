@@ -10,13 +10,13 @@ let obj = {
 	Get() {
 		return '/api/Addapi/showAdContentInfo'
 	},//-- 详情
-  async Do(data) {
-    return await new Promise((resolve, reject) => {
-      $.Post(this.url, data, r => {
-        resolve(r.data)
-      }, null, true)
-    })
-  }
+	async Do(data, showLoadding = true) {
+		return await new Promise((resolve, reject) => {
+			$.Post(this.url, data, r => {
+				resolve(r.data)
+			}, null, showLoadding)
+		})
+	}
 }
 
 const FrontEndFTxt = new Proxy(obj, {

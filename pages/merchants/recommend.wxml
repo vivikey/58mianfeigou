@@ -24,11 +24,11 @@
       </view>
       <view class='flex flex-center'>
         <view class='flex-col-auto flex-center pdr20' data-id='{{item.id}}' bindtap='onDeleteRecom'>
-          <image src='/resource/icon/delete.svg' class='img-sm'></image>
+          <image src='/resource/icon/delete.png' class='img-sm'></image>
           <text class='font-x black'>删除</text>
         </view>
         <navigator url="recommenddetail?store_id={{storeId}}&recom_id={{item.id}}" class='flex-col-auto flex-center pdr20'>
-          <image src='/resource/icon/edit.svg' class='img-sm'></image>
+          <image src='/resource/icon/edit.png' class='img-sm'></image>
           <text class='font-x black'>配置</text>
         </navigator>
       </view>

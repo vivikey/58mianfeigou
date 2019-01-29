@@ -64,13 +64,19 @@ let obj = {
 	TakeDelivery() {
 		return '/api/Purchaseapi/userOrderFinish'
 	}, //-- 确认收货
-  async Do(data) {
-    return await new Promise((resolve, reject) => {
-      $.Post(this.url, data, r => {
-        resolve(r.data)
-      }, null, true)
-    })
-  },
+	AfterIntegralPay() {
+		return '/api/addapi/consumeIntegralByUser'
+	}, //-- 用户使用积分兑换，并且支付成功以后调用
+	AfterPaySuccess() {
+		return '/api/purchaseapi/userHasPaySuccess'
+	}, //-- 用户支付成功后调用
+	async Do(data, showLoadding = true) {
+		return await new Promise((resolve, reject) => {
+			$.Post(this.url, data, r => {
+				resolve(r.data)
+			}, null, showLoadding)
+		})
+	},
 	async DoNoLoading(data) {
 		return await new Promise((resolve, reject) => {
 			$.Post(this.url, data, r => {

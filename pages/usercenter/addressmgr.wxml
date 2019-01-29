@@ -1,4 +1,6 @@
 <view class='container bgw black'>
+          <import src="/template/nothing/item.wxml" />
+          <template is="nothing" data='{{datalist:addressList,Msg:"请先配置收货地址信息!"}}'></template>
     <view class='full-width bottomline pd20 flex-row shadow' wx:for='{{addressList}}' wx:key='id'>
         <view bindtap='toChosed' data-idx='{{index}}'>
             <view class='pdc font-sm'>
@@ -10,10 +12,10 @@
         </view>
         <view class='flex flex-around'>
             <view class='pd20' catchtap='toEditAddress' id='{{item.id}}'>
-                <image src='/resource/icon/edit.svg' class='img-sm'></image>
+                <image src='/resource/icon/edit.png' class='img-sm'></image>
             </view>
             <view class='pd20' catchtap='toDeleteAddress' id='{{item.id}}'>
-                <image src='/resource/icon/delete.svg' class='img-sm'></image>
+                <image src='/resource/icon/delete.png' class='img-sm'></image>
             </view>
         </view>
     </view>

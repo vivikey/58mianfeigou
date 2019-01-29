@@ -13,52 +13,89 @@ Page({
       transport_cost: 0
     },
     store: {},
+    order: {},
     addressList: [],
     defaultAddress: {
       district: '请配置选择收货地址'
+    },
+    paytype: 1
+  },
+  //-- 立即支付
+  toPay(order_sn, order_id) {
+    if (this.data.paytype == 1) {
+      this.ConfirmOrderAndPay(order_sn, order_id)
     }
+    if (this.data.paytype == 2) {
+      this.ConfirmOrderAndPayWithMoney(order_sn, order_id)
+    }
+  },
+  //-- 确定订单并微信支付
+  ConfirmOrderAndPay(order_sn, order_id) {
+    if (this.data.store.on_line == 1 && !this.data.defaultAddress.addr_detail) {
+      app.ERROR('请配置收货地址')
+      return
+    }
+    this.payOrder(this.data.order.order_sn, this.data.order.id)
+  },
+  //-- 确定订单并余额支付
+  ConfirmOrderAndPayWithMoney(order_sn, order_id) {
+    if (this.data.store.on_line == 1 && !this.data.defaultAddress.addr_detail) {
+      app.ERROR('请配置收货地址')
+      return
+    }
+    this.payOrder(order_sn, order.id, 1)
+  },
+  //-- 选择支付方式事件
+  onChosedPayType(e) {
+    this.setData({
+      paytype: e.currentTarget.dataset.pid
+    })
   },
   /**
    * 确定订单
    */
-  payOrder(order_sn, order_id) {
-		if (this.data.store.on_line == 1){
-    Order.OrderAddr({
-      user_id: app.USER_ID(),
-      order_id,
-      addr_id: this.data.defaultAddress.id
-    }).then(r => {
-      if (r.code == 200) {
-        Order.PayOrder({
-          user_id: app.USER_ID(),
-          order_sn
-        }).then(r => {
-          console.log('Order.PayOrder => ', r)
-					if (r.code == 200) {
-						this.useWeChatPay(r.data)
-					} else {
-						app.ERROR(`确认订单失败！`)
-
-					}
-        })
-      }else{
-				app.ERROR("订单已生成，但地址配置失败！")
-			}
-    })
-		}else{
-			Order.PayOrder({
-				user_id: app.USER_ID(),
-				order_sn
-			}).then(r => {
-				console.log('Order.PayOrder => ', r)
-				if (r.code == 200) {
-					this.useWeChatPay(r.data)
-				} else {
-					app.ERROR(`确认订单失败！`)
-
-				}
-			})
-		}
+  payOrder(order_sn, order_id, pay_type = 0) {
+    if (this.data.store.on_line == 1) {
+      Order.OrderAddr({
+        user_id: app.USER_ID(),
+        order_id,
+        addr_id: this.data.defaultAddress.id
+      }).then(r => {
+        if (r.code == 200) {
+          Order.PayOrder({
+            user_id: app.USER_ID(),
+            order_sn,
+            pay_type
+          }).then(r => {
+            console.log('Order.PayOrder => ', r)
+            if (r.code == 200) {
+              this.useWeChatPay(r.data, order_id)
+            } else if (r.code == 0 || r.code == 1) {
+              this.onSuccess(r.message, order_id)
+            } else {
+              app.ERROR(r.message)
+            }
+          })
+        } else {
+          app.ERROR("订单已生成，但地址配置失败！")
+        }
+      })
+    } else {
+      Order.PayOrder({
+        user_id: app.USER_ID(),
+        order_sn,
+        pay_type
+      }).then(r => {
+        console.log('Order.PayOrder => ', r)
+        if (r.code == 200) {
+          this.useWeChatPay(r.data, order_id)
+        } else if (r.code == 0 || r.code == 1) {
+          this.onSuccess(r.message, order_id)
+        } else {
+          app.ERROR(r.message)
+        }
+      })
+    }
 
   },
   /**
@@ -72,16 +109,14 @@ Page({
       user_id: app.USER_ID(),
       store_id: this.data.store_id,
       cart_id: ids,
-			up_user_id: app.HIGHER_UP() || 0
+      up_user_id: app.HIGHER_UP() || 0
     }).then(r => {
       console.log('Order.Submit => ', r)
       if (r.code == 200) {
-        // wx.navigateTo({
-        // 	url: `/pages/orders/pay?order_sn=${r.data.order_sn}&money=${r.data.goods_price}`,
-        // })
-        this.payOrder(r.data.order_sn, r.data.id)
+        this.data.order = r.data
+        this.toPay(r.data.order_sn, r.data.id)
       } else {
-        app.ERROR("提交订单失败！")
+        app.ERROR(r.message)
       }
     })
   },
@@ -153,8 +188,8 @@ Page({
       }))
     }
   },
-	/**微信支付 */
-  useWeChatPay(obj) {
+  /**微信支付 */
+  useWeChatPay(obj, order_id) {
     wx.requestPayment({
       'timeStamp': obj.timeStamp.toString(),
       'nonceStr': obj.nonceStr,
@@ -162,21 +197,7 @@ Page({
       'signType': obj.signType,
       'paySign': obj.paySign,
       'success': res => {
-        app.msgbox({
-          content: '支付成功',
-          showCancel: false,
-          success: d => {
-						if (this.data.store.on_line === 1) {
-							wx.navigateTo({
-								url: `/pages/orders/index?idx=2`
-							})
-						} else {
-							wx.navigateTo({
-								url: `/pages/orders/index?idx=4`
-							})
-						}
-          }
-        })
+        this.onSuccess('支付成功', order_id)
       },
       'fail': res => {
         var msg = '支付失败:';
@@ -191,12 +212,25 @@ Page({
           showCancel: false,
           success: d => {
             //-- 跳转到未付款订单页
-						wx.navigateTo({
-							url: `/pages/orders/index?idx=1`
+            wx.redirectTo({
+              url: `/pages/orders/orderdetail?id=${order.id}`
             })
           }
         })
       }
     })
   },
+  //-- 支付成功或领取成功
+  onSuccess(msg, order_id) {
+		Order.AfterPaySuccess({
+			user_id: app.USER_ID(),
+			order_id
+		}).then(r=>{
+			app.SUCCESS(msg, () => {
+				wx.redirectTo({
+					url: `/pages/orders/orderdetail?id=${order.id}`
+				})
+			})
+		})
+  }
 })

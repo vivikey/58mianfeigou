@@ -1,3 +1,6 @@
+.container > view{
+	width:100%;
+}
 .store-info{
     width:430rpx;
     display: flex;
@@ -72,6 +75,9 @@ swiper.dynamic{
 	border-radius: 80rpx;
 	transform:translate(15px,-15px);
 }
+.store-cart .opt-bar .cart-box.or{
+		background: #e97f23;
+}
 .store-cart .opt-bar .cart-box.bgw{
 		background: #fff;
 }
@@ -87,5 +93,30 @@ swiper.dynamic{
 	justify-content: space-around;
 	align-items: center;
 	padding-top: 20rpx;
+}
+
+.vip-box{
+	background: #e97f23;
+	color:#fff;
+	font-size:12px;
+	height: 36rpx;
+	padding: 1px 3px;
+	border-radius: 18rpx;
+	border:1rpx solid #fff;
+	align-self:flex-start;
+}
+.vip-img-box{
+	padding: 0rpx;
+	border-radius: 24rpx;
+	width:36rpx;
+	height: 36rpx;
+
+}
+.vip-img-box image{
+	width:100%;
+	height: 100%;
+}
+.bg-notice-jifeng{
+	background: #5D1336;
 }
 @import "/template/sharebox/sharebox.wxss";

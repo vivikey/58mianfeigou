@@ -1,99 +1,136 @@
-.merchants-item >view> image{
-  width:100%;
+.merchants-item >view> image {
+  width: 100%;
   height: 250rpx;
 }
-.item-opt-list navigator{
-    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12);
-    position: relative;
+
+.item-opt-list navigator {
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+                0 2px 2px 0 rgba(0, 0, 0, 0.14),
+                0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  position: relative;
 }
-.item-opt-list navigator.point::after{
-    content: "";
-    position:absolute;
-    top:-5rpx;
-    right:-5rpx;
-    width:30rpx;
-    height: 30rpx;
-    background: red;
-    border-radius: 50%;
+
+.item-opt-list navigator.point::after {
+  content: "";
+  position: absolute;
+  top: -5rpx;
+  right: -5rpx;
+  width: 30rpx;
+  height: 30rpx;
+  background: red;
+  border-radius: 50%;
 }
-.row{
-    width:100%;
-    background: #fff;
-    display: flex;
-    flex-direction: row;
-    flex-wrap:wrap;
-    align-items:flex-start;
-    align-content:space-around;
-    padding: 0;
+
+.row {
+  width: 100%;
+  background: #fff;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: space-around;
+  padding: 0;
 }
-.row > navigator,.row > view{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width:30%;
-    margin: 5rpx 1.5%;
-    height: 80rpx;
-    box-sizing: border-box;
+
+.row > navigator, .row > view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  margin: 5rpx 1.5%;
+  height: 80rpx;
+  box-sizing: border-box;
 }
-text.owner{
-    color:#f00;
-    padding: 0rpx 10rpx;
+
+text.owner {
+  color: #f00;
+  padding: 0rpx 10rpx;
 }
-text.mgr{
-    color:#00b642;
-    padding: 0rpx 10rpx;
+
+text.mgr {
+  color: #00b642;
+  padding: 0rpx 10rpx;
 }
-.jiaose{
-    position: absolute;
-    left:0;
-    bottom:0;
-    right:0;
-		border-radius: 18rpx;
+
+.jiaose {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  border-radius: 18rpx;
 }
-.imp{
-    background: linear-gradient(to right, #50d1fe,#fff);
-    color:#000;
+
+.imp {
+  background: linear-gradient(to right, #50d1fe, #fff);
+  color: #000;
 }
-.img-nav{
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 30rpx 0;
-    flex-direction: column;
-    width:24%;
-    font-size:14px;
-    color:#333;
-    border-bottom:1rpx solid #f0f0f0;
-		box-sizing: border-box;
-		border-left:1rpx solid #f0f0f0;
+
+.img-nav {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30rpx 0;
+  flex-direction: column;
+  width: 24%;
+  font-size: 14px;
+  color: #333;
+  border-bottom: 1rpx solid #f0f0f0;
+  box-sizing: border-box;
+  border-left: 1rpx solid #f0f0f0;
 }
-.img-nav.vas{
-	position: relative;
-	overflow: hidden;
+
+.img-nav.vas {
+  position: relative;
+  overflow: hidden;
 }
-.img-nav.vas::before{
-	content: '增值服务';
-	position: absolute;
-	left:-24rpx;
-	top:12rpx;
-	background:red;
-	color:#fff;
-	font-size:10px;
-	padding: 0 15rpx;
-	transform:rotateZ(-45deg);
+
+.img-nav.vas::before {
+  content: '增值服务';
+  position: absolute;
+  left: -24rpx;
+  top: 12rpx;
+  background: red;
+  color: #fff;
+  font-size: 10px;
+  padding: 0 15rpx;
+  transform: rotateZ(-45deg);
 }
-.img-nav:nth-child(4n){
-    border-left:1rpx solid #f0f0f0;
+
+.img-nav:nth-child(4n) {
+  border-left: 1rpx solid #f0f0f0;
 }
-.img-nav:nth-child(4n+1){
-    border-right:0rpx solid #f0f0f0;
-	  border-left:0rpx solid #f0f0f0;
+
+.img-nav:nth-child(4n+1) {
+  border-right: 0rpx solid #f0f0f0;
+  border-left: 0rpx solid #f0f0f0;
 }
-.img-nav .image{
-    width:96rpx;
-    height: 93rpx;
-    background: #f0f0f0;
-    border-radius: 96rpx;
-    overflow: hidden;
+
+.img-nav .image {
+  width: 96rpx;
+  height: 93rpx;
+  background: #f0f0f0;
+  border-radius: 96rpx;
+  overflow: hidden;
+}
+
+.to-detail {
+  width: 80rpx;
+  height: 128rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+	border-left:1px solid #f6f6f6;
+}
+.msgshow{
+	position:absolute;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	background: rgba(0, 0, 0, 0.8);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 555;
 }

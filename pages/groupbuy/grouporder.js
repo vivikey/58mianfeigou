@@ -8,7 +8,9 @@ Page({
     addressList: [],
     defaultAddress: {
       district: '请配置选择收货地址'
-    }
+    },
+    userBalancePay: false,
+    paytype: 1
   },
   onLoad: function(options) {
     var chosedObj = wx.getStorageSync('chosedObj')
@@ -40,16 +42,21 @@ Page({
   firstRun() {
     let goods = this.data.goods
     console.log('firstRun goods => ', goods)
-    if (!goods.orderDirect) {
-      if (goods.group_id) {
-        this.JoinGroup()
-      } else {
-        this.SubmitGroup()
-      }
-    } else {
-      this.Submit()
+    switch (goods.orderDirect) {
+      case 0: //--0 直购
+        this.Submit()
+        break;
+      case 1: //--1 拼团 
+        if (goods.group_id) {
+          this.JoinGroup()
+        } else {
+          this.SubmitGroup()
+        }
+        break;
+      case 2: //-- 赠品
+        this.SubmitAcGift()
+        break;
     }
-
   },
   //-- JoinGroup
   JoinGroup() {
@@ -109,6 +116,27 @@ Page({
       }
     })
   },
+  SubmitAcGift() {
+    Order.AcGift({
+      user_id: app.USER_ID(),
+      goods_id: this.data.goods.id,
+      spec_id: this.data.goods.goods_spec.id,
+      spec_num: this.data.goods.goods_number
+    }).then(r => {
+      console.log('Group.Pub => ', r)
+      if (r.code === 200) {
+        this.setData({
+          order: r.data
+        })
+      } else {
+        app.ERROR(r.message, () => {
+          wx.navigateBack({
+            detail: 1
+          })
+        })
+      }
+    })
+  },
   //-- 提交开团订单
   SubmitGroup() {
     Order.SubmitGroup({
@@ -131,13 +159,36 @@ Page({
       }
     })
   },
-  //-- 确定订单并支付
+  //-- 选择支付方式事件
+  onChosedPayType(e) {
+    this.setData({
+      paytype: e.currentTarget.dataset.pid
+    })
+  },
+  //-- 立即支付
+  toPay() {
+    if (this.data.paytype == 1) {
+      this.ConfirmOrderAndPay()
+    }
+    if (this.data.paytype == 2) {
+      this.ConfirmOrderAndPayWithMoney()
+    }
+  },
+  //-- 确定订单并微信支付
   ConfirmOrderAndPay() {
     if (this.data.order.store.on_line == 1 && !this.data.defaultAddress.addr_detail) {
       app.ERROR('请配置收货地址')
       return
     }
     this.payOrder(this.data.order.order_sn, this.data.order.id)
+  },
+  //-- 确定订单并余额支付
+  ConfirmOrderAndPayWithMoney() {
+    if (this.data.order.store.on_line == 1 && !this.data.defaultAddress.addr_detail) {
+      app.ERROR('请配置收货地址')
+      return
+    }
+    this.payOrder(this.data.order.order_sn, this.data.order.id, 1)
   },
   //-- 增加数量
   addcount: function(e) {
@@ -191,7 +242,7 @@ Page({
   /**
    * 确定订单
    */
-  payOrder(order_sn, order_id) {
+  payOrder(order_sn, order_id, pay_type = 0) {
     if (this.data.goods.store_info.on_line == 1) {
       Order.OrderAddr({
         user_id: app.USER_ID(),
@@ -201,15 +252,17 @@ Page({
         if (r.code == 200) {
           Order.PayOrder({
             user_id: app.USER_ID(),
-            order_sn
+            order_sn,
+            pay_type
           }).then(r => {
             console.log('Order.PayOrder => ', r)
-            if (r.code == 0) {
-              this.onSuccess()
-            } else if (r.code == 200) {
+            if (r.code == 1) { //-- 余额支付
+							//this.checkJiFenOrder()
+							this.onSuccess(r)
+            } else if (r.code == 200) { //-- 微信支付
               this.useWeChatPay(r.data)
             } else {
-              app.ERROR(`确认订单失败！`)
+              app.ERROR(r.message)
 
             }
           })
@@ -220,21 +273,41 @@ Page({
     } else {
       Order.PayOrder({
         user_id: app.USER_ID(),
-        order_sn
+        order_sn,
+        pay_type
       }).then(r => {
         console.log('Order.PayOrder => ', r)
-        if (r.code == 0) {
-          this.onSuccess()
+        if (r.code == 1) {
+					//this.checkJiFenOrder()
+					this.onSuccess(r)
         } else if (r.code == 200) {
           this.useWeChatPay(r.data)
         } else {
-          app.ERROR(`确认订单失败！`)
+          app.ERROR(r.message)
 
         }
       })
     }
 
   },
+	/**已废弃 */
+	checkJiFenOrder(){
+		if (this.data.order.order_type == 3) { //-- 积分兑换
+			Order.AfterIntegralPay({
+				user_id: app.USER_ID(),
+				order_id: this.data.order.id
+			}).then(rr => {
+				console.log('Order.AfterIntegralPay => ', rr)
+				if (rr.code == 200) {
+					this.onSuccess()
+				} else {
+					app.ERROR(rr.message)
+				}
+			})
+		} else {
+			this.onSuccess()
+		}
+	},
   /**微信支付 */
   useWeChatPay(obj) {
     wx.requestPayment({
@@ -243,7 +316,10 @@ Page({
       'package': obj.package,
       'signType': obj.signType,
       'paySign': obj.paySign,
-      'success': this.onSuccess,
+      'success': res=>{
+				//this.checkJiFenOrder()
+				this.onSuccess(res)
+			},
       'fail': res => {
         var msg = '支付失败:';
         if (res.err_desc) {
@@ -270,15 +346,20 @@ Page({
       content: '支付成功',
       showCancel: false,
       success: d => {
-        if (!this.data.goods.orderDirect) { //-- 拼团
-          wx.redirectTo({
-            url: `/pages/groupbuy/injoin?group_id=${this.data.order.group_id}`,
-          })
-        } else {
-          wx.redirectTo({
-            url: `/pages/orders/orderdetail?id=${this.data.order.id}`
-          })
-        }
+				Order.AfterPaySuccess({
+					user_id:app.USER_ID(),
+					order_id: this.data.order.id
+				}).then(r=>{
+					if (this.data.goods.orderDirect == 1) { //-- 拼团
+						wx.redirectTo({
+							url: `/pages/groupbuy/injoin?group_id=${this.data.order.group_id}`,
+						})
+					} else {
+						wx.redirectTo({
+							url: `/pages/orders/orderdetail?id=${this.data.order.id}`
+						})
+					}
+				})
       }
     })
   }

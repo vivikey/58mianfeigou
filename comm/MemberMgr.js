@@ -19,13 +19,13 @@ let obj = {
 	Get() {
 		return '/api/recommend/showStoreMemberGradeInfo'
 	},//-- 查询店铺会员等级
-  async Do(data) {
-    return await new Promise((resolve, reject) => {
-      $.Post(this.url, data, r => {
-        resolve(r.data)
-      }, null, true)
-    })
-  }
+	async Do(data, showLoadding = true) {
+		return await new Promise((resolve, reject) => {
+			$.Post(this.url, data, r => {
+				resolve(r.data)
+			}, null, showLoadding)
+		})
+	}
 }
 
 const MemberMgr = new Proxy(obj, {

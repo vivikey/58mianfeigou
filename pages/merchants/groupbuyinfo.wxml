@@ -31,7 +31,7 @@
     <text class='mustbe'>限购数量<text class='font-xs skr'>每个人最多购买数量，0不限</text></text>
     <input type='text' placeholder='请输入商品名称' value='{{goods.goods_limit}}' id='goods_limit' bindinput='onInputChanged'></input>
   </view>
-  <!-- 推广费 -->
+  <!-- 佣金 -->
   <view class='info-item-row'>
     <text class='mustbe'>推广费<text class='font-xs skr'></text></text>
     <input type='digit' placeholder='请输入推广费' value='{{goods.goods_brokerage}}' id='goods_brokerage' bindinput='onInputChanged'></input>
@@ -74,8 +74,8 @@
   <view class='info-item-row bottomline'>
     <text class='mustbe flex-row bottomline'>商品规格<text class='font-xs skr'>至少一种规格</text></text>
     <view class='specs font-xs'>
-      <view class='full-width bgw bottomline pd20' wx:for='{{goods_spec}}' wx:key='id'>
-        <view class='flex-row'>
+      <view class='full-width bgw bottomline' wx:for='{{goods_spec}}' wx:key='id'>
+        <view class='flex-row pd'>
           <view class='flex flex-center'>
             <view class='img flex flex-center'>
               <image src='{{item.spec_img}}' mode='aspectFill'></image>
@@ -88,29 +88,29 @@
           </view>
           <view class='flex flex-center'>
             <view class='flex flex-center pd20 bglightgray radius-circle' bindtap='removeSpecsItem' data-id='{{item.id}}' data-idx='{{index}}'>
-              <image src='/resource/icon/delete.svg' class='img-sm'></image>
+              <image src='/resource/icon/delete.png' class='img-sm'></image>
             </view>
             <view class='flex flex-center pd20 bglightgray radius-circle' bindtap='editSpecsItem' data-id='{{item.id}}' data-idx='{{index}}'>
-              <image src='/resource/icon/edit.svg' class='img-sm'></image>
+              <image src='/resource/icon/edit.png' class='img-sm'></image>
             </view>
           </view>
         </view>
-        <view class='font-x flex flex-left flex-wrap label small'>
-          <view class='flex flex-left col-4'>库存：
-            <text class='black'>{{item.spec_num}}</text>
+        <view class='spec-li flex flex-left flex-wrap label small green-label'>
+          <view class='col-3 font-xp'>库存：
+            <text class='font-x'>{{item.spec_num}}</text>
           </view>
-          <view class='flex flex-left col-4'>价格：
-            <text class='black'>{{item.spec_price}}</text>
+          <view class='col-3 font-xp'>价格：
+            <text class='font-x'>{{item.spec_price}}</text>
           </view>
-          <view class='flex flex-left col-4'>团购：
-            <text class='black'>{{item.group_price}}</text>
+          <view class='col-3 font-xp'>团购：
+            <text class='font-x'>{{item.group_price}}</text>
           </view>
-          <view class='flex flex-left col-4'>积分：
-            <text class='black'>{{item.integral}}</text>
+          <view class='font-xp col-3'>积分：
+            <text class='font-x'>{{item.integral}}</text>
           </view>
-					<view class='flex flex-left col-4'>服务费：
-            <text class='black'>{{item.service_charge}}</text>
-          </view>
+					<!-- <view class='col-3 font-xp'>服务费：
+            <text class='font-x'>{{item.service_charge}}</text>
+          </view> -->
         </view>
       </view>
     </view>
@@ -139,10 +139,10 @@
         <text class='line-title mustbe'>兑换积分：</text>
         <input type='number' placeholder='请输入兑换积分' value='{{spec_item.integral}}' id='integral' bindinput='specsItemInput'></input>
       </view>
-      <view class='flex-row mg-b10'>
+      <!-- <view class='flex-row mg-b10'>
         <text class='line-title'>服务费：</text>
         <input type='digit' placeholder='请输入服务费' value='{{spec_item.service_charge}}' id='service_charge' bindinput='specsItemInput'></input>
-      </view>
+      </view> -->
       <view class='row bgw flex-row'>
         <text class='line-title mustbe'>缩略图</text>
         <view class='choseimg col-6 bgw' wx:if='{{spec_item.spec_img}}'>

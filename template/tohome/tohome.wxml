@@ -1,0 +1,7 @@
+<template name='tohome'>
+<view class='toHome flex flex-center pd'>
+<navigator url='/pages/shop/index' open-type='switchTab' class='flex flex-center pd'>
+    <image src='/resource/icon/tohome.png' class='img-sm'></image>
+</navigator>
+</view>
+</template>

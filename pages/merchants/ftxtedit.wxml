@@ -2,7 +2,7 @@
   <view>预览</view>
   <view class='flex flex-center bgw pd'>
     <view class='flex flex-center label gold-label mg-r20' wx:if='{{ad_id>0}}' bindtap='onDelete'>
-      <image src='/resource/icon/delete.svg' class='img-xs radius-circle'></image>
+      <image src='/resource/icon/delete.png' class='img-xs radius-circle'></image>
       <text class='pdr'>删除</text>
     </view>
     <view class='flex flex-center label green-label' bindtap='onSubmit'>

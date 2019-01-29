@@ -1,11 +1,31 @@
+<import src="/template/totop/totop.wxml" />
+<template is="totop" data="{{showToTop}}"></template>
 <view class='container'>
   <view class='' style='height:92px;'></view>
   <view class='fix-t full-width' style='height:92px;'>
-    <view class='top-menu full-width flex flex-center font-xs'>注：余额包含了推广费</view>
-    <view class='top-menu bgw pd20 bottomline full-width flex flex-center'>
-      <view class='flex flex-center top-menu-kk'>
-        <view class='top-menu-item {{type==1?"active":""}}' id='1' bindtap='onChangeType'>账户余额：{{user.member.member_money}}</view>
-        <view class='top-menu-item {{type==2?"active":""}}' id='2' bindtap='onChangeType'>推广费：{{user.member.task_award}}</view>
+    <view class='top-menu flex flex-center font-xs'>注：余额包含了佣金和推荐有奖</view>
+    <view class='top-menu bgw bottomline flex flex-center'>
+      <view class='full-width flex flex-around top-menu-kk'>
+        <view class='top-menu-item {{type==1?"active":""}}' id='1' bindtap='onChangeType'>
+          <view class='flex-col-auto flex-center'>
+            <text>余额</text>
+            <text>{{user.member.member_money}}</text>
+          </view>
+        </view>
+        <view class='top-menu-item {{type==2?"active":""}}' id='2' bindtap='onChangeType'>
+          <view class='flex-col-auto flex-center'>
+            <text>佣金</text>
+            <text>{{user.member.task_award}}</text>
+          </view>
+        </view>
+				<view class='top-menu-item {{type==5?"active":""}}' id='5' bindtap='onChangeType'>
+          <view class='flex-col-auto flex-center'>
+            <text>推荐有奖</text>
+            <text>0.00</text>
+          </view>
+        </view>
+        <view class='top-menu-item {{type==3?"active":""}}' id='3' bindtap='onChangeType'>充值</view>
+        <view class='top-menu-item {{type==4?"active":""}}' id='4' bindtap='onChangeType'>提现</view>
       </view>
     </view>
   </view>
@@ -14,16 +34,46 @@
   <import src="/template/nothing/item.wxml" />
   <template is="nothing" data='{{datalist:list,Msg:"~空空如也~"}}'></template>
 
-  <view wx:for='{{list}}' wx:key='id' class='flex-row bottomline pd20 '>
-    <view>
-			
-      <view class='black font-sm bolder pdc'>{{item.money_type_name}}</view>
-			<view class='font-xs skr'>来自：<text class='bolder'>{{item.off_line.nick_name}}</text></view>
+  <view wx:for='{{list}}' wx:key='id' class='full-width bottomline pdr20 pdc'>
+    <!-- 佣金 -->
+    <view class='flex-row' wx:if='{{item.money_type > 999}}'>
+      <view>
+        <view class='or font-sm bolder pdc'>{{item.money_type_name}}</view>
+        <view class='font-xs cgray'>来自：
+          <text class='bolder'>{{item.off_line.nick_name}}</text>
+        </view>
+      </view>
+      <view>
+        <view class='font-md bolder or pd flex flex-right'>+{{item.money}}</view>
+        <view class='lightgray font-x'>{{item.addtime}}</view>
+      </view>
     </view>
-		<view>
-			<view class='font-md bolder redcolor pd'>{{item.money}}</view>
-		  <view class='lightgray font-x'>{{item.addtime}}</view>
-		</view>
+    <!-- 消费 -->
+    <view class='flex-row' wx:if='{{item.money_type == 1}}'>
+      <view>
+        <view class='black font-sm bolder pdc'>{{item.money_type_name}}</view>
+        <view class='font-xs cgray'>订单：
+          <text class='bolder'>{{item.order_sn}}</text>
+        </view>
+      </view>
+      <view>
+        <view class='font-md bolder black pd flex flex-right'>-{{item.money}}</view>
+        <view class='lightgray font-x'>{{item.addtime}}</view>
+      </view>
+    </view>
+    <!-- 充值 -->
+    <view class='flex-row' wx:if='{{item.money_type == 0}}'>
+      <view>
+        <view class='black font-sm cgreen pdc'>{{item.money_type_name}}</view>
+        <view class='font-xs cgray'>来自：
+          <text class='bolder'>微信</text>
+        </view>
+      </view>
+      <view>
+        <view class='font-md cgreen black pd flex flex-right'>+{{item.money}}</view>
+        <view class='lightgray font-x'>{{item.addtime}}</view>
+      </view>
+    </view>
   </view>
 </view>
 

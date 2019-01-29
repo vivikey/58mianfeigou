@@ -2,36 +2,12 @@
     <view class='full-width fix-t bglinearyellow shadow flex-row pd20'>
         <view class='font-sm black bolder'>{{title}}</view>
     </view>
-    <view class='sq'></view>
-		<view class='flex flex-center pd30'>
-			<view class='pd30 bdfull flex-col-auto flex-center' bindtap='scanQR'>
-				<image src='/resource/icon/scanqr.svg' class='img-lgp'></image>
-				<text class='font-xs pdc20'>扫一扫消费(兑现)</text>
+		<view class='flex flex-center full-width bgw pd30'>
+			<view class='pd30 flex-col-auto flex-center' bindtap='scanQR'>
+				<image src='/resource/icon/scanqr.png' class='img-lgp shadow radius-circle'></image>
+				<text class='font-sm pdc20'>扫一扫消费(兑现)</text>
 			</view>
-		</view>
-
-    <!-- <view class='cgray full-width font-sm'>
-        <view class='black font-sm pd20'>兑现历史记录查询：</view>
-    </view>
-
-    <view class='info-item-row pdr30 font-xs cgray'>
-        <view class='pd flex-row'>
-            <view>选择日期区间</view>
-            <view class='label'>敬请期待</view>
-        </view>
-        <view class='full-width'>
-            <picker mode="date" value="{{currGift.startdate}}" start="2018-01-01" end="2999-01-01" bindchange="bindStartDateChange">
-                <view class="picker arrow-down pd">
-                    从：{{currGift.startdate}}
-                </view>
-            </picker>
-            <picker mode="date" value="{{currGift.date}}" start="2018-01-01" end="2999-01-01" bindchange="bindDateChange">
-                <view class="picker arrow-down pd">
-                    到：{{currGift.date}}
-                </view>
-            </picker>
-        </view>
-    </view> -->
+		</view>    
 </view>
     <import src="/template/version/version.wxml" />
     <template is="version" data="{{version}}"></template>

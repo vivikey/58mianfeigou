@@ -95,7 +95,7 @@
           <view wx:for='{{giftList}}' wx:key='id' class='full-width pd flex-row'>
             <view class='store_shop_specimg rel' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail'>
               <image src='{{item.spec[0].spec_img}}'></image>
-              <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>推广费
+              <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>佣金
                 <text>{{item.goods_brokerage}}</text>
               </view>
             </view>

@@ -28,7 +28,13 @@ Page({
 			if (r.code == 200 && r.data.length>0) {
 					this.data.mgrList= r.data.map(u => {
 						u.addtime = TimeConverter.ToLocal(u.addtime)
-						u.userInfo.user_phone = u.userInfo.user_phone || "未绑定手机"
+						if(u.userInfo){
+							u.userInfo.user_phone = u.userInfo.user_phone || "未绑定手机"
+						}else{
+							u.userInfo = {
+								user_phone:'未绑定手机'
+							}
+						}
 						return u
 					})
 			}else{
@@ -43,8 +49,9 @@ Page({
     wx.scanCode({
       onlyFromCamera: true,
       success: (res) => {
-				let { grade, uid } = JSON.parse(res.result)
-				console.log(`wx.scanCode => uid:${uid}, grade:${grade}`)
+				let params = res.result.split('?')[1].split('&') //-- id=1&idx=1&rd=1
+				let uid = params[0].split('=')[1]
+				console.log(`wx.scanCode => uid:${uid}`)
 				if(uid && uid>0){
 					Store.SetAdmin({
 						id: 0,
