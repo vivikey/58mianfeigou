@@ -10,6 +10,16 @@ Page({
       version: app.VERSION()
     })
   },
+	toMyLuckyMoney(){
+		wx.navigateTo({
+			url: 'myluckymoney',
+		})
+	},
+	toMyCoupons(){
+		wx.navigateTo({
+			url: 'mycoupons',
+		})
+	},
   toMyQR() {
     wx.navigateTo({
       url: 'myqrcode',
@@ -45,7 +55,8 @@ Page({
       }).then(r => {
         console.log('UserCenter.Get => ', r)
         if (r.code == 200 && r.data.user.user_img) {
-          let user = r.data.user
+					r.data.user = r.data.user || r.data.userInfo
+          let user = {...r.data.user,user_id:r.data.user.id}
           if (r.data.higher) {
             user.higher = r.data.higher
           } else {
@@ -59,6 +70,7 @@ Page({
           user.awaitPay = r.data.awaitPay //-- 待付款
           user.awaitShip = r.data.awaitShip //-- 待发货
           user.awaitTake = r.data.awaitTake //-- 待收货
+					user.show_store = r.data.show_store
           app.USER(user)
           this.setData({
             user: user,

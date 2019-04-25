@@ -1,0 +1,27 @@
+<view class='container fullscreen cgray'>
+  <view class='pd30 black bolder'>{{luckyMoney.store_name}}</view>
+  <view class='flex-col flex-center'>
+    <view wx:if='{{!luckyMoney.isOpen}}'>
+      <text class='font-md bolder pkcolor' wx:if='{{luckyMoney.red_num>0}}'>点击拆红包</text>
+      <text class='font-md bolder pkcolor' wx:if='{{luckyMoney.red_num<=0}}'>红包被抢光了</text>
+    </view>
+    <image src='/resource/admin/openluckymoney.png' style='width:256rpx;height:256rpx;' bindtap='handleOpenLuckyMoney' wx:if='{{!luckyMoney.isOpen && luckyMoney.red_num>0}}'></image>
+    <image src='/resource/admin/luckymoney.png' style='width:256rpx;height:256rpx;' wx:if='{{luckyMoney.isOpen ||luckyMoney.red_num<=0 }}'></image>
+    <text class='pd font-md black bolder'>{{luckyMoney.red_name}}</text>
+    <view wx:if='{{luckyMoney.isOpen}}'>
+      <text>已获得</text>
+      <text class='font-lg bolder pkcolor'>￥{{luckyMoney.red_money}}</text>
+    </view>
+  </view>
+  <view class='pd30 font-x cgray'>红包拆开后存放于【个人中心】的【我的红包】中</view>
+  <view class='full-width pd20 flex-row'>
+    <button style='border:1rpx solid black;' bindtap='toHome'>
+      <image src='/resource/icon/index.png' class='img-sm'></image>
+      <text class='font-sm black pdr'>首页</text>
+    </button>
+    <button open-type='share' wx:if='{{luckyMoney.red_num>0}}'>
+      <image src='/resource/icon/share3.png' class='img-sm'></image>
+      <text class='font-sm pkcolor pdr'>分享给好友</text>
+    </button>
+  </view>
+</view>

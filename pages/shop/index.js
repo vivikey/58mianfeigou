@@ -58,6 +58,11 @@ Page({
       sc: e.detail.current
     })
   },
+	handleBaokuang() {
+		wx.navigateTo({
+			url: `baokuang`,
+		})
+	},
   //-- 转至会员页
   toBeMember() {
     wx.navigateTo({

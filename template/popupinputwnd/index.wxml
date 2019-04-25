@@ -1,0 +1,32 @@
+<template name="popupInputWnd">
+  <!-- 弹出 -->
+  <view class='popupwnd flex-col flex-center bgb-opacity {{!showPopupWnd?"hide":""}}' catchtouchmove="ture">
+    <view class='full-width pd30'>
+      <view class='content-box'>
+        <view class='bglightgray font-md pkcolor bolder pd20 flex flex-left'>
+          <view class='flex flex-center'>
+            <image src='/resource/icon/msg.png' class='img-sm'></image>
+          </view>
+          <view class='pd'>{{data.title}}</view>
+        </view>
+        <view class='info-item-row'>
+          <view class='pd full-width'>
+            <view class='input-row-line flex-row' wx:for='{{data.inputData}}' wx:key=''>
+              <text class='mustbe font-x flex flex-center'>{{item.caption}}</text>
+               <input type='digit' class='double' placeholder='请输入活动名称' value='{{item.value}}' id='{{item.key}}' bindinput='onPopupInputChanged'></input>
+            </view>
+          </view>
+        </view>
+        <view class='full-width flex flex-center pdc20 bglightgray'>
+          <view class='btn-fix-b min-small orb font-md pd20' bindtap='handlePopupWndClose'>
+            <view class='black'>关闭</view>
+          </view>
+          <view class='pd20'></view>
+          <view class='btn-fix-b min-small green font-md pd20' bindtap='handlePopupWndSubmit'>
+            <view class='wtcolor'>{{data.submitText}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>

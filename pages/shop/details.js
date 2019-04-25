@@ -8,7 +8,7 @@ import Evaluate from '../../comm/Evaluate.js'
 import TimeConverter from '../../comm/TimeConverter.js'
 Page({
   data: {
-		...ToTop.data,
+    ...ToTop.data,
     user: {},
     screenHeight: 0,
     scrollPosition: 0,
@@ -25,10 +25,22 @@ Page({
     defaultAddress: {
       district: '请配置选择收货地址'
     },
+		showCouponBox:false,
+    coupons: {},
     showShareWnd: false,
     timerid: 0
   },
-	...ToTop.methods,
+  ...ToTop.methods,
+	hideCouponBox(){
+		this.setData({
+			showCouponBox:false
+		})
+	},
+	showCouponBox() {
+		this.setData({
+			showCouponBox: true
+		})
+	},
   toCartOrder() {
     wx.navigateTo({
       url: `/pages/store/cartorder?store_id=${this.data.goods.store_id}`,
@@ -39,6 +51,63 @@ Page({
       sc: e.detail.current
     })
   },
+  couponShowListAtView() {
+    const {
+      id,
+      store_id
+    } = this.data.goods
+    FrontEndShop.CouponShowListAtView({
+      user_id: app.USER_ID(),
+      goods_id: id,
+      store_id
+    }).then(r => {
+      console.log('FrontEndShop.CouponShowListAtView => ', r)
+			let combinate_list = [], coupon_list = []
+			if(r.code==200){
+				combinate_list = [...r.data.combinate_list]
+				coupon_list = [...r.data.coupon_list]
+			}
+			this.setData({
+				coupons: { combinate_list, coupon_list}
+			})
+    })
+  },
+	handleUserGetCouponGroup(e) {
+		const {
+			store_id
+		} = this.data.goods
+		const { id } = e.currentTarget.dataset
+		FrontEndShop.UserGetCombinationCoupon({
+			user_id: app.USER_ID(),
+			combinate_id: id,
+			store_id
+		}).then(r => {
+			console.log('FrontEndShop.UserGetCombinationCoupon => ', r)
+			if (r.code == 200) {
+				app.SUCCESS('领取成功!')
+			} else {
+				app.ERROR(r.message)
+			}
+		})
+	},
+	handleUserGetCoupon(e){
+		const {
+			store_id
+		} = this.data.goods
+		const {id} = e.currentTarget.dataset
+		FrontEndShop.UserGetCoupon({
+			user_id:app.USER_ID(),
+			coupon_id:id,
+			store_id
+		}).then(r=>{
+			console.log('FrontEndShop.UserGetCoupon => ',r)
+			if(r.code==200){
+				app.SUCCESS('领取成功!')
+			}else{
+				app.ERROR(r.message)
+			}
+		})
+	},
   onLoad(options) {
     /**老版本 */
     if (options.q) {
@@ -121,6 +190,12 @@ Page({
           })
           this.setData({
             goods: r.data
+          }, this.couponShowListAtView)
+        } else {
+          app.ERROR(r.message, () => {
+            wx.navigateBack({
+              delta: 1
+            })
           })
         }
       })
@@ -335,29 +410,29 @@ Page({
             .then(r => {
               console.log('Order.AcGift => ', r)
               if (r.code == 200) {
-								if (r.data.order_type == 3){
-								Order.AfterIntegralPay({
-									user_id:app.USER_ID(),
-									order_id:r.data.id
-								}).then(rr=>{
-									console.log('Order.AfterIntegralPay => ',rr)
-									if(rr.code==200){
-										app.CONFIME(`领取成功，是否立即查看详情?`, () => {
-											wx.navigateTo({
-												url: `/pages/orders/orderdetail?id=${r.data.id}`
-											})
-										})
-									}else{
-										app.ERROR(rr.message)
-									}
-								}) 
-								} else{
-									app.CONFIME(`领取成功，是否立即查看详情?`, () => {
-										wx.navigateTo({
-											url: `/pages/orders/orderdetail?id=${r.data.id}`
-										})
-									})
-								}              
+                if (r.data.order_type == 3) {
+                  Order.AfterIntegralPay({
+                    user_id: app.USER_ID(),
+                    order_id: r.data.id
+                  }).then(rr => {
+                    console.log('Order.AfterIntegralPay => ', rr)
+                    if (rr.code == 200) {
+                      app.CONFIME(`领取成功，是否立即查看详情?`, () => {
+                        wx.navigateTo({
+                          url: `/pages/orders/orderdetail?id=${r.data.id}`
+                        })
+                      })
+                    } else {
+                      app.ERROR(rr.message)
+                    }
+                  })
+                } else {
+                  app.CONFIME(`领取成功，是否立即查看详情?`, () => {
+                    wx.navigateTo({
+                      url: `/pages/orders/orderdetail?id=${r.data.id}`
+                    })
+                  })
+                }
               } else {
                 app.ERROR(r.message)
               }
@@ -378,12 +453,12 @@ Page({
   jifengOrder() {
     this.order(2)
   },
-	//-- 查看软文
-	toFtxt(){
-		wx.navigateTo({
-			url: `/pages/ftxt/detail?id=${this.data.goods.goods_ad}`,
-		})
-	},
+  //-- 查看软文
+  toFtxt() {
+    wx.navigateTo({
+      url: `/pages/ftxt/detail?id=${this.data.goods.goods_ad}`,
+    })
+  },
   //-- 直接购买
   directOrder() {
     if (this.checkedAddress()) {
@@ -432,11 +507,11 @@ Page({
 
     let title = ''
     if (goods.group_purchase == 1) {
-      title = `${app.USER().nick_name}邀您一起【拼购】：${goods.goods_name}只需￥${spec.group_price}`
+      title = `${app.USER().nick_name}邀您一起【拼购￥${spec.group_price}】：${goods.goods_name}`
     } else if (goods.is_gift == 1) {
       title = `好礼免费领，还能赚佣金：${goods.goods_name}`
     } else {
-      title = `${app.USER().nick_name}向您推荐：${goods.goods_name}只需￥${spec.spec_price}`
+      title = `${app.USER().nick_name}向您【推荐￥${spec.spec_price}】：${goods.goods_name}`
     }
     let path = `/pages/shop/details?id=${spec.goods_id}&spec=${spec.id}&higher_up=${app.USER_ID()}&store=${goods.store_id}`
     return {
@@ -487,16 +562,16 @@ Page({
     })
   },
   onPageScroll(e) {
-		if (e.scrollTop >= 1000 && !this.data.showToTop) {
-			this.setData({
-				showToTop: true
-			})
-		}
-		if (e.scrollTop < 1000 && this.data.showToTop) {
-			this.setData({
-				showToTop: false
-			})
-		}
+    if (e.scrollTop >= 1000 && !this.data.showToTop) {
+      this.setData({
+        showToTop: true
+      })
+    }
+    if (e.scrollTop < 1000 && this.data.showToTop) {
+      this.setData({
+        showToTop: false
+      })
+    }
     this.data.scrollPosition = e.scrollTop
     wx.createSelectorQuery().select('#commbox').boundingClientRect().exec(res => {
       let r = res[0]

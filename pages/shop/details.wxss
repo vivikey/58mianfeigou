@@ -101,6 +101,62 @@ swiper .swiper-navbox,swiper swiper-item image{
 	font-size:11px;
 	border-radius: 14px;
 }
+.recom_title{
+	color:#FF4706;
+	padding: 0px 3px;
+	margin: 0 3px;
+	border:1px solid #FE7406;
+	border-radius: 3px;
+}
+
+.coupon-box{
+	width:100%;
+	padding: 20rpx;
+}
+.coupon-t{
+	font-size:11px;
+	background: #f6f7f8;
+  color: #e97f23;
+	padding:0 12rpx;
+	border-radius: 10rpx;
+	margin: 6rpx;
+}
+.coupon-i{
+	position: relative;
+	color:#FF4706;
+	border:1rpx solid #ccc;
+	padding:0 12rpx;
+	margin:6rpx 12rpx;
+	height:36rpx;
+	border-radius: 6rpx;
+	font-size:11px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.coupon-i::before{
+	content:'';
+	position: absolute;
+	width:12rpx;
+	height: 12rpx;
+	border-radius: 12rpx;
+	border-right:1rpx solid #ccc;
+	left:-6rpx;
+	top:12rpx;
+	background: #fff;
+}
+.coupon-i::after{
+	content:'';
+	position: absolute;
+	width:12rpx;
+	height: 12rpx;
+	border-radius: 12rpx;
+	border-left:1rpx solid #ccc;
+	right:-6rpx;
+	top:12rpx;
+	background: #fff;
+}
 
 @import "/template/commentitem/commentitem.wxss";
 @import "/template/sharebox/sharebox.wxss";
+@import "/template/couponbox/index.wxss";

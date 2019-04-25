@@ -1,0 +1,39 @@
+<view class='container gray' style='padding:90rpx 0;'>
+  <view class='full-width fix-t bglinearyellow shadow flex-row pd20'>
+    <view class='font-sm black bolder'>{{storeName}}</view>
+  </view>
+  <view class='cgray bolder font-sm pd20'>已发布的红包列表</view>
+  <view class='full-width pdr20'>
+    <view class='coupon-item bgw' wx:for='{{luckyMoneyList}}' wx:key='id'>
+      <view class='coupon-img flex-col flex-center'>
+        <image src='/resource/admin/luckymoney.png'></image>
+        <text class='font-x cgray' wx:if='{{item.red_type==0}}'>单向红包</text>
+        <text class='font-x cgray' wx:if='{{item.red_type==1}}'>双向红包</text>
+      </view>
+      <view class='coupon-content'>
+        <view class='black bolder font-md'>{{item.red_name}}</view>
+        <view class='pkcolor bolder font-x pd'>余{{item.red_num}}</view>
+        <view class='black font-xs'>
+          <text class='font-md pkcolor bolder'>￥{{item.red_money_min}} ~ {{item.red_money_max
+}}</text>
+        </view>
+        <view class='black font-xs'>
+          <text class='font-x cgray'>{{item.red_start}}~{{item.red_end}}</text>
+        </view>
+      </view>
+      <view class='coupon-opt flex-col flex-center'>
+        <view class='btn-add btn-red' data-id='{{item.id}}' bindtap='toShare'>分享</view>
+        <view class='btn-add btn-green' data-id='{{item.id}}' bindtap='toDetail'>编辑</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class='fix-b flex flex-center pd20'>
+  <navigator url="/pages/merchants/luckymoneyinfo?storeId={{storeId}}&storeName={{storeName}}" class='btn-fix-b font-md'>
+    <image src='/resource/icon/add.svg' class='addbtnimg radius-circle'></image>
+    发布红包
+  </navigator>
+</view>
+<import src="/template/version/version.wxml" />
+<template is="version" data="{{version}}"></template>

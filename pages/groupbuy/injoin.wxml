@@ -89,7 +89,13 @@
       <text class='pd'>返回首页</text>
     </navigator>
     <view class='full-width label or-label flex flex-center pdc20' bindtap='toShopDetail'>重开一团</view>
-    <view class='full-width label pk-label flex flex-center pdc20' bindtap='joinOrder' wx:if='{{group_info.hastime && group_info.short_num>0}}'>我要参团</view>
+
+    <view class='full-width label pk-label flex flex-center pdc20' wx:if='{{group_info.hastime && group_info.short_num>0}}'>
+			<view bindtap='joinOrder' wx:if='{{group_info.user[0].id!=user.id}}'>我要参团</view>
+			<view class='full-width' wx:else>
+				<button open-type='share' plain='{{true}}' class='full-width wtcolor'>邀请好友</button>
+			</view>
+		</view>
   </view>
 </view>
 <import src="/template/version/version.wxml" />

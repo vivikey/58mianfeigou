@@ -1,0 +1,178 @@
+<view class='container gray'>
+  <text class='font-xs bolder black pdc'>基本信息</text>
+  <view class='info-item-row'>
+    <text class='mustbe'>优惠券名称</text>
+    <input type='text' placeholder='请输入优惠券名称' value='{{coupon.coupon_name}}' id='coupon_name' bindinput='onInputChanged'></input>
+  </view>
+  <view class='info-item-row'>
+    <text class='mustbe'>优惠券类型</text>
+  </view>
+  <view class='bgw full-width pd20 flex flex-wrap flex-around'>
+    <view class='coupon {{coupon.coupon_type==1?"active":""}}' data-type='1' bindtap='handleChangeType'>
+      <image src='/resource/admin/Coupons.png'></image>
+      <text class='title'>满减券</text>
+      <text class='eg'>例如满100元减20元</text>
+    </view>
+    <view class='coupon {{coupon.coupon_type==2?"active":""}}' data-type='2' bindtap='handleChangeType'>
+      <image src='/resource/admin/Coupons2.png'></image>
+      <text class='title'>折扣券</text>
+      <text class='eg'>例如满100元打9.5折</text>
+    </view>
+    <view class='coupon {{coupon.coupon_type==3?"active":""}}' data-type='3' bindtap='handleChangeType'>
+      <image src='/resource/admin/Coupons3.png'></image>
+      <text class='title'>随机金额券</text>
+      <text class='eg'>在金额区间内随机</text>
+    </view>
+  </view>
+
+  <!-- 发放数量 -->
+  <view class='info-item-row'>
+    <text class='mustbe'>发放数量<text class='font-xs skr'></text></text>
+    <input type='number' placeholder='请输入发放数量' value='{{coupon.coupon_num}}' id='coupon_num' bindinput='onInputChanged'></input>
+  </view>
+
+  <!--适用商品-->
+  <view class='info-item-row'>
+    <view class='flex-row'>
+      <text class='cgray'>适用商品<text class='font-xs skr'>默认不选为本商铺所有商品</text></text>
+      <picker class='shop-choser flex flex-center' bindchange="onAddShopHandle" value="{{goods_index}}" range="{{shopList}}" range-key='goods_name' wx:if='{{coupon.id<=0}}'>
+        <view class='pd20'>
+          <image src='/resource/icon/append.png' class='img-sm'></image>
+        </view>
+      </picker>
+    </view>
+    <view class='full-width pd20 flex flex-wrap bgw'>
+      <view class='flex-row bdfull pdr mg-b10' wx:for='{{coupon.coupon_goods}}' wx:key='id' style='width:50%;'>
+        <view class='full-width pdc20 font-xs txtpt'>{{item.goods_name}}</view>
+        <view class='img-sm pdc20' data-idx='{{index}}' bindtap='onRemoveGoods' wx:if='{{coupon.id<=0}}'>
+          <image src='/resource/icon/remove_circle.png' class='img-sm'></image>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 使用门槛 -->
+  <view class='info-item-row'>
+    <text class='mustbe'>使用门槛<text class='font-xs skr'>0表示无门槛</text></text>
+    <view class='small-panel topline bgw'>
+      <view class='row-input-box'>
+        <text>订单金额满</text>
+        <input type='number' value='{{coupon.coupon_use_money}}' id='coupon_use_money' bindinput='onInputChanged' disabled='{{coupon.id>0}}'></input>
+        <text>元可用</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 叠加使用 -->
+  <view class='info-item-row'>
+    <text class='mustbe'>叠加使用</text>
+    <view class='small-panel topline bgw'>
+      <view class='row-input-box'>
+        <view class='pd flex flex-left' bindtap='onAccumulateUseChange'>
+          <image src='/resource/icon/checkbox.png' wx:if='{{coupon.accumulate_use == 0}}' class='img-xs'></image>
+          <image src='/resource/icon/checkbox2.png' wx:if='{{coupon.accumulate_use == 1}}' class='img-xs'></image>
+          <text class='bolder'>允许叠加使用</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 优惠内容 -->
+  <view class='info-item-row'>
+    <text class='mustbe'>优惠内容<text class='font-xs skr'>随机金额券不需要设置</text></text>
+  </view>
+  <view class='small-panel topline bgw'>
+    <view class='row-input-box' wx:if='{{coupon.coupon_type==1}}'>
+      <text>减免</text>
+      <input type='number' value='{{coupon.coupon_discount}}' id='coupon_discount' bindinput='onInputChanged' disabled='{{coupon.id>0}}'></input>
+      <text>元</text>
+    </view>
+    <view class='row-input-box' wx:if='{{coupon.coupon_type==2}}'>
+      <text>打</text>
+      <input type='number' value='{{coupon.coupon_discount}}' id='coupon_discount' bindinput='onInputChanged' disabled='{{coupon.id>0}}'></input>
+      <text>折</text>
+    </view>
+    <view class='row-input-box' wx:if='{{coupon.coupon_type<3}}'>
+      <text>最大减免</text>
+      <input type='number' value='{{coupon.coupon_discount_max}}' id='coupon_discount_max' bindinput='onInputChanged' disabled='{{coupon.id>0}}'></input>
+      <text>元</text>
+    </view>
+    <view class='row-input-box' wx:if='{{coupon.coupon_type==3}}'>
+      <text>随机金额最多</text>
+      <input type='number' value='{{coupon.coupon_discount_max}}' id='coupon_discount_max' bindinput='onInputChanged' disabled='{{coupon.id>0}}'></input>
+      <text>元</text>
+    </view>
+  </view>
+  <!-- 使用有效期 -->
+  <view class='info-item-row'>
+    <text class='mustbe'>使用有效期</text>
+  </view>
+  <view class='small-panel topline bgw'>
+    <radio-group class='lightgray full-width flex-col pdc20' id='coupon_time_type' bindchange='onRadioChanged'>
+      <radio disabled='{{coupon.id>0}}' class='hardgray' value='1' color="#50d1fe" checked='{{coupon.coupon_time_type==1}}'>
+        <view class='row-input-box font-x'>
+          <picker disabled='{{coupon.id>0}}' mode="date" id='coupon_start' value="{{coupon.coupon_start}}" start="2018-01-01" end="2999-01-01" bindchange="onInputChanged">
+            <view class="caption">
+              开始日期：{{coupon.coupon_start}}
+            </view>
+          </picker>
+          <view class='gray font-x pdr flex flex-center'>至</view>
+          <picker disabled='{{coupon.id>0}}' mode="date" id='coupon_end' value="{{coupon.coupon_end}}" start="2018-01-01" end="2999-01-01" bindchange="onInputChanged">
+            <view class="caption">
+              结束日期：{{coupon.coupon_end}}
+            </view>
+          </picker>
+        </view>
+      </radio>
+      <radio disabled='{{coupon.id>0}}' class='hardgray' value='2' color="#50d1fe" checked='{{coupon.coupon_time_type==2}}'>
+        <view class='row-input-box'>
+          <text>领券当日起</text>
+          <input disabled='{{coupon.id>0}}' type='number' value='{{coupon.coupon_day}}' id='coupon_day' bindinput='onInputChanged'></input>
+          <text>天</text>
+        </view>
+      </radio>
+    </radio-group>
+  </view>
+  <text class='font-xs bolder black pdc'>领取和使用规则</text>
+  <!-- 领取人限制 -->
+  <view class='info-item-row'>
+    <text class='mustbe'>领取人限制</text>
+    <view class='info-item-row single-line flex-row pd20 bottomline'>
+      <view class='cgray'>选择领取人</view>
+      <view class='flex flex-center flex-right arrow-down'>
+        <picker range='{{memberMetric}}' range-key='member_name' value='{{memberIdx}}' bindchange="bindTypeChange">
+          <view class="pdr30 black bolder font-sm">
+            {{memberMetric[memberIdx].member_name}}
+          </view>
+        </picker>
+      </view>
+    </view>
+  </view>
+  <!-- 限领次数：0表示不限制 -->
+  <view class='info-item-row'>
+    <text class='mustbe'>限购数量<text class='font-xs skr'>每个人最多领取次数，0不限</text></text>
+    <input type='text' placeholder='请输入商品名称' value='{{coupon.coupon_get}}' id='coupon_get' bindinput='onInputChanged'></input>
+  </view>
+  <!-- 分享设置 -->
+  <view class='info-item-row'>
+    <text class='mustbe'>分享设置</text>
+  </view>
+  <view class='small-panel topline bgw'>
+    <radio-group class='lightgray full-width flex-col pdc20' id='coupon_share' bindchange='onShareRadioChanged'>
+      <radio disabled='{{coupon.id>0}}' class='hardgray' value='0' color="#50d1fe" checked='{{coupon.coupon_share==0}}'>不能分享</radio>
+      <radio disabled='{{coupon.id>0}}' class='hardgray' value='1' color="#50d1fe" checked='{{coupon.coupon_share==1}}'>允许分享给好友共同领取</radio>
+      <radio disabled='{{coupon.id>0}}' class='hardgray' value='2' color="#50d1fe" checked='{{coupon.coupon_share==2}}'>优惠券以赠送的方式分享给好友</radio>
+    </radio-group>
+  </view>
+  <view class='info-item-row'>
+    <text class=''>优惠券描述</text>
+    <textarea placeholder='请输入优惠券描述' maxlength='254' value='{{coupon.coupon_describe}}' id='coupon_describe' bindinput='onInputChanged'></textarea>
+
+  </view>
+  <view class='sq'></view>
+  <view class='info-item-row flex flex-center pd30'>
+    <view class='btn full' bindtap='onSubmit'>
+      <image src='/resource/icon/ok3.svg' class='addbtnimg radius-circle'></image> 保存发布</view>
+  </view>
+  <import src="/template/version/version.wxml" />
+  <template is="version" data="{{version}}"></template>
+</view>

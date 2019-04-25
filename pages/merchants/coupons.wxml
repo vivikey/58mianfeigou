@@ -1,0 +1,83 @@
+<view class='container gray' style='padding:90rpx 0;'>
+  <view class='full-width fix-t bglinearyellow shadow flex-row pd20'>
+    <view class='font-sm black bolder'>{{storeName}}</view>
+  </view>
+  <view class='cgray bolder font-sm pd20'>可发布优惠券类型</view>
+  <view class='bgw full-width pd20 flex flex-wrap flex-around'>
+    <view class='coupon'>
+      <image src='/resource/admin/Coupons.png'></image>
+      <text class='title'>满减券</text>
+      <text class='eg'>例如满100元减20元</text>
+      <view class='btn-add btn-green' bindtap='addCouponType1'>立即发布</view>
+    </view>
+    <view class='coupon'>
+      <image src='/resource/admin/Coupons2.png'></image>
+      <text class='title'>折扣券</text>
+      <text class='eg'>例如满100元打9.5折</text>
+      <view class='btn-add btn-orange' bindtap='addCouponType2'>立即发布</view>
+    </view>
+    <view class='coupon'>
+      <image src='/resource/admin/Coupons3.png'></image>
+      <text class='title'>随机金额券</text>
+      <text class='eg'>在金额区间内随机</text>
+      <view class='btn-add btn-blue' bindtap='addCouponType3'>立即发布</view>
+    </view>
+    <view class='full-width pd20'>
+      <view class='add-coupon-bag' bindtap='toSetCouponGroup'>+发布组合券</view>
+    </view>
+  </view>
+  <view class='cgray bolder font-sm pd20'>已发布的优惠券列表</view>
+  <view class='full-width pdr20'>
+    <view class='coupon-item bgw' wx:for='{{couponsList}}' wx:key='id'>
+      <view class='coupon-img flex flex-center'>
+        <image src='/resource/admin/Coupons.png' wx:if='{{item.coupon_type==1}}'></image>
+        <image src='/resource/admin/Coupons2.png' wx:if='{{item.coupon_type==2}}'></image>
+        <image src='/resource/admin/Coupons3.png' wx:if='{{item.coupon_type==3}}'></image>
+      </view>
+      <view class='coupon-content'>
+        <view class='black bolder font-md'>{{item.coupon_name}}</view>
+        <view class='black font-xs'>
+          <text class='font-x cgray'>{{item.coupon_start}}~{{item.coupon_end}}</text>
+        </view>
+        <view class='black font-xs' wx:if='{{item.coupon_use_money>0}}'>
+          <text class='font-md pkcolor bolder' wx:if='{{item.coupon_type==1}}'>￥{{item.coupon_discount}}</text>
+          <text class='font-md pkcolor bolder' wx:if='{{item.coupon_type==2}}'>{{item.coupon_discount}}折</text>
+          <text class='font-md pkcolor bolder' wx:if='{{item.coupon_type==3}}'>最大￥{{item.coupon_discount_max}}</text> 满{{item.coupon_use_money}}可用
+
+        </view>
+        <view class='black font-xs' wx:if='{{item.coupon_use_money==0}}'>无门槛</view>
+        <view class='cgray font-xs' wx:if='{{item.coupon_goods.length>0}}'>适用于指定商品</view>
+        <view class='cgray font-xs' wx:else>适用于全部商品</view>
+      </view>
+      <view class='coupon-opt flex-col flex-center'>
+        <view class='pkcolor bolder font-x pd'>余{{item.coupon_num}}</view>
+        <view class='btn-add btn-green' wx:if='{{item.coupon_type==1}}' data-id='{{item.id}}' data-type='{{item.coupon_type}}' bindtap='toDetail'>编辑</view>
+        <view class='btn-add btn-orange' wx:if='{{item.coupon_type==2}}' data-id='{{item.id}}' data-type='{{item.coupon_type}}' bindtap='toDetail'>编辑</view>
+        <view class='btn-add btn-blue' wx:if='{{item.coupon_type==3}}' data-id='{{item.id}}' data-type='{{item.coupon_type}}' bindtap='toDetail'>编辑</view>
+      </view>
+    </view>
+  </view>
+  <view class='cgray bolder font-sm pd20'>已发布的组合券</view>
+  <view class='full-width pdr20'>
+    <view class='coupon-item bgw' wx:for='{{couponsGroupList}}' wx:key='id'>
+      <view class='coupon-img flex flex-center'>
+        <image src='/resource/admin/CouposGroup.png'></image>
+      </view>
+      <view class='coupon-content'>
+        <view class='black bolder font-md'>{{item.combinate_name}}</view>
+        <view class='black font-xs'>
+          <text class='font-x cgray'>{{item.combinate_start}}~{{item.combinate_end}}</text>
+        </view>
+        <view class='black font-xs' wx:for='{{item.coupon_list}}' wx:key='id' wx:for-item='cp'>
+          <text class='font-x cgray bolder'>{{cp.coupon_name}}(余：{{cp.coupon_num}})</text>
+        </view>
+      </view>
+      <view class='coupon-opt flex-col flex-center'>
+				<view class='btn-add btn-red' data-id='{{item.id}}' bindtap='toDeleteCouponGroup'>删除</view>
+        <view class='btn-add btn-green' data-id='{{item.id}}' bindtap='toSetCouponGroup'>配置</view>
+      </view>
+    </view>
+  </view>
+</view>
+<import src="/template/version/version.wxml" />
+<template is="version" data="{{version}}"></template>

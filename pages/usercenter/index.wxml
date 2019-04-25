@@ -49,11 +49,6 @@
           <view class='font-sm'>{{user.member.task_award}}</view>
           <view class='font-xs'>我的佣金</view>
         </view>
-
-				<view class='flex-col-auto flex-center' data-type='5' bindtap='toMyBalance'>
-          <view class='font-sm'>0.00</view>
-          <view class='font-xs'>推荐有奖</view>
-        </view>
         <view class='flex flex-center'>
           <view class='btn-fix-b min-small white g font-xs greyscale' bindtap='onDeposit'>
             <image src='/resource/icon/money_in2.png' class='img-sm radius-circle '></image>
@@ -76,14 +71,23 @@
             <text class='cap'>我的人脉</text>
           </view>
         </navigator>
-        <navigator class='money-item flex flex-around pd ' url='/pages/my/myattention?type=1'>
+
+
+        <navigator class='money-item flex flex-around pd ' url='/pages/my/mytuijian'>
+          <view class='flex-col-auto flex-center message'>
+            <image src='/resource/icon/tuijian.png' class='img-mm'></image>
+            <text class='cap'>推荐有奖</text>
+          </view>
+        </navigator>
+
+        <!-- <navigator class='money-item flex flex-around pd ' url='/pages/my/myattention?type=1'>
           <view class='flex-col-auto flex-center message'>
             <image src='/resource/icon/my-gz.png' class='img-mm'></image>
             <text class='cap'>商铺关注</text>
             <view class='point' wx:if='{{user.attentStore>0}}'>{{user.attentStore}}</view>
           </view>
+        </navigator> -->
 
-        </navigator>
         <navigator class='money-item flex flex-around pd ' url='/pages/my/myattention?type=2'>
           <view class='flex-col-auto flex-center message'>
             <image src='/resource/icon/my-sc.png' class='img-mm'></image>
@@ -92,13 +96,13 @@
           </view>
         </navigator>
 
-
         <view class='money-item flex flex-around pd' bindtap='toMyJiFen'>
           <view class='flex-col-auto flex-center'>
             <view class='or bolder font-lgp'>{{user.member.member_integral}}</view>
             <view class='cap font-xs'>我的积分</view>
           </view>
         </view>
+
       </view>
     </view>
   </view>
@@ -142,19 +146,42 @@
   </view>
   <view class='sq'></view>
   <view class='full-width'>
+    <view class='myinfo bgw full-width bottomline'>
+      <view class='flex-row pdr arrow' bindtap='toMyCoupons'>
+        <view class='flex flex-left font-sm pd20'>
+          <view class='img-sm flex flex-center'>
+            <image src='/resource/admin/Coupons2.png' class='img-sm'></image>
+          </view>
+          <text class='pdr font-xs'>我的优惠券</text>
+        </view>
+      </view>
+    </view>
+    <view class='myinfo bgw full-width'>
+      <view class='flex-row pdr arrow' bindtap='toMyLuckyMoney'>
+        <view class='flex flex-left font-sm pd20'>
+          <view class='img-sm flex flex-center'>
+            <image src='/resource/admin/luckymoney.png' class='img-xs'></image>
+          </view>
+          <text class='pdr font-xs'>我的红包</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='sq'></view>
+  <view class='full-width'>
     <view class='myinfo bgw full-width'>
       <view class='flex flex-left black font-sm pd20 bolder'>
-        平台
+        后台
       </view>
       <view class='user flex flex-left flex-wran font-sm topline'>
         <navigator class='col-3 flex-col-auto flex-center' url='/pages/merchants/index'>
           <image src='/resource/icon/storemgr.png' class='img-mm'></image>
-          <text class='cap'>商家后台</text>
+          <text class='cap'>管理</text>
         </navigator>
-        <navigator class='flex-col-auto flex-center' url='/pages/my/myattention?type=3'>
+        <!-- <navigator class='flex-col-auto flex-center' url='/pages/my/myattention?type=3'>
           <image src='/resource/icon/store_2.png' class='img-mm'></image>
           <text class='cap'>会员店铺</text>
-        </navigator>
+        </navigator> -->
       </view>
     </view>
   </view>

@@ -36,11 +36,10 @@
             <image src='{{item.store_logo}}'></image>
           </view>
           <view class='store_info'>
-            <view class='font-sm skr bolder mg-b10 txtpt'>{{item.store_name}}</view>
+            <view class='font-sm black bolder mg-b10 txtpt'>{{item.store_name}}</view>
             <view>
-              <text class='label small green-label'>{{item.start_time}}</text>
-							-
-              <text class='label small chosed'>{{item.end_time}}</text>
+              <text class='label small chosed' wx:if='{{item.on_line==0}}'>{{item.start_time}} ~ {{item.end_time}}</text>
+							<text class='label small chosed' wx:else>提供发货</text>
             </view>
             <view class='txtpt font-x pdc lightgray'>{{item.store_addr.address}}</view>
           </view>
@@ -51,6 +50,13 @@
       </navigator>
     </view>
   </view>
+
+	<view wx:if='{{nearByList.length<=1}}' class='full-width'>
+		<view class='sq flex flex-center black font-sm'>海报广告以实体店内容为准，仅供参考</view>
+		<view wx:for='{{poster}}' class=''>
+			<image src='{{item}}' mode='widthFix'></image>
+		</view>
+	</view>
   <import src="/template/version/version.wxml" />
   <template is="version" data="{{version}}"></template>
 </view>

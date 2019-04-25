@@ -70,16 +70,19 @@ text.mgr {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 30rpx 0;
   flex-direction: column;
-  width: 24%;
-  font-size: 14px;
+  width: 150rpx;
+	height: 150rpx;
   color: #333;
   border-bottom: 1rpx solid #f0f0f0;
   box-sizing: border-box;
   border-left: 1rpx solid #f0f0f0;
 }
 
+.img-nav .caption{
+  font-size: 12px;
+	color:rgba(0, 0, 0, 0.8);
+}
 .img-nav.vas {
   position: relative;
   overflow: hidden;
@@ -97,13 +100,16 @@ text.mgr {
   transform: rotateZ(-45deg);
 }
 
-.img-nav:nth-child(4n) {
+.img-nav:nth-child(5n) {
   border-left: 1rpx solid #f0f0f0;
 }
 
-.img-nav:nth-child(4n+1) {
+.img-nav:nth-child(5n+1) {
   border-right: 0rpx solid #f0f0f0;
   border-left: 0rpx solid #f0f0f0;
+}
+.img-nav:last-child{
+	  border-right: 1rpx solid #f0f0f0;
 }
 
 .img-nav .image {

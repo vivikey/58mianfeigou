@@ -61,12 +61,12 @@
         </view>
         <text class='nav-title'>推广</text>
       </view>
-      <view class='nav-item' bindtap='toJiFengPage'>
+      <!-- <view class='nav-item' bindtap='toJiFengPage'>
         <view class='nav-img lgreen'>
           <image src='/resource/icon/m-nav-4.png'></image>
         </view>
         <text class='nav-title'>积分</text>
-      </view>
+      </view> -->
 						<view class='nav-item' bindtap='toBeMember'>
         <view class='nav-img lviolet'>
           <image src='/resource/icon/m-nav-5.png'></image>
@@ -117,7 +117,7 @@
           <view class='flex-row'>
             <view>
               <text class='label small red-label'>{{item.group_num}}人团</text>
-              <text class='label small'>{{item.sale_num}}已团</text>
+							<text class='label small'>已拼{{item.sale_num}}件</text>
             </view>
             <view class='btn-fix-b min-small' bindtap='onShopClick' data-id='{{item.id}}' data-spec='{{item.goods_spec[0].id}}'>
               <text>我要参团</text>

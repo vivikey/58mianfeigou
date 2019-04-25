@@ -1,0 +1,59 @@
+<view class='container gray' style='padding:90rpx 0;'>
+  <view class='full-width fix-t bglinearyellow shadow flex-row pd20'>
+    <view class='font-sm black bolder'>{{storeName}}</view>
+  </view>
+  <view class='cgray bolder font-sm pd20'>已发布的活动列表</view>
+  <view class='full-width pdr20'>
+    <view class='coupon-item bgw' wx:for='{{activities}}' wx:key='id'>
+      <view class='flex flex-left'>
+        <view class='coupon-img flex-col flex-center'>
+          <image src='/resource/admin/houdong.png'></image>
+        </view>
+        <view class='coupon-content'>
+          <view class='black bolder font-md'>{{item.act_name}}</view>
+          <view class='black font-xs' wx:if='{{item.act_type == 0}}'>
+            活动价：
+            <text class='font-md pkcolor bolder'>￥{{item.act_price}}</text> 原价：
+            <text class='cgray font-xs txtmidline'>￥{{item.act_old_price
+}}</text>
+          </view>
+          <view class='black font-xs' wx:if='{{item.act_type == 1}}'>
+            第
+            <text class='font-md pkcolor bolder'>{{item.buy_num}}</text>件 打
+            <text class='font-md pkcolor bolder'>{{item.buy_discount
+}}</text>折
+          </view>
+          <view class='black font-xs' wx:if='{{item.act_type == 2}}'>
+            每满
+            <text class='font-md pkcolor bolder'>￥{{item.attain_money}}</text>减
+            <text class='font-md pkcolor bolder'>￥{{item.subtract_money
+}}</text>
+          </view>
+          <view class='black font-xs'>
+            <text class='font-x cgray'>有效期从{{item.act_start}}至{{item.act_end}}</text>
+          </view>
+        </view>
+      </view>
+      <view class='coupon-opt flex-row'>
+        <view class='pdr flex flex-center' data-idx='{{index}}' bindtap='onShowSet'>
+          <image src='/resource/icon/checkbox.png' wx:if='{{item.on_show==0}}' class='img-xs'></image>
+          <image src='/resource/icon/checkbox2.png' wx:if='{{item.on_show==1}}' class='img-xs'></image>
+          <text class='font-xs'>前端显示</text>
+        </view>
+        <view class='btn-add btn-red' data-id='{{item.id}}' bindtap='hanldeDeleteAct'>删除</view>
+        <view class='btn-add btn-green' data-id='{{item.id}}' bindtap='toDetail'>基本配置</view>
+        <view class='btn-add btn-blue' data-id='{{item.id}}' bindtap='toContents'>产品配置</view>
+        <view class='btn-add btn-orange' data-id='{{item.id}}' bindtap='toAwards'>分享配置</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class='fix-b flex flex-center pd20'>
+  <view class='btn-fix-b font-md heighter' bindtap='handleInitActivityObj'>
+    <image src='/resource/icon/add.svg' class='addbtnimg radius-circle'></image>
+    初始化活动
+  </view>
+</view>
+<import src="/template/version/version.wxml" />
+<template is="version" data="{{version}}"></template>

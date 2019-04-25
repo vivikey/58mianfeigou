@@ -1,0 +1,78 @@
+<!-- 弹出 -->
+<view class='yusell'>
+  <view style='width:100%;height:312rpx;'></view>
+  <view class='info-item-row fixer shadow'>
+    <view class='pd full-width'>
+      <text class=''>活动分享奖励配置</text>
+      <view class='input-row-line flex-row'>
+        <text class=''>活动名称</text>
+        <text class='black bolder'>{{activityObj.act_name}}</text>
+      </view>
+			<view class='input-row-line flex-row'>
+        <text class=''>奖励对象</text>
+         <view class='row-input-box flex flex-center font-x pdc'>
+              <picker range='{{awardObject}}' range-key='award_objectName' value='{{awardObjectIdx}}' bindchange="bindAwardObjectChange">
+                <text class='black bolder'>{{awardObject[awardObjectIdx].award_objectName}}</text>
+              </picker>
+            </view>
+      </view>
+      <view class='bgw flex-row pd20'>
+			  <view style='width:25%;' bindtap='handlePopupWndOpen'>
+          <view class='btn-fix-b full orange'>
+            <image src='/resource/icon/add.svg' class='addbtnimg small radius-circle'></image> 现金奖励</view>
+        </view>
+        <picker style='width:25%;' range='{{shopList}}' range-key='showText' bindchange="bindShopChange">
+          <view class='btn-fix-b full blue'>
+            <image src='/resource/icon/add.svg' class='addbtnimg small radius-circle'></image> 商品奖励</view>
+        </picker>
+        <picker style='width:25%;' range='{{couponsList}}' range-key='coupon_name' bindchange="bindCouponChange">
+          <view class='btn-fix-b full green'>
+            <image src='/resource/icon/add.svg' class='addbtnimg small radius-circle'></image> 优惠券奖励</view>
+        </picker>
+				  <picker style='width:25%;' range='{{luckyMoneyList}}' range-key='red_name' bindchange="bindLuckyMoneyChange">
+          <view class='btn-fix-b full red'>
+            <image src='/resource/icon/add.svg' class='addbtnimg small radius-circle'></image> 红包奖励</view>
+        </picker>
+      </view>
+    </view>
+
+  </view>
+
+  <view class='pd20'>
+    <view class='info-item-row' wx:for='{{activityObj.award.act_award_content}}' wx:key='id'>
+      <view class='input-row-line'>
+			<view class='flex-row' wx:if='{{item.award_type==1}}'>
+          <text>现金奖励</text>
+          <text class='black bolder'>在【{{item.award_money_min}}~{{item.award_money_max}}】之间随机</text>
+        </view>
+        <view class='flex-row' wx:if='{{item.award_type==2}}'>
+          <text>商品奖励</text>
+          <text class='black bolder'>{{item.goods.showText}}</text>
+        </view>
+				<view class='flex-row' wx:if='{{item.award_type==3}}'>
+          <text>优惠券奖励</text>
+          <text class='black bolder'>{{item.coupon.coupon_name}}</text>
+        </view>
+			<view class='flex-row' wx:if='{{item.award_type==4}}'>
+          <text>红包奖励</text>
+          <text class='black bolder'>{{item.red.red_name}}</text>
+        </view>
+        <view class='flex-row' wx:if='{{item.award_type>1}}'>
+          <text>数量</text>
+          <text class='black bolder'>{{item.award_content_num}}</text>
+        </view>
+				<view class='flex-row'>
+          <text>操作</text>
+          <view class='flex flex-right'>
+						<view class='btn-add btn-red' data-idx='{{index}}' bindtap='hanldeDeleteActivityAwardContent'>删除</view>
+						<view class='btn-add btn-blue' data-idx='{{index}}' data-subb='1' bindtap='handleChangeActContentNumber' wx:if='{{item.award_type>1}}'>-数量</view>
+						<view class='btn-add btn-green' data-idx='{{index}}' data-subb='-1' bindtap='handleChangeActContentNumber' wx:if='{{item.award_type>1}}'>+数量</view>
+					</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<import src="/template/popupinputwnd/index.wxml" />
+<template is="popupInputWnd" data="{{showPopupWnd,data:popupWndData}}"></template>

@@ -21,7 +21,7 @@
     </view>
     <input type='text' placeholder='请输入商铺完整地址' value='{{store.store_addr}}' id='store_addr' bindinput='onInputChanged'></input>
   </view>
-	  <view class='info-item-row'>
+  <view class='info-item-row'>
     <view>
       <text class='mustbe'>运费</text>
     </view>
@@ -70,12 +70,14 @@
     <view class='flex-row flex-wrap flex-left full-width bgw topline bottomline'>
       <view class='choseimg col-6' wx:for='{{store.indentity_card_img}}' wx:key=' ' wx:if='{{store.indentity_card_img.length>0}}'>
         <image src='{{item}}'></image>
-				<view data-idx='{{index}}' id='indentity_card_img' class='removeimg flex flex-center' bindtap='removeImg'>
+        <view data-idx='{{index}}' id='indentity_card_img' class='removeimg flex flex-center' bindtap='removeImg'>
           <image src='/resource/icon/remove_circle.png' class='img-sm'></image>
         </view>
       </view>
-			<view class='choseimg wait col-6' bindtap='choseIdNumberImg' wx:if='{{store.indentity_card_img.length<2}}'>
-        <view><image src='/resource/icon/append.png' class='img-md'></image></view>
+      <view class='choseimg wait col-6' bindtap='choseIdNumberImg' wx:if='{{store.indentity_card_img.length<2}}'>
+        <view>
+          <image src='/resource/icon/append.png' class='img-md'></image>
+        </view>
       </view>
     </view>
   </view>
@@ -84,12 +86,14 @@
     <view class='flex-row flex-wrap flex-left full-width bgw  topline bottomline'>
       <view class='choseimg col-6' wx:for='{{store.business_license}}' wx:key=' ' wx:if='{{store.business_license.length>0}}'>
         <image src='{{item}}'></image>
-				<view data-idx='{{index}}' id='business_license' class='removeimg flex flex-center' bindtap='removeImg'>
+        <view data-idx='{{index}}' id='business_license' class='removeimg flex flex-center' bindtap='removeImg'>
           <image src='/resource/icon/remove_circle.png' class='img-sm'></image>
         </view>
       </view>
-			<view class='choseimg wait col-6' bindtap='choseBusinessImg' wx:if='{{store.business_license.length<6}}'>
-        <view><image src='/resource/icon/append.png' class='img-md'></image></view>
+      <view class='choseimg wait col-6' bindtap='choseBusinessImg' wx:if='{{store.business_license.length<6}}'>
+        <view>
+          <image src='/resource/icon/append.png' class='img-md'></image>
+        </view>
       </view>
     </view>
   </view>
@@ -102,8 +106,10 @@
           <image src='/resource/icon/remove_circle.png' class='img-sm'></image>
         </view>
       </view>
-			<view class='choseimg wait col-6' bindtap='choseStoreImg' wx:if='{{store.store_img.length<6}}'>
-        <view><image src='/resource/icon/append.png' class='img-md'></image></view>
+      <view class='choseimg wait col-6' bindtap='choseStoreImg' wx:if='{{store.store_img.length<6}}'>
+        <view>
+          <image src='/resource/icon/append.png' class='img-md'></image>
+        </view>
       </view>
     </view>
   </view>

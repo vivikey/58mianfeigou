@@ -9,7 +9,7 @@
 		<image src='/resource/icon/wifi.png' class='img-sm' wx:if='{{networkType=="WIFI"}}'></image>
 		<image src='/resource/icon/connection-bars.png' class='img-sm' wx:else='{{networkType=="WIFI"}}'></image>
   </view>
-  <view class='btn-fix-b green heighter font-md' wx:if='{{loginFaile}}' bindtap='login'>
+  <view class='btn-fix-b green heighter font-md' wx:if='{{loginFaile}}' bindtap='loginNew'>
     <image src='/resource/icon/WeChat.png' class='addbtnimg radius-circle'></image>
     重新登录
   </view>

@@ -31,7 +31,7 @@ var pageObj = {
       },
       {
         key: 2,
-        val: '商品'
+        val: '商品直购'
       },
       {
         key: 3,
@@ -48,19 +48,19 @@ var pageObj = {
     ],
     classNavActIdx: 2,
     sortType: [{
-        key: 4,
+        key: 1,
         val: '智能排序'
       },
       {
-        key: 3,
+        key: 2,
         val: '最新上架'
       },
       {
-        key: 2,
+        key: 3,
         val: '销量最高'
       }
     ],
-    sortTypeId: 4,
+    sortTypeId: 1,
     giftList: [],
     shopList: [],
     tuanList: [],
@@ -113,14 +113,18 @@ var pageObj = {
     })
 
   },
-	toMyDaiBi(){
+  toMyDaiBi() {
+    wx.navigateTo({
+      url: '/pages/my/mydaibi',
+    })
+  },
+	handleBaokuang(){
 		wx.navigateTo({
-			url: '/pages/my/mydaibi',
+			url: `baokuang?id=${this.data.store_id}`,
 		})
 	},
   //--页面加载时
   onLoad: function(options) {
-    console.log('pages/store/detail.options => ', options)
     /**老版本 */
     if (options.q) {
       let link = decodeURIComponent(options.q);
@@ -175,10 +179,6 @@ var pageObj = {
           id: -1,
           notice_name: '欢迎光临积分商城',
           notice_content: '欢迎光临积分商城'
-        }, {
-          id: -2,
-          notice_name: '开通会员免积分赠送洗衣液正在进行中',
-          notice_content: '开通会员免积分赠送洗衣液正在进行中'
         }]
       })
     }
@@ -192,7 +192,7 @@ var pageObj = {
         url: `/pages/index/index?id=${this.data.store_id}&higher_up=${this.data.higher_up}&store=${this.data.share_store}`,
       })
     } else {
-      this.loadStoreInfo(this.data.store_id, false, () => {
+      this.loadStoreInfo(this.data.store_id, true, () => {
         Notice.List({
             user_id: app.USER_ID(),
             store_id: this.data.store_id
@@ -205,26 +205,28 @@ var pageObj = {
             this.getShopOrCommList()
           })
       })
-			UserCenter.Get({ user_id: app.USER_ID() }, false).then(r => {
-				console.log('UserCenter.Get => ', r)
-				if (r.code == 200 && r.data.user.user_img) {
-					let user = r.data.user
-					if (r.data.higher) {
-						user.higher = r.data.higher
-					} else {
-						user.higher = null
-					}
-					user.member = r.data.member
-					app.USER(user)
-					this.setData({
-						user: user,
-					})
-				} else {
-					wx.navigateTo({
-						url: '/pages/index/auth',
-					})
-				}
-			})
+      UserCenter.Get({
+        user_id: app.USER_ID()
+      }, false).then(r => {
+        console.log('UserCenter.Get => ', r)
+        if (r.code == 200 && r.data.user.user_img) {
+          let user = r.data.user
+          if (r.data.higher) {
+            user.higher = r.data.higher
+          } else {
+            user.higher = null
+          }
+          user.member = r.data.member
+          app.USER(user)
+          this.setData({
+            user: user,
+          })
+        } else {
+          wx.navigateTo({
+            url: '/pages/index/auth',
+          })
+        }
+      })
     }
   },
   //-- 显示公告详情
@@ -289,7 +291,7 @@ var pageObj = {
       FrontEndStore.CreateAttent({
         user_id: app.USER_ID(),
         store_id: store.id
-      }).then(r => {
+      },false).then(r => {
         console.log('FrontEndStore.CreateAttent => ', r)
         if (r.code == 200) {
           this.loadStoreInfo(store.id, true)
@@ -299,7 +301,7 @@ var pageObj = {
       FrontEndStore.CancelAttent({
         user_id: app.USER_ID(),
         store_id: store.id
-      }).then(r => {
+      },false).then(r => {
         console.log('FrontEndStore.CreateAttent => ', r)
         if (r.code == 200) {
           this.loadStoreInfo(store.id, true)
@@ -335,95 +337,113 @@ var pageObj = {
   },
   //-- 加载网络数据
   getShopOrCommList(render) {
-    let local = app.LOCATION()
-    let long_lat = `${local.longitude},${local.latitude}`
-    if (this.data.classNavActIdx < 3) //-- ShopList
-    {
-      FrontEndStore.ShopList({
-        user_id: app.USER_ID(),
-        store_id: this.data.store_id
-      }).then(r => {
-        console.log('FrontEndStore.ShopList => ', r)
-        if (r.code == 200) {
-          let slist = r.data
-          let olist = []
-          let giftList = []
-          let tuanList = []
-          slist.forEach(item => {
-            if (item.spec.length > 0) {
-              item.spec.forEach(sp => {
-                let obj = {
-                  ...item
-                }
-                obj.spec = {
-                  ...sp
-                }
-                obj.goods_key = obj.goods_key.split(/，|,/)
-                if (obj.group_purchase == 1) {
-                  tuanList.push(obj)
-                } else if (obj.is_gift == 1) {
-                  giftList.push(obj)
-                }
-                olist.push({
-                  ...obj,
-                  cart: 0
-                })
-              })
-            }
-          })
-          this.data.shopList = olist
-          this.data.tuanList = tuanList
-          this.data.giftList = giftList
-          this.data.allList = slist
-
-          this.setData({
-            store: this.data.store,
-            shopList: this.data.shopList,
-            tuanList: this.data.tuanList,
-            giftList: this.data.giftList,
-            allList: this.data.allList,
-          }, this.loadCartList)
-        }
+    const {
+      store_id
+    } = this.data
+		const show_type = this.data.sortTypeId
+    const user_id = app.USER_ID()
+    //-- 赠品列表
+    if (this.data.classNavActIdx == 0) {
+      this.getGiftList({
+        store_id,
+        user_id,
+				show_type
       })
     }
-    if (this.data.classNavActIdx == 3) {
-      FrontEndStore.RecomShopList({
-        user_id: app.USER_ID(),
-        show_type: this.data.sortTypeId,
-        store_id: this.data.store_id,
-        page: 1,
-        num: 50,
-        user_location: long_lat
-      }).then(r => {
-        console.log('FrontEndStore.RecomShopList =>', r)
-        let shopList = []
-        if (r.code == 200 && r.data.length > 0) {
-          let temparr = r.data.filter(item => item.spec && item.spec.length > 0)
-          temparr.forEach(item => {
-            item.spec.forEach(sp => {
-              let obj = {
-                ...item
-              }
-              obj.spec = {
-                ...sp
-              }
-              shopList.push({
-                ...obj,
-                cart: 0
-              })
-            })
-          })
-        }
-        this.setData({
-          recomShopList: shopList
-        }, this.loadRecomCartList)
+    //-- 拼团列表
+    if (this.data.classNavActIdx == 1) {
+      this.getTuanList({
+        store_id,
+        user_id,
+				show_type
       })
+    }
+    //-- 直购商品列表
+    if (this.data.classNavActIdx == 2) {
+      this.getShopList({
+        store_id,
+        user_id,
+				show_type
+      })
+    }
+    //-- 推荐有奖列表
+    if (this.data.classNavActIdx == 3) {
+			this.getRecommList({
+				store_id,
+				user_id,
+				show_type
+			})
     }
 
   },
+  //-- 获取赠品列表
+  getGiftList(data) {
+		FrontEndStore.GiftListAtView(data)
+			.then(r => {
+				let list = []
+				if (r.code == 200 && r.data.length > 0) {
+					list = r.data.map(u => {
+						u.goods_key = u.goods_key.split(/，|,/)
+						return u;
+					})
+				}
+				this.setData({
+					giftList: list
+				})
+			})
+  },
+  //-- 获取拼团列表
+  getTuanList(data) {
+    FrontEndStore.GroupListAtView(data)
+      .then(r => {
+        let list = []
+        if (r.code == 200 && r.data.length > 0) {
+          list = r.data.map(u => {
+            u.goods_key = u.goods_key.split(/，|,/)
+            return u;
+          })
+        }
+        this.setData({
+          tuanList: list
+        })
+      })
+  },
+  //-- 获取直购商品列表
+  getShopList(data) {
+    FrontEndStore.ShopListAtView(data)
+      .then(r => {
+        let list = []
+        if (r.code == 200 && r.data.length > 0) {
+          list = r.data.map(u => {
+            u.goods_key = u.goods_key.split(/，|,/)
+            return u;
+          })
+        }
+        this.setData({
+          shopList: list
+        })
+      })
+  },
+  //-- 获得推荐有奖列表
+  getRecommList(data) {
+    FrontEndStore.RecomShopList(data).then(r => {
+      let shopList = []
+      if (r.code == 200 && r.data.length > 0) {
+        let temparr = r.data.filter(item => item.spec && item.spec.length > 0)
+        temparr.forEach(item => {
+          shopList.push({
+            ...item,
+            cart: 0
+          })
+        })
+      }
+      this.setData({
+        recomShopList: shopList
+      }, this.loadRecomCartList)
+    })
+  },
   //-- 同步购物车数据
   syncCartData() {
-    console.log('============ syncCartData ============')
     let shopList = this.data.shopList
     let cartList = this.data.storeCart.cart_list
     shopList.forEach(item => {
@@ -443,7 +463,6 @@ var pageObj = {
   },
   //-- 同步推荐有奖购物车数据
   syncRecomCartData() {
-    console.log('============ syncRecomCartData ============')
     let recomShopList = this.data.recomShopList
     let cartList = this.data.recomCart.cart_list
     recomShopList.forEach(item => {
@@ -464,18 +483,15 @@ var pageObj = {
   },
   //-- 去详情页
   goDetail(e) {
-    console.log('......e..... ', e)
-    let goods_id = e.currentTarget.dataset.goodsid
-    let spec_id = e.currentTarget.dataset.specid
-
+		const { goodsid, specid } = e.currentTarget.dataset
     wx.navigateTo({
-      url: `/pages/shop/details?id=${goods_id}&spec=${spec_id}`,
+			url: `/pages/shop/details?id=${goodsid}&spec=${specid}`,
     })
   },
   //-- 加入到购物车
   importToCart(e) {
-    let idx = e.currentTarget.dataset.idx
-    let goods = this.data.shopList[idx]
+    const { idx }= e.currentTarget.dataset
+    const goods = {...this.data.shopList[idx]}
     Cart.Add({
       user_id: app.USER_ID(),
       store_id: goods.store_id,

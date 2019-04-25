@@ -3,12 +3,13 @@ import Shop from '../../comm/Shop.js'
 import Spec from '../../comm/Spec.js'
 Page({
   data: {
-		goods_id:0,
+    goods_id: 0,
     shopTypeList: [
       [],
       [],
       []
     ],
+    showInputSpec: false,
     multiIndex: [0, 0, 0],
     goods: {
       id: 0,
@@ -18,6 +19,7 @@ Page({
       sale_num: 0, //-- 售出总量
       is_gift: 0, //-- 是否是赠品：1-Yes 0-No
       group_purchase: 0, //-- 是否参与拼团
+      auto_group: 0, //-- 自动成团
       group_num: 2, //-- 成团人数
       class_one: 0, //-- 商品一级分类
       class_two: 0, //-- 商品二级分类
@@ -28,7 +30,8 @@ Page({
       goods_brokerage: 0, //-- 佣金
       goods_describe: '', //-- 商品详情
       goods_img: [], //-- 商品图片
-      goods_banners: [] //-- 商品轮播图
+      goods_banners: [], //-- 商品轮播图
+      is_vogue: 0
     },
     goods_spec: [],
     spec_item: {
@@ -40,56 +43,73 @@ Page({
       integral: 0, //-- 所需积分
       spec_img: '', //-- 规格图片
       spec_price: 0, //-- 标价
-			service_charge:0 //-- 服务费
+      service_charge: 0, //-- 服务费
+      discounts_group: 0, //-- 团长优惠价
     },
     storeId: 0,
     version: ''
+  },
+  initSpecInput() {
+    this.setData({
+      spec_item: {
+        id: 0,
+        spec_num: 999, //-- 库存
+        spec_size: '', //-- 尺寸
+        spec_color: '', //-- 颜色
+        group_price: 0, //-- 拼团价
+        integral: 0, //-- 所需积分
+        spec_img: '', //-- 规格图片
+        spec_price: 0, //-- 标价
+        service_charge: 0 //-- 服务费
+      }
+    })
+
   },
   onLoad: function(options) {
     this.data.goods_id = options.goods_id || 0
     this.data.storeId = options.storeId
     this.setData({
       version: app.VERSION(),
-			spec_item: this.initSpecItem()
-    },this.initData)
+      spec_item: this.initSpecItem()
+    }, this.initData)
   },
-	initData(){
-		let goods_id = this.data.goods_id
-		if (goods_id > 0) {
-			Shop.Get({
-				user_id: app.USER_ID(),
-				goods_id
-			}).then(r => {
-				console.log('Shop.Get => ', r)
-				if (r.code == 200) {
-					let g = r.data
-					g.goods_img = g.goods_img.split(',')
-					g.goods_banners = g.goods_banners.split(',')
-					this.setData({
-						goods: g,
-						goods_spec: g.spec
-					})
-					this.initTypeList(r.data.class_one, r.data.class_two, r.data.class_three)
-				}
-			})
-		} else {
-			this.initTypeList(0, 0, 0)
-		}
-	},
-	//-- 获取商品规格列表
-	getSpecList(){
-		Shop.SpecList({
-			user_id:app.USER_ID(),
-			goods_id: this.data.goods_id
-		}).then(r=>{
-			console.log('Shop.SpecList => ',r)
-			if(r.code==200){
-				this.setData({
-					goods_spec: r.data.filter(u => u.is_delete==0)
-				})
-			}
-		})
-	},
+  initData() {
+    let goods_id = this.data.goods_id
+    if (goods_id > 0) {
+      Shop.Get({
+        user_id: app.USER_ID(),
+        goods_id
+      }).then(r => {
+        console.log('Shop.Get => ', r)
+        if (r.code == 200) {
+          let g = r.data
+          g.goods_img = g.goods_img.split(',')
+          g.goods_banners = g.goods_banners.split(',')
+          this.setData({
+            goods: g,
+            goods_spec: g.spec
+          })
+          this.initTypeList(r.data.class_one, r.data.class_two, r.data.class_three)
+        }
+      })
+    } else {
+      this.initTypeList(0, 0, 0)
+    }
+  },
+  //-- 获取商品规格列表
+  getSpecList() {
+    Shop.SpecList({
+      user_id: app.USER_ID(),
+      goods_id: this.data.goods_id
+    }).then(r => {
+      console.log('Shop.SpecList => ', r)
+      if (r.code == 200) {
+        this.setData({
+          goods_spec: r.data.filter(u => u.is_delete == 0)
+        })
+      }
+    })
+  },
   //-- 初始化商品类型列表数据
   initTypeList(pid1, pid2, pid3) {
     let next = 0
@@ -209,25 +229,35 @@ Page({
       goods: goods
     })
   },
-	//-- 类型切换事件
-	onGoodsTypeChanged(e){
-		let spec_item = this.data.spec_item
-		let goods = this.data.goods
-		if (e.currentTarget.id == "is_gift") {
-			goods.group_purchase = 0
-			goods.is_gift = 1 - goods.is_gift
-			spec_item.group_price = 0
-		}
-		if (e.currentTarget.id == "group_purchase") {
-			goods.is_gift = 0
-			goods.group_purchase = 1 - goods.group_purchase
-			spec_item.integral = 0
-		}
-		this.setData({
-			goods: goods,
-			spec_item: spec_item
-		})
-	},
+  //-- 类型切换事件
+  onGoodsTypeChanged(e) {
+    let spec_item = this.data.spec_item
+    let goods = this.data.goods
+    if (e.currentTarget.id == "is_gift") {
+      goods.group_purchase = 0
+      goods.is_gift = 1 - goods.is_gift
+      spec_item.group_price = 0
+    }
+    if (e.currentTarget.id == "group_purchase") {
+      goods.is_gift = 0
+      goods.group_purchase = 1 - goods.group_purchase
+      spec_item.integral = 0
+    }
+    this.setData({
+      goods: goods,
+      spec_item: spec_item
+    })
+  },
+  //-- 爆款设置事件
+  handleSetToggle(e) {
+    console.log('handleSetVogue.e => ', e)
+    const property = e.currentTarget.id
+    let goods = this.data.goods
+    goods[`${property}`] = 1 - goods[`${property}`]
+    this.setData({
+      goods: goods
+    })
+  },
   //-- 规格信息输入事件
   specsItemInput(e) {
     let spec_item = this.data.spec_item
@@ -253,7 +283,10 @@ Page({
       sourceType: ['album', 'camera'],
       success: (res) => {
         let image = res.tempFilePaths[0]
-				app._uploadImage(image, { file_type: 3, file_name: '' }).then(r => {
+        app._uploadImage(image, {
+          file_type: 3,
+          file_name: ''
+        }).then(r => {
           var resd = JSON.parse(r.data)
           if (resd.code == 200) {
             spec_item.spec_img = app.joinPath(app.globalData.xcxUrl, resd.data);
@@ -279,12 +312,12 @@ Page({
   //-- 选择商品图片
   choseImg(e) {
     let goods = this.data.goods
-		let maxpics = 6
-		if (e.currentTarget.id == "goods_img"){
-			maxpics = 12
-		}
+    let maxpics = 6
+    if (e.currentTarget.id == "goods_img") {
+      maxpics = 999
+    }
     wx.chooseImage({
-			count: maxpics - goods[e.currentTarget.id].length,
+      count: maxpics - goods[e.currentTarget.id].length,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: (res) => {
@@ -292,7 +325,10 @@ Page({
         for (var i = 0; i < tempFilePaths.length; i++) {
           var image = tempFilePaths[i]
 
-					app._uploadImage(image, { file_type: 3, file_name: '' }).then(r => {
+          app._uploadImage(image, {
+            file_type: 3,
+            file_name: ''
+          }).then(r => {
             var resd = JSON.parse(r.data)
             if (resd.code == 200) {
               goods[e.currentTarget.id].push(app.joinPath(app.globalData.xcxUrl, resd.data));
@@ -309,38 +345,38 @@ Page({
   },
   //-- 删除一个规格事件
   removeSpecsItem(e) {
-		app.CONFIME('确定要删除该规格吗？',()=>{
-			let goods_spec = this.data.goods_spec
-			let idx = e.currentTarget.dataset.idx
-			if (goods_spec[idx].id > 0) {
-				Spec.Delete({
-					user_id: app.USER_ID(),
-					spec_id: goods_spec[idx].id
-				}).then(r => {
-					if (r.code == 200) {
-						app.msg('删除成功')
-						this.getSpecList()
-					} else {
-						app.ERROR("删除已有规格失败!")
-					}
-				})
-			} else {
-				goods_spec.splice(idx, 1);
-				this.setData({
-					goods_spec: goods_spec
-				})
-			}
-		})    
+    app.CONFIME('确定要删除该规格吗？', () => {
+      let goods_spec = this.data.goods_spec
+      let idx = e.currentTarget.dataset.idx
+      if (goods_spec[idx].id > 0) {
+        Spec.Delete({
+          user_id: app.USER_ID(),
+          spec_id: goods_spec[idx].id
+        }).then(r => {
+          if (r.code == 200) {
+            app.msg('删除成功')
+            this.getSpecList()
+          } else {
+            app.ERROR("删除已有规格失败!")
+          }
+        })
+      } else {
+        goods_spec.splice(idx, 1);
+        this.setData({
+          goods_spec: goods_spec
+        })
+      }
+    })
   },
-	//-- 编辑一个规格事件
-	editSpecsItem(e) {
-		let goods_spec = this.data.goods_spec
-		let idx = e.currentTarget.dataset.idx
-		this.data.spec_item = goods_spec[idx]
-		this.setData({
-			spec_item: this.data.spec_item
-		})
-	},
+  //-- 编辑一个规格事件
+  editSpecsItem(e) {
+    let goods_spec = this.data.goods_spec
+    let idx = e.currentTarget.dataset.idx
+    this.data.spec_item = goods_spec[idx]
+    this.setData({
+      spec_item: this.data.spec_item
+    })
+  },
   validateSpec(spec_item) {
     if (spec_item.spec_size.length <= 0) {
       app.msg("请输入商品规格尺寸")
@@ -380,33 +416,34 @@ Page({
       Spec.Post(spec_item).then(r => {
         if (r.code == 200) {
           app.SUCCESS('规格确认成功！')
-					this.getSpecList()
+          this.getSpecList()
+          this.initSpecInput()
           // let goods_spec = this.data.goods_spec
           // spec_item.id = r.data
           // goods_spec.push({...spec_item})
           // this.setData({
           //   goods_spec: goods_spec,
-					// 	spec_item: this.initSpecItem()
-					// }, this.getSpecList)
+          // 	spec_item: this.initSpecItem()
+          // }, this.getSpecList)
         } else {
           app.ERROR("规格确认失败！")
         }
       })
     }
   },
-	initSpecItem(){
-		return {
-			id: 0,
-			spec_num: 999, //-- 库存
-			spec_size: '', //-- 尺寸
-			spec_color: '', //-- 颜色
-			group_price: 0, //-- 拼团价
-			integral: 0, //-- 所需积分
-			spec_img: '', //-- 规格图片
-			spec_price: 0, //-- 标价
-			service_charge:0 //-- 服务费
-		}
-	},
+  initSpecItem() {
+    return {
+      id: 0,
+      spec_num: 999, //-- 库存
+      spec_size: '', //-- 尺寸
+      spec_color: '', //-- 颜色
+      group_price: 0, //-- 拼团价
+      integral: 0, //-- 所需积分
+      spec_img: '', //-- 规格图片
+      spec_price: 0, //-- 标价
+      service_charge: 0 //-- 服务费
+    }
+  },
   //-- 执行操作
   onSubmit() {
     let goods = Object.assign({}, this.data.goods)
@@ -435,6 +472,18 @@ Page({
       if (!this.validateSpec(spec_item)) {
         return;
       }
+    }
+    //-- 轮播展示图检查
+    if (goods.group_purchase == 1) {
+      if (goods.group_num.length <= 0) {
+        app.msg("请上输入成团人数！")
+        return;
+      }
+
+			if (goods.group_num < 2 || goods.group_num>100) {
+				app.msg("成团人数只能为2~100之间！")
+				return;
+			}
     }
     //-- 轮播展示图检查
     if (!goods.goods_banners || goods.goods_banners.length <= 0) {

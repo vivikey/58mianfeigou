@@ -13,14 +13,164 @@ Page({
       district: '请配置选择收货地址'
     },
     expressList: [],
-		paytype:1
+    canUseCouponList: [],
+    luckyMoneyList: [],
+    paytype: 1
   },
-	//-- 选择支付方式事件
-	onChosedPayType(e) {
-		this.setData({
-			paytype: e.currentTarget.dataset.pid
-		})
-	},
+  handleChosedCoupon(e) {
+    if (this.data.order.order_status == 0) {
+      const {
+        id,
+        index
+      } = e.currentTarget.dataset
+      let canUseCouponList = [...this.data.canUseCouponList]
+      canUseCouponList[index].chosed = !canUseCouponList[index].chosed
+      Order.UserModOrderCoupon({
+        user_id: app.USER_ID(),
+        order_id: this.data.order_id,
+        coupon_use_id: canUseCouponList[index].chosed ? id : 0
+      }).then(r => {
+        let order = this.data.order
+        if (r.code == 200) {
+          order.coupon = r.data.coupon
+          order.coupon_discount = r.data.coupon_discount
+          order.total_price = r.data.total_price
+          this.setData({
+            order
+          }, this.covertCanUseCoupons)
+        }
+      })
+    }
+  },
+  covertCanUseCoupons() {
+    let orderCoupons = this.data.order.coupon || {}
+    console.log('covertCanUseCoupons => ', orderCoupons)
+    let canUseCouponList = this.data.canUseCouponList.map(v => {
+			if (orderCoupons.id && v.coupon_id == orderCoupons.id) {
+        v.chosed = true
+      } else {
+        v.chosed = false
+      }
+      return v
+    })
+    this.setData({
+      canUseCouponList
+    })
+  },
+  //-- 加载用户可以使用的优惠券
+  canUseCoupon() {
+    Order.CanUseCoupon({
+        user_id: app.USER_ID(),
+        order_id: this.data.order_id
+      })
+      .then(r => {
+        console.log('Order.CanUseCoupon => ', r)
+        let canUseCouponList = []
+        if (r.code == 200) {
+          canUseCouponList = [...r.data.map(u => {
+            u.chosed = false
+            return u
+          })]
+        }
+        this.setData({
+          canUseCouponList
+        }, this.covertCanUseCoupons)
+      })
+  },
+  //-- 加载用户可以使用的红包
+  showUserRedAtOrder() {
+    Order.ShowUserRedAtOrder({
+      user_id: app.USER_ID(),
+      store_id: this.data.order.store_id
+    }).then(r => {
+      console.log('Order.ShowUserRedAtOrder => ', r)
+      let luckyMoneyList = []
+      if (r.code == 200) {
+        luckyMoneyList = [...r.data.map(u => {
+          u.chosed = 0
+          return u
+        })]
+      }
+      this.setData({
+        luckyMoneyList
+      }, this.initUseLuckyMoney)
+    })
+  },
+  initUseLuckyMoney() {
+    let order = this.data.order
+    let luckyMoneyList = [...this.data.luckyMoneyList]
+    if (order.order_status == 0) {
+      luckyMoneyList[0].chosed = 1 - luckyMoneyList[0].chosed
+      Order.UseRedAtOrder({
+        user_id: app.USER_ID(),
+        order_id: this.data.order_id,
+				red_id: luckyMoneyList[0].id,
+        is_use: luckyMoneyList[0].chosed
+      }).then(r => {
+        console.log('Order.red_id => ', r)
+        let order = this.data.order
+        if (r.code == 200) {
+          order.red_price = r.data.red_price
+          order.total_price = r.data.total_price
+          this.setData({
+            order,
+            luckyMoneyList
+          })
+        }
+      })
+    } else {
+      if (order.red_id > 0) {
+        let index = luckyMoneyList.findIndex(v => v.id == red_id)
+        luckyMoneyList[index].chosed = 1 - luckyMoneyList[index].chosed
+        this.setData({
+          luckyMoneyList
+        })
+      }
+    }
+  },
+  handleChosedLuckyMoney(e) {
+    if (this.data.order.order_status == 0) {
+      const {
+        id,
+        index
+      } = e.currentTarget.dataset
+      let luckyMoneyList = [...this.data.luckyMoneyList]
+      luckyMoneyList[index].chosed = 1 - luckyMoneyList[index].chosed
+      Order.UseRedAtOrder({
+        user_id: app.USER_ID(),
+        order_id: this.data.order_id,
+        red_id: id,
+        is_use: luckyMoneyList[index].chosed
+      }).then(r => {
+        console.log('Order.red_id => ', r)
+        let order = this.data.order
+        if (r.code == 200) {
+          order.red_price = r.data.red_price
+          order.total_price = r.data.total_price
+          this.setData({
+            order,
+            luckyMoneyList
+          })
+        }
+      })
+    }
+  },
+  //-- 选择支付方式事件
+  onChosedPayType(e) {
+    if (e.currentTarget.dataset.pid == 2) {
+      let {
+        member_money,
+        total_price
+      } = this.data.order
+      if (member_money < total_price) {
+        app.msg('您的余额不够支付此订单金额！')
+        return;
+      }
+    }
+    this.setData({
+      paytype: e.currentTarget.dataset.pid
+    })
+  },
   //-- 获取用户收货地址
   getUserAddress() {
     Address.List({
@@ -44,10 +194,10 @@ Page({
       url: `expressdetail?user_id=${this.data.order.user_id}&order_id=${this.data.order.id}`,
     })
   },
-  onLoad: function(options) {
+  onLoad(options) {
     this.data.order_id = options.id || 0
   },
-  onShow: function() {
+  onShow() {
     let chosedAddress = wx.getStorageSync("chosedAddress") || null
     if (!chosedAddress) {
       this.getUserAddress()
@@ -82,16 +232,19 @@ Page({
           app.ERROR(r.message)
         }
       })
-  }, 
-  loadOrderDetail: function() {
+  },
+  //-- 加载订单详情
+  loadOrderDetail() {
     Order.Get({
       user_id: app.USER_ID(),
       order_id: this.data.order_id
     }).then(r => {
       console.log('Order.Get => ', r)
       if (r.code === 200) {
-				r.data.statMsg = app.getOrderStatusTxt(r.data.order_status)
+        //r.data.statMsg = app.getOrderStatusTxt(r.data.order_status)
+        r.data.statMsg = r.data.order_status_name
         r.data.addtime = TimeConverter.ToLocal(r.data.addtime)
+        r.data.paytime = TimeConverter.ToLocal(r.data.paytime)
         r.data.goods = r.data.goods.map(u => {
           u.use_chosed = u.spec_num
           u.can_use = u.spec_num - u.use_num
@@ -101,21 +254,27 @@ Page({
         })
         this.setData({
           order: r.data
-        })
-      }
-      if (r.data.store.on_line == 1) {
-        Order.Express({
-            user_id: r.data.user_id,
-            order_id: this.data.order_id
-          })
-          .then(rr => {
-            console.log('Order.Express => ', rr)
-            if (rr.code == 200) {
-              this.setData({
-                expressList: rr.data
+        }, () => {
+          //-- 加载优惠券信息
+          this.canUseCoupon()
+          //-- 加载红包信息
+          this.showUserRedAtOrder()
+          //-- 加载物流信息
+          if (this.data.order.store.on_line == 1 && this.data.order.order_status > 0) {
+            Order.Express({
+                user_id: r.data.user_id,
+                order_id: this.data.order_id
               })
-            }
-          })
+              .then(rr => {
+                console.log('Order.Express => ', rr)
+                if (rr.code == 200) {
+                  this.setData({
+                    expressList: rr.data
+                  })
+                }
+              })
+          }
+        })
       }
     })
   },
@@ -317,16 +476,16 @@ Page({
       app.ERROR('请配置收货地址')
       return
     }
-		let pay_type = 0
-		if(this.data.paytype == 2){
-			pay_type=1
-		}
-    this.payOrder(this.data.order.order_sn, this.data.order.id,pay_type)
+    let pay_type = 0
+    if (this.data.paytype == 2) {
+      pay_type = 1
+    }
+    this.payOrder(this.data.order.order_sn, this.data.order.id, pay_type)
   },
   /**
    * 确定订单
    */
-  payOrder(order_sn, order_id,pay_type=0) {
+  payOrder(order_sn, order_id, pay_type = 0) {
     if (this.data.order.store.on_line == 1) {
       Order.OrderAddr({
         user_id: app.USER_ID(),
@@ -337,19 +496,13 @@ Page({
           Order.PayOrder({
             user_id: app.USER_ID(),
             order_sn,
-						pay_type
+            pay_type
           }).then(r => {
             console.log('Order.PayOrder => ', r)
             if (r.code == 200) {
-							this.useWeChatPay(r.data, order_id)
-						} else if (r.code == 0 || r.code == 1) {
-              app.msgbox({
-                content: r.message,
-                showCancel: false,
-                success: d => {
-                  this.loadOrderDetail()
-                }
-              })
+              this.useWeChatPay(r.data, order_id)
+            } else if (r.code == 0 || r.code == 1) {
+              this.onSuccess(order_id)
             } else {
               app.ERROR(`确认订单失败！`)
 
@@ -363,20 +516,14 @@ Page({
       Order.PayOrder({
         user_id: app.USER_ID(),
         order_sn,
-				pay_type
+        pay_type
       }).then(r => {
         console.log('Order.PayOrder => ', r)
         if (r.code == 200) {
-					this.useWeChatPay(r.data, order_id)
-				} else if (r.code == 0 || r.code == 1) {
-					app.msgbox({
-						content: r.message,
-						showCancel: false,
-						success: d => {
-							this.loadOrderDetail()
-						}
-					})
-				}else {
+          this.useWeChatPay(r.data, order_id)
+        } else if (r.code == 0 || r.code == 1) {
+          this.onSuccess(order_id)
+        } else {
           app.ERROR(`确认订单失败！`)
 
         }
@@ -385,7 +532,7 @@ Page({
 
   },
   /**微信支付 */
-	useWeChatPay(obj, order_id) {
+  useWeChatPay(obj, order_id) {
     wx.requestPayment({
       'timeStamp': obj.timeStamp.toString(),
       'nonceStr': obj.nonceStr,
@@ -397,12 +544,7 @@ Page({
           content: '支付成功',
           showCancel: false,
           success: d => {
-						Order.AfterPaySuccess({
-							user_id: app.USER_ID(),
-							order_id
-						}).then(r=>{
-							this.loadOrderDetail()
-						})
+            this.onSuccess(order_id)
           }
         })
       },
@@ -421,5 +563,36 @@ Page({
         })
       }
     })
+  },
+  onSuccess(order_id) {
+    app.msgbox({
+      content: '支付成功',
+      showCancel: false,
+      success: d => {
+        Order.AfterPaySuccess({
+          user_id: app.USER_ID(),
+          order_id
+        }).then(r => {
+          this.loadOrderDetail()
+        })
+      }
+    })
+  },
+  /**提醒发货 */
+  onRemindShipment(e) {
+    console.log('form发生了submit事件，携带数据为：', e.detail)
+    let formId = e.detail.formId
+    Order.RemindShipment({
+        ...e.detail.value,
+        formId
+      })
+      .then(r => {
+        console.log('Order.RemindShipment => ', r)
+        if (r.code == 200) {
+          app.SUCCESS(r.message)
+        } else {
+          app.ERROR(r.message)
+        }
+      })
   },
 })

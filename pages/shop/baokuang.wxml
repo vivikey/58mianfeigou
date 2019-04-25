@@ -1,0 +1,53 @@
+<import src="/template/totop/totop.wxml" />
+<template is="totop" data="{{showToTop}}"></template>
+<view class='container gray font-xs hardgray'>
+  <view class='box'>
+    <view class='flex-row'>
+      <view class='title full-width' bindtap='handleToStore'>
+        <text class='didi bgprimary mix'></text>
+        <text class='didi bgpk half'></text>
+        <text class='didi bgviolet'></text>
+        <text class='pdr black'>今日爆款</text>
+        <text class='didi bgviolet'></text>
+        <text class='didi bgpk half'></text>
+        <text class='didi bgprimary mix'></text>
+      </view>
+    </view>
+  </view>
+  <view class='box pd bgw'>
+    <view class='sortbox'>
+      <view class='label small {{sortTypeId==item.key?"chosed":""}} ' wx:for='{{sortType}}' wx:key='' id='{{item.key}}' bindtap='onSortTypeClick'>{{item.val}}</view>
+    </view>
+    <import src="/template/nothing/item.wxml" />
+    <template is="nothing" data='{{datalist:shopList,Msg:"~空空如也~"}}'></template>
+    <view wx:for='{{shopList}}' wx:key='id' class='full-width mg-b10 bgw bottomline'>
+      <view class='full-width flex-row pd20'>
+        <view class='store_shop_specimg rel' bindtap='onShopClick' data-id='{{item.id}}' data-spec='{{item.spec[0].id}}'>
+          <image src='{{item.spec[0].spec_img}}'></image>
+
+        </view>
+        <view class='store_shop_info pdc'>
+          <view>
+            <view class='black bolder font-sm txtclamp txtclamp-2'>
+              <text>{{item.goods_name}}</text>
+            </view>
+          </view>
+          <view class='baokuangtag '>
+            <text class='txtclamp txtclamp-4'>{{item.goods_describe}}</text>
+          </view>
+          <view class='flex-row'>
+            <view class='font-xs label or-label small' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>销售佣金
+              <text>{{item.goods_brokerage}}</text>
+            </view>
+            <view class='btn-fix-b min-small' bindtap='onShopClick' data-id='{{item.id}}' data-spec='{{item.spec[0].id}}'>
+              <text>爆款详情</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+  </view>
+  <import src="/template/version/version.wxml" />
+  <template is="version" data="{{version}}"></template>
+</view>

@@ -60,12 +60,12 @@
         </view>
         <text class='nav-title'>拼团</text>
       </view>
-      <view class='nav-item' bindtap='toJiFengPage'>
+      <!-- <view class='nav-item' bindtap='toJiFengPage'>
         <view class='nav-img lgreen'>
           <image src='/resource/icon/m-nav-4.png'></image>
         </view>
         <text class='nav-title'>积分</text>
-      </view>
+      </view> -->
       <view class='nav-item' bindtap='toBeMember'>
         <view class='nav-img lviolet'>
           <image src='/resource/icon/m-nav-5.png'></image>

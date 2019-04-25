@@ -34,6 +34,7 @@ Page({
       if(r.code==200 && r.data.length>0){
           recomList=r.data.map(u=>{
             u.addtime = TimeConverter.ToLocal(u.addtime)
+						u.recom_name = u.recom_name || '初始化的空方案，请配置...'
             return u
           })
       }
@@ -48,8 +49,8 @@ Page({
     let recom = {
       id: 0,
       store_id: this.data.storeId,
-      recom_name: '初始化的推荐方案', //名称
-      recom_explain: '未设置方案描述', //说明
+      recom_name: '', //名称
+      recom_explain: '', //说明
       recom_goods: '', //方案中的商品
       goods_limit: 0, //限购
       recom_type: 0, //获得推荐资格的条件：0-无门槛 1-购买任一商品 2-消费满额 3-充值满额

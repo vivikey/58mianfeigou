@@ -1,58 +1,48 @@
 <view class='container gray'>
-  <view class='' style='height:46px;'></view>
-  <view class='fix-t full-width' style='height:46px;'>
-    <view class='top-menu bgw pd20 bottomline full-width flex flex-center'>
-      <view class='flex flex-center top-menu-kk'>
-        <view class='top-menu-item {{type==1?"active":""}}' id='1' bindtap='onChangeType'>方案基本设置</view>
-        <view class='top-menu-item {{type==2?"active":""}}' id='2' bindtap='onChangeType'>推荐奖励设置</view>
-      </view>
-    </view>
-  </view>
   <!-- 方案基本设置 -->
-  <view class='full-width' wx:if='{{type==1}}'>
-    <view class='full-width flex flex-center pd20'>
-      <text class='label blue-label'>方案基本设置</text>
-    </view>
-    <view class='full-width shadow'>
-      <view class='info-item-row'>
-        <text class='mustbe'>方案名称</text>
-        <input type='text' placeholder='请输入方案名称' value='{{recommend.recom_name}}' id='recom_name' bindinput='onInputChanged'></input>
-      </view>
-      <view class='info-item-row '>
-        <text class='mustbe'>方案描述</text>
-        <textarea maxlength='-1' placeholder='请输入方案描述' value='{{recommend.recom_explain}}' id='recom_explain' bindinput='onInputChanged'></textarea>
-      </view>
-      <view class='info-item-row '>
-        <text class='mustbe'>方案有效期限</text>
-        <view class='flex-row pd '>
-          <picker mode="date" value="{{recommend.start_time}}" start="2018-01-01" end="2099-01-01" id='start_time' bindchange="bindTimeChange">
-            <view class="picker arrow-down">
-              起：{{recommend.start_time}}
-            </view>
-          </picker>
-          <picker mode="date" value="{{recommend.end_time}}" start="2018-01-01" end="2099-01-01" id='end_time' bindchange="bindTimeChange">
-            <view class="picker arrow-down">
-              止：{{recommend.end_time}}
-            </view>
-          </picker>
+  <view class='full-width'>
+    <view class='full-width'>
+      <view class='info-item-row pd'>
+        <view class='input-row-line flex-row'>
+          <text class='mustbe'>方案名称</text>
+          <input type='digit' class='double' placeholder='请输入方案名称' value='{{recommend.recom_name}}' id='recom_name' bindinput='onInputChanged'></input>
+        </view>
+        <view class='input-row-line flex-row'>
+          <text class='mustbe'>方案描述(750个字符内)</text>
+          <textarea maxlength='750' placeholder='请输入方案描述' value='{{recommend.recom_explain}}' id='recom_explain' bindinput='onInputChanged'></textarea>
+        </view>
+        <view class='input-row-line flex-row'>
+          <text class='mustbe'>方案有效期限</text>
+          <view class='row-input-box flex flex-center font-xs pd'>
+            <picker mode="date" value="{{recommend.start_time}}" start="2018-01-01" end="2099-01-01" id='start_time' bindchange="onInputChanged">
+              <view class="caption">
+                <text class='black'>{{recommend.start_time}}</text>
+              </view>
+            </picker>
+            <view class='gray font-x pdr flex flex-center'>至</view>
+            <picker mode="date" value="{{recommend.end_time}}" start="2018-01-01" end="2099-01-01" id='end_time' bindchange="onInputChanged">
+              <view class="caption">
+                <text class='black'>{{recommend.end_time}}</text>
+              </view>
+            </picker>
+          </view>
         </view>
       </view>
     </view>
     <!-- 推荐资格配置 -->
-    <view class='full-width flex flex-center pd20'>
-      <text class='label blue-label'>推荐资格配置</text>
-    </view>
-    <view class='info-item-row shadow'>
-      <text class='mustbe'>获得推荐资格的条件</text>
-      <view class='bgw flex flex-around pdc20 bottomline'>
-        <view class="font-sm black flex flex-center" wx:for="{{recomTypes}}" wx:key='val' bindtap='onRecomTypeChanged' data-val='{{item.val}}'>
-          <image wx:if="{{item.val==recommend.recom_type}}" src='/resource/icon/chosed-ic.png' class='img-xs' />
-          <image wx:else src='/resource/icon/no-chosed-ic.png' class='img-xs' />
-          <text class='radio-cap black'>{{item.cap}}</text>
+    <view class='info-item-row pd'>
+      <view class='input-row-line'>
+        <text class='mustbe'>获得推荐资格的条件</text>
+        <view class='bgw flex flex-around pdc20 bottomline'>
+          <view class="font-sm black flex flex-center" wx:for="{{recomTypes}}" wx:key='val' bindtap='onRecomTypeChanged' data-val='{{item.val}}'>
+            <image wx:if="{{item.val==recommend.recom_type}}" src='/resource/icon/chosed-ic.png' class='img-xs' />
+            <image wx:else src='/resource/icon/no-chosed-ic.png' class='img-xs' />
+            <text class='radio-cap black'>{{item.cap}}</text>
+          </view>
         </view>
       </view>
       <!--购买商品-->
-      <view wx:if='{{recommend.recom_type==1}}' class='full-width'>
+      <view wx:if='{{recommend.recom_type==1}}' class='input-row-line full-width'>
         <view class='flex-row'>
           <text class='kk'>需要用户购买以下任一商品<text class='warn'>默认为本方案内任一商品</text></text>
           <picker class='shop-choser flex flex-center' bindchange="onAddSpecialShopHandle" value="{{recom_goods_index}}" range="{{shopList}}" range-key='goods_name'>
@@ -71,7 +61,7 @@
         </view>
       </view>
       <!--消费满额-->
-      <view wx:if='{{recommend.recom_type==2}}' class='full-width'>
+      <view wx:if='{{recommend.recom_type==2}}' class='input-row-line full-width'>
         <view class='info-item-row'>
           <text class='mustbe'>需要用户在本方案内消费金额</text>
           <input type='digit' placeholder='请输入额度' value='{{recommend.recom_consume}}' id='recom_consume' bindinput='onInputChanged'></input>
@@ -93,7 +83,7 @@
         </view>
       </view>
       <!--充值满额-->
-      <view wx:if='{{recommend.recom_type==3}}' class='full-width'>
+      <view wx:if='{{recommend.recom_type==3}}' class='input-row-line full-width'>
         <view class='info-item-row'>
           <text class='mustbe'>需要用户在本商铺充值余额</text>
           <input type='digit' placeholder='请输入额度' value='{{recommend.recom_recharge}}' id='recom_recharge' bindinput='onInputChanged'></input>
@@ -114,54 +104,56 @@
           </view>
         </view>
       </view>
-    </view>
-
-    <!-- 商品配置 -->
-    <view class='full-width flex flex-center pd20'>
-      <text class='label blue-label'>商品配置</text>
-    </view>
-    <view class='flex-row info-item-row'>
-      <text class=''>参与本推荐方案的商品</text>
-      <picker class='shop-choser flex flex-center' bindchange="onAddShopHandle" value="{{recom_goods_index}}" range="{{shopList}}" range-key='goods_name'>
-        <view class='pd20'>
-          <image src='/resource/icon/append.png' class='img-sm'></image>
+      <view class='input-row-line'>
+        <view class='flex-row'>
+          <text class=''>参与本推荐方案的商品</text>
+          <picker class='shop-choser flex flex-center' bindchange="onAddShopHandle" value="{{recom_goods_index}}" range="{{shopList}}" range-key='goods_name'>
+            <view class='pd20'>
+              <image src='/resource/icon/append.png' class='img-sm'></image>
+            </view>
+          </picker>
         </view>
-      </picker>
-    </view>
-    <view class='full-width pd20 flex flex-wrap bgw shadow'>
-      <view class='flex-row bdfull pdr mg-b10' wx:for='{{recommend.recom_goods}}' wx:key='id' style='width:50%;'>
-        <view class='full-width pdc20 font-xs txtpt'>{{item.goods_name}}</view>
-        <view class='img-sm pdc20' data-idx='{{index}}' bindtap='onRemoveRecomGoods'>
-          <image src='/resource/icon/remove_circle.png' class='img-sm'></image>
+        <view class='full-width pd flex flex-wrap bgw'>
+          <view class='flex-row bdfull pdr mg-b10' wx:for='{{recommend.recom_goods}}' wx:key='id' style='width:50%;'>
+            <view class='full-width pdc20 font-xs txtpt'>{{item.goods_name}}</view>
+            <view class='img-sm pdc20' data-idx='{{index}}' bindtap='onRemoveRecomGoods'>
+              <image src='/resource/icon/remove_circle.png' class='img-sm'></image>
+            </view>
+          </view>
         </view>
       </view>
     </view>
-    <view class='info-item-row flex flex-center pd30'>
-      <view class='btn full' bindtap='onSubmit'>
-        <image src='/resource/icon/submit-w.png' class='addbtnimg radius-circle'></image>
-        <text class='pdr20 white'>保存提交方案</text>
-      </view>
-    </view>
-  </view>
-  <!-- 奖励配置 -->
-  <view class='full-width' wx:if='{{type==2}}'>
-    <view class='info-item-row'>
-      <view class='flex-row bglinearyellow shadow pdc'>
-        <text class='black'>已配置的奖励方案</text>
-        <text wx:if='{{!recommend.award ||recommend.award.length<=0}}' class='bolder pkcolor'>未配置任何奖励方案</text>
-      </view>
+    <view class='sq'></view>
+    <!-- 奖励配置 -->
+    <view class='full-width'>
+      <view class='info-item-row'>
+        <view class='flex-row bglinearyellow shadow pdc'>
+          <text class='black'>配置奖励方案</text>
+          <view class='zs-btn zs-red font-sm pdr' bindtap='onOpenAddAwardWnd' wx:if='{{recommend.award.length<=0}}'>
+            <image src='/resource/icon/add.png' class='img-sm radius-circle'></image>
+            增加配置
+          </view>
+        </view>
 
-      <view class='full-width pd20'>
-        <!-- 已配置的奖励 -->
-        <view wx:for='{{recommend.award}}' wx:key='id' class='full-width'>
-          <view class='info-item-row bdfull shadow'>
-            <text class='mustbe'>推荐成功的条件：被推荐人消费满额</text>
-            <input type='digit' placeholder='请输入额度' value='{{item.recom_success_consume}}' id='recom_success_consume' bindinput='onInput2Changed' data-index='{{index}}'></input>
-            <text class='mustbe'>获得一次推荐奖励需要成功推荐的人数</text>
-            <input type='digit' placeholder='请输入额度' value='{{item.recom_success_num}}' id='recom_success_num' bindinput='onAddHasInputChanged' data-index='{{index}}'></input>
-            <text class='mustbe'>推荐奖励的种类</text>
-            <view class='bgw flex flex-around pdc20 bottomline'>
-              <view class="font-sm black flex flex-center" wx:for="{{awardTypes}}" wx:for-index='idx' wx:key='val' wx:for-item='at' bindtap='onHasAwardTypeChanged' data-index='{{index}}' data-val='{{at.val}}'>
+        <view class='full-width'>
+
+          <!-- 已配置的奖励 -->
+          <view wx:for='{{recommend.award}}' wx:key='id' class='full-width shadow bgw'>
+
+            <view class='pd full-width'>
+              <text class=''>推荐奖励的条件</text>
+              <view class='input-row-line flex-row'>
+                <text class='mustbe'>1.被推荐人消费达到的金额</text>
+                <input type='digit' class='short' placeholder='请输入额度' value='{{item.recom_success_consume}}' id='recom_success_consume' bindinput='onAddHasInputChanged' data-index='{{index}}'></input>
+              </view>
+              <view class='input-row-line flex-row'>
+                <text class='mustbe'>2.需要成功推荐的人数</text>
+                <input type='digit' class='short' placeholder='请输入额度' value='{{item.recom_success_num}}' id='recom_success_num' bindinput='onAddHasInputChanged' data-index='{{index}}'></input>
+              </view>
+            </view>
+            <view class='flex-row pdr bgw'>
+              <text class='mustbe'>推荐奖励的种类</text>
+              <view class="font-sm black flex flex-center mg-r10" wx:for="{{awardTypes}}" wx:for-index='idx' wx:key='val' wx:for-item='at' bindtap='onHasAwardTypeChanged' data-index='{{index}}' data-val='{{at.val}}'>
                 <image wx:if="{{at.val==item.award_type}}" src='/resource/icon/chosed-ic.png' class='img-xs' />
                 <image wx:else src='/resource/icon/no-chosed-ic.png' class='img-xs' />
                 <text class='radio-cap black'>{{at.cap}}</text>
@@ -169,154 +161,154 @@
             </view>
             <!--奖励红包-->
             <view wx:if='{{item.award_type>1}}' class='full-width'>
-              <view class='info-item-row'>
-                <text class='mustbe'>红包金额的指定方式</text>
-                <view class='bgw flex flex-around pdc20 bottomline'>
-                  <view class="font-sm black flex flex-center" data-val='0'>
-                    <image wx:if="{{0==item.award_cash_type}}" src='/resource/icon/chosed-ic.png' class='img-xs' />
-                    <image wx:else src='/resource/icon/no-chosed-ic.png' class='img-xs' />
-                    <text class='radio-cap black'>固定金额</text>
+              <view class='bgw pd full-width'>
+                <view class='input-row-line flex-row'>
+                  <text class='mustbe'>1.自己直接推荐获得的最小奖励</text>
+                  <input type='digit' class='short' placeholder='请输入金额' value='{{item.award_money_one_min}}' id='award_money_one_min' bindinput='onAddHasInputChanged' data-index='{{index}}'></input>
+                </view>
+                <view class='input-row-line flex-row'>
+                  <text class='mustbe'>1.自己直接推荐获得的最大奖励</text>
+                  <input type='digit' class='short' placeholder='请输入金额' value='{{item.award_money_one_max}}' id='award_money_one_max' bindinput='onAddHasInputChanged' data-index='{{index}}'></input>
+                </view>
+                <view class='input-row-line flex-row'>
+                  <text class='mustbe'>2.通过下级推荐获得的j最小奖励</text>
+                  <input type='digit' class='short' placeholder='请输入金额' value='{{item.award_money_two_min}}' id='award_money_two_min' bindinput='onAddHasInputChanged' data-index='{{index}}'></input>
+                </view>
+                <view class='input-row-line flex-row'>
+                  <text class='mustbe'>2.通过下级推荐获得的最大奖励</text>
+                  <input type='digit' class='short' placeholder='请输入金额' value='{{item.award_money_two_max}}' id='award_money_two_max' bindinput='onAddHasInputChanged' data-index='{{index}}'></input>
+                </view>
+              </view>
+            </view>
+            <!--赠品设置-->
+            <view wx:if='{{item.award_type==1 || item.award_type==3}}' class='full-width bgw'>
+              <view class='flex-row'>
+                <text class='kk'>获得一次推荐奖励时附赠赠品</text>
+                <picker class='shop-choser flex flex-center' data-index='{{index}}' bindchange="onAddHasAwardGiftHandle" value="{{recom_goods_index}}" range="{{shopList}}" range-key='showText'>
+                  <view class='pd20'>
+                    <image src='/resource/icon/append.png' class='img-sm'></image>
                   </view>
-                  <view class="font-sm black flex flex-center" wx:if='{{false}}' data-val='1'>
-                    <image wx:if="{{1==item.award_cash_type}}" src='/resource/icon/chosed-ic.png' class='img-xs' />
-                    <image wx:else src='/resource/icon/no-chosed-ic.png' class='img-xs' />
-                    <text class='radio-cap black'>固定比例</text>
+                </picker>
+              </view>
+              <view class='full-width pd20 flex flex-wrap bgw'>
+                <view class='flex-row bdfull pdr mg-b10' wx:for='{{item.award_gifts}}' wx:key='' wx:for-index='idx' wx:for-item='gift' style='width:50%;'>
+                  <view class='full-width pdc20 font-xs txtpt'>{{gift.showText}}</view>
+                  <view class='img-sm pdc20' data-idx='{{idx}}' data-index='{{index}}' bindtap='onRemoveAwardGift'>
+                    <image src='/resource/icon/remove_circle.png' class='img-sm'></image>
                   </view>
                 </view>
               </view>
-              <view class='info-item-row' wx:if='{{0==item.award_cash_type}}'>
-                <text class='mustbe'>获得一次推荐奖励时奖励的红包金额</text>
-                <input type='digit' placeholder='请输入金额' value='{{item.award_money_one}}' id='award_money_one' bindinput='onAddHasInputChanged' data-index='{{index}}'></input>
-                <text class='mustbe'>获得一次推荐奖励时往上级产生的红包金额</text>
-                <input type='digit' placeholder='请输入金额' value='{{item.award_money_two}}' id='award_money_two' bindinput='onAddHasInputChanged' data-index='{{index}}'></input>
-              </view>
             </view>
-            <view class='info-item-row' wx:if='{{1==item.award_cash_type}}'>
-              <text class='mustbe'>获得一次推荐奖励时奖励的红包比例</text>
-              <view class='full-width pdr20'>
-                <slider value='{{item.award_ratio_one}}' id='award_ratio_one' activeColor='#1296db' bindchange="onAddHasInputChanged" min="0" max="100" show-value data-index='{{index}}' />
-              </view>
-              <text class='mustbe'>获得一次推荐奖励时往上级产生的红包比例</text>
-              <view class='full-width pdr20'>
-                <slider value='{{item.award_ratio_two}}' id='award_ratio_two' activeColor='#1296db' bindchange="onAddHasInputChanged" min="0" max="100" show-value data-index='{{index}}' />
-              </view>
-            </view>
-          </view>
-          <!--赠品设置-->
-          <view wx:if='{{item.award_type==1 || item.award_type==3}}' class='full-width'>
-            <view class='flex-row'>
-              <text class='kk'>获得一次推荐奖励时附赠赠品</text>
-              <picker class='shop-choser flex flex-center' data-index='{{index}}' bindchange="onAddHasAwardGiftHandle" value="{{recom_goods_index}}" range="{{shopList}}" range-key='showText'>
-                <view class='pd20'>
-                  <image src='/resource/icon/append.png' class='img-sm'></image>
-                </view>
-              </picker>
-            </view>
-            <view class='full-width pd20 flex flex-wrap bgw'>
-              <view class='flex-row bdfull pdr mg-b10' wx:for='{{item.award_gifts}}' wx:key='' wx:for-index='idx' wx:for-item='gift' style='width:50%;'>
-                <view class='full-width pdc20 font-xs txtpt'>{{gift.showText}}</view>
-                <view class='img-sm pdc20' data-idx='{{idx}}' data-index='{{index}}' bindtap='onRemoveAwardGift'>
-                  <image src='/resource/icon/remove_circle.png' class='img-sm'></image>
-                </view>
-              </view>
-            </view>
-          </view>
-          <!-- 操作-->
-          <view class='full-width flex flex-around pd20'>
-            <view class='btn-fix-b heighter green font-sm' data-index='{{index}}' bindtap='onSetAward'>
-              <image src='/resource/icon/ok3.svg' class='addbtnimg radius-circle'></image>
-              保存
-            </view>
-            <view class='btn-fix-b heighter white font-sm' data-index='{{index}}' bindtap='onRemoveAward'>
-              <image src='/resource/icon/delete.png' class='addbtnimg radius-circle'></image>
-              删除
-            </view>
-          </view>
-        </view>
-      </view>
 
-      <!-- 增加奖励配置 -->
-      <view class='flex-row bglinearyellow'>
-        <text class='skr bolder'>以下增加新的奖励方案</text>
-      </view>
-      <view class='info-item-row shadow'>
-        <text class='mustbe'>推荐成功的条件：被推荐人消费满额</text>
-        <input type='digit' placeholder='请输入额度' value='{{recomAward.recom_success_consume}}' id='recom_success_consume' bindinput='onInput2Changed'></input>
-        <text class='mustbe'>获得一次推荐奖励需要成功推荐的人数</text>
-        <input type='digit' placeholder='请输入额度' value='{{recomAward.recom_success_num}}' id='recom_success_num' bindinput='onInput2Changed'></input>
-        <text class='mustbe'>推荐奖励的种类</text>
-        <view class='bgw flex flex-around pdc20 bottomline'>
-          <view class="font-sm black flex flex-center" wx:for="{{awardTypes}}" wx:key='val' bindtap='onAwardTypeChanged' data-val='{{item.val}}'>
-            <image wx:if="{{item.val==recomAward.award_type}}" src='/resource/icon/chosed-ic.png' class='img-xs' />
-            <image wx:else src='/resource/icon/no-chosed-ic.png' class='img-xs' />
-            <text class='radio-cap black'>{{item.cap}}</text>
-          </view>
-        </view>
-        <!--奖励红包-->
-        <view wx:if='{{recomAward.award_type>1}}' class='full-width'>
-          <view class='info-item-row'>
-            <text class='mustbe'>红包金额的指定方式</text>
-            <view class='bgw flex flex-around pdc20 bottomline'>
-              <view class="font-sm black flex flex-center" bindtap='onAwardCashTypeChanged' data-val='0'>
-                <image wx:if="{{0==recomAward.award_cash_type}}" src='/resource/icon/chosed-ic.png' class='img-xs' />
-                <image wx:else src='/resource/icon/no-chosed-ic.png' class='img-xs' />
-                <text class='radio-cap black'>固定金额</text>
+            <!-- 操作-->
+            <view class='full-width flex flex-around pd20'>
+              <view class='btn-fix-b min-small white font-sm' data-index='{{index}}' bindtap='onRemoveAward'>
+                <image src='/resource/icon/delete.png' class='img-xs radius-circle'></image>
+                删除
               </view>
-              <view class="font-sm black flex flex-center" wx:if='{{false}}' data-val='1'>
-                <image wx:if="{{1==recomAward.award_cash_type}}" src='/resource/icon/chosed-ic.png' class='img-xs' />
-                <image wx:else src='/resource/icon/no-chosed-ic.png' class='img-xs' />
-                <text class='radio-cap black'>固定比例</text>
+              <view class='btn-fix-b min-small green font-sm' data-index='{{index}}' bindtap='onSetAward'>
+                <image src='/resource/icon/ok3.svg' class='img-xs radius-circle'></image>
+                保存
               </view>
             </view>
-          </view>
-          <view class='info-item-row' wx:if='{{0==recomAward.award_cash_type}}'>
-            <text class='mustbe'>获得一次推荐奖励时奖励的红包金额</text>
-            <input type='digit' placeholder='请输入金额' value='{{recomAward.award_money_one}}' id='award_money_one' bindinput='onInput2Changed'></input>
-            <text class='mustbe'>获得一次推荐奖励时往上级产生的红包金额</text>
-            <input type='digit' placeholder='请输入金额' value='{{recomAward.award_money_two}}' id='award_money_two' bindinput='onInput2Changed'></input>
-          </view>
-          <view class='info-item-row' wx:if='{{1==recomAward.award_cash_type}}'>
-            <text class='mustbe'>获得一次推荐奖励时奖励的红包比例</text>
-            <view class='full-width pdr20'>
-              <slider value='{{recomAward.award_ratio_one}}' id='award_ratio_one' activeColor='#1296db' bindchange="onInput2Changed" min="0" max="100" show-value />
-            </view>
-            <text class='mustbe'>获得一次推荐奖励时往上级产生的红包比例</text>
-            <view class='full-width pdr20'>
-              <slider value='{{recomAward.award_ratio_two}}' id='award_ratio_two' activeColor='#1296db' bindchange="onInput2Changed" min="0" max="100" show-value />
-            </view>
-          </view>
-        </view>
-        <!--赠品设置-->
-        <view wx:if='{{recomAward.award_type==1 || recomAward.award_type==3}}' class='full-width'>
-          <view class='flex-row'>
-            <text class='kk'>获得一次推荐奖励时附赠赠品</text>
-            <picker class='shop-choser flex flex-center' bindchange="onAddNewAwardGiftHandle" value="{{recom_goods_index}}" range="{{shopList}}" range-key='showText'>
-              <view class='pd20'>
-                <image src='/resource/icon/append.png' class='img-sm'></image>
-              </view>
-            </picker>
-          </view>
-          <view class='full-width pd20 flex flex-wrap bgw'>
-            <view class='flex-row bdfull pdr mg-b10' wx:for='{{recomAward.award_gifts}}' wx:key='' style='width:50%;'>
-              <view class='full-width pdc20 font-xs txtpt'>{{item.showText}}</view>
-              <view class='img-sm pdc20' data-idx='{{index}}' bindtap='onRemoveNewAwardGift'>
-                <image src='/resource/icon/remove_circle.png' class='img-sm'></image>
-              </view>
-            </view>
-          </view>
-        </view>
-        <!-- 操作-->
-        <view class='full-width flex flex-around pd20'>
-          <view class='btn-fix-b heighter font-sm' bindtap='onSubmitNewAward'>
-            <image src='/resource/icon/add.svg' class='addbtnimg radius-circle'></image>
-            保存新奖励
           </view>
         </view>
       </view>
+    </view>
+  </view>
+  <view class='info-item-row flex flex-center pdr30'>
+    <view class='btn full' bindtap='onSubmit'>
+      <image src='/resource/icon/submit-w.png' class='img-sm radius-circle'></image>
+      <text class='pdr20 white'>保存方案</text>
     </view>
   </view>
 </view>
 <import src="/template/version/version.wxml" />
 <template is="version" data="{{version}}"></template>
 
-<!-- 待选商品列表 -->
+<!-- 弹出 -->
+<view class='yusell flex-col flex-center bgb-opacity {{!showyusell?"hide":""}}' catchtouchmove="ture">
+  <view class='full-width pd30'>
+    <view class='content-box'>
+      <view class='bglightgray pkcolor bolder pd20 flex flex-left'>
+        <view class='pd'>配置奖励方案</view>
+      </view>
+      <scroll-view class='content-txt' scroll-y>
+        <view class='full-width'>
+          <view class='info-item-row'>
+
+            <view class='pd full-width'>
+              <text class=''>推荐奖励的条件</text>
+              <view class='input-row-line flex-row'>
+                <text class='mustbe'>1.被推荐人消费达到的金额</text>
+                <input type='digit' class='short' placeholder='请输入额度' value='{{recomAward.recom_success_consume}}' id='recom_success_consume' bindinput='onInput2Changed' data-index='{{index}}'></input>
+              </view>
+              <view class='input-row-line flex-row'>
+                <text class='mustbe'>2.需要成功推荐的人数</text>
+                <input type='digit' class='short' placeholder='请输入额度' value='{{recomAward.recom_success_num}}' id='recom_success_num' bindinput='onInput2Changed' data-index='{{index}}'></input>
+              </view>
+            </view>
+            <view class='flex-row pdr bgw'>
+              <text class='mustbe'>推荐奖励的种类</text>
+              <view class="font-sm black flex flex-center mg-r10" wx:for="{{awardTypes}}" wx:key='val' bindtap='onAwardTypeChanged' data-val='{{item.val}}'>
+                <image wx:if="{{item.val==recomAward.award_type}}" src='/resource/icon/chosed-ic.png' class='img-xs' />
+                <image wx:else src='/resource/icon/no-chosed-ic.png' class='img-xs' />
+                <text class='radio-cap black'>{{item.cap}}</text>
+              </view>
+            </view>
+            <!--奖励红包-->
+            <view wx:if='{{recomAward.award_type>1}}' class='full-width'>
+              <view class='bgw pd full-width'>
+                <view class='input-row-line flex-row'>
+                  <text class='mustbe'>1.直接推荐获得的最小奖励</text>
+                  <input type='digit' class='short' placeholder='请输入金额' value='{{recomAward.award_money_one_min}}' id='award_money_one_min' bindinput='onInput2Changed' data-index='{{index}}'></input>
+                </view>
+                <view class='input-row-line flex-row'>
+                  <text class='mustbe'>1.直接推荐获得的最大奖励</text>
+                  <input type='digit' class='short' placeholder='请输入金额' value='{{recomAward.award_money_one_max}}' id='award_money_one_max' bindinput='onInput2Changed' data-index='{{index}}'></input>
+                </view>
+                <view class='input-row-line flex-row'>
+                  <text class='mustbe'>2.通过下级推荐获得的最小奖励</text>
+                  <input type='digit' class='short' placeholder='请输入金额' value='{{recomAward.award_money_two_min}}' id='award_money_two_min' bindinput='onInput2Changed' data-index='{{index}}'></input>
+                </view>
+                <view class='input-row-line flex-row'>
+                  <text class='mustbe'>2.通过下级推荐获得的最大奖励</text>
+                  <input type='digit' class='short' placeholder='请输入金额' value='{{recomAward.award_money_two_max}}' id='award_money_two_max' bindinput='onInput2Changed' data-index='{{index}}'></input>
+                </view>
+              </view>
+            </view>
+            <!--赠品设置-->
+            <view wx:if='{{recomAward.award_type==1 || recomAward.award_type==3}}' class='full-width bgw'>
+              <view class='flex-row'>
+                <text class='kk'>获得一次推荐奖励时附赠赠品</text>
+                <picker class='shop-choser flex flex-center' bindchange="onAddNewAwardGiftHandle" value="{{recom_goods_index}}" range="{{shopList}}" range-key='showText'>
+                  <view class='pd20'>
+                    <image src='/resource/icon/append.png' class='img-sm'></image>
+                  </view>
+                </picker>
+              </view>
+              <view class='full-width pd20 flex flex-wrap bgw'>
+                <view class='flex-row bdfull pdr mg-b10' wx:for='{{recomAward.award_gifts}}' wx:key='' style='width:50%;'>
+                  <view class='full-width pdc20 font-xs txtpt'>{{item.showText}}</view>
+                  <view class='img-sm pdc20' data-idx='{{index}}' bindtap='onRemoveNewAwardGift'>
+                    <image src='/resource/icon/remove_circle.png' class='img-sm'></image>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+      <view class='full-width flex flex-around pdc20 bglightgray'>
+        <view class='btn-fix-b white min-small font-sm' bindtap='onCloseAddAwardWnd'>
+          <image src='/resource/icon/close.png' class='img-xs radius-circle'></image>
+          <text class='pdr font-sm pkcolor'>关闭</text>
+        </view>
+        <view class='btn-fix-b min-small font-sm' bindtap='onSubmitNewAward'>
+          <image src='/resource/icon/ok3.svg' class='img-xs radius-circle'></image>
+          <text class='pdr font-sm wtcolor'>保存</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,99 @@
+<!-- 弹出 -->
+<view class='yusell flex-col flex-center bgb-opacity'>
+  <view class='content-box'>
+    <view class='content-txt'>
+      <view class='info-item-row'>
+        <view class='pd full-width'>
+          <text class=''>基本设置</text>
+          <view class='input-row-line flex-row'>
+            <text class='mustbe'>活动名称</text>
+            <input type='text' class='double' placeholder='请输入活动名称' value='{{activityObj.act_name}}' id='act_name' bindinput='onInputChanged'></input>
+          </view>
+          <view class='input-row-line'>
+            <text class=''>活动详情</text>
+            <textarea class='full-width' placeholder='请输入活动详情' value='{{activityObj.act_describe}}' id='act_describe' bindinput='onInputChanged'></textarea>
+          </view>
+          <view class='input-row-line flex-row'>
+            <text class='mustbe'>活动有效期</text>
+            <view class='row-input-box flex flex-center font-x pdc'>
+              <picker mode="date" id='act_start' value="{{activityObj.act_start}}" start="2018-01-01" end="2999-01-01" bindchange="onInputChanged">
+                <view class="caption">
+                  开始：{{activityObj.act_start}}
+                </view>
+              </picker>
+              <view class='gray font-x pdr flex flex-center'>至</view>
+              <picker mode="date" id='act_end' value="{{activityObj.act_end}}" start="2018-01-01" end="2999-01-01" bindchange="onInputChanged">
+                <view class="caption">
+                  结束：{{activityObj.act_end}}
+                </view>
+              </picker>
+            </view>
+          </view>
+          <view class='input-row-line flex-row'>
+            <text class='mustbe'>活动类型</text>
+            <view class='row-input-box flex flex-center font-x pdc'>
+              <picker range='{{activityType}}' range-key='name' value='{{activityTypeIdx}}' bindchange="bindTypeChange">
+                <view class="pdr30 black bolder font-sm">
+                  {{activityType[activityTypeIdx].name}}
+                </view>
+              </picker>
+            </view>
+          </view>
+          <!-- 当type为0时 -->
+          <view wx:if='{{activityObj.act_type==0}}'>
+            <view class='input-row-line flex-row'>
+              <text class='mustbe'>原价</text>
+              <input type='digit' class='double' placeholder='请输入活动商品打包原价' value='{{activityObj.act_old_price}}' id='act_old_price' bindinput='onInputChanged'></input>
+            </view>
+            <view class='input-row-line flex-row'>
+              <text class='mustbe'>活动价</text>
+              <input type='digit' class='double' placeholder='请输入活动商品打包活动价' value='{{activityObj.act_price}}' id='act_price' bindinput='onInputChanged'></input>
+            </view>
+          </view>
+          <!-- 当type为1时 -->
+          <view wx:if='{{activityObj.act_type==1}}'>
+            <view class='input-row-line flex-row'>
+              <text class='mustbe'>第*件</text>
+              <input type='number' class='double' placeholder='请输入需要打折的件次数' value='{{activityObj.buy_num}}' id='buy_num' bindinput='onInputChanged'></input>
+            </view>
+            <view class='input-row-line flex-row'>
+              <text class='mustbe'>打*折</text>
+              <input type='digit' class='double' placeholder='请输入商品的折扣数（0.0~10.0之间）' value='{{activityObj.buy_discount}}' id='buy_discount' bindinput='onInputChanged'></input>
+            </view>
+          </view>
+          <!-- 当type为2时 -->
+          <view wx:if='{{activityObj.act_type==2}}'>
+            <view class='input-row-line flex-row'>
+              <text class='mustbe'>每满</text>
+              <input type='number' class='double' placeholder='请输入满减迭代的基数金额' value='{{activityObj.attain_money}}' id='attain_money' bindinput='onInputChanged'></input>
+            </view>
+            <view class='input-row-line flex-row'>
+              <text class='mustbe'>减</text>
+              <input type='digit' class='double' placeholder='请输入每次减免的金额' value='{{activityObj.subtract_money}}' id='subtract_money' bindinput='onInputChanged'></input>
+            </view>
+          </view>
+          <view class='input-row-line'>
+            <text class='mustbe'>活动图片(至少1张,建议宽度750px)</text>
+            <view class='full-width bgw flex-row flex-wrap flex-left'>
+              <view class='choseimg col-4 bgw' wx:for='{{activityObj.act_img}}' wx:key=''>
+                <image src='{{item}}' mode='aspectFit'></image>
+                <view data-idx='{{index}}' class='removeimg flex flex-center' bindtap='removeImg'>
+                  <image src='/resource/icon/remove_circle.png' class='img-sm'></image>
+                </view>
+              </view>
+              <view class='choseimg wait col-4' bindtap='choseImg'>
+                <view>
+                  <image src='/resource/icon/append.png' class='img-md'></image>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class='info-item-row flex flex-right pdr30'>
+      <view class='btn small' bindtap='onSubmit'>
+        <image src='/resource/icon/ok3.svg' class='addbtnimg radius-circle'></image> 保存基本设置</view>
+    </view>
+  </view>
+</view>

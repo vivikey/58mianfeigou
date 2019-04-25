@@ -97,14 +97,16 @@ Page({
       if (r.code == 200 && r.data.length>0) {
         this.setData({
           orderList: r.data.map(u => {
-						u.order_status_txt = app.getOrderStatusTxt(u.order_status)
+						//u.order_status_txt = app.getOrderStatusTxt(u.order_status)
+						u.order_status_txt = u.order_status_name
             u.addtime = TimeConverter.ToLocal(u.addtime);
-            u.orderfrm = app.getOrderFrm(u.order_status)
-            if (u.order_status == 0) {
-              if (u.group_id > 0) {
-                u.orderfrm = '拼购'
-              }
-            }
+						//u.orderfrm = app.getOrderFrm(u.order_status)
+						u.orderfrm = u.order_source
+            // if (u.order_status == 0) {
+            //   if (u.group_id > 0) {
+            //     u.orderfrm = '拼购'
+            //   }
+            // }
             u.goods = u.goods.map(item => {
               item.spec_color = item.spec_color.trim()
               item.spec_size = item.spec_size.trim()

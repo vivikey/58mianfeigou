@@ -30,8 +30,6 @@
 		"pages/usercenter/comment",
 		"pages/shop/allevaluates",
 		"pages/my/myattention",
-		"pages/my/recharge",
-		"pages/my/payhistory",
 		"pages/my/mydaibi",
 		"pages/my/storedaibi",
 		"pages/shop/customer",
@@ -81,7 +79,24 @@
 		"pages/store/notice",
 		"pages/orders/expressdetail",
 		"pages/merchants/memberinfo",
-		"pages/usercenter/bemember"
+		"pages/usercenter/bemember",
+		"pages/my/mytuijian",
+		"pages/store/baokuang",
+		"pages/merchants/coupons",
+		"pages/merchants/couponinfo",
+		"pages/merchants/coupongroup",
+		"pages/shop/baokuang",
+		"pages/usercenter/mycoupons",
+		"pages/merchants/luckymoney",
+		"pages/merchants/luckymoneyinfo",
+		"pages/merchants/luckymoneyshare",
+		"pages/usercenter/myluckymoney",
+		"pages/huodong/mgr",
+		"pages/huodong/edit",
+		"pages/huodong/contents",
+		"pages/huodong/awards",
+		"pages/huodong/index",
+		"pages/huodong/detail"
 	],
 	"permission": {
 		"scope.userLocation": {
@@ -110,10 +125,10 @@
 				"selectedIconPath": "/resource/icon/index-atv.png"
 			},
 			{
-				"pagePath": "pages/shop/nearby",
-				"text": "附近",
-				"iconPath": "/resource/icon/nearby.png",
-				"selectedIconPath": "/resource/icon/nearby-atv.png"
+				"pagePath": "pages/huodong/index",
+				"text": "享优惠",
+				"iconPath": "/resource/icon/hdong.png",
+				"selectedIconPath": "/resource/icon/hdong-atv.png"
 			},
 			{
 				"pagePath": "pages/ftxt/index",

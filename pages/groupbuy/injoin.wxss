@@ -119,3 +119,9 @@ button {
     padding: 10rpx 15rpx;
     border:1rpx solid #fff;
 }
+button[plain] {
+	color:#fff;
+}
+button[plain].button-hover{
+	color:#fff;
+}

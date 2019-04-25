@@ -44,6 +44,9 @@ button {
   padding: 10rpx 0;
 }
 
+button::after{
+	border:none;
+}
 button.button-hover {
   background-color: #fff;
   color: #00b642;
@@ -105,7 +108,7 @@ button[type=default], button[type=default][plain] {
 .btn-fix-b {
 	background:linear-gradient(to right,#FE7406,#FF4706);
   color: #fff;
-  box-shadow: 0 3px 1px -2px #f99, 0 2px 2px 0 #f99, 0 1px 5px 0 #f99;
+  box-shadow: 0 3px 1px -2px #777, 0 2px 2px 0 #777, 0 1px 5px 0 #777;
   width: 66.7%;
   height: 60rpx;
   border-radius: 60rpx;
@@ -123,20 +126,25 @@ button[type=default], button[type=default][plain] {
 }
 .btn-fix-b.green {
   background: #00b642;
-  color: #fff;
-  box-shadow: 0 3px 1px -2px #777, 0 2px 2px 0 #777, 0 1px 5px 0 #777;
+}
+.btn-fix-b.blue {
+  background: #1296db;
+}
+.btn-fix-b.red {
+  background: #FF4706;
+}
+.btn-fix-b.orange {
+  background: #FE7406;
 }
 
 .btn-fix-b.orb {
   background: #f2f2f2;
   color: gray;
-  box-shadow: 0 3px 1px -2px #777, 0 2px 2px 0 #777, 0 1px 5px 0 #777;
 }
 
 .btn-fix-b.white {
   background: #fff;
   color: #d81e06;
-	box-shadow: 0 3px 1px -2px #777, 0 2px 2px 0 #777, 0 1px 5px 0 #777;
 }
 .btn-fix-b.white.g{
 	color:#00b642;
@@ -169,7 +177,13 @@ button[type=default], button[type=default][plain] {
   margin: 5rpx;
   overflow: hidden;
 }
-
+.addbtnimg.small {
+  width: 32rpx;
+  height: 32rpx;
+  padding: 0;
+  margin: 5rpx;
+  overflow: hidden;
+}
 .delbtn {
   margin: 0rpx 20rpx;
   padding: 5px;
@@ -1119,6 +1133,9 @@ button[type=default], button[type=default][plain] {
 .txtclamp-4 {
   -webkit-line-clamp: 4;
 }
+.txtclamp-5 {
+  -webkit-line-clamp: 5;
+}
 
 .hassel {
   padding: 0;
@@ -1225,13 +1242,13 @@ button[type=default], button[type=default][plain] {
 }
 
 .label.yellow-label {
-  background: lightyellow;
+  background: #FE9970;
   color: #000;
 }
 
 .label.blue-label {
-  background: lightblue;
-  color: #1296db;
+  background: #f99;
+  color: #e383e1;
 }
 
 .label.skyblue-label {
@@ -1324,28 +1341,22 @@ button[type=default], button[type=default][plain] {
 }
 
 .zs-btn {
-  min-width: 160rpx;
+  min-width: 198rpx;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 14px;
-  color: #2c2c2c;
-  border: 1px solid #999;
-  height: 60rpx;
+  color: #666666;
+  border: 1px solid #dfdfdf;
+  height: 64rpx;
   box-sizing: border-box;
-  border-radius: 15px;
+  border-radius: 32rpx;
   margin: 0 6rpx;
-	box-shadow: 0 3px 1px -2px #777, 0 2px 2px 0 #777, 0 1px 5px 0 #777;
 }
 
 .zs-btn.zs-red {
-	color: #d81e06;
-  border: 1px solid #999;
-}
-
-.zs-btn.zs-green {
-  color: #00b642;
-  border-color: #00b642;
+	color: #f62000;
+  border: 1px solid #f62000;
 }
 
 .zs-btn.zs-orange {

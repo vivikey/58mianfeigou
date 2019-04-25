@@ -51,13 +51,13 @@
       <image wx:if='{{item.type=="image"}}' src='{{item.content}}' mode='widthFix' class='full-width'></image>
     </view>
 		<view class='pd flex flex-right'>
-    <text class='skr bolder'>{{store.store_name}}</text>
+    <text class='black bolder'>{{store.store_name}}</text>
     <text class='pdr'>{{ftxt.addtime}}</text>
   </view>
   </view>
   <view class='sq'></view>
   <!-- 商铺 -->
-  <view class='full-width pd20 bgw  '>
+  <!-- <view class='full-width pd20 bgw  '>
     <navigator url='/pages/store/detail?id={{store.id}}' class='flex-row pdc20'>
       <view class='flex flex-center pdr20'>
         <image src='{{store.store_logo}}' class='img-lg radius-l'></image>
@@ -65,13 +65,13 @@
       </view>
       <view class='arrow flex flex-around cgray font-xs'>进入店铺</view>
     </navigator>
-  </view>
+  </view> -->
   <import src="/template/version/version.wxml" />
   <template is="version" data="{{version}}"></template>
 </view>
 
 <!-- 开团菜单 -->
-<view class='fix-b optmenu font-sm bolder skr'>
+<view class='fix-b optmenu font-sm bolder pkcolor'>
   <view class='bmenu-item pdc20 rightline' bindtap='toHome'>
     <text class='pdr'>返回首页</text>
   </view>

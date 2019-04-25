@@ -41,8 +41,8 @@
   <view class='full-width bgw pd20'>
     <view class='flex-row'>
       <view class='flex pdc20'>
-        <image src='{{order.store.store_logo}}' class='img-sm'></image>
-        <view class='font-sm cgray bolder pdr'>{{order.store.store_name}}</view>
+        <!-- <image src='{{order.store.store_logo}}' class='img-sm'></image>
+        <view class='font-sm cgray bolder pdr'>{{order.store.store_name}}</view> -->
       </view>
       <view class='label green-label' wx:if='{{order.goods.length>1 && order.store.on_line == 0 && order.statMsg=="待消费"}}' bindtap='onOneKeyshowQR'>一键消费</view>
     </view>
@@ -98,66 +98,90 @@
       </view>
     </view>
   </view>
-  <view class='sq'></view>
   <view wx:if='{{order.store.on_line == 1}}' class='full-width'>
     <view wx:if='{{expressList.Traces}}' class='bgw full-width pd20 arrow' bindtap='showExpress'>
       <view class='flex-col'>
         <text class='black font-xs lh-xs'>{{expressList.Traces[0].AcceptStation}}</text>
         <text class='font-x lightgray'>{{expressList.Traces[0].AcceptTime}}</text>
       </view>
-      <view class='sq'></view>
     </view>
   </view>
-  <view class='full-width bgw pd20 rel'>
-    <view class='pd'>
-      <text class='cgray'>订单状态：</text>
-      <text class='label gold-label bolder'>{{order.statMsg}}</text>
+  <view class='full-width bgw pd20 rel font-xs'>
+    <view class='flex-row pd topline'>
+      <view class='cgray linfo'>订单来源</view>
+      <view class='bolder black flex flex-right'>{{order.order_source}}</view>
     </view>
-    <view class='pd'>
-      <text class='cgray'>订单编号：</text>
-      <text class='bolder'>{{order.order_sn}}</text>
+    <view class='flex-row pd'>
+      <view class='cgray linfo'>订单状态</view>
+      <view class='bolder black flex flex-right'>{{order.statMsg}}</view>
     </view>
-    <view class='pd'>
-      <text class='cgray'>下单时间：</text>
-      <text>{{order.addtime}}</text>
+    <view class='flex-row pd'>
+      <view class='cgray linfo'>订单编号</view>
+      <view class='bolder black flex flex-right'>{{order.order_sn}}</view>
     </view>
-    <view class='pd' wx:if='{{order_info.stat>0}}'>
-      <text class='cgray'>付款时间：</text>
-      <text>{{order.addtime}}</text>
+    <view class='flex-row pd'>
+      <view class='cgray linfo'>下单时间</view>
+      <view class='bolder black flex flex-right'>{{order.addtime}}</view>
     </view>
-    <image src='/resource/icon/yxf.png' class='yxf' wx:if='{{order_info.stat==3}}'></image>
+    <view class='flex-row pd' wx:if='{{order.order_status>0}}'>
+      <view class='cgray linfo'>付款时间</view>
+      <view class='bolder black flex flex-right'>{{order.paytime}}</view>
+    </view>
+    <!-- 可用优惠券 -->
+    <view class='full-width bgw pd20 topline bottomline'>
+      <view class="flex-row pdc">
+        <view class='black bolder linfo'>可用优惠券</view>
+        <text class='pkcolor font-xs bolder' wx:if='{{canUseCouponList.length<=0}}'>暂无优惠券可用</text>
+      </view>
+      <view class='coupon-box' wx:if='{{canUseCouponList.length>0}}'>
+        <view class='full-width flex flex-left flex-wrap'>
+          <text class='coupon-i {{item.chosed?"chosed":""}}' wx:for='{{canUseCouponList}}' wx:key='id' data-index='{{index}}' data-id='{{item.id}}' bindtap='handleChosedCoupon'>{{item.coupon_name}}</text>
+        </view>
+      </view>
+    </view>
+		    <!-- 可用红包 -->
+    <view class='full-width bgw pd20  bottomline'>
+      <view class="flex-row pdc">
+        <view class='black bolder linfo'>可用红包</view>
+        <text class='pkcolor font-xs bolder' wx:if='{{luckyMoneyList.length<=0}}'>暂无红包可用</text>
+      </view>
+      <view class='coupon-box' wx:if='{{luckyMoneyList.length>0}}'>
+        <view class='full-width flex flex-left flex-wrap'>
+          <view class='luckymoney {{item.chosed==1?"chosed":""}}' wx:for='{{luckyMoneyList}}' wx:key='id' data-index='{{index}}' data-id='{{item.id}}' bindtap='handleChosedLuckyMoney'><image src='/resource/admin/luckymoney.png' class='img-xs'></image><text class='pdr'>￥{{item.red_money}}</text></view>
+        </view>
+      </view>
+    </view>
+    <view class='flex-row bolder pd'>
+      <view class='cgray linfo'>商品金额</view>
+      <view class='redcolor flex flex-right font-sm'>{{order.goods_price}}</view>
+    </view>
+    <view class='flex-row bolder pd'>
+      <view class='cgray linfo'>运费</view>
+      <view class='or flex flex-right font-sm'>+{{order.transport_price}}</view>
+    </view>
+    <view class='flex-row bolder pd'>
+      <view class='cgray linfo'>服务费</view>
+      <view class='or flex flex-right font-sm'>+{{order.service_charge}}</view>
+    </view>
+    <view class='flex-row bolder pd'>
+      <view class='cgray linfo'>会员优惠</view>
+      <view class='or flex flex-right font-sm'>-{{order.discount_money}}</view>
+    </view>
+    <view class='flex-row bolder pd'>
+      <view class='cgray linfo'>优惠券抵扣</view>
+      <view class='or flex flex-right font-sm'>-{{order.coupon_discount}}</view>
+    </view>
+		<view class='flex-row bolder pd'>
+      <view class='cgray linfo'>红包抵扣</view>
+      <view class='or flex flex-right font-sm'>-{{order.red_price}}</view>
+    </view>
+    <view class='pd20 flex flex-right bolder topline'>
+      订单金额：
+      <text class='font-md redcolor bolder'>￥{{order.total_price}}</text>
+    </view>
   </view>
-
-  <view class='sq'></view>
-  <view class='full-width bgw pd20'>
-    <view class='bgw'>
-      <view class='flex-row bolder pd bottomline'>
-        <view class='cgray linfo'>商品金额</view>
-        <view class='redcolor flex flex-right font-sm'>{{order.goods_price}}</view>
-      </view>
-      <view class='flex-row bolder pd bottomline'>
-        <view class='cgray linfo'>运费</view>
-        <view class='or flex flex-right font-sm'>+{{order.transport_price}}</view>
-      </view>
-      <view class='flex-row bolder pd bottomline'>
-        <view class='cgray linfo'>服务费</view>
-        <view class='or flex flex-right font-sm'>+{{order.service_charge}}</view>
-      </view>
-      <view class='flex-row bolder pd bottomline'>
-        <view class='cgray linfo'>优惠(抵扣)</view>
-        <view class='or flex flex-right font-sm'>-{{order.discount_money}}</view>
-      </view>
-    </view>
-    <view class='bgw pd20'>
-      <view class='flex flex-right bolder' style='padding-bottom:20rpx;'>
-        订单金额：
-        <text class='font-md redcolor bolder'>￥{{order.total_price}}</text>
-      </view>
-    </view>
-  </view>
-  <view class='sq'></view>
   <!-- 支付方式 -->
-  <view class='full-width bgw pd20' wx:if='{{order.statMsg=="待付款"}}'>
+  <view class='full-width bgw pd20 topline' wx:if='{{order.statMsg=="待付款"}}'>
     <view class='flex-row font-md pd bottomline' data-pid='1' bindtap='onChosedPayType'>
       <view class='flex flex-left'>
         <image src='/resource/icon/wxpay.png' class='img-sm'></image>
@@ -178,7 +202,6 @@
       </view>
     </view>
   </view>
-  <view class='sq' wx:if='{{order.statMsg=="待付款"}}'></view>
   <!-- 操作 -->
   <view class='opt-box bgw pd20 flex flex-right full-width topline'>
     <!-- 取消订单 -->
@@ -193,6 +216,12 @@
     <view bindtap='onTakeDelivery' class='zs-btn' wx:if='{{order.statMsg == "待收货" }}'>确认收货</view>
     <!-- 查看拼团 -->
     <navigator url='/pages/groupbuy/injoin?group_id={{order.group_id}}' class='zs-btn' wx:if='{{order.statMsg == "拼团中"}}'>查看拼团</navigator>
+    <!-- 提醒发货 ：待发货-->
+    <form bindsubmit='onRemindShipment' report-submit='{{true}}' wx:if='{{order.statMsg == "待发货"}}'>
+      <input type='hidden' hidden='{{true}}' name='user_id' value='{{order.user_id}}'></input>
+      <input type='hidden' hidden='{{true}}' name='order_id' value='{{order.id}}'></input>
+      <button form-type="submit" class='zs-btn zs-orange'>提醒发货</button>
+    </form>
   </view>
 </view>
 <!-- 消费二维码 -->

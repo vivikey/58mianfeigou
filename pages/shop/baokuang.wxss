@@ -1,0 +1,61 @@
+.store-item{
+	margin-bottom:20rpx;
+	background: #fff;
+	padding:20rpx;
+	width:100%;
+}
+.store_logo{
+    width:160rpx;
+    height: 160rpx;
+    border:1rpx solid #ddd;
+    border-radius: 15rpx;
+    overflow: hidden;
+}
+.store_logo image{
+    width:100%;
+    height: 100%;
+}
+.store_info{
+    height: 160rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    align-items:flex-start;
+		padding-left:18rpx;
+}
+
+.store_shop_specimg{
+    width:300rpx;
+    height: 300rpx;
+    background: #ddd;
+}
+.store_shop_specimg image{
+    width:300rpx;
+    height: 300rpx;
+		position: absolute;
+		left:-18rpx;
+		top:-18rpx;
+		border:1rpx solid #eee;
+}
+.store_shop_info{
+    width:380rpx;
+    height: 300rpx;
+    padding:0 10rpx;
+    padding-bottom:10rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.baokuangtag{
+	width: 100%;
+	padding: 20rpx 10rpx;
+	color:#f50;
+	margin-bottom:10rpx;
+}
+.sortbox{
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	padding: 10rpx 0;
+}

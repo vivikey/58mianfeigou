@@ -1,0 +1,61 @@
+@import "/template/form.wxss";
+
+.yusell {
+  width: 100%;
+	font-size:12px;
+	background: #fff;
+}
+
+
+.input-row-line{
+	width:100%;
+	background: #fee;
+	border:1px solid #ddd;
+	border-radius: 5px;
+	margin-bottom: 12rpx;
+	padding: 2px 3px;
+}
+.info-item-row input.short{
+ width:240rpx;
+ text-align: center;
+ font-size:12px;
+ border:1px solid #f99;
+ border-radius: 3px;
+}
+.info-item-row input.double,.row-input-box{
+ width:480rpx;
+ text-align: center;
+ font-size:12px;
+ border:1px solid #f99;
+ border-radius: 3px;
+ background: #fff;
+}
+.yusell .content-box{
+	width:100%;
+	background: #fff;
+	overflow: hidden;
+	border-radius: 18rpx;
+
+}
+.yusell .content-txt{
+	width:100%;
+}
+
+.row-input-box text {
+  font-size: 12px;
+	display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.yusell picker .caption {
+  font-size: 10px;
+  border: 1rpx solid #ccc;
+  background: #eee;
+  color: #515151;
+  height: 48rpx;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+	padding:0 6rpx;
+}

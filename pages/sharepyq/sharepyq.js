@@ -220,13 +220,13 @@ Page({
 		let iy3 = arcy + 38
     ctx.setFontSize(18)
 		ctx.setFillStyle('#e97f23')
-		ctx.fillText('你的好产品＋我的好团队', ix, iy1)
-		ctx.setFillStyle('#e97f23')
-		ctx.fillText('－－新一代社交电商', ix, iy2)
+		ctx.fillText('好产品，上58热网!', ix, iy1)
+		// ctx.setFillStyle('#e97f23')
+		// ctx.fillText('－－新一代社交电商', ix, iy2)
 		ctx.beginPath()
     ctx.setFontSize(14)
     ctx.setFillStyle('gray')
-    ctx.fillText('长按/扫描识别小程序码', ix, iy3)
+    ctx.fillText('长按/扫描识别小程序码', ix, iy2)
 
 
 

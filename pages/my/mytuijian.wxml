@@ -1,0 +1,91 @@
+<import src="/template/totop/totop.wxml" />
+<template is="totop" data="{{showToTop}}"></template>
+<view class='container'>
+  <view class='' style='height:46px;'></view>
+  <view class='fix-t full-width' style='height:46px;'>
+    <view class='top-menu bgw bottomline flex flex-center'>
+      <view class='full-width flex flex-around top-menu-kk'>
+
+        <view class='top-menu-item {{type==2?"active":""}}' id='2' bindtap='onChangeType'>
+          <view class='flex-col-auto flex-center'>
+            <text>现金奖励</text>
+          </view>
+        </view>
+
+        <view class='top-menu-item {{type==1?"active":""}}' id='1' bindtap='onChangeType'>
+          <view class='flex-col-auto flex-center'>
+            <text>推荐赠品</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- list is empty -->
+  <import src="/template/nothing/item.wxml" />
+  <template is="nothing" data='{{datalist:list,Msg:"~空空如也~"}}'></template>
+  <!-- 现金奖励 -->
+  <view class='full-width' wx:if='{{type==2}}'>
+    <view wx:for='{{list}}' wx:key='id' class='full-width bottomline pdr20 pdc'>
+      <view class='flex-row pdc'>
+        <view class='flex flex-left'>
+          <view class='flex flex-center bgw radius-circle'>
+            <image src='{{item.store_info.store_logo}}' class='img-xs radius-circle'></image>
+          </view>
+          <view class='flex flex-center pdr store_name txtpt'>{{item.store_info.store_name}}</view>
+        </view>
+        <view class='recom_name txtpt'>{{item.recommend_info.recom_name}}</view>
+      </view>
+      <view class='full-width pd20 flex flex-left flex-wrap label'>
+        <view class='flex flex-center offline-item' wx:for='{{item.offline_info}}' wx:key='id' wx:for-item='o'>
+          <image src='{{o.user_img}}' class='radius-circle'></image>
+          <view class='nick_name flex flex-center txtpt'>{{o.nick_name}}</view>
+        </view>
+      </view>
+
+      <view class='flex-row'>
+        <view class='lightgray font-x'>{{item.addtime}}</view>
+        <view class='font-md bolder or pd flex flex-right'>+{{item.award_money}}</view>
+      </view>
+    </view>
+  </view>
+  <!-- 赠品 -->
+  <view class='full-width pd bglightgray' wx:if='{{type==1}}'>
+    <view wx:for='{{list}}' wx:key='id' class='full-width shadow pdr20 pdc bgw'>
+      <view class='flex-row pdc'>
+        <view class='flex flex-left'>
+          <view class='flex flex-center bgw radius-circle'>
+            <image src='{{item.store_info.store_logo}}' class='img-xs radius-circle'></image>
+          </view>
+          <view class='flex flex-center pdr store_name txtpt'>{{item.store_info.store_name}}</view>
+        </view>
+        <view class='recom_name txtpt'>{{item.recommend_info.recom_name}}</view>
+      </view>
+
+      <view class='full-width pd20 flex flex-left flex-wrap label'>
+        <view class='flex flex-center offline-item' wx:for='{{item.offline_info}}' wx:key='id' wx:for-item='o'>
+          <image src='{{o.user_img}}' class='radius-circle'></image>
+          <view class='nick_name flex flex-center txtpt'>{{o.nick_name}}</view>
+        </view>
+      </view>
+
+      <scroll-view class="scroll-view_H" scroll-x>
+        <view class='scroll-view-item_H rel' wx:for='{{item.goods_info}}' wx:key='id' wx:for-item='g'>
+          <image src='{{g.spec_img}}'></image>
+          <view class='goods_brokerage txtpt'>{{g.goods_name}}</view>
+        </view>
+      </scroll-view>
+
+      <view class='flex-row pd topline'>
+        <view class='lightgray font-x'>{{item.addtime}}</view>
+        <view wx:if='{{item.store_info.transport_cost>0}}' class='label small red-label'>需付运费￥{{item.store_info.transport_cost}}</view>
+        <view wx:if='{{item.is_get == 0 && item.store_info.transport_cost>0}}' class='label chosed' id='{{item.award_id}}' bindtap='onTakeRecommendAwardPresentPay'>支付领取</view>
+        <view wx:if='{{item.is_get == 0 && item.store_info.transport_cost==0}}' class='label chosed' id='{{item.award_id}}' bindtap='onTakeRecommendAwardPresent'>立即领取</view>
+        <view wx:if='{{item.is_get != 0}}' class='label'>已领取</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<import src="/template/version/version.wxml" />
+<template is="version" data="{{version}}"></template>

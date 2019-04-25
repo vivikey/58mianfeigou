@@ -70,6 +70,18 @@ let obj = {
 	AfterPaySuccess() {
 		return '/api/purchaseapi/userHasPaySuccess'
 	}, //-- 用户支付成功后调用
+	CanUseCoupon() {
+		return '/api/coupon/canUseCoupon'
+	}, //-- 显示当前订单可用优惠券
+	UserModOrderCoupon() {
+		return '/api/purchaseapi/userModOrderCoupon'
+	}, //-- 显示当前订单可用优惠券
+	ShowUserRedAtOrder() {
+		return '/api/Redpackets/showUserRedAtOrder'
+	}, //-- 显示订单中可以使用用户红包
+	UseRedAtOrder() {
+		return '/api/Redpackets/useRedAtOrder'
+	}, //-- 选择用户红包
 	async Do(data, showLoadding = true) {
 		return await new Promise((resolve, reject) => {
 			$.Post(this.url, data, r => {

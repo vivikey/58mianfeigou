@@ -60,12 +60,12 @@
         </view>
         <text class='nav-title'>推广</text>
       </view>
-      <view class='nav-item' bindtap='toJiFengPage'>
+      <!-- <view class='nav-item' bindtap='toJiFengPage'>
         <view class='nav-img lgreen'>
           <image src='/resource/icon/m-nav-4.png'></image>
         </view>
         <text class='nav-title'>积分</text>
-      </view>
+      </view> -->
       <view class='nav-item' bindtap='toBeMember'>
         <view class='nav-img lviolet'>
           <image src='/resource/icon/m-nav-5.png'></image>
@@ -90,7 +90,7 @@
       <view class='full-witdh flex flex-wrap'>
         <view class='full-width pd'>
           <import src="/template/nothing/item.wxml" />
-          <template is="nothing" data='{{datalist:giftList,Msg:"~空空如也~"}}'></template>
+          <template is="nothing" data='{{datalist:giftList,Msg:"~请等待赠品发放~"}}'></template>
           <!-- giftList -->
           <view wx:for='{{giftList}}' wx:key='id' class='full-width pd flex-row bgw' data-goodsid='{{item.id}}' data-specid='{{item.spec[0].id}}' bindtap='goDetail'>
             <view class='store_shop_specimg rel'>

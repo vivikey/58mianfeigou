@@ -4,16 +4,16 @@ import UserCenter from '../../comm/UserCenter.js'
 import TimeConverter from '../../comm/TimeConverter.js'
 Page({
   data: {
-		...ToTop.data,
+    ...ToTop.data,
     version: '',
     type: 1,
     user: {},
     list: []
   },
-	...ToTop.methods,
+  ...ToTop.methods,
   onLoad(options) {
     this.setData({
-      type: options.type || 1
+			type: options.type || options.id || 1
     })
   },
   //-- 切换类型
@@ -25,11 +25,18 @@ Page({
     })
   },
   onShow() {
-    this.setData({
-      version: app.VERSION()
-    }, () => {
-      this.loadData(this.data.type)
-    })
+    if (!app.USER()) {
+      app.globalData.bkPage = this.route
+      wx.navigateTo({
+				url: `/pages/index/index?id=${this.data.type}`,
+      })
+    } else {
+      this.setData({
+        version: app.VERSION()
+      }, () => {
+        this.loadData(this.data.type)
+      })
+    }
 
   },
   loadData(type) {
@@ -58,30 +65,33 @@ Page({
         this.loadMemberAwardList()
       }
 
-			if (type > 2) {
-				this.setData({
-					list:[]
-				})
-			}
+      if (type == 3 || type == 4) {
+        this.setData({
+          list: []
+        })
+      }
 
     })
   },
+
   /**加载余额明细 */
   loadMemberMoneyList() {
-		let list = []
+    let list = []
     UserCenter.MemberMoneyList({
       user_id: this.data.user.id
     }).then(r => {
-      console.log('UserCenter.MemberMoneyList => ', r)			
-			if(r.code==200){
-				list = r.data.map(u=>{
-					u.addtime = TimeConverter.ToLocal(u.addtime)					
-					return u
-				})
-			}
-			this.setData({
-				list:list
-			})
+      console.log('UserCenter.MemberMoneyList => ', r)
+      if (r.code == 200) {
+        list = r.data.map(u => {
+          u.addtime = TimeConverter.ToLocal(u.addtime)
+          u["money_type_name"] = u.money_type_name || u.award_type_name || '***'
+          u.money = u.money || u.award_money
+          return u
+        })
+      }
+      this.setData({
+        list: list
+      })
     })
   },
   /**加载佣金明细 */
@@ -90,19 +100,19 @@ Page({
       user_id: this.data.user.id
     }).then(r => {
       console.log('UserCenter.MemberAwardList => ', r)
-			let list = []
-			if (r.code == 200) {
-				list = r.data.map(u => {
-					u.addtime = TimeConverter.ToLocal(u.addtime)
-					u["money_type_name"] = u.award_type_name || '***'
-					u.money = u.award_money
-					u.money_type = u.award_type
-					return u
-				})
-			}
-			this.setData({
-				list: list
-			})
+      let list = []
+      if (r.code == 200) {
+        list = r.data.map(u => {
+          u.addtime = TimeConverter.ToLocal(u.addtime)
+          u["money_type_name"] = u.award_type_name || '***'
+          u.money = u.award_money
+          u.money_type = u.award_type
+          return u
+        })
+      }
+      this.setData({
+        list: list
+      })
     })
   }
 })

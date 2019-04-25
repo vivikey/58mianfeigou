@@ -13,10 +13,10 @@
     <!-- Store Info -->
     <view class='flex-row'>
       <view class='flex flex-left flex-center pd'>
-        <view>
+        <!-- <view>
           <image src='{{item.store.store_logo}}' class='img-sm radius-circle'></image>
         </view>
-        <view class='flex flex-center pd font-md black'>{{item.store.store_name}}</view>
+        <view class='flex flex-center pd font-md black'>{{item.store.store_name}}</view> -->
       </view>
       <view class='flex flex-center font-sm'>
         <view class='flex flex-center pdr20 pkcolor'>{{item.order_status_txt}}</view>
@@ -43,8 +43,8 @@
       </view>
       <view class='flex pd20' catchtap='goOrderDeatil' data-order='{{item.id}}'>
         <view class='font-x cgray'>
-          <view class='' wx:if='{{item.orderfrm}}'>订单来源：
-            <text class='bolder'>{{item.orderfrm}}</text>
+          <view class=''>订单来源：
+            <text class='bolder'>{{item.order_source}}</text>
           </view>
           <view class=''>订单编号：
             <text class='bolder'>{{item.order_sn}}</text>
@@ -82,7 +82,7 @@
       <view class='zs-btn' wx:if='{{item.order_status_txt=="待收货"}}' bindtap='showExpress' data-user='{{item.user_id}}' data-order='{{item.id}}'>查看物流</view>
       <!-- 确认收货 ：待收货-->
       <view class='zs-btn zs-red' wx:if='{{item.order_status_txt=="待收货"}}' bindtap='onTakeDelivery' data-order='{{item.id}}'>确认收货</view>
-      <!-- 确认收货 ：提醒发货-->
+      <!-- 提醒发货 ：待发货-->
       <form bindsubmit='onRemindShipment' report-submit='{{true}}' wx:if='{{item.order_status_txt=="待发货"}}'>
         <input type='hidden' hidden='{{true}}' name='user_id' value='{{item.user_id}}'></input>
         <input type='hidden' hidden='{{true}}' name='order_id' value='{{item.id}}'></input>

@@ -47,3 +47,93 @@
 .rinfo{
     width:100%;
 }
+button {
+  position: relative;
+  padding-left: 15rpx;
+  padding-right: 15rpx;
+  box-sizing: border-box;
+  font-size: 14px;
+  text-align: center;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
+  background: #fff;
+  color: #515151;
+  box-shadow: none;
+  width: 66.7%;
+  height: 60rpx;
+  border-radius: 60rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10rpx 0;
+}
+
+.coupon-box{
+	width:100%;
+	padding: 20rpx;
+}
+.coupon-t{
+	font-size:11px;
+	background: #f6f7f8;
+  color: #e97f23;
+	padding:0 12rpx;
+	border-radius: 10rpx;
+	margin: 6rpx;
+}
+
+.luckymoney{
+	color:#FF4706;
+	padding:0 18rpx;
+	border:1rpx solid #ccc;
+	margin:6rpx 12rpx;
+	height:48rpx;
+	border-radius: 6rpx;
+	font-size:12px;
+	font-weight: 600;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.luckymoney.chosed{
+		border:1rpx solid #FF4706;
+}
+
+.coupon-i{
+	position: relative;
+	color:#FF4706;
+	padding:0 18rpx;
+	border:1rpx solid #ccc;
+	margin:6rpx 12rpx;
+	height:48rpx;
+	border-radius: 6rpx;
+	font-size:11px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.coupon-i.chosed{
+	border:1px solid #FF4706;
+}
+.coupon-i::before{
+	content:'';
+	position: absolute;
+	width:12rpx;
+	height: 12rpx;
+	border-radius: 12rpx;
+	border-right:1rpx solid #ccc;
+	left:-6rpx;
+	top:18rpx;
+	background: #fff;
+}
+.coupon-i::after{
+	content:'';
+	position: absolute;
+	width:12rpx;
+	height: 12rpx;
+	border-radius: 12rpx;
+	border-left:1rpx solid #ccc;
+	right:-6rpx;
+	top:18rpx;
+	background: #fff;
+}

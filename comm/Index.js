@@ -40,6 +40,9 @@ let obj = {
 	ShowYuSell() {
 		return '/api/showapi/showNotice'
 	}, //-- 显示预销售内容
+	ShowVogueListByPlatformAtView() {
+		return '/api/showapi/showVogueListByPlatformAtView'
+	}, //-- 显示预销售内容
 	async Do(data, showLoadding = true) {
 		return await new Promise((resolve, reject) => {
 			$.Post(this.url, data, r => {

@@ -1,0 +1,47 @@
+<view class='container gray font-xs hardgray pd20'>
+  <view class='full-width'>
+    <import src="/template/nothing/item.wxml" />
+    <template is="nothing" data='{{datalist:activityList,Msg:"错过了美妙的时光，敬请期待下一波~~"}}'></template>
+
+    <view class='activity-item' wx:for='{{activityList}}' wx:key='id'>
+      <navigator class='full-width' url='detail?id={{item.id}}&store_id={{item.store_id}}'>
+        <view class='title flex flex-left'>
+          <image src='/resource/icon/hdong-atv.png' class='img-xs'></image>
+          <text class='pdr'>{{item.act_name}}</text>
+        </view>
+        <view class='pd cgray font-xs dashed'>
+          <view class='font-xs' wx:if='{{item.act_type == 0}}'>
+            活动价：
+            <text class='font-sm pkcolor bolder'>￥{{item.act_price}}</text> 原价：
+            <text class='txtmidline'>￥{{item.act_old_price
+}}</text>
+          </view>
+          <view class='' wx:if='{{item.act_type == 1}}'>
+            第
+            <text class='font-sm pkcolor bolder'>{{item.buy_num}}</text>件 打
+            <text class='font-sm pkcolor bolder'>{{item.buy_discount
+}}</text>折
+          </view>
+          <view class='' wx:if='{{item.act_type == 2}}'>
+            每满
+            <text class='font-sm pkcolor bolder'>￥{{item.attain_money}}</text>减
+            <text class='font-sm pkcolor bolder'>￥{{item.subtract_money
+}}</text>
+          </view>
+          <view class=''>
+            <text class=''>有效期从 {{item.act_start}} 至 {{item.act_end}}</text>
+          </view>
+        </view>
+        <view class='full-width flex flex-left flex-wrap pd rel'>
+          <view wx:for='{{item.act_img}}' wx:for-item='img' wx:key='' wx:for-index='idx' class='activity-img-item' wx:if='{{idx<9}}'>
+            <image src='{{img}}'></image>
+          </view>
+          <view wx:if='{{item.act_img.length>9}}' class='more-img'>+{{item.act_img.length-9}}图</view>
+        </view>
+      </navigator>
+    </view>
+  </view>
+
+  <import src="/template/version/version.wxml" />
+  <template is="version" data="{{version}}"></template>
+</view>

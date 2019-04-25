@@ -1,4 +1,4 @@
-var app = getApp()
+let app = getApp()
 import RecomPlan from '../../comm/RecomPlan.js'
 import Shop from '../../comm/Shop.js'
 import TimeConverter from '../../comm/TimeConverter.js'
@@ -21,10 +21,7 @@ Page({
       val: 3,
       cap: '充值满额'
     }],
-    awardTypes: [{
-      val: 0,
-      cap: '无奖励'
-    }, {
+    awardTypes: [ {
       val: 1,
       cap: '赠品'
     }, {
@@ -48,80 +45,114 @@ Page({
 
     },
     recomAward: {
-      id: 11,
-      recom_id: 5, //方案ID
-      recom_success_consume: 10, //成功推荐一人的判定条件：被推荐人消费满金额
-      recom_success_num: 3, //获得一次推荐奖励需要成功推荐的人数
-      award_type: 2, //推荐奖励种类：0-无奖励 1-奖励赠品 2-奖励红包 3-奖励红包和赠品
+      id: 0,
+      recom_id: 0, //方案ID
+      recom_success_consume: 0, //成功推荐一人的判定条件：被推荐人消费满金额
+      recom_success_num: 0, //获得一次推荐奖励需要成功推荐的人数
+      award_type: 2, //推荐奖励种类：1-奖励赠品 2-奖励红包 
       award_gifts: [], //奖励的赠品
       award_cash_type: 0, //奖励红包大小的方式 0-固定金额 1-固定比例
-      award_money_one: 12, //固定金额
-      award_money_two: 12, //固定金额
-      award_ratio_one: 10, //固定比例
-      award_ratio_two: 10, //固定比例
+			award_money_one_min: 0, //直接推荐奖金最小值
+			award_money_one_max: 0, //直接推荐奖金最大值
+			award_money_two_min: 0, //下给推荐奖金最小值
+			award_money_two_max: 0, //下给推荐奖金最大值
+      award_ratio_one: 0, //固定比例
+      award_ratio_two: 0, //固定比例
       consume_type: 1, //需要消费满金额的方式 1-一次性消费 2-累计消费
     },
     recom_goods_index: 0, //-- 选择方案中的商品时的索引
-    recom_spec_index: 0
+    recom_spec_index: 0,
+		showyusell:false
   },
+	onResetrecomAward(){
+		this.setData({
+			recomAward: {
+				id: 0,
+				recom_id: 0,
+				recom_success_consume: 0,
+				recom_success_num: 0,
+				award_type: 2,
+				award_gifts: [],
+				award_cash_type: 0,
+				award_money_one_min: 0,
+				award_money_one_max: 0,
+				award_money_two_min: 0,
+				award_money_two_max: 0,
+				award_ratio_one: 0, 
+				award_ratio_two: 0, 
+				consume_type: 1, 
+			},
+		})
+	},
+	onOpenAddAwardWnd(){
+		this.setData({
+			showyusell:true
+		})
+	},
+	onCloseAddAwardWnd() {
+		this.setData({
+			showyusell: false
+		}, this.onResetrecomAward)
+	},
   //-- 切换类型
   onChangeType(e) {
     this.setData({
       type: e.currentTarget.id
     })
   },
+	//-- 有效期
+	bindTimeChange(e){
+		let recommend = this.data.recommend;
+		recommend[e.currentTarget.id] = e.detail.value;
+		this.setData({
+			recommend: recommend
+		})
+	},
   onInputChanged(e) {
-    var recommend = this.data.recommend;
+    let recommend = this.data.recommend;
     recommend[e.currentTarget.id] = e.detail.value;
     this.setData({
       recommend: recommend
     })
   },
   onInput2Changed(e) {
-    var recomAward = this.data.recomAward;
+    let recomAward = this.data.recomAward;
     recomAward[e.currentTarget.id] = e.detail.value;
     this.setData({
       recomAward: recomAward
     })
   },
   onAddHasInputChanged(e) {
-    var recommend = this.data.recommend;
+    let recommend = this.data.recommend;
     recommend.award[e.currentTarget.dataset.index][e.currentTarget.id] = e.detail.value;
     this.setData({
       recommend: recommend
     })
   },
   onRecomTypeChanged(e) {
-    var recommend = this.data.recommend;
+    let recommend = this.data.recommend;
     recommend.recom_type = e.currentTarget.dataset.val;
     this.setData({
       recommend: recommend
     })
   },
   onAwardTypeChanged(e) {
-    var recomAward = this.data.recomAward;
+    let recomAward = this.data.recomAward;
     recomAward.award_type = e.currentTarget.dataset.val;
     this.setData({
       recomAward: recomAward
     })
   },
   onRecomConsumeTypeChanged(e) {
-    var recommend = this.data.recommend;
+    let recommend = this.data.recommend;
     recommend.recom_consume_type = e.currentTarget.dataset.val;
     this.setData({
       recommend: recommend
     })
   },
-  onAwardCashTypeChanged(e) {
-    var recomAward = this.data.recomAward;
-    recomAward.award_cash_type = e.currentTarget.dataset.val;
-    this.setData({
-      recomAward: recomAward
-    })
-  },
   /**已经存在的奖励的种类切换事件 */
   onHasAwardTypeChanged(e) {
-    var recommend = this.data.recommend;
+    let recommend = this.data.recommend;
     recommend.award[e.currentTarget.dataset.index].award_type = e.currentTarget.dataset.val;
     this.setData({
       recommend: recommend
@@ -263,7 +294,6 @@ Page({
         app.SUCCESS(r.message)
         this.getRecommend(r => {
           if (r.code == 200) {
-            r.data.addtime = TimeConverter.ToLocal(r.data.addtime)
             this.setData({
               recommend: r.data,
             })
@@ -288,13 +318,15 @@ Page({
     RecomPlan.SetAward(award).then(r => {
       console.log('RecomPlan.SetAward => ', r)
       if (r.code == 200) {
-        app.SUCCESS(r.message)
+        app.SUCCESS(r.message,()=>{
+					this.onCloseAddAwardWnd()
+				})
         this.getRecommend(r => {
           if (r.code == 200) {
-            r.data.addtime = TimeConverter.ToLocal(r.data.addtime)
             this.setData({
               recommend: r.data,
             })
+
           }
         })
       } else {
@@ -318,7 +350,7 @@ Page({
         app.SUCCESS(r.message)
         this.getRecommend(r => {
           if (r.code == 200) {
-            r.data.addtime = TimeConverter.ToLocal(r.data.addtime)
+
             this.setData({
               recommend: r.data,
             })
@@ -337,6 +369,21 @@ Page({
       })
       .then(r => {
         console.log('RecomPlan.Get => ', r)
+				if(r.code==200){
+					r.data.addtime = TimeConverter.ToLocal(r.data.addtime)
+					if (r.data.award.length>0){
+						r.data.award = r.data.award.map(u=>{
+							console.log('u => ',u)
+							if (u.award_gifts && u.award_gifts.length>0){
+								u.award_gifts = u.award_gifts.map(uu=>{
+									let showText = `(${uu.spec_color} ${uu.spec_size})${uu.goods_name}`
+									return {...uu,showText};
+								})
+							}
+							return u;
+						})
+					}
+				}
         callback(r)
       })
   },
@@ -355,7 +402,7 @@ Page({
           app.SUCCESS(r.message)
           this.getRecommend(r => {
             if (r.code == 200) {
-              r.data.addtime = TimeConverter.ToLocal(r.data.addtime)
+              
               this.setData({
                 recommend: r.data,
               })
@@ -372,7 +419,7 @@ Page({
     this.data.recommend.id = options.recom_id || 0
     this.data.version = app.VERSION()
   },
-  onShow() {
+  onReady() {
     let user_id = app.USER_ID()
     let store_id = this.data.store_id
     Shop.List({
@@ -405,7 +452,6 @@ Page({
       }
       this.getRecommend(r => {
         if (r.code == 200) {
-          r.data.addtime = TimeConverter.ToLocal(r.data.addtime)
           this.setData({
             recommend: r.data,
             shopList: shopList

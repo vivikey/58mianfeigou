@@ -1,0 +1,97 @@
+<view class='container font-xs cgray'>
+  <view class='full-width wtcolor pd20 shadow bgb-opacity'>
+    <view class='flex flex-left pdc'>
+      <image src='/resource/icon/hdong-atv.png' class='img-sm'></image>
+      <text class='pdr font-md bolder'>{{activityObj.act_name}}</text>
+    </view>
+    <view class='font-xs flex flex-center pdc' wx:if='{{activityObj.act_type == 0}}'>
+      活动价：
+      <text class='font-sm pkcolor bolder'>￥{{activityObj.act_price}}</text> 原价：
+      <text class='txtmidline'>￥{{activityObj.act_old_price
+}}</text>
+    </view>
+    <view class=' flex flex-center pdc' wx:if='{{activityObj.act_type == 1}}'>
+      第
+      <text class='font-sm pkcolor bolder'>{{activityObj.buy_num}}</text>件 打
+      <text class='font-sm pkcolor bolder'>{{activityObj.buy_discount
+}}</text>折
+    </view>
+    <view class=' flex flex-center pdc' wx:if='{{activityObj.act_type == 2}}'>
+      每满
+      <text class='font-sm pkcolor bolder'>￥{{activityObj.attain_money}}</text>减
+      <text class='font-sm pkcolor bolder'>￥{{activityObj.subtract_money
+}}</text>
+    </view>
+    <view class=' flex flex-center pdc'>
+      <text class=''>有效期从 {{activityObj.act_start}} 至 {{activityObj.act_end}}</text>
+    </view>
+  </view>
+  <view>
+    <text class='small-title'>活动详情</text>
+  </view>
+  <view class='pd full-width flex flex-center'>
+    <text class='black pdc20 full-width' decode space='nbsp'>{{activityObj.act_describe}}</text>
+  </view>
+  <view class='full-width'>
+    <view wx:for='{{activityObj.act_img}}' wx:key='' class='pd full-width'>
+      <image src='{{item}}' mode='widthFix' class='full-width' style='margin:0;padding:0;border-radius:5px;'></image>
+    </view>
+  </view>
+  <view class='pdc20'>
+    <text class='small-title'>推荐奖励</text>
+  </view>
+  <view class='full-width pd20'>
+    <view class='input-row-line black flex-col flex-center'>
+			<view class='pd'>直接推荐给好友，好友购买后，获得：</view>
+			<view class='pd pkcolor bolder'>￥0.00</view>
+			<view class='pd'>推荐给好友A，好友A推荐给好友B，好友B购买后，获得:</view>
+			<view class='pd cprimary bolder'>￥0.00</view>
+
+    </view>
+  </view>
+  <view class='pdc20'>
+    <text class='small-title'>包含内容</text>
+  </view>
+  <view class='full-width pd20'>
+    <view class='input-row-line  flex flex-left'>
+      <view class='goods-spec-img'></view>
+      <view class='goods-spec-content'>
+        <view class='black bolder font-sm txtpt'>商品名称...规格信息或优惠券名称</view>
+        <view class='cprimary'>原价：￥</view>
+        <view class='pkcolor bolder font-sm'>数量：0</view>
+        <view class='full-width flex flex-right pd'>
+          <text>详情</text>
+        </view>
+      </view>
+    </view>
+    <view class='full-width pd'></view>
+    <view class='input-row-line  flex flex-left'>
+      <view class='goods-spec-img'></view>
+      <view class='goods-spec-content'>
+        <view class='black bolder font-sm txtpt'>商品名称...规格信息或优惠券名称</view>
+        <view class='cprimary'>原价：￥</view>
+        <view class='pkcolor bolder font-sm'>数量：0</view>
+        <view class='full-width flex flex-right pd'>
+          <text>详情</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='bgw pd20 full-width flex-row bottomline black'>
+    <text><text class='pkcolor bolder'>999</text>人已参与</text>
+    <text>浏览<text class='pkcolor bolder'>9999</text>次</text>
+  </view>
+  <view class='bgw pd20 full-width flex flex-left flex-wrap'>
+    <view wx:for='{{17}}' class='buyer flex flex-center'>
+      <image src='/resource/icon/header.png'></image>
+    </view>
+    <view class='buyer flex flex-center'>
+      <image src='/resource/icon/more.png'></image>
+    </view>
+  </view>
+	<view class='full-width pd20 topline bgw flex flex-center'>
+	<navigator url='/pages/huodong/index' open-type='switchTab' class='btn-fix-b small'>>>> 去享优惠首页</navigator>
+	</view>
+</view>
+<import src="/template/version/version.wxml" />
+<template is="version" data="{{version}}"></template>

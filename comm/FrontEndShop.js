@@ -16,6 +16,18 @@ let obj = {
   RemoveCollect() { //-- 取消收藏
     return '/api/addapi/userCancelCollectShop'
   },
+	CouponShowListAtView() { //-- 显示店铺优惠券列表
+		return '/api/coupon/userCouponShowListAtView'
+	},
+	CouponShowInfoAtView() { //-- 显示店铺优惠券详情
+		return '/api/coupon/couponShowInfoAtView'
+	},
+	UserGetCoupon() { //-- 用户领取优惠券
+		return '/api/coupon/userGetCoupon'
+	},
+	UserGetCombinationCoupon() { //-- 用户领取组合券
+		return '/api/coupon/userGetCombinationCoupon'
+	},
 	async Do(data, showLoadding = true) {
 		return await new Promise((resolve, reject) => {
 			$.Post(this.url, data, r => {

@@ -67,18 +67,22 @@
         </view>
         <text class='nav-title'>推广</text>
       </view>
-      <view class='nav-item' bindtap='toJiFengPage'>
+      <!-- <view class='nav-item' bindtap='toJiFengPage'>
         <view class='nav-img lgreen'>
           <image src='/resource/icon/m-nav-4.png'></image>
         </view>
         <text class='nav-title'>积分</text>
-      </view>
-			<view class='nav-item' bindtap='toBeMember'>
+      </view> -->
+      <view class='nav-item' bindtap='toBeMember'>
         <view class='nav-img lviolet'>
           <image src='/resource/icon/m-nav-5.png'></image>
         </view>
         <text class='nav-title'>会员</text>
       </view>
+    </view>
+
+    <view class='flex flex-center pd'>
+      <image src='/resource/images/baokuanbg.jpg' mode='widthFix' sytle='width:600rpx;' bindtap='handleBaokuang'></image>
     </view>
     <!-- dynamic notice -->
     <view class='pdr pdc20 bgw flex-row' wx:if='{{dynamic_list.length>0}}'>
@@ -95,6 +99,7 @@
         </swiper-item>
       </swiper>
     </view>
+
     <view class='box'>
       <view class='flex-row'>
         <view class='title full-width'>
@@ -138,7 +143,7 @@
           <view class='flex-row'>
             <view>
               <text class='label small violet-label bolder'>{{item.group_num}}人团</text>
-              <text class='label small'>已团{{item.sale_num}}件</text>
+              <text class='label small'>已拼{{item.sale_num}}件</text>
             </view>
             <view class='btn-fix-b min-small' bindtap='onShopClick' data-id='{{item.id}}' data-spec='{{item.goods_spec[0].id}}'>
               <text>我要参团</text>
@@ -173,7 +178,7 @@
             </view>
             <view class='info pdr'>
               <view class='shop-name full-width black font-sm txtclamp txtclamp-2'>
-                <text class='bolder'>{{item.goods_name}}</text>
+                <text class='bolder'><text class='tuan-title-show' wx:if='{{item.group_purchase == 1}}'>团</text>{{item.goods_name}}</text>
                 <text class='font-xs pkcolor'>{{item.goods_spec[0].spec_size}} {{item.goods_spec[0].spec_color}}</text>
               </view>
               <view class='flex-row'>
@@ -182,23 +187,29 @@
                   <text class='bolder'>{{item.goods_spec[0].spec_price}}</text>
                 </view>
                 <view class='cgray font-x'>
-                  已售<text class='black'>{{item.sale_num}}</text>件
+                  已售
+                  <text class='black'>{{item.sale_num}}</text>件
                 </view>
               </view>
             </view>
           </view>
+        </view>
+
+        <view class='tuijian-item' style='width:360rpx;height:442rpx;' wx:if='{{tuijian_list.length%2==1}}'>
+          <image src='https://xcx.58daiyan.com/index/noGoods.jpg' style='width:100%;height:100%;'></image>
         </view>
       </view>
     </view>
   </view>
 
   <!-- 分类商品 -->
-  <view class='box' wx:if='{{classNavActIdx>0}}'>
-    <view class='full-witdh flex flex-wrap bglist'>
+  <view class='full-width box' wx:if='{{classNavActIdx>0}}'>
+    <view class='flex-row flex-wrap bglist pdc'>
       <import src="/template/nothing/item.wxml" />
       <template is="nothing" data='{{datalist:shop_list,Msg:"商品空空如也~~"}}'></template>
+      <view class='pdc full-width'></view>
 
-      <view class='tuijian-item' wx:for='{{shop_list}}' wx:key='' bindtap='onShopClick' data-id='{{item.id}}' data-spec='{{item.spec[0].id}}'>
+      <view class='tuijian-item2' wx:for='{{shop_list}}' wx:key='' bindtap='onShopClick' data-id='{{item.id}}' data-spec='{{item.spec[0].id}}'>
         <view class='content'>
           <view class='img flex flex-center rel'>
             <image src='{{item.spec[0].spec_img}}'></image>
@@ -206,21 +217,27 @@
               <text>{{item.goods_brokerage}}</text>
             </view>
           </view>
-          <view class='info'>
-            <view class='shop-name full-width sblackkr bolder font-sm txtclamp txtclamp-2'>
-              {{item.goods_name}} {{item.spec[0].spec_size}} {{item.spec[0].spec_color}}
+          <view class='info pdr'>
+            <view class='shop-name full-width black font-sm txtclamp txtclamp-2'>
+              <text class='bolder'><text class='tuan-title-show' wx:if='{{item.group_purchase == 1}}'>团</text>{{item.goods_name}}</text>
+              <text class='font-xs pkcolor'>{{item.spec[0].spec_size}} {{item.spec[0].spec_color}}</text>
             </view>
             <view class='flex-row'>
-              <view class='pkcolor font-md pdc'>
+              <view class='redcolor font-md pdc'>
                 <text class='font-x'>￥</text>
                 <text class='bolder'>{{item.spec[0].spec_price}}</text>
               </view>
               <view class='cgray font-x'>
-                <text class='black'>{{item.distance}}</text>km
+                已售
+                <text class='black'>{{item.sale_num}}</text>件
               </view>
             </view>
           </view>
         </view>
+      </view>
+
+      <view class='tuijian-item2' style='width:360rpx;height:442rpx;' wx:if='{{shop_list.length%2==1}}'>
+        <image src='https://xcx.58daiyan.com/index/noGoods.jpg' style='width:100%;height:100%;'></image>
       </view>
     </view>
   </view>

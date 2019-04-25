@@ -7,7 +7,13 @@ let obj = {
 	Login() {
 		return '/api/Wxapi/wxLogin'
 	},//-- 平台登录
-	async Do(data, showLoadding = true) {
+	LoginTest() {
+		return '/api/Wxapi/wxLoginTest'
+	},//-- 平台登录测试
+	LoginSuccess() {
+		return '/api/Wxapi/successLogin'
+	},//-- 登录成功后调用
+	async Do(data, showLoadding = false) {
 		return await new Promise((resolve, reject) => {
 			$.Post(this.url, data, r => {
 				resolve(r.data)

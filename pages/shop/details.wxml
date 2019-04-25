@@ -8,10 +8,10 @@
   <view class='swiper full-width'>
     <swiper autoplay="{{true}}" circular="{{true}}" interval="{{3000}}" duration="{{500}}" bindchange='swiperChange'>
       <swiper-item>
-        <image src='{{goods.goods_spec[spec_chosed].spec_img}}' mode='scaleToFill' data-idx='{{0}}'></image>
+        <image src='{{goods.goods_spec[spec_chosed].spec_img}}' mode='aspectFit' data-idx='{{0}}'></image>
       </swiper-item>
       <swiper-item wx:for='{{goods.goods_banners}}' wx:key=''>
-        <image src='{{item}}' mode='scaleToFill' data-idx='{{index+1}}'></image>
+        <image src='{{item}}' mode='aspectFit' data-idx='{{index+1}}'></image>
       </swiper-item>
     </swiper>
     <view class='dots flex-row flex-center'>
@@ -115,17 +115,40 @@
       <view class='pdc flex-row bottomline'>
         <view class='flex flex-center bolder font-sm'>
           <image src='/resource/icon/twodots.png' class='img-xs pdr'></image>
-          <text class='skr pdr20'>推荐有奖</text>
+          <text class='skr pdr20'>推荐有奖方案</text>
         </view>
         <view wx:if='{{goods.recommend_qualification == 1}}' class='label gold-label small bolder'>您已获得推荐资格</view>
       </view>
-      <view class='pd30 full-width black font-xs bolder'>
-        <text decode='{{true}}'>{{goods.recommend_info.recom_explain}}</text>
+      <view class='pd20 full-width font-xs'>
+        <view class='pdc'><text class='recom_title'>方案描述</text><text decode='{{true}}' class='black'>{{goods.recommend_info.recom_explain}}</text></view>
+        <view class='pdc'><text class='recom_title'>有效期限</text><text decode='{{true}}' class='black'>{{goods.recommend_info.start_time}} ~ {{goods.recommend_info.end_time}}</text></view>
+        <view class='pdc'><text class='recom_title'>推荐资格</text><text decode='{{true}}' class='black'>{{goods.recommend_info.recommend_condition}}</text></view>
+        <view class='pdc'><text class='recom_title'>获得奖励</text><text decode='{{true}}' class='black'>{{goods.recommend_award.award_condition}}</text></view>
+        <view class='pdc'><text class='recom_title'>奖励内容</text><text decode='{{true}}' class='black'>{{goods.recommend_award.award_content}}</text></view>
+
       </view>
 
     </view>
   </view>
-
+  <view class='sq'></view>
+  <!-- 优惠 -->
+  <view class='full-width bgw pd20'>
+    <view class="flex-row bottomline pdc">
+      <text class='cgray font-x pdr'>优惠</text>
+      <text class='black font-xs bolder' wx:if='{{coupons.coupon_list.length<=0}}'>暂无优惠券可领</text>
+      <text class='black font-xs bolder arrow' bindtap='showCouponBox' wx:else>领券</text>
+    </view>
+		<view class='coupon-box' wx:if='{{coupons.coupon_list.length>0}}'>
+			<view class='full-width flex flex-left flex-wrap'>
+				<text class='coupon-t'>优惠券</text>
+				<text class='coupon-i' wx:for='{{coupons.coupon_list}}' wx:key='id'>{{item.coupon_name}}</text>
+			</view>
+			<view class='full-width flex flex-left flex-wrap'>
+				<text class='coupon-t'>组合券</text>
+				<text class='coupon-i' wx:for='{{coupons.combinate_list}}' wx:key='id'>{{item.combinate_name}}</text>
+			</view>
+		</view>
+  </view>
   <view class='sq'></view>
   <!-- 选择规格 -->
   <view class='full-width bgw pd20'>
@@ -168,7 +191,7 @@
   <view class='full-width pd20 bgw mt-b20 font-sm' wx:if='{{goods.goods_group.length>0}}'>
     <view class='cgray bolder font-sm pdc flex flex-left flex-center bottomline'>
       <image src='/resource/icon/twodots.png' class='img-xs pdr'></image>
-      <text class='black pdr20'>已开拼团</text>
+      <text class='skr pdr20'>已开拼团</text>
     </view>
     <view wx:for='{{goods.goods_group}}' wx:key='group_id' class='flex-row pdc bottomline '>
       <view class='flex flex-center'>
@@ -186,10 +209,10 @@
   </view>
   <view class='sq' wx:if='{{goods.goods_group.length>0}}'></view>
   <!-- 商铺信息 -->
-  <view class='full-width pd20 bgw'>
+  <!-- <view class='full-width pd20 bgw'>
     <view class='cgray bolder font-sm pdc flex flex-left flex-center bottomline'>
       <image src='/resource/icon/twodots.png' class='img-xs pdr'></image>
-      <text class='black pdr20'>商铺信息</text>
+      <text class='skr pdr20'>商铺信息</text>
     </view>
     <navigator url='/pages/store/detail?id={{goods.store_info.id}}' class='flex-row pdc20'>
       <view class='flex flex-center pdr20'>
@@ -199,13 +222,13 @@
       <view class='arrow flex flex-around cgray font-xs'>进入店铺</view>
     </navigator>
   </view>
-  <view class='sq'></view>
+  <view class='sq'></view> -->
   <!-- 评价信息 -->
   <view class='full-width pd20 bgw' id='commbox'>
     <view class='flex-row bottomline'>
       <view class='cgray bolder font-sm pdc flex flex-left flex-center'>
         <image src='/resource/icon/twodots.png' class='img-xs pdr'></image>
-        <text class='black pdr20'>最新评价</text>
+        <text class='skr pdr20'>最新评价</text>
       </view>
       <view class='arrow flex flex-around' bindtap='goAllEva' wx:if='{{evaluateList.length>0}}'>更多</view>
     </view>
@@ -217,7 +240,7 @@
   <view class='full-width pdc20 bgw' id='contentbox'>
     <view class='cgray bolder font-sm pdc pdr20 flex flex-left flex-center bottomline'>
       <image src='/resource/icon/twodots.png' class='img-xs pdr'></image>
-      <text class='black pdr20'>商品详情</text>
+      <text class='skr pdr20'>商品详情</text>
     </view>
     <view class='full-width pd20 font-sm black'>
       <text decode='{{true}}' selectable='{{true}}'>{{goods.goods_describe}}</text>
@@ -311,6 +334,10 @@
 <view class='toTop pk flex flex-center pd' bindtap='openShareWnd'>
   <image src='/resource/icon/getmoney.png' class='img-md'></image>
 </view>
+
+<!-- 领券窗口 -->
+<import src="/template/couponbox/index.wxml" />
+<template is="couponbox" data="{{showCouponBox:showCouponBox,couponsList:coupons.coupon_list,couponsGroupList:coupons.combinate_list}}"></template>
 <!-- 分享窗口 -->
 <import src="/template/sharebox/sharebox.wxml" />
 <template is="sharebox" data="{{showShareWnd:showShareWnd}}"></template>

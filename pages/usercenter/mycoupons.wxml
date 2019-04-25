@@ -1,0 +1,43 @@
+<view class='container gray'>
+  <view class='cgray bolder font-sm pd20'>已领取的优惠券列表</view>
+  <view class='full-width pdr20'>
+	<import src="/template/nothing/item.wxml" />
+    <template is="nothing" data='{{datalist:couponsList,Msg:"~空空如也~"}}'></template>
+    <view class='coupon-item bgw {{item.coupon_num>0 && item.timeout ? "greyscale" : ""}}' wx:for='{{couponsList}}' wx:key='id'>
+      <view class='coupon-img flex-col flex-center'>
+        <image src='/resource/admin/Coupons.png' wx:if='{{item.coupon_type==1}}'></image>
+        <image src='/resource/admin/Coupons2.png' wx:if='{{item.coupon_type==2}}'></image>
+        <image src='/resource/admin/Coupons3.png' wx:if='{{item.coupon_type==3}}'></image>
+				<view class='pkcolor bolder font-x pd' wx:if='{{item.coupon_type==1}}'>满减券</view>
+				<view class='pkcolor bolder font-x pd' wx:if='{{item.coupon_type==2}}'>折扣券</view>
+				<view class='pkcolor bolder font-x pd' wx:if='{{item.coupon_type==3}}'>随机金额券</view>
+      </view>
+      <view class='coupon-content'>
+        <view class='black bolder font-md'>{{item.coupon_name}}</view>
+        <view class='black font-xs'>
+          <text class='font-x cgray'>{{item.coupon_start}}~{{item.coupon_end}}</text>
+        </view>
+        <view class='black font-xs' wx:if='{{item.coupon_use_money>0}}'>
+          <text class='font-md pkcolor bolder' wx:if='{{item.coupon_type==1}}'>￥{{item.coupon_discount}}</text>
+          <text class='font-md pkcolor bolder' wx:if='{{item.coupon_type==2}}'>{{item.coupon_discount}}折</text>
+          <text class='font-md pkcolor bolder' wx:if='{{item.coupon_type==3}}'>最大￥{{item.coupon_discount_max}}</text> 满{{item.coupon_use_money}}可用
+
+        </view>
+        <view class='black font-xs' wx:if='{{item.coupon_use_money==0}}'>无门槛</view>
+        <view class='cgray font-xs' wx:if='{{item.coupon_goods.length>0}}'>适用于指定商品</view>
+        <view class='cgray font-xs' wx:else>适用于全部商品</view>
+      </view>
+      <view class='coupon-opt flex-col flex-center' wx:if='{{item.coupon_num>0 && !item.timeout}}'>
+        <view class='bolder font-x pd'>{{item.coupon_num}}张</view>
+      </view>
+			<view class='coupon-opt over flex-col flex-center' wx:if='{{item.coupon_num>0 && item.timeout}}'>
+				<image src='/resource/icon/timeout.png' style='width:96rpx;height:96rpx;'></image>
+      </view>
+			<view class='coupon-opt over flex-col flex-center' wx:if='{{item.coupon_num<=0 && !item.timeout}}'>
+				<image src='/resource/icon/used.png' style='width:96rpx;height:96rpx;'></image>
+      </view>
+    </view>
+  </view>
+</view>
+<import src="/template/version/version.wxml" />
+<template is="version" data="{{version}}"></template>

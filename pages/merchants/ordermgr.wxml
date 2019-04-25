@@ -31,6 +31,7 @@
           </view>
           <view class='flex pd20' catchtap='goOrderDeatil' data-order='{{item.id}}'>
             <view class='font-x lightgray'>
+							<view>用户:{{item.user_id}}</view>
               <view>下单：{{item.addtime}}</view>
               <view wx:if='{{item.paytime}}'>付款：{{item.paytime}}</view>
             </view>

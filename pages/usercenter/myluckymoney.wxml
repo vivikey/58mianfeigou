@@ -1,0 +1,28 @@
+<view class='container gray'>
+  <view class='cgray bolder font-sm pd20'>我的的红包</view>
+  <view class='full-width pdr20'>
+	<import src="/template/nothing/item.wxml" />
+    <template is="nothing" data='{{datalist:luckyMoneyList,Msg:"~空空如也~"}}'></template>
+    <view class='coupon-item bgw' wx:for='{{luckyMoneyList}}' wx:key='id' data-id='{{item.id}}' bindtap='toLuckyMoneyShare'>
+      <view class='coupon-img flex-col flex-center'>
+        <image src='/resource/admin/luckymoney.png'></image>
+      </view>
+      <view class='coupon-content'>
+        <view class='black bolder font-md'>{{item.red_name}}</view>
+				<view class='pkcolor bolder font-x' wx:if='{{item.red_type==0}}'>单向红包</view>
+				<view class='pkcolor bolder font-x' wx:if='{{item.red_type==1}}'>双向红包</view>
+        <view class='black font-xs'>
+          <text class='font-md pkcolor bolder'>￥{{item.red_money}}</text>
+        </view>
+      </view>
+			<view class='coupon-opt over flex-col flex-center' wx:if='{{item.is_use==1}}'>
+				<image src='/resource/icon/used.png' style='width:96rpx;height:96rpx;'></image>
+      </view>
+			<view class='coupon-opt flex-col flex-center' wx:if='{{item.is_use==0}}'>
+				<image src='/resource/admin/waituse.png' style='width:122rpx;height:96rpx;'></image>
+      </view>
+    </view>
+  </view>
+</view>
+<import src="/template/version/version.wxml" />
+<template is="version" data="{{version}}"></template>

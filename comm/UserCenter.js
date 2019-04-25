@@ -25,6 +25,21 @@ let obj = {
 	MemberAwardList() {
 		return '/api/showapi/personalCenterShowMemberAward'
 	}, //-- 显示用户的余额列表
+	RecommendAwardList() {
+		return '/api/Purchaseapi/showRecommendAwardList'
+	}, //-- 显示用户的推荐奖励列表
+	TakeRecommendAwardPresent() {
+		return '/api/Purchaseapi/userTakeRecommendAwardPresent'
+	}, //-- 领取推荐有奖的赠品
+	RecommendAwardPresentInfo() {
+		return '/api/Purchaseapi/showRecommendAwardPresentInfo'
+	}, //-- 显示推荐有奖赠品的详情 user_id store_id recommend_id offline_group_sn
+	UserCouponShowList() {
+		return '/api/coupon/userCouponShowList'
+	}, //-- 显示用户领取的优惠券列表
+	UserLuckyMoneyList() {
+		return '/api/Redpackets/showUserGetRed'
+	}, //-- 显示用户领取的红包
 	async Do(data, showLoadding = true) {
 		return await new Promise((resolve, reject) => {
 			$.Post(this.url, data, r => {

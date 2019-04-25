@@ -2,7 +2,7 @@ const regeneratorRuntime = require('./comm/regenerator-runtime')
 import $ from './comm/request.js'
 App({
   globalData: {
-    version: '1.09.1901298', 
+    version: '1.19.1903201',
     appname: '58热网小程序',
     login: false,
     baseUrl: 'https://m.58daiyan.com',
@@ -42,6 +42,7 @@ App({
 			case 1001:
 			case 1021:
 			case 1031:
+			case 1041:
 				return '待发货'
 			case 1011:
 			case 2011:

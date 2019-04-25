@@ -244,7 +244,6 @@ Page({
         this.setData({
             present: present
         })
-
     },
     //-- 选择轮番图图片
     choseGalleryImg: function() {

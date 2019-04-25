@@ -94,7 +94,8 @@
     align-items: flex-start;
 }
 
-.tuijian-item{
+.tuijian-item,
+.tuijian-item2{
   width:360rpx;
   background: #fff;
   padding: 0rpx;
@@ -105,22 +106,35 @@
 	margin-left: 10rpx;
 	margin-right: 5rpx;
 }
+.tuijian-item2:nth-child(2n+1){
+	margin-left: 5rpx;
+	margin-right: 10rpx;
+}
 .tuijian-item:nth-child(2n){
 	margin-left: 5rpx;
 	margin-right: 10rpx;
 }
-.tuijian-item .content{
+.tuijian-item2:nth-child(2n){
+	margin-left: 10rpx;
+	margin-right: 5rpx;
+}
+
+.tuijian-item .content,
+.tuijian-item2 .content{
   width:100%;
   background: #fff;
 }
-.tuijian-item .content .img{
+.tuijian-item .content .img,
+.tuijian-item2 .content .img{
   width:100%;
 	border-radius:12rpx;
 }
-.tuijian-item .content .img image{
-  height: 300rpx;
+.tuijian-item .content .img image,
+.tuijian-item2 .content .img image{
+  height: 360rpx;
 }
-.tuijian-item .info .shop-name{
+.tuijian-item .info .shop-name,
+.tuijian-item2 .info .shop-name{
 	height: 80rpx;
 	line-height: 40rpx;
 }
@@ -135,4 +149,13 @@
 	width:100%;
 	height: 200rpx;
 	border-radius: 36rpx;
+}
+
+.tuan-title-show{
+	font-size:10px;
+	color:#fff;
+	background:#f12;
+	border-radius: 5px;
+	padding:0px 3px;
+	margin-right: 1px;
 }

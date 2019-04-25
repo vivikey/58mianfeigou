@@ -16,9 +16,18 @@ let obj = {
   CancelAttent() {
     return '/api/addapi/cancelAttentStore'
   },
-  ShopList() {
-    return '/api/showapi/showShopListAtView'
-  },
+	VogueListAtView() {
+		return '/api/showapi/showVogueListAtView'
+	},//-- 显示店铺的爆款列表
+	ShopListAtView() {
+		return '/api/showapi/showShopListAtView'
+	},//-- 显示店铺的商品列表
+	GroupListAtView() {
+		return '/api/showapi/showGroupListAtView'
+	},//-- 显示店铺的团购列表
+	GiftListAtView() {
+		return '/api/showapi/showGiftListAtView'
+	}, //-- 显示店铺的赠品列表
   RecomShopList() {
 		return '/api/recommend/showRecomShopListAtView'
   },//-- 推荐有奖产品列表

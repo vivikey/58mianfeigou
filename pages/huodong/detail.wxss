@@ -1,0 +1,44 @@
+.container{
+	background: linear-gradient(to bottom, #f90, #f69);
+}
+.small-title{
+	color:#d81e06;
+	font-size:14px;
+	font-weight: 600;
+	background: #fff;
+	border-radius: 3px;
+	padding: 2px 6px;
+	margin: 24rpx;
+}
+.buyer{
+	width:118rpx;
+	height: 118rpx;
+	border-radius: 59rpx;
+}
+.buyer image{
+	width:96rpx;
+	height:96rpx;
+	border-radius: 48rpx;
+}
+.input-row-line{
+	width:100%;
+	background: #fee;
+	border:1px solid #ddd;
+	border-radius: 5px;
+	margin-bottom: 12rpx;
+	padding: 2px 3px;
+}
+
+.goods-spec-img{
+	width:200rpx;
+	height: 200rpx;
+	background: #fff;
+	border:1rpx solid #ccc;
+	border-radius: 12rpx;
+}
+.goods-spec-content{
+	width:500rpx;
+	height: 200rpx;
+	overflow: hidden;
+	padding:20rpx;
+}

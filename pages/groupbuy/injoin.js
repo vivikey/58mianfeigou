@@ -3,6 +3,7 @@ import Order from '../../comm/Order.js'
 import FrontEndStore from '../../comm/FrontEndStore.js'
 var pageObj = {
   data: {
+		user:{},
     group_id: 0,
     version: '',
     group_info: {},
@@ -52,6 +53,9 @@ var pageObj = {
 				url: `/pages/index/index?id=${this.data.group_id}&higher_up=${this.data.higher_up}&spec=${this.data.spec_chosed}`,
       })
     } else {
+			this.setData({
+				user:app.USER()
+			})
       Order.GetGroup({
           user_id: app.USER_ID(),
           group_id: this.data.group_id

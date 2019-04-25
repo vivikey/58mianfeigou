@@ -1,0 +1,51 @@
+<!-- 弹出 -->
+<view class='yusell'>
+  <view style='width:100%;height:232rpx;'></view>
+  <view class='info-item-row fixer shadow'>
+    <view class='pd full-width'>
+      <text class=''>产品配置</text>
+      <view class='input-row-line flex-row'>
+        <text class=''>活动名称</text>
+        <text class='black bolder'>{{activityObj.act_name}}</text>
+      </view>
+      <view class='bgw flex-row pd20'>
+        <picker style='width:50%;' range='{{shopList}}' range-key='showText' bindchange="bindShopChange">
+          <view class='btn-fix-b full green'>
+            <image src='/resource/icon/add.svg' class='addbtnimg radius-circle'></image> 增加商品</view>
+        </picker>
+        <picker style='width:50%;' range='{{couponsList}}' range-key='coupon_name' bindchange="bindCouponChange">
+          <view class='btn-fix-b full'>
+            <image src='/resource/icon/add.svg' class='addbtnimg radius-circle'></image> 增加优惠券</view>
+        </picker>
+      </view>
+    </view>
+
+  </view>
+
+  <view class='pd20'>
+    <view class='info-item-row' wx:for='{{activityObj.act_content}}' wx:key='id'>
+      <view class='input-row-line'>
+        <view class='flex-row' wx:if='{{item.content_type==0}}'>
+          <text>商品</text>
+          <text class='black bolder'>{{item.goods.showText}}</text>
+        </view>
+				<view class='flex-row' wx:if='{{item.content_type==1}}'>
+          <text>优惠券</text>
+          <text class='black bolder'>{{item.coupon.coupon_name}}</text>
+        </view>
+        <view class='flex-row'>
+          <text>数量</text>
+          <text class='black bolder'>{{item.content_num}}</text>
+        </view>
+				<view class='flex-row'>
+          <text>操作</text>
+          <view class='flex flex-right'>
+						<view class='btn-add btn-red' data-idx='{{index}}' bindtap='hanldeDeleteActContent'>删除</view>
+						<view class='btn-add btn-blue' data-idx='{{index}}' data-subb='1' bindtap='handleChangeActContentNumber'>-数量</view>
+						<view class='btn-add btn-green' data-idx='{{index}}' data-subb='-1' bindtap='handleChangeActContentNumber'>+数量</view>
+					</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

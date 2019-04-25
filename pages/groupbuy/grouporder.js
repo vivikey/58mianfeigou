@@ -9,8 +9,134 @@ Page({
     defaultAddress: {
       district: '请配置选择收货地址'
     },
+    canUseCouponList: [],
     userBalancePay: false,
     paytype: 1
+  },
+  handleChosedCoupon(e) {
+    const {
+      id,
+      index
+    } = e.currentTarget.dataset
+    let canUseCouponList = [...this.data.canUseCouponList]
+    canUseCouponList[index].chosed = !canUseCouponList[index].chosed
+		let order = this.data.order
+    Order.UserModOrderCoupon({
+      user_id: app.USER_ID(),
+      order_id: order.id,
+      coupon_use_id: canUseCouponList[index].chosed ? id : 0
+    }).then(r => {
+      if (r.code == 200) {
+        order.coupon = r.data.coupon
+        order.coupon_discount = r.data.coupon_discount
+        order.total_price = r.data.total_price
+        this.setData({
+          order
+        }, this.covertCanUseCoupons)
+      }
+    })
+  },
+  covertCanUseCoupons() {
+    let orderCoupons = this.data.order.coupon || {}
+    console.log('covertCanUseCoupons => ', orderCoupons)
+    let canUseCouponList = this.data.canUseCouponList.map(v => {
+      if (orderCoupons.id && v.coupon_id == orderCoupons.id) {
+        v.chosed = true
+      } else {
+        v.chosed = false
+      }
+      return v
+    })
+    this.setData({
+      canUseCouponList
+    })
+  },
+  canUseCoupon(order_id) {
+    Order.CanUseCoupon({
+        user_id: app.USER_ID(),
+        order_id
+      })
+      .then(r => {
+        console.log('Order.CanUseCoupon => ', r)
+        let canUseCouponList = []
+        if (r.code == 200) {
+          canUseCouponList = [...r.data.map(u => {
+            u.chosed = false
+            return u
+          })]
+        }
+        this.setData({
+          canUseCouponList
+        }, this.covertCanUseCoupons)
+      })
+  },
+  //-- 加载用户可以使用的红包
+  showUserRedAtOrder(order_id) {
+    Order.ShowUserRedAtOrder({
+      user_id: app.USER_ID(),
+      store_id: this.data.order.store_id
+    }).then(r => {
+      console.log('Order.ShowUserRedAtOrder => ', r)
+      let luckyMoneyList = []
+      if (r.code == 200) {
+        luckyMoneyList = [...r.data.map(u => {
+          u.chosed = 0
+          return u
+        })]
+      }
+      this.setData({
+        luckyMoneyList
+      }, () => this.initUseLuckyMoney(order_id))
+    })
+  },
+  initUseLuckyMoney(order_id) {
+    let luckyMoneyList = [...this.data.luckyMoneyList]
+    luckyMoneyList[0].chosed = 1 - luckyMoneyList[0].chosed
+    Order.UseRedAtOrder({
+      user_id: app.USER_ID(),
+      order_id,
+      red_id: luckyMoneyList[0].id,
+      is_use: luckyMoneyList[0].chosed
+    }).then(r => {
+      console.log('Order.red_id => ', r)
+      let order = this.data.order
+      if (r.code == 200) {
+        order.red_price = r.data.red_price
+        order.total_price = r.data.total_price
+        this.setData({
+          order,
+          luckyMoneyList
+        })
+      }
+    })
+
+  },
+  handleChosedLuckyMoney(e) {
+    if (this.data.order.order_status == 0) {
+      const {
+        id,
+        index
+      } = e.currentTarget.dataset
+      let luckyMoneyList = [...this.data.luckyMoneyList]
+      luckyMoneyList[index].chosed = 1 - luckyMoneyList[index].chosed
+      Order.UseRedAtOrder({
+        user_id: app.USER_ID(),
+        order_id: this.data.order.id,
+        red_id: id,
+        is_use: luckyMoneyList[index].chosed
+      }).then(r => {
+        console.log('Order.red_id => ', r)
+        let order = this.data.order
+        if (r.code == 200) {
+          order.red_price = r.data.red_price
+          order.total_price = r.data.total_price
+          this.setData({
+            order,
+            luckyMoneyList
+          })
+        }
+      })
+    }
   },
   onLoad: function(options) {
     var chosedObj = wx.getStorageSync('chosedObj')
@@ -69,9 +195,7 @@ Page({
     }).then(r => {
       console.log('Order.JoinGroup => ', r)
       if (r.code === 200) {
-        this.setData({
-          order: r.data
-        })
+        this.updateOrderData(r.data)
       } else {
         app.ERROR(r.message, () => {
           wx.navigateBack({
@@ -79,6 +203,15 @@ Page({
           })
         })
       }
+    })
+  },
+  updateOrderData(data) {
+    this.setData({
+      order: data
+    }, () => {
+      this.canUseCoupon(data.id)
+      //-- 加载红包信息
+      this.showUserRedAtOrder(data.id)
     })
   },
   onShow() {
@@ -104,9 +237,7 @@ Page({
     }).then(r => {
       console.log('Group.Pub => ', r)
       if (r.code === 200) {
-        this.setData({
-          order: r.data
-        })
+        this.updateOrderData(r.data)
       } else {
         app.ERROR(r.message, () => {
           wx.navigateBack({
@@ -125,9 +256,7 @@ Page({
     }).then(r => {
       console.log('Group.Pub => ', r)
       if (r.code === 200) {
-        this.setData({
-          order: r.data
-        })
+        this.updateOrderData(r.data)
       } else {
         app.ERROR(r.message, () => {
           wx.navigateBack({
@@ -147,9 +276,7 @@ Page({
     }).then(r => {
       console.log('Group.Pub => ', r)
       if (r.code === 200) {
-        this.setData({
-          order: r.data
-        })
+        this.updateOrderData(r.data)
       } else {
         app.ERROR(r.message, () => {
           wx.navigateBack({
@@ -161,6 +288,16 @@ Page({
   },
   //-- 选择支付方式事件
   onChosedPayType(e) {
+    if (e.currentTarget.dataset.pid == 2) {
+      let {
+        member_money,
+        total_price
+      } = this.data.order
+      if (member_money < total_price) {
+        app.msg('您的余额不够支付此订单金额！')
+        return;
+      }
+    }
     this.setData({
       paytype: e.currentTarget.dataset.pid
     })
@@ -205,9 +342,7 @@ Page({
     }).then(r => {
       console.log('Order.AddNumber => ', r)
       if (r.code === 200) {
-        this.setData({
-          order: r.data
-        })
+        this.updateOrderData(r.data)
       } else {
         app.ERROR(r.message)
       }
@@ -231,9 +366,7 @@ Page({
     }).then(r => {
       console.log('Order.SubNumber => ', r)
       if (r.code === 200) {
-        this.setData({
-          order: r.data
-        })
+        this.updateOrderData(r.data)
       } else {
         app.ERROR(r.message)
       }
@@ -257,10 +390,27 @@ Page({
           }).then(r => {
             console.log('Order.PayOrder => ', r)
             if (r.code == 1) { //-- 余额支付
-							//this.checkJiFenOrder()
-							this.onSuccess(r)
+              //this.checkJiFenOrder()
+              this.onSuccess(r)
             } else if (r.code == 200) { //-- 微信支付
               this.useWeChatPay(r.data)
+            } else if (r.code == 0) { //-- 无需支付
+              app.SUCCESS(r.message, () => {
+                Order.AfterPaySuccess({
+                  user_id: app.USER_ID(),
+                  order_id: this.data.order.id
+                }).then(r => {
+                  if (this.data.goods.orderDirect == 1) { //-- 拼团
+                    wx.redirectTo({
+                      url: `/pages/groupbuy/injoin?group_id=${this.data.order.group_id}`,
+                    })
+                  } else {
+                    wx.redirectTo({
+                      url: `/pages/orders/orderdetail?id=${order_id}`
+                    })
+                  }
+                })
+              })
             } else {
               app.ERROR(r.message)
 
@@ -278,10 +428,27 @@ Page({
       }).then(r => {
         console.log('Order.PayOrder => ', r)
         if (r.code == 1) {
-					//this.checkJiFenOrder()
-					this.onSuccess(r)
+          //this.checkJiFenOrder()
+          this.onSuccess(r)
         } else if (r.code == 200) {
           this.useWeChatPay(r.data)
+        } else if (r.code == 0) { //-- 无需支付
+          app.SUCCESS(r.message, () => {
+            Order.AfterPaySuccess({
+              user_id: app.USER_ID(),
+              order_id: this.data.order.id
+            }).then(r => {
+              if (this.data.goods.orderDirect == 1) { //-- 拼团
+                wx.redirectTo({
+                  url: `/pages/groupbuy/injoin?group_id=${this.data.order.group_id}`,
+                })
+              } else {
+                wx.redirectTo({
+                  url: `/pages/orders/orderdetail?id=${order_id}`
+                })
+              }
+            })
+          })
         } else {
           app.ERROR(r.message)
 
@@ -290,24 +457,24 @@ Page({
     }
 
   },
-	/**已废弃 */
-	checkJiFenOrder(){
-		if (this.data.order.order_type == 3) { //-- 积分兑换
-			Order.AfterIntegralPay({
-				user_id: app.USER_ID(),
-				order_id: this.data.order.id
-			}).then(rr => {
-				console.log('Order.AfterIntegralPay => ', rr)
-				if (rr.code == 200) {
-					this.onSuccess()
-				} else {
-					app.ERROR(rr.message)
-				}
-			})
-		} else {
-			this.onSuccess()
-		}
-	},
+  /**已废弃 */
+  checkJiFenOrder() {
+    if (this.data.order.order_type == 3) { //-- 积分兑换
+      Order.AfterIntegralPay({
+        user_id: app.USER_ID(),
+        order_id: this.data.order.id
+      }).then(rr => {
+        console.log('Order.AfterIntegralPay => ', rr)
+        if (rr.code == 200) {
+          this.onSuccess()
+        } else {
+          app.ERROR(rr.message)
+        }
+      })
+    } else {
+      this.onSuccess()
+    }
+  },
   /**微信支付 */
   useWeChatPay(obj) {
     wx.requestPayment({
@@ -316,10 +483,10 @@ Page({
       'package': obj.package,
       'signType': obj.signType,
       'paySign': obj.paySign,
-      'success': res=>{
-				//this.checkJiFenOrder()
-				this.onSuccess(res)
-			},
+      'success': res => {
+        //this.checkJiFenOrder()
+        this.onSuccess(res)
+      },
       'fail': res => {
         var msg = '支付失败:';
         if (res.err_desc) {
@@ -346,20 +513,20 @@ Page({
       content: '支付成功',
       showCancel: false,
       success: d => {
-				Order.AfterPaySuccess({
-					user_id:app.USER_ID(),
-					order_id: this.data.order.id
-				}).then(r=>{
-					if (this.data.goods.orderDirect == 1) { //-- 拼团
-						wx.redirectTo({
-							url: `/pages/groupbuy/injoin?group_id=${this.data.order.group_id}`,
-						})
-					} else {
-						wx.redirectTo({
-							url: `/pages/orders/orderdetail?id=${this.data.order.id}`
-						})
-					}
-				})
+        Order.AfterPaySuccess({
+          user_id: app.USER_ID(),
+          order_id: this.data.order.id
+        }).then(r => {
+          if (this.data.goods.orderDirect == 1) { //-- 拼团
+            wx.redirectTo({
+              url: `/pages/groupbuy/injoin?group_id=${this.data.order.group_id}`,
+            })
+          } else {
+            wx.redirectTo({
+              url: `/pages/orders/orderdetail?id=${this.data.order.id}`
+            })
+          }
+        })
       }
     })
   }

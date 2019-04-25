@@ -7,8 +7,8 @@
       <view class='store-info'>
         <view class='black bolder font-lg'>{{store.store_name}}</view>
         <view class='pdc flex flex-center'>
-          <text class='label small green-label'>{{store.start_time}}</text>
-          <text class='label small orange-label'>{{store.end_time}}</text>
+          <text class='label small chosed' wx:if='{{store.on_line==0}}'>{{store.start_time}} - {{store.end_time}}</text>
+					<text class='label small chosed' wx:else>提供发货</text>
         </view>
         <view class='flex-row pdc'>
           <view class='flex flex-center' bindtap='callPhone'>
@@ -37,6 +37,9 @@
       </view>
     </view>
   </view>
+	<view wx:if='{{store.id!=51 && store.on_line==0}}' class='full-width pd bglinearyellow bolder'>
+		本店不提供发货服务
+	</view>
   <!-- 积分商城 -->
   <view wx:if='{{store.id==51}}' class='bgw flex flex-center' style='width:750rpx;height:280rpx;'>
     <image src='/resource/images/jf.jpg' mode='aspectFill' style='width:750rpx;height:280rpx;'></image>
@@ -51,13 +54,16 @@
       </swiper-item>
     </swiper>
   </view>
+	<view wx:if='{{store.id!=51 && store.has_vogue>0}}' class='flex flex-center pd'>
+		<image src='/resource/images/baokuanbg.jpg' mode='widthFix' sytle='width:600rpx;' bindtap='handleBaokuang'></image>
+	</view>
   <!-- NavList -->
   <view class='pdr20 pdc bgw bottomline' wx:if='{{store.id!=51}}'>
     <scroll-view class="scroll-view_H" scroll-x>
       <view class='scroll-view-item_H {{classNavActIdx==item.key?"active":""}} bolder pdc' wx:for='{{classNavList}}' wx:key='' id='{{item.key}}' bindtap='onClassNavClick' wx:if='{{item.key>=0}}'>{{item.val}}</view>
     </scroll-view>
     <view class='sortbox' wx:if='{{classNavActIdx<4}}'>
-      <view class='label small {{sortTypeId==item.key?"or-label":""}} ' wx:for='{{sortType}}' wx:key='' id='{{item.key}}' bindtap='onSortTypeClick'>{{item.val}}</view>
+      <view class='label small {{sortTypeId==item.key?"chosed":""}} ' wx:for='{{sortType}}' wx:key='' id='{{item.key}}' bindtap='onSortTypeClick'>{{item.val}}</view>
     </view>
   </view>
   <!-- 赠品 -->
@@ -68,8 +74,8 @@
     <template is="nothing" data='{{datalist:giftList,Msg:"暂未发布积分商品，敬请期待！"}}' wx:if='{{store.id==51}}'></template>
     <!-- giftList -->
     <view wx:for='{{giftList}}' wx:key='' class='full-width pd flex-row'>
-      <view class='store_shop_specimg rel' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail'>
-        <image src='{{item.spec.spec_img}}'></image>
+      <view class='store_shop_specimg rel' data-goodsid='{{item.id}}' data-specid='{{item.spec[0].id}}' bindtap='goDetail'>
+        <image src='{{item.spec[0].spec_img}}'></image>
         <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>销售佣金
           <text>{{item.goods_brokerage}}</text>
         </view>
@@ -77,8 +83,8 @@
       <view class='store_shop_info bottomline pdc'>
         <view>
           <view class='black font-sm bolder txtclamp txtclamp-2'>{{item.goods_name}}
-            <text class='cgray'>{{item.spec.spec_size}}</text>
-            <text class='cgray'>{{item.spec.spec_color}}</text>
+            <!-- <text class='cgray'>{{item.spec.spec_size}}</text>
+            <text class='cgray'>{{item.spec.spec_color}}</text> -->
           </view>
           <view class='pdc'>
             <text wx:for='{{item.goods_key}}' wx:key='index' wx:for-item='key' class='label small'>{{key}}</text>
@@ -86,18 +92,18 @@
         </view>
         <view class='flex-row'>
           <view class='font-sm flex'>
-            <view class='redcolor font-md bolder' wx:if='{{item.spec.member_grade==0}}'>
-              <text class='font-lg'>{{item.spec.integral}}<text class='font-x'>积分</text></text>
+            <view class='redcolor font-md bolder' wx:if='{{item.spec[0].member_grade==0}}'>
+              <text class='font-lg'>{{item.spec[0].integral}}<text class='font-x'>积分</text></text>
             </view>
-            <view class='redcolor font-md bolder' wx:if='{{item.spec.member_grade>0}}'>
+            <view class='redcolor font-md bolder' wx:if='{{item.spec[0].member_grade>0}}'>
               <image src='/resource/icon/m-nav-5.png' class='img-sm'></image>
             </view>
-            <view class='cgray txtmidline'>￥{{item.spec.spec_price}}</view>
+            <view class='cgray txtmidline'>￥{{item.spec[0].spec_price}}</view>
           </view>
-          <view class='btn-fix-b green min-small' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail' wx:if='{{item.spec.member_grade==0}}'>
+          <view class='btn-fix-b green min-small' data-goodsid='{{item.id}}' data-specid='{{item.spec[0].id}}' bindtap='goDetail' wx:if='{{item.spec[0].member_grade==0}}'>
             <text class='wtcolor'>我要兑换</text>
           </view>
-          <view class='btn-fix-b min-small' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail' wx:if='{{item.spec.member_grade>0}}'>
+          <view class='btn-fix-b min-small' data-goodsid='{{item.id}}' data-specid='{{item.spec[0].id}}' bindtap='goDetail' wx:if='{{item.spec[0].member_grade>0}}'>
             <text class='wtcolor'>会员限免</text>
           </view>
         </view>
@@ -109,8 +115,8 @@
     <import src="/template/nothing/item.wxml" />
     <template is="nothing" data='{{datalist:tuanList,Msg:"该商铺未发布拼团活动"}}'></template>
     <view wx:for='{{tuanList}}' wx:key='index' class='full-width pd flex-row'>
-      <view class='store_shop_specimg rel' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail'>
-        <image src='{{item.spec.spec_img}}'></image>
+      <view class='store_shop_specimg rel' data-goodsid='{{item.id}}' data-specid='{{item.spec[0].id}}' bindtap='goDetail'>
+        <image src='{{item.spec[0].spec_img}}'></image>
         <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>销售佣金
           <text>{{item.goods_brokerage}}</text>
         </view>
@@ -118,8 +124,8 @@
       <view class='store_shop_info bottomline pdc'>
         <view>
           <view class='black font-sm bolder txtclamp txtclamp-2'>{{item.goods_name}}
-            <text class='cgray'>{{item.spec.spec_size}}</text>
-            <text class='cgray'>{{item.spec.spec_color}}</text>
+            <!-- <text class='cgray'>{{item.spec.spec_size}}</text>
+            <text class='cgray'>{{item.spec.spec_color}}</text> -->
           </view>
           <view class='pdc'>
             <text wx:for='{{item.goods_key}}' wx:key='index' wx:for-item='key' class='label small'>{{key}}</text>
@@ -127,16 +133,16 @@
         </view>
         <view class='font-sm flex'>
           <view class='redcolor font-md bolder'>
-            <text class='font-lg'>{{item.spec.group_price}}</text>
+            <text class='font-lg'>{{item.spec[0].group_price}}</text>
           </view>
-          <view class='cgray txtmidline'>￥{{item.spec.spec_price}}</view>
+          <view class='cgray txtmidline'>￥{{item.spec[0].spec_price}}</view>
         </view>
         <view class='flex-row'>
           <view wx:if='{{item.group_purchase == 1}}'>
             <text class='label small red-label'>{{item.group_num}}人团</text>
-            <text class='label small'>{{item.sale_num}}已团</text>
+						<text class='label small'>已拼{{item.sale_num}}件</text>
           </view>
-          <view class='btn-fix-b min-small' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail'>
+          <view class='btn-fix-b min-small' data-goodsid='{{item.id}}' data-specid='{{item.spec[0].id}}' bindtap='goDetail'>
             <text>我要参团</text>
           </view>
         </view>
@@ -148,8 +154,8 @@
     <import src="/template/nothing/item.wxml" />
     <template is="nothing" data='{{datalist:shopList,Msg:"该商铺未发布商品信息"}}'></template>
     <view wx:for='{{shopList}}' wx:key='index' class='full-width pd flex-row'>
-      <view class='store_shop_specimg rel' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail'>
-        <image src='{{item.spec.spec_img}}'></image>
+      <view class='store_shop_specimg rel' data-goodsid='{{item.id}}' data-specid='{{item.spec[0].id}}' bindtap='goDetail'>
+        <image src='{{item.spec[0].spec_img}}'></image>
         <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>销售佣金
           <text>{{item.goods_brokerage}}</text>
         </view>
@@ -157,8 +163,8 @@
       <view class='store_shop_info bottomline pdc'>
         <view>
           <view class='black font-sm bolder txtclamp txtclamp-2'>{{item.goods_name}}
-            <text class='cgray'>{{item.spec.spec_size}}</text>
-            <text class='cgray'>{{item.spec.spec_color}}</text>
+            <!-- <text class='cgray'>{{item.spec.spec_size}}</text>
+            <text class='cgray'>{{item.spec.spec_color}}</text> -->
           </view>
           <view class='pdc'>
             <text wx:for='{{item.goods_key}}' wx:for-index='idx' wx:key='idx' wx:for-item='key' class='label small'>{{key}}</text>
@@ -166,7 +172,7 @@
         </view>
         <view class='bolder font-sm'>
           <view class='redcolor font-lg'>
-            <text class='font-x'>￥</text>{{item.spec.spec_price}}</view>
+            <text class='font-x'>￥</text>{{item.spec[0].spec_price}}</view>
         </view>
         <view class='flex-row'>
           <view>
@@ -194,8 +200,8 @@
     <import src="/template/nothing/item.wxml" />
     <template is="nothing" data='{{datalist:recomShopList,Msg:"没有参加推荐有奖的商品"}}'></template>
     <view wx:for='{{recomShopList}}' wx:key='index' class='full-width pd flex-row'>
-      <view class='store_shop_specimg rel' data-goodsid='{{item.id}}' data-specid='{{item.spec.id}}' bindtap='goDetail'>
-        <image src='{{item.spec.spec_img}}'></image>
+      <view class='store_shop_specimg rel' data-goodsid='{{item.id}}' data-specid='{{item.spec[0].id}}' bindtap='goDetail'>
+        <image src='{{item.spec[0].spec_img}}'></image>
         <view class='goods_brokerage' wx:if='{{item.goods_brokerage>0 && user.member.member_grade>0}}'>销售佣金
           <text>{{item.goods_brokerage}}</text>
         </view>
@@ -203,8 +209,8 @@
       <view class='store_shop_info bottomline pdc'>
         <view>
           <view class='black font-sm bolder txtclamp txtclamp-2'>{{item.goods_name}}
-            <text class='cgray'>{{item.spec.spec_size}}</text>
-            <text class='cgray'>{{item.spec.spec_color}}</text>
+            <!-- <text class='cgray'>{{item.spec.spec_size}}</text>
+            <text class='cgray'>{{item.spec.spec_color}}</text> -->
           </view>
           <view class='pdc'>
             <text wx:for='{{item.goods_key}}' wx:for-index='idx' wx:key='idx' wx:for-item='key' class='label small'>{{key}}</text>
@@ -212,7 +218,7 @@
         </view>
         <view class='bolder font-sm'>
           <view class='redcolor font-lg'>
-            <text class='font-x'>￥</text>{{item.spec.spec_price}}</view>
+            <text class='font-x'>￥</text>{{item.spec[0].spec_price}}</view>
         </view>
         <view class='flex-row'>
           <view>
